@@ -1,7 +1,7 @@
 package org.nutz.boot;
 
 import org.nutz.boot.config.ConfigureLoader;
-import org.nutz.boot.config.YamlConfigureLoader;
+import org.nutz.boot.config.impl.YamlConfigureLoader;
 import org.nutz.boot.ioc.NbIocLoader;
 import org.nutz.ioc.impl.NutIoc;
 import org.nutz.lang.Strings;
