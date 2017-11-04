@@ -11,6 +11,9 @@
 		<module>nutzboot-starter-undertow</module>
 		<module>nutzboot-starter-tomcat</module>
 		<module>nutzboot-starter-mqtt</module>
+		<module>nutzboot-starter-nutz-mvc</module>
+		<module>nutzbook-demo</module>
+		<module>nutzboot-demo</module>
 	</modules>
 	<build>
 		<plugins>

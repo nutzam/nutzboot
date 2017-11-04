@@ -5,8 +5,6 @@ import java.io.InputStream;
 import org.nutz.ioc.impl.PropertiesProxy;
 
 public class PropertiesConfigureLoader extends AbstractConfigureLoader {
-    
-    protected PropertiesProxy conf;
 
     public void init() throws Exception {
         String path = envHolder.get("nutz.boot.configure.properties_path", "application.properties");
