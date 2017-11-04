@@ -104,7 +104,7 @@ public class NbApp {
         
         // 创建Ioc容器
         if (ctx.getComboIocLoader() == null) {
-            ctx.setComboIocLoader(new ComboIocLoader(new String[0]));
+            ctx.setComboIocLoader(new ComboIocLoader("*tx", "*async", ctx.getConfigureLoader().get().get("nutz.ioc.async.poolSize", "64")));
         }
         if (ctx.getIoc() == null) {
             ctx.setIoc(new NutIoc(ctx.getComboIocLoader()));

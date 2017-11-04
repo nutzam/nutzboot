@@ -12,8 +12,21 @@
 		<module>nutzboot-starter-tomcat</module>
 		<module>nutzboot-starter-mqtt</module>
 		<module>nutzboot-starter-nutz-mvc</module>
-		<module>nutzbook-demo</module>
-		<module>nutzboot-demo</module>
+		
+		
+		
+		<module>nutzboot-starter-shiro</module>
+		<module>nutzboot-starter-grpc</module>
+		<module>nutzboot-starter-dubbo</module>
+		<module>nutzboot-starter-zbus</module>
+		<module>nutzboot-starter-nutz-dao</module>
+		<module>nutzboot-starter-swagger</module>
+		<module>nutzboot-starter-hasor</module>
+		<module>nutzboot-starter-jedis</module>
+		<module>nutzboot-starter-mongodb</module>
+		<module>nutzboot-starter-ngrok</module>
+		<module>nutzboot-starter-cfx</module>
+		<module>nutzboot-starter-rabbitmq</module>
 	</modules>
 	<build>
 		<plugins>
