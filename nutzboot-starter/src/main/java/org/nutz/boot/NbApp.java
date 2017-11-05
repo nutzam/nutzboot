@@ -18,11 +18,15 @@ import org.nutz.boot.env.SystemPropertiesEnvHolder;
 import org.nutz.boot.ioc.IocLoaderProvider;
 import org.nutz.boot.resource.ResourceLoader;
 import org.nutz.boot.resource.impl.SimpleResourceLoader;
+import org.nutz.ioc.Ioc2;
 import org.nutz.ioc.IocLoader;
+import org.nutz.ioc.ObjectProxy;
 import org.nutz.ioc.impl.NutIoc;
 import org.nutz.ioc.loader.annotation.AnnotationIocLoader;
+import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.ioc.loader.combo.ComboIocLoader;
 import org.nutz.lang.Lang;
+import org.nutz.lang.Mirror;
 import org.nutz.lang.Streams;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.LifeCycle;
@@ -113,8 +117,17 @@ public class NbApp {
         if (ctx.getComboIocLoader() == null) {
             ctx.setComboIocLoader(new ComboIocLoader("*tx", "*async", ctx.getConfigureLoader().get().get("nutz.ioc.async.poolSize", "64")));
         }
+        // 用于加载Starter的IocLoader
+        AnnotationIocLoader starterIocLoader = new AnnotationIocLoader();
+        ctx.getComboIocLoader().addLoader(starterIocLoader);
         if (ctx.getIoc() == null) {
             ctx.setIoc(new NutIoc(ctx.getComboIocLoader()));
+        }
+        // 把核心对象放进ioc容器
+        {
+            Ioc2 ioc2 = (Ioc2)ctx.getIoc();
+            ioc2.getIocContext().save("app", "appContext", new ObjectProxy(ctx));
+            ioc2.getIocContext().save("app", "conf", new ObjectProxy(ctx.getConfigureLoader().get()));
         }
         
         if (mainClass != null) {
@@ -122,7 +135,7 @@ public class NbApp {
         }
         
         // 加载各种starter
-        List<String> starterClassNames = new ArrayList<>();
+        List<Class<?>> starterClasses = new ArrayList<>();
         Enumeration<URL> _en = ctx.getClassLoader().getResources("META-INF/nutz/org.nutz.boot.starter.NbStarter");
         while (_en.hasMoreElements()) {
             URL url = _en.nextElement();
@@ -132,15 +145,25 @@ public class NbApp {
                 String tmp = Streams.readAndClose(reader);
                 if (!Strings.isBlank(tmp)) {
                     for (String _tmp : Strings.splitIgnoreBlank(tmp, "[\n]")) {
-                        starterClassNames.add(_tmp.trim());
+                        Class<?> klass = ctx.getClassLoader().loadClass(_tmp.trim());
+                        if (klass.getAnnotation(IocBean.class) != null) {
+                            starterIocLoader.addClass(klass);
+                        }
+                        starterClasses.add(klass);
                     }
                 }
             }
         }
         
         // 生成Starter实例
-        for (String className : starterClassNames) {
-            Object obj = ctx.classLoader.loadClass(className).newInstance();
+        for (Class<?> klass : starterClasses) {
+            Object obj;
+            if (klass.getAnnotation(IocBean.class) == null) {
+               obj = Mirror.me(klass).born();
+            }
+            else {
+                obj = ctx.getIoc().get(klass);
+            }
             aware(obj);
             if (obj instanceof IocLoaderProvider) {
                 IocLoader loader = ((IocLoaderProvider) obj).getIocLoader();

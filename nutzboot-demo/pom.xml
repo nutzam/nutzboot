@@ -9,6 +9,7 @@
   <packaging>pom</packaging>
   <modules>
   	<module>nutzboot-demo-simple</module>
+  	<module>nutzboot-demo-simple-dao</module>
   </modules>
   <properties>
   </properties>
