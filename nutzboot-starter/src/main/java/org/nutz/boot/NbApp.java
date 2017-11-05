@@ -42,6 +42,13 @@ public class NbApp {
     
     protected AppContext ctx;
     
+    public NbApp() {
+    }
+    
+    public NbApp(Class<?> mainClass) {
+        this.mainClass = mainClass;
+    }
+    
     public NbApp setArgs(String[] args) {
         this.args = args;
         return this;
