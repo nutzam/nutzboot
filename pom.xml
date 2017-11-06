@@ -12,9 +12,6 @@
 		<module>nutzboot-starter-tomcat</module>
 		<module>nutzboot-starter-mqtt</module>
 		<module>nutzboot-starter-nutz-mvc</module>
-		
-		
-		
 		<module>nutzboot-starter-shiro</module>
 		<module>nutzboot-starter-grpc</module>
 		<module>nutzboot-starter-dubbo</module>
@@ -28,6 +25,23 @@
 		<module>nutzboot-starter-cfx</module>
 		<module>nutzboot-starter-rabbitmq</module>
 	</modules>
+	<repositories>
+		<repository>
+			<id>nutz</id>
+			<url>https://jfrog.nutz.cn/artifactory/jcenter</url>
+		</repository>
+		<repository>
+			<id>nutz-snapshots</id>
+			<url>https://jfrog.nutz.cn/artifactory/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>
@@ -64,7 +78,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<distributionManagement>
 		<snapshotRepository>
 			<id>nutzcn-snapshots</id>
