@@ -18,6 +18,7 @@ import org.nutz.boot.config.impl.PropertiesConfigureLoader;
 import org.nutz.boot.env.SystemPropertiesEnvHolder;
 import org.nutz.boot.ioc.IocLoaderProvider;
 import org.nutz.boot.resource.ResourceLoader;
+import org.nutz.boot.resource.StaredLogoLoaderDD;
 import org.nutz.boot.resource.impl.SimpleResourceLoader;
 import org.nutz.ioc.Ioc2;
 import org.nutz.ioc.IocLoader;
@@ -90,16 +91,8 @@ public class NbApp {
         if (!Strings.isBlank(logAdapter)) {
             Logs.setAdapter((LogAdapter) ctx.getClassLoader().loadClass(logAdapter).newInstance());
         }
+        StaredLogoLoaderDD.printLogo();
         log = Logs.get();
-        log.debug("                         \n" +
-                "               _         \n" +
-                " ____  _   _ _| |_ _____ \n" +
-                "|  _ \\| | | (_   _(___  )\n" +
-                "| | | | |_| | | |_ / __/ \n" +
-                "|_| |_|____/   \\__(_____)\n" +
-                "                         " +
-                "\n:: Nutz Boot ::    "+ Nutz.version()+"\n");
-
         // 资源加载器
         if (ctx.getResourceLoader() == null) {
             ResourceLoader resourceLoader = new SimpleResourceLoader();
