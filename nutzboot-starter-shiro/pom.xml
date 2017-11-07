@@ -39,4 +39,22 @@
   		<version>2.10.4</version>
   	</dependency>
   </dependencies>
+
+	<repositories>
+		<repository>
+			<id>nutz</id>
+			<url>https://jfrog.nutz.cn/artifactory/jcenter</url>
+		</repository>
+		<repository>
+			<id>nutz-snapshots</id>
+			<url>https://jfrog.nutz.cn/artifactory/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</repository>
+	</repositories>
 </project>

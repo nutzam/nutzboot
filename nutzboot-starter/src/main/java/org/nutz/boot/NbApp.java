@@ -79,7 +79,20 @@ public class NbApp {
             Logs.setAdapter((LogAdapter) ctx.getClassLoader().loadClass(logAdapter).newInstance());
         }
         log = Logs.get();
-        
+        log.debug("                                          \n" +
+                "                                          \n" +
+                "   _..._                                  \n" +
+                " .'     '.                                \n" +
+                ".   .-.   .               .|              \n" +
+                "|  '   '  |             .' |_             \n" +
+                "|  |   |  |   _    _  .'     |.--------.  \n" +
+                "|  |   |  |  | '  / |'--.  .-'|____    |  \n" +
+                "|  |   |  | .' | .' |   |  |      /   /   \n" +
+                "|  |   |  | /  | /  |   |  |    .'   /    \n" +
+                "|  |   |  ||   `'.  |   |  '.' /    /___  \n" +
+                "|  |   |  |'   .'|  '/  |   / |         | \n" +
+                "'--'   '--' `-'  `--'   `'-'  |_________|" +
+                "\n:: Nutz Boot ::     (v1.0.RELEASE)\n");
         // 资源加载器
         if (ctx.getResourceLoader() == null) {
             ResourceLoader resourceLoader = new SimpleResourceLoader();
@@ -156,6 +169,8 @@ public class NbApp {
         // 收尾
         ctx.stopServers();
         ctx.depose();
+
+
     }
 
     protected void aware(Object obj) {

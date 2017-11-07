@@ -27,6 +27,7 @@
 		<module>nutzboot-starter-ngrok</module>
 		<module>nutzboot-starter-cfx</module>
 		<module>nutzboot-starter-rabbitmq</module>
+		<module>nutzboot-demo</module>
 	</modules>
 	<build>
 		<plugins>
