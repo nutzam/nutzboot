@@ -12,9 +12,6 @@
 		<module>nutzboot-starter-tomcat</module>
 		<module>nutzboot-starter-mqtt</module>
 		<module>nutzboot-starter-nutz-mvc</module>
-		
-		
-		
 		<module>nutzboot-starter-shiro</module>
 		<module>nutzboot-starter-grpc</module>
 		<module>nutzboot-starter-dubbo</module>
