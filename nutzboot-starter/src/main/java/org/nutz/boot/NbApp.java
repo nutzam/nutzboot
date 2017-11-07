@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.nutz.Nutz;
 import org.nutz.boot.aware.AppContextAware;
 import org.nutz.boot.aware.ClassLoaderAware;
 import org.nutz.boot.aware.EnvHolderAware;
@@ -79,20 +80,17 @@ public class NbApp {
             Logs.setAdapter((LogAdapter) ctx.getClassLoader().loadClass(logAdapter).newInstance());
         }
         log = Logs.get();
-        log.debug("                                          \n" +
-                "                                          \n" +
-                "   _..._                                  \n" +
-                " .'     '.                                \n" +
-                ".   .-.   .               .|              \n" +
-                "|  '   '  |             .' |_             \n" +
-                "|  |   |  |   _    _  .'     |.--------.  \n" +
-                "|  |   |  |  | '  / |'--.  .-'|____    |  \n" +
-                "|  |   |  | .' | .' |   |  |      /   /   \n" +
-                "|  |   |  | /  | /  |   |  |    .'   /    \n" +
-                "|  |   |  ||   `'.  |   |  '.' /    /___  \n" +
-                "|  |   |  |'   .'|  '/  |   / |         | \n" +
-                "'--'   '--' `-'  `--'   `'-'  |_________|" +
-                "\n:: Nutz Boot ::     (v1.0.RELEASE)\n");
+        log.debug("                         \n" +
+                "               _         \n" +
+                " ____  _   _ _| |_ _____ \n" +
+                "|  _ \\| | | (_   _(___  )\n" +
+                "| | | | |_| | | |_ / __/ \n" +
+                "|_| |_|____/   \\__(_____)\n" +
+                "                         " +
+                "\n:: Nutz Boot ::    "+Nutz.version()+"\n");
+
+        log.info("111");
+        log.error("222");
         // 资源加载器
         if (ctx.getResourceLoader() == null) {
             ResourceLoader resourceLoader = new SimpleResourceLoader();
