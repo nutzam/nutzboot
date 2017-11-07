@@ -19,7 +19,7 @@ import com.alibaba.druid.pool.DruidDataSourceFactory;
 @IocBean
 public class DataSourceStarter {
     
-    protected static String PRE = "nutz.dataSource.";
+    protected static String PRE = "jdbc.";
 
     @Inject
     protected PropertiesProxy conf;
@@ -42,7 +42,7 @@ public class DataSourceStarter {
         case "druid":
         case "com.alibaba.druid.pool.DruidDataSource":
             if (Strings.isBlank(conf.get(PRE+"url"))) {
-                throw new RuntimeException("need nutz.dataSource.url");
+                throw new RuntimeException("need jdbc.url");
             }
             Map map = Lang.filter(new HashMap(conf.toMap()), PRE, null, null, null);
             return DruidDataSourceFactory.createDataSource(map);
@@ -52,6 +52,6 @@ public class DataSourceStarter {
         default:
             break;
         }
-        throw new RuntimeException("not support nutz.dataSource.type=" + conf.get("nutz.dataSource.type"));
+        throw new RuntimeException("not support nutz.dataSource.type=" + conf.get("jdbc.type"));
     }
 }

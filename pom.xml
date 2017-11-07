@@ -24,6 +24,8 @@
 		<module>nutzboot-starter-ngrok</module>
 		<module>nutzboot-starter-cfx</module>
 		<module>nutzboot-starter-rabbitmq</module>
+		<module>nutzboot-starter-jdbc</module>
+		<module>nutzboot-starter-nutz</module>
 	</modules>
 	<repositories>
 		<repository>
