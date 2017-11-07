@@ -26,6 +26,7 @@
 		<module>nutzboot-starter-rabbitmq</module>
 		<module>nutzboot-starter-jdbc</module>
 		<module>nutzboot-starter-nutz</module>
+		<module>nutzboot-demo</module>
 	</modules>
 	<repositories>
 		<repository>
