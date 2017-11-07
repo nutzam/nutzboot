@@ -89,8 +89,8 @@ public class NbApp {
                 "                         " +
                 "\n:: Nutz Boot ::    "+Nutz.version()+"\n");
 
-        log.info("111");
-        log.error("222");
+//        log.info("111");
+//        log.error("222");
         // 资源加载器
         if (ctx.getResourceLoader() == null) {
             ResourceLoader resourceLoader = new SimpleResourceLoader();
