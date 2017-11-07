@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.nutz.Nutz;
 import org.nutz.boot.aware.AppContextAware;
 import org.nutz.boot.aware.ClassLoaderAware;
 import org.nutz.boot.aware.EnvHolderAware;
@@ -17,6 +18,7 @@ import org.nutz.boot.config.impl.PropertiesConfigureLoader;
 import org.nutz.boot.env.SystemPropertiesEnvHolder;
 import org.nutz.boot.ioc.IocLoaderProvider;
 import org.nutz.boot.resource.ResourceLoader;
+import org.nutz.boot.resource.StaredLogoLoaderDD;
 import org.nutz.boot.resource.impl.SimpleResourceLoader;
 import org.nutz.ioc.Ioc2;
 import org.nutz.ioc.IocLoader;
@@ -89,8 +91,8 @@ public class NbApp {
         if (!Strings.isBlank(logAdapter)) {
             Logs.setAdapter((LogAdapter) ctx.getClassLoader().loadClass(logAdapter).newInstance());
         }
+        StaredLogoLoaderDD.printLogo();
         log = Logs.get();
-        
         // 资源加载器
         if (ctx.getResourceLoader() == null) {
             ResourceLoader resourceLoader = new SimpleResourceLoader();
