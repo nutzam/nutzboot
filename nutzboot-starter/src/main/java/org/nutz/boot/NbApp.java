@@ -91,7 +91,6 @@ public class NbApp {
             Logs.setAdapter((LogAdapter) ctx.getClassLoader().loadClass(logAdapter).newInstance());
         }
         log = Logs.get();
-        log = Logs.get();
         log.debug("                         \n" +
                 "               _         \n" +
                 " ____  _   _ _| |_ _____ \n" +
