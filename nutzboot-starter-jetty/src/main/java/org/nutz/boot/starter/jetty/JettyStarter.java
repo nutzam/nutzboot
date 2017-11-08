@@ -1,6 +1,8 @@
 package org.nutz.boot.starter.jetty;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,13 +78,10 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         // 设置应用上下文
         wac = new WebAppContext();
         wac.setContextPath(conf.get("jetty.contextPath", "/"));
-        wac.setExtractWAR(false);
-        wac.setCopyWebInf(true);
-        wac.setProtectedTargets(new String[]{"/java", "/javax", "/org", "/net", "/WEB-INF", "/META-INF"});
+        //wac.setExtractWAR(false);
+        //wac.setCopyWebInf(true);
+        //wac.setProtectedTargets(new String[]{"/java", "/javax", "/org", "/net", "/WEB-INF", "/META-INF"});
         wac.setTempDirectory(new File("./tmp").getAbsoluteFile());
-        wac.setServerClasses(new String[] { "org.objectweb.asm.", // hide asm used by jetty
-                                                "org.eclipse.jdt.", // hide jdt used by jetty
-                                        });
         wac.setClassLoader(classLoader);
         wac.setConfigurationDiscovered(true);
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
@@ -93,7 +92,19 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
             resources.add(new PathResource(new File("./static")));
         }
         resources.add(Resource.newClassPathResource("static/"));
-        wac.setBaseResource(new ResourceCollection(resources.toArray(new Resource[resources.size()])));
+        wac.setBaseResource(new ResourceCollection(resources.toArray(new Resource[resources.size()])) {
+            @Override
+            public Resource addPath(String path) throws IOException, MalformedURLException {
+                // TODO 为啥ResourceCollection读取WEB-INF的时候返回null
+                // 从而导致org.eclipse.jetty.webapp.WebAppContext.getWebInf()抛NPE
+                // 先临时hack吧
+                Resource resource = super.addPath(path);
+                if (resource == null && "WEB-INF/".equals(path)) {
+                    return Resource.newResource(new File("XXXX"));
+                }
+                return resource;
+            }
+        });
         server.setHandler(wac);
         List<String> list = Configuration.ClassList.serverDefault(server);
         list.add("org.eclipse.jetty.annotations.AnnotationConfiguration");

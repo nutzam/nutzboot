@@ -1,4 +1,4 @@
-package io.nutz.demo.simple;
+package [[${params.packageName}]];
 
 import java.io.File;
 import java.io.FileInputStream;
