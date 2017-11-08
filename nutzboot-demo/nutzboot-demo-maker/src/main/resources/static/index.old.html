@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hello, So NB!</title>
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+<script src="/js/vue.js"></script>
+<script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container-fluid" id="app">
+		<div class="col-xs-4"></div>
+		<div class="col-xs-4">
+			<form action="#" class="form-horizontal">
+				<div class="control-group">
+					<label class="col-sm-4 control-label" for="inputPackage">package</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="inputPackage" placeholder="包名" v-model="nb.packageName">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="col-sm-4 control-label" for="inputVersion">NB版本</label>
+					<div class="col-sm-8">
+						<select class="form-control" id="inputVersion" v-model="nb.version">
+							<option value="2.0-SNAPSHOT">2.0-SNAPSHOT</option>
+							<option value="2.0-Preview">2.0-Preview</option>
+						</select>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="col-sm-4 control-label" for="inputNutMvc">Nutz.Mvc</label>
+					<div class="col-xs-8">
+						<input type="checkbox" class="form-control" id="inputNutMvc" placeholder="2.0-Preview" v-model="nb.nutzmvc.enable">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="col-sm-4 control-label" for="inputNutDao">Nutz.Dao</label>
+					<div class="col-xs-8">
+						<input type="checkbox" class="form-control" id="inputNutDao" placeholder="2.0-Preview" v-model="nb.nutzdao.enable">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="col-sm-4 control-label" for="inputJetty">Jetty</label>
+					<div class="col-xs-8">
+						<input type="checkbox" class="form-control" id="inputJetty" placeholder="2.0-Preview" v-model="nb.jetty.enable">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="col-sm-4 control-label" for="inputJdbc">Jdbc</label>
+					<div class="col-xs-8">
+						<input type="checkbox" class="form-control" id="inputJdbc" placeholder="2.0-Preview" v-model="nb.jdbc.enable">
+					</div>
+				</div>
+			</form>
+			<div>
+				<button @click="nb_build()">生成并下载</button>
+			</div>
+		</div>
+		
+		<div class="col-xs-4"></div>
+
+	</div>
+	<script type="text/javascript">
+		var app = new Vue({
+			el : "#app",
+			data : {
+				nb : {
+					packageName : "io.nutz.demo",
+					version : "2.0-SNAPSHOT",
+					nutzmvc : {
+						enable : true
+					},
+					nutzdao : {
+						enable : true,
+						cache : false
+					},
+					jetty:  {
+						enable : true,
+						port : 8080,
+						host : "127.0.0.1"
+					},
+					jdbc : {
+						enable : true,
+						driver_type : "mysql",
+						url : "jdbc:mysql://127.0.0.1/demo",
+						username : "root",
+						password : "root"
+					}
+				}
+			},
+			methods : {
+				nb_build : function() {
+					$.ajax({
+						url : "/maker/make",
+						type : "POST",
+						data : JSON.stringify(app.nb),
+						dataType : "json",
+						success : function(re){
+							if (re && re.ok) {
+								window.location = "/maker/download/" + re.key;
+							}
+						}
+					});
+				}	
+			}
+		});
+	</script>
+</body>
+</html>
