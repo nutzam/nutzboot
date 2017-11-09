@@ -10,6 +10,7 @@ import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.FilterHolder;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.PathResource;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
@@ -22,6 +23,7 @@ import org.nutz.boot.aware.ClassLoaderAware;
 import org.nutz.boot.aware.IocAware;
 import org.nutz.boot.starter.ServerFace;
 import org.nutz.boot.starter.WebFilterFace;
+import org.nutz.boot.starter.WebServletFace;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.lang.Lang;
@@ -124,6 +126,13 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
                 holder.setName(webFilter.getName());
                 holder.setInitParameters(webFilter.getInitParameters());
                 wac.addFilter(holder, webFilter.getPathSpec(), webFilter.getDispatches());
+            }
+            if (object instanceof WebServletFace) {
+                WebServletFace webServlet = (WebServletFace)object;
+                ServletHolder holder = new ServletHolder(webServlet.getServlet());
+                holder.setName(webServlet.getName());
+                holder.setInitParameters(webServlet.getInitParameters());
+                wac.addServlet(holder, webServlet.getPathSpec());
             }
         }
     }
