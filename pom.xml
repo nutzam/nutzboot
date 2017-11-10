@@ -27,7 +27,7 @@
 		<module>nutzboot-starter-jdbc</module>
 		<module>nutzboot-starter-nutz</module>
 		<module>nutzboot-demo</module>
-		<module>nutzboot-start-weixin</module>
+		<module>nutzboot-starter-weixin</module>
 	</modules>
 	<repositories>
 		<repository>
