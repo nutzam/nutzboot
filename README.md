@@ -1,6 +1,31 @@
 # nutzboot
 简称NB
 
+## 来个NB的demo
+
+```java
+package io.nutz.demo.simple;
+
+import org.nutz.boot.NbApp;
+import org.nutz.ioc.loader.annotation.*;
+import org.nutz.mvc.annotation.*;
+
+@IocBean
+public class MainLauncher {
+    
+    @Ok("raw")
+    @At("/time/now")
+    public long now() {
+        return System.currentTimeMillis();
+    }
+
+    public static void main(String[] args) throws Exception {
+        new NbApp(MainLauncher.class).run();
+    }
+
+}
+```
+
 ### 开发计划
 
 - [ ] 基础框架
