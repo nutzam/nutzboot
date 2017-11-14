@@ -1,6 +1,6 @@
 sudo: false
 language: java
-script: mvn -Dmaven.test.skip=true clean source:jar deploy --settings mvn_settings.xml --fail-at-end
+script: mvn -Dmaven.test.skip=true clean install --settings mvn_settings.xml --fail-at-end
 jdk:
   - oraclejdk8
 # whitelist
@@ -18,3 +18,5 @@ env:
    - secure: "E1z+6z9M4iTdAXZ2a1rYSrxfIOq6PkdXEMutAbIn/bp1e/Qvb5IVoAS0heo7SPwcIlHlN8mDiOtKdzbcu9q8VaftfHwFjff6AoKyuWtfDqE1ecTfflebWwzmtXKJmT5uxBPvu442dS4sIc2zx3zjvnxMsSmvrdSwbMxwdbAKvDc="
    - SONATYPE_USERNAME=wendal
    - secure : "BaXmGpodQiuU23YgtUThWCHf7Vig2Gv3UfpBjo3FATgn1LRF3i2IOgY5sCSi+XJYqx+05fVNdwVYccxS/9UfhPNSqQuslIwgmg0y9f26DYaX2gaW+jk8padhZRkeBrY3fO+g9nQuu+Epgqi0ITru6+IjH932O0m1JR7iJu2RNhs="
+after_success:
+  - mvn -Dmaven.test.skip=true clean source:jar deploy --settings mvn_settings.xml --fail-at-end
