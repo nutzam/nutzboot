@@ -1,4 +1,4 @@
-package org.nutz.boot.starter.jedis;
+package org.nutz.boot.starter.redis;
 
 import org.nutz.boot.ioc.IocLoaderProvider;
 import org.nutz.integration.jedis.JedisIocLoader;

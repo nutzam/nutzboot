@@ -38,6 +38,21 @@
 			<artifactId>nutzboot-starter-jdbc</artifactId>
 			<version>${nutzboot.version}</version>
 		</dependency>
+		<dependency th:if="${params.redis.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-redis</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.quartz.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-quartz</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.weixin.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-weixin</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -47,6 +62,11 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.196</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
