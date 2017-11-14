@@ -1,4 +1,4 @@
-package org.nutz.boot.starter;
+package org.nutz.boot.starter.nutz.mvc;
 
 import org.nutz.boot.AppContext;
 import org.nutz.ioc.Ioc;

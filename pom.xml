@@ -7,6 +7,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>nutzboot-starter</module>
+		<module>nutzboot-demo</module>
 		<module>nutzboot-starter-jetty</module>
 		<module>nutzboot-starter-undertow</module>
 		<module>nutzboot-starter-tomcat</module>
@@ -26,8 +27,8 @@
 		<module>nutzboot-starter-rabbitmq</module>
 		<module>nutzboot-starter-jdbc</module>
 		<module>nutzboot-starter-nutz</module>
-		<module>nutzboot-demo</module>
 		<module>nutzboot-starter-weixin</module>
+		<module>nutzboot-starter-quartz</module>
 	</modules>
 	<repositories>
 		<repository>

@@ -22,6 +22,7 @@ import org.nutz.boot.aware.AppContextAware;
 import org.nutz.boot.aware.ClassLoaderAware;
 import org.nutz.boot.aware.IocAware;
 import org.nutz.boot.starter.ServerFace;
+import org.nutz.boot.starter.WebEventListenerFace;
 import org.nutz.boot.starter.WebFilterFace;
 import org.nutz.boot.starter.WebServletFace;
 import org.nutz.ioc.Ioc;
@@ -133,6 +134,10 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
                 holder.setName(webServlet.getName());
                 holder.setInitParameters(webServlet.getInitParameters());
                 wac.addServlet(holder, webServlet.getPathSpec());
+            }
+            if (object instanceof WebEventListenerFace) {
+            	WebEventListenerFace contextListener = (WebEventListenerFace)object;
+            	wac.addEventListener(contextListener.getEventListener());
             }
         }
     }

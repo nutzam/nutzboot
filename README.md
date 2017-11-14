@@ -30,10 +30,10 @@ public class MainLauncher {
 
 - [ ] 基础框架
 	- [ ] 基础框架的文档
-	- [ ] 基本框架的实现
+	- [x] 基本框架的实现
 - [ ] 服务器类启动器
 	- [ ] web类启动器
-		- [ ] Jetty
+		- [x] Jetty
 		- [ ] Tomcat
 		- [ ] Undertow
 	- [ ] 非Web类启动器
@@ -47,10 +47,10 @@ public class MainLauncher {
 		- [ ] ZBus
 - [ ] 数据库类相关
 	- [ ] 关系型数据库
-		- [ ] Jdbc连接池
-		- [ ] Nutz.Dao
+		- [x] Jdbc连接池
+		- [x] Nutz.Dao
 	- [ ] 非关系型数据库
-		- [ ] Redis
+		- [x] Redis
 		- [ ] MongoDB
 		- [ ] neo4j
 		- [ ] memcached
@@ -80,6 +80,8 @@ public class MainLauncher {
 - [ ] 规则引擎
 	- [ ] urule
 	- [ ] drools
+- [ ] 开放平台
+	- [x] 微信公众号开放平台
 - [ ] 云平台
 	- [ ] 阿里云
 	- [ ] 腾讯云

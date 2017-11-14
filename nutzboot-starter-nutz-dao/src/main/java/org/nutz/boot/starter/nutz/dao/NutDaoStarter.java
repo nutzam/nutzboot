@@ -1,4 +1,4 @@
-package org.nutz.boot.starter;
+package org.nutz.boot.starter.nutz.dao;
 
 import javax.sql.DataSource;
 

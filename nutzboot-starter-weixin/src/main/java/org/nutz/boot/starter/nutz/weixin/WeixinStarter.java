@@ -1,4 +1,4 @@
-package org.nutz.boot.starter.weixin;
+package org.nutz.boot.starter.nutz.weixin;
 
 import org.nutz.boot.ioc.IocLoaderProvider;
 import org.nutz.ioc.IocLoader;
