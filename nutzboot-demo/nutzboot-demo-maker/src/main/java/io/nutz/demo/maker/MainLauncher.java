@@ -1,4 +1,4 @@
-package io.nutz.demo.simple;
+package io.nutz.demo.maker;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -116,6 +116,7 @@ public class MainLauncher {
                     if (file.isDirectory())
                         return;
                     String name = file.getAbsolutePath().substring(tmpRoot.getAbsolutePath().length() + 1);
+                    System.out.println(">>" + name);
                     zip.putNextEntry(new ZipEntry(name));
                     try (FileInputStream ins = new FileInputStream(file)) {
                         Streams.write(zip, ins);
