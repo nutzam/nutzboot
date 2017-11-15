@@ -20,11 +20,11 @@ MainLauncher是入口,启动即可
 ```
 // for windows
 set MAVEN_OPTS="-Dfile.encoding=UTF-8"
-mvnw.cmd  exec:java -Dexec.mainClass="io.nutz.demo.MainLauncher"
+mvnw.cmd compile exec:java -Dexec.mainClass="io.nutz.demo.MainLauncher"
 
 // for *uix
 set MAVEN_OPTS="-Dfile.encoding=UTF-8"
-mvnw  exec:java -Dexec.mainClass="io.nutz.demo.MainLauncher"
+mvnw compile exec:java -Dexec.mainClass="io.nutz.demo.MainLauncher"
 ```
 
 ## 相关资源

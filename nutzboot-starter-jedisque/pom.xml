@@ -5,7 +5,7 @@
     <artifactId>nutzboot-parent</artifactId>
     <version>2.0-SNAPSHOT</version>
   </parent>
-  <artifactId>nutzboot-starter-redis</artifactId>
+  <artifactId>nutzboot-starter-jedisque</artifactId>
   <dependencies>
   	<dependency>
   		<groupId>org.nutz</groupId>
@@ -14,13 +14,13 @@
   	</dependency>
   	<dependency>
   		<groupId>org.nutz</groupId>
-  		<artifactId>nutz-integration-jedis</artifactId>
+  		<artifactId>nutz-integration-jedisque</artifactId>
   		<version>1.r.63-SNAPSHOT</version>
   	</dependency>
   	<dependency>
-  		<groupId>redis.clients</groupId>
-  		<artifactId>jedis</artifactId>
-  		<version>2.9.0</version>
-  	</dependency>
+		<groupId>com.github.xetorthio</groupId>
+		<artifactId>jedisque</artifactId>
+		<version>0.0.5-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>

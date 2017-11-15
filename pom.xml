@@ -21,6 +21,7 @@
 		<module>nutzboot-starter-swagger</module>
 		<module>nutzboot-starter-hasor</module>
 		<module>nutzboot-starter-jedis</module>
+		<module>nutzboot-starter-jedisque</module>
 		<module>nutzboot-starter-mongodb</module>
 		<module>nutzboot-starter-ngrok</module>
 		<module>nutzboot-starter-cfx</module>
