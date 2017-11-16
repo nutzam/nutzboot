@@ -20,7 +20,7 @@
 		<module>nutzboot-starter-nutz-dao</module>
 		<module>nutzboot-starter-swagger</module>
 		<module>nutzboot-starter-hasor</module>
-		<module>nutzboot-starter-jedis</module>
+		
 		<module>nutzboot-starter-jedisque</module>
 		<module>nutzboot-starter-mongodb</module>
 		<module>nutzboot-starter-ngrok</module>
@@ -31,6 +31,7 @@
 		<module>nutzboot-starter-weixin</module>
 		<module>nutzboot-starter-quartz</module>
 		<module>nutzboot-starter-wkcache</module>
+		<module>nutzboot-starter-redis</module>
 	</modules>
 	<repositories>
 		<repository>
