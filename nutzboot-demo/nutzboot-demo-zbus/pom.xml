@@ -5,14 +5,12 @@
     <artifactId>nutzboot-parent</artifactId>
     <version>2.0-SNAPSHOT</version>
   </parent>
-  <artifactId>nutzboot-demo</artifactId>
+  <artifactId>nutzboot-demo-zbus</artifactId>
   <packaging>pom</packaging>
   <modules>
-  	<module>nutzboot-demo-maker</module>
-  	<module>nutzboot-demo-simple</module>
-  	<module>nutzboot-demo-simple-dao</module>
-  	<module>nutzboot-demo-simple-redis</module>
-  	<module>nutzboot-demo-zbus</module>
+  	<module>nutzboot-demo-zbus-common</module>
+  	<module>nutzboot-demo-zbus-rpc-service</module>
+  	<module>nutzboot-demo-zbus-rpc-client</module>
   </modules>
   <properties>
   </properties>
