@@ -21,7 +21,7 @@
 		<module>nutzboot-starter-swagger</module>
 		<module>nutzboot-starter-hasor</module>
 		
-		<module>nutzboot-starter-jedisque</module>
+		
 		<module>nutzboot-starter-mongodb</module>
 		<module>nutzboot-starter-ngrok</module>
 		<module>nutzboot-starter-cfx</module>
@@ -32,6 +32,7 @@
 		<module>nutzboot-starter-quartz</module>
 		<module>nutzboot-starter-wkcache</module>
 		<module>nutzboot-starter-redis</module>
+		<module>nutzboot-starter-disque</module>
 	</modules>
 	<repositories>
 		<repository>
