@@ -6,4 +6,21 @@
     <version>2.0-SNAPSHOT</version>
   </parent>
   <artifactId>nutzboot-starter-zbus</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.nutz</groupId>
+  		<artifactId>nutzboot-starter</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.nutz</groupId>
+  		<artifactId>nutz-integration-zbus</artifactId>
+  		<version>1.r.65-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>io.zbus</groupId>
+  		<artifactId>zbus</artifactId>
+  		<version>0.11.0</version>
+  	</dependency>
+  </dependencies>
 </project>
