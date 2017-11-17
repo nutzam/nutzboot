@@ -3,10 +3,6 @@ language: java
 script: mvn -Dmaven.test.skip=true clean install --settings mvn_settings.xml --fail-at-end
 jdk:
   - oraclejdk8
-# whitelist
-branches:
-  only:
-    - master
 notifications:
   email: false
 before_install:
