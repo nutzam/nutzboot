@@ -28,6 +28,7 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.ioc.loader.combo.ComboIocLoader;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Mirror;
+import org.nutz.lang.Stopwatch;
 import org.nutz.lang.Streams;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.LifeCycle;
@@ -70,6 +71,7 @@ public class NbApp {
     }
     
     public void run() throws Exception {
+    	Stopwatch sw = Stopwatch.begin();
         // 就是NB
         // 初始化上下文
         if (this.ctx == null) {
@@ -181,6 +183,9 @@ public class NbApp {
         ctx.init();
         
         ctx.startServers();
+        
+        sw.stop();
+        log.debug("NB started : " + sw.toString());
         
         // 等待关闭
         Lang.quiteSleep(Integer.MAX_VALUE);
