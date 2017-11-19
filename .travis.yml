@@ -6,7 +6,7 @@ jdk:
 # whitelist
 branches:
   only:
-    - master
+    - dev
 notifications:
   email: false
 before_install:
