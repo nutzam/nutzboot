@@ -15,7 +15,7 @@
   	<dependency>
   		<groupId>org.nutz</groupId>
   		<artifactId>nutz-integration-jedisque</artifactId>
-  		<version>1.r.63-SNAPSHOT</version>
+  		<version>1.r.65-SNAPSHOT</version>
   	</dependency>
   	<dependency>
 		<groupId>com.github.xetorthio</groupId>

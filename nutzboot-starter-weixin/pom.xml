@@ -7,7 +7,7 @@
   </parent>
   <artifactId>nutzboot-starter-weixin</artifactId>
   <properties>
-  	<nutzwx.version>1.r.63-SNAPSHOT</nutzwx.version>
+  	<nutzwx.version>1.r.65-SNAPSHOT</nutzwx.version>
   </properties>
   <dependencies>
   	<dependency>
