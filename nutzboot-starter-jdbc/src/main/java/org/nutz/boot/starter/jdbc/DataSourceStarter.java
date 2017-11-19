@@ -64,4 +64,10 @@ public class DataSourceStarter {
         Map map = Lang.filter(new HashMap(conf.toMap()), PRE, null, null, null);
         return (DruidDataSource) DruidDataSourceFactory.createDataSource(map);
     }
+    
+    protected static boolean isDruid(PropertiesProxy conf) {
+    	String type = conf.get(PRE+"type");
+    	return "druid".equals(type) || "com.alibaba.druid.pool.DruidDataSource".equals(type);
+    			
+     }
 }

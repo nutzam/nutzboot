@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
@@ -28,9 +30,14 @@ import org.nutz.boot.starter.WebServletFace;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.lang.Lang;
+import org.nutz.lang.Strings;
 import org.nutz.lang.util.LifeCycle;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 
 public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, LifeCycle, AppContextAware {
+	
+	private static final Log log = Logs.get();
     
     protected Server server;
     protected ClassLoader classLoader;
@@ -120,16 +127,16 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         server.setStopAtShutdown(true);
         
         // 添加其他starter提供的WebXXXX服务
+        Map<String, WebFilterFace> filters = new HashMap<>();
         for (Object object : appContext.getStarters()) {
             if (object instanceof WebFilterFace) {
                 WebFilterFace webFilter = (WebFilterFace)object;
-                FilterHolder holder = new FilterHolder(webFilter.getFilter());
-                holder.setName(webFilter.getName());
-                holder.setInitParameters(webFilter.getInitParameters());
-                wac.addFilter(holder, webFilter.getPathSpec(), webFilter.getDispatches());
+                filters.put(webFilter.getName(), webFilter);
             }
             if (object instanceof WebServletFace) {
                 WebServletFace webServlet = (WebServletFace)object;
+                if (webServlet.getServlet() == null)
+                	continue;
                 ServletHolder holder = new ServletHolder(webServlet.getServlet());
                 holder.setName(webServlet.getName());
                 holder.setInitParameters(webServlet.getInitParameters());
@@ -137,9 +144,34 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
             }
             if (object instanceof WebEventListenerFace) {
             	WebEventListenerFace contextListener = (WebEventListenerFace)object;
+                if (contextListener.getEventListener() == null)
+                	continue;
             	wac.addEventListener(contextListener.getEventListener());
             }
         }
+        String _filterOrders = conf.get("web.filters.order");
+        if (_filterOrders == null)
+        	_filterOrders = "whale,druid,shiro,nutz";
+        else if (_filterOrders.endsWith("+")) {
+        	_filterOrders = _filterOrders.substring(0, _filterOrders.length() - 1) + ",whale,druid,shiro,nutz";
+        }
+        String[] filterOrders = Strings.splitIgnoreBlank(_filterOrders);
+        for (String filterName : filterOrders) {
+			addFilter(filters.remove(filterName));
+		}
+        for (WebFilterFace webFilter : filters.values()) {
+			addFilter(webFilter);
+		}
+    }
+    
+    public void addFilter(WebFilterFace webFilter) {
+    	if (webFilter == null || webFilter.getFilter() == null)
+			return;
+    	log.debugf("add filter name=%s pathSpec=%s", webFilter.getName(), webFilter.getPathSpec());
+        FilterHolder holder = new FilterHolder(webFilter.getFilter());
+        holder.setName(webFilter.getName());
+        holder.setInitParameters(webFilter.getInitParameters());
+        wac.addFilter(holder, webFilter.getPathSpec(), webFilter.getDispatches());
     }
 
     public void fetch() throws Exception {

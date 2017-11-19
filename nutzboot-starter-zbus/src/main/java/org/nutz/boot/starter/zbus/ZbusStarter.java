@@ -47,7 +47,7 @@ public class ZbusStarter implements IocLoaderProvider, ServerFace {
 	}
 
 	public boolean isRunning() {
-		return false;
+		return true;
 	}
 
 	public boolean failsafe() {

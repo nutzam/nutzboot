@@ -12,10 +12,10 @@ import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
-import org.nutz.mvc.NutFilter;
+import org.nutz.mvc.WhaleFilter;
 
 @IocBean
-public class NutFilterStarter implements WebFilterFace {
+public class WhaleFilterStarter implements WebFilterFace {
 	
 	
 	@Inject("refer:$ioc")
@@ -25,7 +25,7 @@ public class NutFilterStarter implements WebFilterFace {
 	protected PropertiesProxy conf;
 
     public String getName() {
-        return "nutz";
+        return "whale";
     }
 
     public String getPathSpec() {
@@ -36,22 +36,28 @@ public class NutFilterStarter implements WebFilterFace {
         return EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE);
     }
 
-    @IocBean(name="nutFilter")
-    public NutFilter createNutFilter() {
-    	return new NutFilter();
+    @IocBean(name="whaleFilter")
+    public WhaleFilter createNutFilter() {
+    	return new WhaleFilter();
     }
     
     public Filter getFilter() {
-        return ioc.get(NutFilter.class, "nutFilter");
+        return ioc.get(WhaleFilter.class, "whaleFilter");
     }
 
     public Map<String, String> getInitParameters() {
         Map<String, String> params = new HashMap<>();
-        params.put("modules", NbMainModule.class.getName());
-        if (conf.has("nutz.mvc.ignore")) {
-        	params.put("ignore", conf.get("nutz.mvc.ignore"));
+        params.put("enc.input", conf.get("nutz.mvc.whale.enc.input", "UTF-8"));
+        params.put("enc.output", conf.get("nutz.mvc.whale.enc.output", "UTF-8"));
+        if (conf.has("nutz.mvc.whale.http.hidden_method_param")) {
+        	params.put("http.hidden_method_param", conf.get("nutz.mvc.whale.http.hidden_method_param"));
         }
-        params.put("exclusions", conf.get("nutz.mvc.exclusions", "/druid/*,/uflo/*"));
+        if (conf.has("nutz.mvc.whale.http.method_override")) {
+        	params.put("http.method_override", conf.get("nutz.mvc.whale.http.method_override"));
+        }
+        if (conf.has("nutz.mvc.whale.upload.enable")) {
+        	params.put("upload.enable", conf.get("nutz.mvc.whale.upload.enable"));
+        }
         return params;
     }
 
