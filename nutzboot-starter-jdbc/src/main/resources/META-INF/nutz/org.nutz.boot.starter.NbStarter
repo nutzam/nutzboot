@@ -1,1 +1,3 @@
 org.nutz.boot.starter.jdbc.DataSourceStarter
+org.nutz.boot.starter.jdbc.DruidWebStatFilterStarter
+org.nutz.boot.starter.jdbc.DruidWebStatServletStarter
