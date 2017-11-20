@@ -74,6 +74,7 @@ public class MainLauncher {
 	- [ ] rabbitmq
 	- [ ] rocketmq
 	- [ ] activemq
+	- [x] disque
 - [ ] 工作流
 	- [ ] uflo2
 	- [ ] Activity
