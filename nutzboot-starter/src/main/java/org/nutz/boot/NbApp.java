@@ -119,10 +119,12 @@ public class NbApp {
         
         // 创建Ioc容器
         if (ctx.getComboIocLoader() == null) {
-            ctx.setComboIocLoader(new ComboIocLoader("*tx", "*async", ctx.getConfigureLoader().get().get("nutz.ioc.async.poolSize", "64")));
+        	int asyncPoolSize = ctx.getConfigureLoader().get().getInt("nutz.ioc.async.poolSize", 64);
+        	String[] args = new String[] {"*js", "ioc/", "*tx", "*async", ""+asyncPoolSize, "*anno", ctx.getMainClass().getPackage().getName()};
+            ctx.setComboIocLoader(new ComboIocLoader(args));
         }
         // 用于加载Starter的IocLoader
-        AnnotationIocLoader starterIocLoader = new AnnotationIocLoader();
+        AnnotationIocLoader starterIocLoader = new AnnotationIocLoader(NbApp.class.getPackage().getName() + ".starter");
         ctx.getComboIocLoader().addLoader(starterIocLoader);
         if (ctx.getIoc() == null) {
             ctx.setIoc(new NutIoc(ctx.getComboIocLoader()));
@@ -132,10 +134,6 @@ public class NbApp {
             Ioc2 ioc2 = (Ioc2)ctx.getIoc();
             ioc2.getIocContext().save("app", "appContext", new ObjectProxy(ctx));
             ioc2.getIocContext().save("app", "conf", new ObjectProxy(ctx.getConfigureLoader().get()));
-        }
-        
-        if (mainClass != null) {
-            ctx.getComboIocLoader().addLoader(new AnnotationIocLoader(mainClass.getPackage().getName()));
         }
         
         // 加载各种starter
@@ -150,7 +148,7 @@ public class NbApp {
                 if (!Strings.isBlank(tmp)) {
                     for (String _tmp : Strings.splitIgnoreBlank(tmp, "[\n]")) {
                         Class<?> klass = ctx.getClassLoader().loadClass(_tmp.trim());
-                        if (klass.getAnnotation(IocBean.class) != null) {
+                        if (!klass.getPackage().getName().startsWith(NbApp.class.getPackage().getName()) && klass.getAnnotation(IocBean.class) != null) {
                             starterIocLoader.addClass(klass);
                         }
                         starterClasses.add(klass);
@@ -185,7 +183,7 @@ public class NbApp {
         ctx.startServers();
         
         sw.stop();
-        log.debug("NB started : " + sw.toString());
+        log.infof("NB started : %sms", sw.du());
         
         // 等待关闭
         Lang.quiteSleep(Integer.MAX_VALUE);

@@ -43,8 +43,8 @@ public class MainLauncher {
 		- [ ] pure tcp/udp
 		- [ ] t-io
 	- [ ] Rpc类启动器
-		- [ ] Dubbo
-		- [ ] ZBus
+		- [x] Dubbo
+		- [x] zbus
 - [ ] 数据库类相关
 	- [ ] 关系型数据库
 		- [x] Jdbc连接池
@@ -61,9 +61,9 @@ public class MainLauncher {
 - [ ] Mvc
 	- [x] Nutz.Mvc
 - [ ] 安全鉴权
-	- [ ] Shiro
+	- [x] Shiro
 - [ ] 计划任务
-	- [ ] Quartz
+	- [x] Quartz
 - [ ] 模板引擎
 	- [ ] Beetl
 	- [ ] Vecloity
@@ -85,3 +85,7 @@ public class MainLauncher {
 - [ ] 云平台
 	- [ ] 阿里云
 	- [ ] 腾讯云
+- [ ] 缓存相关
+	- [x] wkcache 方法缓存
+- [ ] docker相关
+	- [ ] docker compose配置
