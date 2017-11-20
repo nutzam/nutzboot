@@ -38,7 +38,7 @@ public class MainLauncher {
 		- [ ] Undertow
 	- [ ] 非Web类启动器
 		- [ ] netty
-		- [ ] mima
+		- [ ] mina
 		- [ ] mqtt
 		- [ ] pure tcp/udp
 		- [ ] t-io
