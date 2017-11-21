@@ -5,6 +5,7 @@
 主页: [NB的官网](https://nutz.io)
 项目生成器: [NB Makder](https://get.nutz.io)
 版本历史: [NB进化史](ChangeLog.md)
+文档: [NB的文档](http://nutzam.com/core/boot/overview.html)
 
 ## 来个NB的demo
 
