@@ -1,8 +1,10 @@
 # nutzboot
+
 简称NB,基于Nutz的微服务方案
 
-官网: https://nutz.io
-生成器: https://get.nutz.io
+主页: [NB的官网](https://nutz.io)
+项目生成器: [NB Makder](https://get.nutz.io)
+版本历史: [NB进化史](ChangeLog.md)
 
 ## 来个NB的demo
 
@@ -25,11 +27,12 @@ public class MainLauncher {
     public static void main(String[] args) throws Exception {
         new NbApp(MainLauncher.class).run();
     }
-
 }
 ```
 
 ### 开发计划
+
+期待您的加入
 
 - [ ] 基础框架
 	- [ ] 基础框架的文档
@@ -53,6 +56,9 @@ public class MainLauncher {
 	- [ ] 关系型数据库
 		- [x] Jdbc连接池
 		- [x] Nutz.Dao
+		- [ ] BeetlSql
+		- [ ] Hibernate
+		- [ ] mybatis
 	- [ ] 非关系型数据库
 		- [x] [Redis](https://redis.io)
 		- [ ] MongoDB
@@ -74,11 +80,11 @@ public class MainLauncher {
 	- [ ] FreeMarker
 	- [ ] Thymeleaf
 - [ ] 消息队列
+	- [x] disque
 	- [ ] zeromq
 	- [ ] rabbitmq
 	- [ ] rocketmq
 	- [ ] activemq
-	- [x] disque
 - [ ] 工作流
 	- [ ] [uflo2](https://github.com/youseries/uflo)
 	- [ ] Activity
@@ -88,9 +94,17 @@ public class MainLauncher {
 - [ ] 开放平台
 	- [x] 微信公众号开放平台
 - [ ] 云平台
-	- [ ] 阿里云
-	- [ ] 腾讯云
+	- [ ] [阿里云](https://aliyun.com)
+	- [ ] [腾讯云](https://qcloud.com)
 - [ ] 缓存相关
 	- [x] wkcache 方法缓存
 - [ ] docker相关
 	- [ ] docker compose配置
+
+## 第三方starter或项目
+
+期待您的到来,报个issue告知一下吧 ^_^
+
+## 授权协议
+
+与Nutz一样, NutzBoot遵循Apache协议,完全开源,文档齐全,永远免费(商用也是)
