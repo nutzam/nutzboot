@@ -2,7 +2,7 @@
 
 ## 2.0-Beta "天空之城"
 
-听着董敏演奏的"天空之城",写着NB的代码,很写意
+听着董敏演奏的"天空之城",写着NB的代码,很惬意
 
 * 时间: 2017-11-22
 * 事件: 第一公测版
@@ -11,7 +11,6 @@
 	* add: starter-zbus zbus-rpc相关
 	* add: starter-dubbo dubbo相关
 	* add: starter-shiro 权限基础集成
-	* add: starter-disque 队列 by 潇骁
 	* add: starter-quartz 计划任务
 	* add: demo-zbus zbus-rpc的demo
 	* add: demo-dubbo dubbo-rpc的demo
