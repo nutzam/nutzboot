@@ -2,10 +2,10 @@
 
 简称NB,基于Nutz的微服务方案
 
-主页: [NB的官网](https://nutz.io)
-项目生成器: [NB Makder](https://get.nutz.io)
-版本历史: [NB进化史](ChangeLog.md)
-文档: [NB的文档](http://nutzam.com/core/boot/overview.html)
+* 主页: [NB的官网](https://nutz.io)
+* 项目生成器: [NB Makder](https://get.nutz.io)
+* 版本历史: [NB进化史](ChangeLog.md)
+* 文档: [NB的文档](http://nutzam.com/core/boot/overview.html)
 
 ## 来个NB的demo
 
@@ -108,4 +108,4 @@ public class MainLauncher {
 
 ## 授权协议
 
-与Nutz一样, NutzBoot遵循Apache协议,完全开源,文档齐全,永远免费(商用也是)
+与Nutz一样, NutzBoot遵循[Apache协议](LICENSE),完全开源,文档齐全,永远免费(商用也是)

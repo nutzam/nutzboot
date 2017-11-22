@@ -23,7 +23,7 @@ set MAVEN_OPTS="-Dfile.encoding=UTF-8"
 mvnw.cmd compile exec:java -Dexec.mainClass="io.nutz.demo.MainLauncher"
 
 // for *uix
-set MAVEN_OPTS="-Dfile.encoding=UTF-8"
+export MAVEN_OPTS="-Dfile.encoding=UTF-8"
 mvnw compile exec:java -Dexec.mainClass="io.nutz.demo.MainLauncher"
 ```
 
