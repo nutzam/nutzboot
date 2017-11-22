@@ -64,7 +64,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.nutz</groupId>
-			<artifactId>nutzboot-starter-jedis</artifactId>
+			<artifactId>nutzboot-starter-redis</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
