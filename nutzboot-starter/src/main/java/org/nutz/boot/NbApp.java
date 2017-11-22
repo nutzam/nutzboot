@@ -19,6 +19,7 @@ import org.nutz.boot.env.SystemPropertiesEnvHolder;
 import org.nutz.boot.ioc.IocLoaderProvider;
 import org.nutz.boot.resource.ResourceLoader;
 import org.nutz.boot.resource.impl.SimpleResourceLoader;
+import org.nutz.boot.tools.PropDocReader;
 import org.nutz.ioc.Ioc2;
 import org.nutz.ioc.IocLoader;
 import org.nutz.ioc.ObjectProxy;
@@ -46,7 +47,15 @@ public class NbApp {
     
     protected boolean allowCommandLineProperties;
     
+    protected boolean printProcDoc;
+    
     protected AppContext ctx;
+    
+    protected AnnotationIocLoader starterIocLoader;
+    
+    protected List<Class<?>> starterClasses;
+    
+    protected boolean prepared;
     
     public NbApp() {
     }
@@ -70,11 +79,72 @@ public class NbApp {
         return this;
     }
     
+    public NbApp setPrintProcDoc(boolean printProcDoc) {
+		this.printProcDoc = printProcDoc;
+		return this;
+	}
+    
+    public AppContext getAppContext() {
+		return ctx;
+	}
+    
     public void run() throws Exception {
     	Stopwatch sw = Stopwatch.begin();
-        // 就是NB
+
+        // 各种预备操作
+    	this.prepare();
+    	
+    	if (printProcDoc) {
+    		PropDocReader docReader = new PropDocReader(ctx);
+        	docReader.load();
+        	Logs.get().info("Configure Manual:\r\n" + docReader.toMarkdown());
+    	}
+        
+        // 依次启动
+        ctx.init();
+        
+        ctx.startServers();
+        
+        if (mainClass.getAnnotation(IocBean.class) != null)
+        	ctx.getIoc().get(mainClass);
+        
+        sw.stop();
+        log.infof("NB started : %sms", sw.du());
+        
+        // 等待关闭
+        Lang.quiteSleep(Integer.MAX_VALUE);
+        
+        // 收尾
+        ctx.stopServers();
+        ctx.depose();
+    }
+    
+    public void prepare() throws Exception {
+    	if (prepared)
+    		return;
         // 初始化上下文
-        if (this.ctx == null) {
+    	this.prepareBasic();
+        
+        // 打印Banner,暂时不可配置具体的类
+        new SimpleBannerPrinter().printBanner(ctx);
+        
+        // 配置信息要准备好
+        this.prepareConfigureLoader();
+        
+        // 创建Ioc容器
+        prepareIoc();
+        
+        // 加载各种starter
+        prepareStarterClassList();
+        
+        // 生成Starter实例
+        prepareStarterInstance();
+        
+        prepared = true;
+    }
+    
+    public void prepareBasic() throws Exception {
+    	if (this.ctx == null) {
             ctx = AppContext.getDefault();
         }
         if (ctx.getMainClass() == null && mainClass != null)
@@ -99,10 +169,9 @@ public class NbApp {
             aware(resourceLoader);
             ctx.setResourceLoader(resourceLoader);
         }
-        // 打印Banner,暂时不可配置具体的类
-        new SimpleBannerPrinter().printBanner(ctx);
-        
-        // 配置信息要准备好
+    }
+
+    public void prepareConfigureLoader() throws Exception {
         if (ctx.getConfigureLoader() == null) {
             String cnfLoader = ctx.getEnvHolder().get("nutz.boot.base.ConfigureLoader");
             ConfigureLoader configureLoader;
@@ -116,28 +185,30 @@ public class NbApp {
             if (configureLoader instanceof LifeCycle)
                 ((LifeCycle) configureLoader).init();
         }
-        
-        // 创建Ioc容器
+    }
+    
+    public void prepareIoc() throws Exception {
         if (ctx.getComboIocLoader() == null) {
         	int asyncPoolSize = ctx.getConfigureLoader().get().getInt("nutz.ioc.async.poolSize", 64);
         	String[] args = new String[] {"*js", "ioc/", "*tx", "*async", ""+asyncPoolSize, "*anno", ctx.getMainClass().getPackage().getName()};
             ctx.setComboIocLoader(new ComboIocLoader(args));
         }
         // 用于加载Starter的IocLoader
-        AnnotationIocLoader starterIocLoader = new AnnotationIocLoader(NbApp.class.getPackage().getName() + ".starter");
+        starterIocLoader = new AnnotationIocLoader(NbApp.class.getPackage().getName() + ".starter");
         ctx.getComboIocLoader().addLoader(starterIocLoader);
         if (ctx.getIoc() == null) {
             ctx.setIoc(new NutIoc(ctx.getComboIocLoader()));
         }
         // 把核心对象放进ioc容器
-        {
+        if (!ctx.ioc.has("appContext")){
             Ioc2 ioc2 = (Ioc2)ctx.getIoc();
             ioc2.getIocContext().save("app", "appContext", new ObjectProxy(ctx));
             ioc2.getIocContext().save("app", "conf", new ObjectProxy(ctx.getConfigureLoader().get()));
         }
-        
-        // 加载各种starter
-        List<Class<?>> starterClasses = new ArrayList<>();
+    }
+    
+    public void prepareStarterClassList() throws Exception {
+    	starterClasses = new ArrayList<>();
         Enumeration<URL> _en = ctx.getClassLoader().getResources("META-INF/nutz/org.nutz.boot.starter.NbStarter");
         while (_en.hasMoreElements()) {
             URL url = _en.nextElement();
@@ -156,8 +227,9 @@ public class NbApp {
                 }
             }
         }
-        
-        // 生成Starter实例
+    }
+    
+    public void prepareStarterInstance() {
         for (Class<?> klass : starterClasses) {
             Object obj;
             if (klass.getAnnotation(IocBean.class) == null) {
@@ -173,42 +245,26 @@ public class NbApp {
             }
             ctx.addStarter(obj);
         }
-        
-        // 排序各种starter
-        // TODO 排序各种starter
-        
-        // 依次启动
-        ctx.init();
-        
-        ctx.startServers();
-        
-        if (mainClass.getAnnotation(IocBean.class) != null)
-        	ctx.getIoc().get(mainClass);
-        
-        sw.stop();
-        log.infof("NB started : %sms", sw.du());
-        
-        // 等待关闭
-        Lang.quiteSleep(Integer.MAX_VALUE);
-        
-        // 收尾
-        ctx.stopServers();
-        ctx.depose();
     }
-
+    
     protected void aware(Object obj) {
+    	// 需要注入AppContext
         if (obj instanceof AppContextAware) {
             ((AppContextAware) obj).setAppContext(ctx);
         }
+        // 需要注入ClassLoader
         if (obj instanceof ClassLoaderAware) {
             ((ClassLoaderAware) obj).setClassLoader(ctx.getClassLoader());
         }
+        // 需要注入EnvHolder
         if (obj instanceof EnvHolderAware) {
             ((EnvHolderAware) obj).setEnvHolder(ctx.getEnvHolder());
         }
+        // 需要注入ResourceLoader
         if (obj instanceof ResourceLoaderAware) {
             ((ResourceLoaderAware) obj).setResourceLoader(ctx.getResourceLoader());
         }
+        // 需要注入Ioc
         if (obj instanceof IocAware) {
             ((IocAware) obj).setIoc(ctx.getIoc());
         }

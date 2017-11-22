@@ -9,8 +9,6 @@
   <packaging>pom</packaging>
   <modules>
   	<module>nutzboot-demo-dubbo-common</module>
-  	
-  	
   	<module>nutzboot-demo-dubbo-rpc-client</module>
   	<module>nutzboot-demo-dubbo-rpc-service</module>
   </modules>
