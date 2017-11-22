@@ -182,6 +182,9 @@ public class NbApp {
         
         ctx.startServers();
         
+        if (mainClass.getAnnotation(IocBean.class) != null)
+        	ctx.getIoc().get(mainClass);
+        
         sw.stop();
         log.infof("NB started : %sms", sw.du());
         

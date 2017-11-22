@@ -1,5 +1,11 @@
 # nutzboot
-简称NB
+
+简称NB,基于Nutz的微服务方案
+
+主页: [NB的官网](https://nutz.io)
+项目生成器: [NB Makder](https://get.nutz.io)
+版本历史: [NB进化史](ChangeLog.md)
+文档: [NB的文档](http://nutzam.com/core/boot/overview.html)
 
 ## 来个NB的demo
 
@@ -22,35 +28,40 @@ public class MainLauncher {
     public static void main(String[] args) throws Exception {
         new NbApp(MainLauncher.class).run();
     }
-
 }
 ```
 
 ### 开发计划
+
+期待您的加入
 
 - [ ] 基础框架
 	- [ ] 基础框架的文档
 	- [x] 基本框架的实现
 - [ ] 服务器类启动器
 	- [ ] web类启动器
-		- [x] Jetty
-		- [ ] Tomcat
-		- [ ] Undertow
+		- [x] [Jetty](https://www.eclipse.org/jetty/)
+		- [ ] [Tomcat](http://tomcat.apache.org/)
+		- [ ] [Undertow](http://undertow.io/)
 	- [ ] 非Web类启动器
-		- [ ] netty
-		- [ ] mina
+		- [ ] [netty](https://netty.io/)
+		- [ ] [mina](https://mina.apache.org/)
+		- [ ] [t-io](http://www.oschina.net/p/t-io)
 		- [ ] mqtt
 		- [ ] pure tcp/udp
-		- [ ] t-io
 	- [ ] Rpc类启动器
-		- [x] Dubbo
-		- [x] zbus
+		- [x] [Dubbo](http://dubbo.io/)
+		- [x] [zbus](http://zbus.io)
+		- [ ] [motan](https://github.com/weibocom/motan)
 - [ ] 数据库类相关
 	- [ ] 关系型数据库
 		- [x] Jdbc连接池
 		- [x] Nutz.Dao
+		- [ ] BeetlSql
+		- [ ] Hibernate
+		- [ ] mybatis
 	- [ ] 非关系型数据库
-		- [x] Redis
+		- [x] [Redis](https://redis.io)
 		- [ ] MongoDB
 		- [ ] neo4j
 		- [ ] memcached
@@ -61,22 +72,22 @@ public class MainLauncher {
 - [ ] Mvc
 	- [x] Nutz.Mvc
 - [ ] 安全鉴权
-	- [x] Shiro
+	- [x] [Shiro](http://shiro.apache.org)
 - [ ] 计划任务
-	- [x] Quartz
+	- [x] [Quartz](http://www.quartz-scheduler.org)
 - [ ] 模板引擎
-	- [ ] Beetl
+	- [ ] [Beetl](http://ibeetl.com/)
 	- [ ] Vecloity
 	- [ ] FreeMarker
 	- [ ] Thymeleaf
 - [ ] 消息队列
+	- [x] disque
 	- [ ] zeromq
 	- [ ] rabbitmq
 	- [ ] rocketmq
 	- [ ] activemq
-	- [x] disque
 - [ ] 工作流
-	- [ ] uflo2
+	- [ ] [uflo2](https://github.com/youseries/uflo)
 	- [ ] Activity
 - [ ] 规则引擎
 	- [ ] urule
@@ -84,9 +95,17 @@ public class MainLauncher {
 - [ ] 开放平台
 	- [x] 微信公众号开放平台
 - [ ] 云平台
-	- [ ] 阿里云
-	- [ ] 腾讯云
+	- [ ] [阿里云](https://aliyun.com)
+	- [ ] [腾讯云](https://qcloud.com)
 - [ ] 缓存相关
 	- [x] wkcache 方法缓存
 - [ ] docker相关
 	- [ ] docker compose配置
+
+## 第三方starter或项目
+
+期待您的到来,报个issue告知一下吧 ^_^
+
+## 授权协议
+
+与Nutz一样, NutzBoot遵循Apache协议,完全开源,文档齐全,永远免费(商用也是)
