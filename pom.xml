@@ -61,6 +61,7 @@
 		<module>nutzboot-starter-wkcache</module>
 		<module>nutzboot-starter-redis</module>
 		<module>nutzboot-starter-disque</module>
+		<module>nutzboot-starter-beetl</module>
 	</modules>
 	<repositories>
 		<repository>

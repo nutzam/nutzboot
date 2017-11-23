@@ -76,7 +76,7 @@ public class MainLauncher {
 - [ ] 计划任务
 	- [x] [Quartz](http://www.quartz-scheduler.org)
 - [ ] 模板引擎
-	- [ ] [Beetl](http://ibeetl.com/)
+	- [x] [Beetl](http://ibeetl.com/)
 	- [ ] [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
 	- [ ] Vecloity
 	- [ ] FreeMarker
