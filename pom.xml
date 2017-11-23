@@ -61,6 +61,7 @@
 		<module>nutzboot-starter-redis</module>
 		<module>nutzboot-starter-disque</module>
 		<module>nutzboot-starter-beetl</module>
+		<module>nutzboot-starter-jetx</module>
 	</modules>
 	<profiles>
 		<profile>

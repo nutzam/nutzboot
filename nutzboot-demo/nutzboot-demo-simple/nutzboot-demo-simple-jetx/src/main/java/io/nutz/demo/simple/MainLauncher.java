@@ -1,17 +1,20 @@
-package io.nutz.demo.zbus.rpc;
+package io.nutz.demo.simple;
 
 import org.nutz.boot.NbApp;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.util.NutMap;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 
 @IocBean
 public class MainLauncher {
     
-    @Ok("raw")
-    @At("/time/now")
-    public long now() {
-        return System.currentTimeMillis();
+	@At({"/", "/index"})
+    @Ok("jetx:/index.jetx")
+    public NutMap index() {
+		NutMap obj = new NutMap();
+		obj.setv("name", "NB").setv("age", 18);
+		return obj;
     }
 
     public static void main(String[] args) throws Exception {
