@@ -77,7 +77,7 @@ public class MainLauncher {
 	- [x] [Quartz](http://www.quartz-scheduler.org)
 - [ ] 模板引擎
 	- [x] [Beetl](http://ibeetl.com/)
-	- [ ] [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
+	- [x] [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
 	- [ ] Vecloity
 	- [ ] FreeMarker
 	- [ ] Thymeleaf
