@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 
 import org.nutz.boot.aware.AppContextAware;
@@ -209,6 +210,7 @@ public class NbApp {
     
     public void prepareStarterClassList() throws Exception {
     	starterClasses = new ArrayList<>();
+    	HashSet<String> classNames = new HashSet<>();
         Enumeration<URL> _en = ctx.getClassLoader().getResources("META-INF/nutz/org.nutz.boot.starter.NbStarter");
         while (_en.hasMoreElements()) {
             URL url = _en.nextElement();
@@ -218,7 +220,10 @@ public class NbApp {
                 String tmp = Streams.readAndClose(reader);
                 if (!Strings.isBlank(tmp)) {
                     for (String _tmp : Strings.splitIgnoreBlank(tmp, "[\n]")) {
-                        Class<?> klass = ctx.getClassLoader().loadClass(_tmp.trim());
+                    	String className = _tmp.trim();
+                    	if (!classNames.add(className))
+                    		continue;
+                        Class<?> klass = ctx.getClassLoader().loadClass(className);
                         if (!klass.getPackage().getName().startsWith(NbApp.class.getPackage().getName()) && klass.getAnnotation(IocBean.class) != null) {
                             starterIocLoader.addClass(klass);
                         }
