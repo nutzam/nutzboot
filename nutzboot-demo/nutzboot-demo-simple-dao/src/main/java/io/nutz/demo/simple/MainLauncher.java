@@ -11,7 +11,7 @@ import io.nutz.demo.simple.bean.User;
 public class MainLauncher {
     
     @Inject
-    Dao dao;
+    protected Dao dao;
     
     public void init() {
         dao.create(User.class, true);
@@ -24,7 +24,7 @@ public class MainLauncher {
     }
 
     public static void main(String[] args) throws Exception {
-        new NbApp(MainLauncher.class).run();
+        new NbApp(MainLauncher.class).setPrintProcDoc(true).run();
     }
 
 }
