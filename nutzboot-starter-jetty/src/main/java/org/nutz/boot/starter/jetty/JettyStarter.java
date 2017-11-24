@@ -137,6 +137,7 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         List<String> list = Configuration.ClassList.serverDefault(server);
         list.add("org.eclipse.jetty.annotations.AnnotationConfiguration");
         wac.setConfigurationClasses(list);
+        wac.getServletContext().setExtendedListenerTypes(true);
         
         // 设置一下额外的东西
         server.setAttribute("org.eclipse.jetty.server.Request.maxFormContentSize", conf.getInt(PROP_MAX_FORM_CONTENT_SIZE, 1024*1024*1024));
