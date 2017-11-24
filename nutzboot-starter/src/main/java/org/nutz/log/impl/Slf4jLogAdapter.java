@@ -3,12 +3,12 @@ package org.nutz.log.impl;
 import org.nutz.log.Log;
 import org.nutz.log.LogAdapter;
 import org.nutz.plugin.Plugin;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
 /**
- * @author wendal
- *
+ * 让Nutz的日志走Slf4j的API
  */
 public class Slf4jLogAdapter implements LogAdapter, Plugin {
 
@@ -18,7 +18,7 @@ public class Slf4jLogAdapter implements LogAdapter, Plugin {
 
 	public boolean canWork() {
 		try {
-			this.getLogger(getClass().getName()).info("Using Slf4jLogger");
+			Logger.class.getName();
 			return true;
 		} catch (Throwable e) {
 			e.printStackTrace();
