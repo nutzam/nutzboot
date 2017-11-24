@@ -1,1 +1,2 @@
 org.nutz.boot.starter.shiro.ShiroFilterStarter
+org.nutz.boot.starter.shiro.ShiroEnv

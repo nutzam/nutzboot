@@ -52,4 +52,16 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
 	</distributionManagement>
+	<dependencies>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutz-plugins-ngrok</artifactId>
+			<version>1.r.65-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 </project>
