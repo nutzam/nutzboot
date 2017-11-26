@@ -6,7 +6,6 @@ import org.nutz.mvc.Mvcs;
 import org.nutz.mvc.NutConfig;
 import org.nutz.mvc.SessionProvider;
 import org.nutz.mvc.UrlMapping;
-import org.nutz.mvc.annotation.IocBy;
 import org.nutz.mvc.annotation.Localization;
 import org.nutz.mvc.annotation.SessionBy;
 import org.nutz.mvc.impl.NutLoading;
@@ -19,8 +18,6 @@ public class NbMvcLoading extends NutLoading {
     }
 
     protected Ioc createIoc(NutConfig config, Class<?> mainModule) throws Exception {
-        if (mainModule.getAnnotation(IocBy.class) != null)
-            return super.createIoc(config, mainModule);
         Ioc ioc = AppContext.getDefault().getIoc();
         Mvcs.setIoc(ioc);
         return ioc;
