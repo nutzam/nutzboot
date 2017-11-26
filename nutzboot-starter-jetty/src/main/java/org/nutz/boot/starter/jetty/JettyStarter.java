@@ -120,6 +120,7 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
             resources.add(new PathResource(new File("./static")));
         }
         resources.add(Resource.newClassPathResource("static/"));
+        resources.add(Resource.newClassPathResource("webapp/"));
         wac.setBaseResource(new ResourceCollection(resources.toArray(new Resource[resources.size()])) {
             @Override
             public Resource addPath(String path) throws IOException, MalformedURLException {

@@ -84,5 +84,10 @@
 			<artifactId>ehcache</artifactId>
 			<version>2.10.4</version>
 		</dependency>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutz-plugins-cache</artifactId>
+			<version>1.r.65-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
