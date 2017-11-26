@@ -8,10 +8,10 @@
     <meta name="Keywords" content="Nutz,Nutz是什么,Nutz下载,Nutz社区, Java框架,JavaWeb,Aop,ORM,Dubbo,JDK8, JavaEE,tomcat,jetty"/>
     <title>Hello, So NB!</title>
     <link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon"/>
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <script src="https://unpkg.com/jquery/dist/jquery.js"></script>
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="css/element-ui-chalk.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/element-ui-index.js"></script>
 </head>
 <body>
 <div id="app">
@@ -57,37 +57,32 @@
                         <el-form-item label="Nutz.Dao">
                             <el-switch v-model="nb.nutzdao.enable"></el-switch>
                         </el-form-item>
-                        <el-form-item label="Dao.Cache" v-show="nb.nutzdao.enable">
-                            <el-switch v-model="nb.nutzdao.cache"></el-switch>
-                        </el-form-item>
 
                         <!--JETTY-->
                         <el-form-item label="Jetty">
                             <el-switch v-model="nb.jetty.enable"></el-switch>
-                        </el-form-item>
-                        <el-form-item label="Host" v-show="nb.jetty.enable">
-                            <el-input v-model="nb.jetty.host"></el-input>
-                        </el-form-item>
-                        <el-form-item label="Port" v-show="nb.jetty.enable">
-                            <el-input v-model="nb.jetty.port"></el-input>
                         </el-form-item>
 
                         <!--JDBC-->
                         <el-form-item label="Jdbc">
                             <el-switch v-model="nb.jdbc.enable"></el-switch>
                         </el-form-item>
-                        <el-form-item label="DriverType" v-show="nb.jdbc.enable">
-                            <el-input v-model="nb.jdbc.driver_type"></el-input>
+
+                        <!--Redis-->
+                        <el-form-item label="Redis">
+                            <el-switch v-model="nb.redis.enable"></el-switch>
                         </el-form-item>
-                        <el-form-item label="Url" v-show="nb.jdbc.enable">
-                            <el-input v-model="nb.jdbc.url"></el-input>
+
+                        <!--Quartz-->
+                        <el-form-item label="Quartz">
+                            <el-switch v-model="nb.quartz.enable"></el-switch>
                         </el-form-item>
-                        <el-form-item label="Username" v-show="nb.jdbc.enable">
-                            <el-input v-model="nb.jdbc.username"></el-input>
+
+                        <!--WeChat-->
+                        <el-form-item label="WeChat">
+                            <el-switch v-model="nb.weixin.enable"></el-switch>
                         </el-form-item>
-                        <el-form-item label="Password" v-show="nb.jdbc.enable">
-                            <el-input v-model="nb.jdbc.password"></el-input>
-                        </el-form-item>
+
                         <el-form-item>
                             <el-button type="primary" @click="onSubmit">立即创建</el-button>
                         </el-form-item>
@@ -96,7 +91,7 @@
                 <!--配置清单-->
                 <el-col :span="16" :offset="4" v-show="making">
                     <el-form label-width="100px">
-                        <el-input autosize type="textarea" v-model="nbJson"></el-input>
+                        <el-input :autosize="nbTextArea" type="textarea" v-model="nbJson"></el-input>
                     </el-form>
                     <div style="margin-top: 20px"></div>
                     <!--<el-progress type="circle" :percentage="makper"-->
@@ -109,7 +104,7 @@
             </el-row>
             <el-row v-if="activeMenu == 2">
                 <el-col :span="16" :offset="4">
-                    嗯。。。还没想到要写啥
+                    有疑问? 来 <a href="https://nutz.cn">https://nutz.cn</a> 就可以了
                 </el-col>
             </el-row>
         </el-main>
@@ -126,12 +121,13 @@
                 makper: 0,
                 upload: false,
                 done: false,
+                nbTextArea: {minRows: 2, maxRows: 6},
                 versionOptions: [{
                     label: "2.0-SNAPSHOT",
                     value: "2.0-SNAPSHOT"
                 }, {
-                    label: "2.0-Preview",
-                    value: "2.0-Preview"
+                    label: "2.0-Beta",
+                    value: "2.0-Beta"
                 }],
                 nb: {
                     packageName: "io.nutz.demo",
@@ -150,10 +146,18 @@
                     },
                     jdbc: {
                         enable: true,
-                        driver_type: "mysql",
-                        url: "jdbc:mysql://127.0.0.1/demo",
+                        url: "jdbc:h2:mem:~",
                         username: "root",
                         password: "root"
+                    },
+                    redis: {
+                        enable: false
+                    },
+                    quartz: {
+                        enable: false
+                    },
+                    weixin: {
+                        enable: false
                     }
                 },
                 nbJson: "",
@@ -183,7 +187,7 @@
                 });
             },
             downloadNB: function () {
-                var durl = window.origin + this.nbUrl;
+                var durl = this.nbUrl;
                 console.log("DW: " + durl);
                 window.open(durl);
                 this.making = false;

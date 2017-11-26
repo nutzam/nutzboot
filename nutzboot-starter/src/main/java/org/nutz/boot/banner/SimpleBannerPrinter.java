@@ -6,6 +6,7 @@ import java.io.InputStream;
 import org.nutz.boot.AppContext;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Streams;
+import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
 /**
@@ -19,6 +20,9 @@ import org.nutz.log.Logs;
 public class SimpleBannerPrinter {
 
     public void printBanner(AppContext ctx) {
+    	Log log = Logs.get();
+    	if (!log.isInfoEnabled())
+    		return;
         try {
             InputStream ins = ctx.getResourceLoader().get("banner.txt");
             if (ins == null) {
@@ -27,7 +31,7 @@ public class SimpleBannerPrinter {
             if (ins == null) {
                 return;
             }
-            Logs.get().debug("\r\n"+Lang.readAll(Streams.utf8r(ins)));
+            log.info("\r\n"+Lang.readAll(Streams.utf8r(ins)));
         }
         catch (IOException e) {
             // nop
