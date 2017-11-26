@@ -46,7 +46,7 @@ public class NbApp {
     
     protected Class<?> mainClass;
     
-    protected boolean allowCommandLineProperties;
+    protected boolean allowCommandLineProperties = true;
     
     protected boolean printProcDoc;
     
@@ -180,6 +180,9 @@ public class NbApp {
                 configureLoader = new PropertiesConfigureLoader();
             } else {
                 configureLoader = (ConfigureLoader) ctx.getClassLoader().loadClass(cnfLoader).newInstance(); 
+            }
+            if (allowCommandLineProperties) {
+            	configureLoader.setCommandLineProperties(args);
             }
             aware(configureLoader);
             ctx.setConfigureLoader(configureLoader);
