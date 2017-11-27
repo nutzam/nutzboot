@@ -2,6 +2,7 @@ package org.nutz.boot.starter.jdbc;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.sql.DataSource;
 
@@ -16,6 +17,8 @@ import org.nutz.lang.Strings;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 @IocBean
 public class DataSourceStarter {
@@ -38,7 +41,7 @@ public class DataSourceStarter {
 
 	@IocBean
 	public DataSource getDataSource() throws Exception {
-		switch (conf.get(PROP_TYPE, "druid")) {
+		switch (conf.get(PROP_TYPE, "hikari")) {
 		case "simple":
 		case "org.nutz.dao.impl.SimpleDataSource":
 			SimpleDataSource simpleDataSource = new SimpleDataSource();
@@ -52,8 +55,10 @@ public class DataSourceStarter {
 			return simpleDataSource;
 		case "druid":
 		case "com.alibaba.druid.pool.DruidDataSource":
-			return ioc.get(DruidDataSource.class);
-		// TODO 支持其他数据源
+			return ioc.get(DataSource.class, "druidDataSource");
+		case "hikari":
+		case "com.zaxxer.hikari.HikariDataSource":
+			return ioc.get(DataSource.class, "hikariDataSource");
 		default:
 			break;
 		}
@@ -62,7 +67,7 @@ public class DataSourceStarter {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@IocBean(name = "druidDataSource", depose = "close")
-	public DruidDataSource createDruidDataSource() throws Exception {
+	public DataSource createDruidDataSource() throws Exception {
 		if (Strings.isBlank(conf.get(PROP_URL))) {
 			throw new RuntimeException("need jdbc.url");
 		}
@@ -72,9 +77,29 @@ public class DataSourceStarter {
 			dataSource.setFilters("stat");
 		return dataSource;
 	}
+	
+	@IocBean(name = "hikariDataSource", depose = "close")
+	public DataSource createHikariCPDataSource() throws Exception {
+		if (Strings.isBlank(conf.get(PROP_URL))) {
+			throw new RuntimeException("need jdbc.url");
+		}
+		Properties properties = new Properties();
+		for (String key : conf.keys()) {
+			if (!key.startsWith("jdbc.") || key.equals("jdbc.type"))
+				continue;
+			if (key.equals("jdbc.url")) {
+				if (!conf.has("jdbc.jdbcUrl"))
+					properties.put("jdbcUrl", conf.get(key));
+			}
+			else {
+				properties.put(key.substring(5), conf.get(key));
+			}
+		}
+		return new HikariDataSource(new HikariConfig(properties));
+	}
 
 	protected static boolean isDruid(PropertiesProxy conf) {
-		String type = conf.get(PROP_TYPE, "druid");
+		String type = conf.get(PROP_TYPE, "hikari");
 		return "druid".equals(type) || "com.alibaba.druid.pool.DruidDataSource".equals(type);
 	}
 }
