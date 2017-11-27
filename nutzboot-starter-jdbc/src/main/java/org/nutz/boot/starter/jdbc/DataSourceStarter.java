@@ -41,7 +41,7 @@ public class DataSourceStarter {
 
 	@IocBean
 	public DataSource getDataSource() throws Exception {
-		switch (conf.get(PROP_TYPE, "hikari")) {
+		switch (conf.get(PROP_TYPE, "druid")) {
 		case "simple":
 		case "org.nutz.dao.impl.SimpleDataSource":
 			SimpleDataSource simpleDataSource = new SimpleDataSource();
@@ -99,7 +99,7 @@ public class DataSourceStarter {
 	}
 
 	protected static boolean isDruid(PropertiesProxy conf) {
-		String type = conf.get(PROP_TYPE, "hikari");
+		String type = conf.get(PROP_TYPE, "druid");
 		return "druid".equals(type) || "com.alibaba.druid.pool.DruidDataSource".equals(type);
 	}
 }
