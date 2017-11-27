@@ -8,6 +8,7 @@ import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 
 import org.apache.shiro.web.servlet.ShiroFilter;
+import org.nutz.boot.AppContext;
 import org.nutz.boot.starter.WebFilterFace;
 import org.nutz.integration.shiro.ShiroFilter2;
 import org.nutz.ioc.Ioc;
@@ -23,6 +24,14 @@ public class ShiroFilterStarter implements WebFilterFace {
 	
 	@Inject
 	protected PropertiesProxy conf;
+	
+	@Inject
+	protected AppContext appContext;
+
+	public void setAppContext(AppContext appContext) {
+		this.appContext = appContext;
+		ShiroUtil.appContext = appContext;
+	}
 
     public String getName() {
         return "shiro";
