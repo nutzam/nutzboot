@@ -100,6 +100,10 @@ public class AppContext implements LifeCycle {
     public void setMainClass(Class<?> mainClass) {
         this.mainClass = mainClass;
     }
+    
+    public String getPackage() {
+    	return this.mainClass.getPackage().getName();
+    }
 
     public void init() throws Exception {
         for (Object object : starters) {

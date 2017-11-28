@@ -194,7 +194,7 @@ public class NbApp {
     public void prepareIoc() throws Exception {
         if (ctx.getComboIocLoader() == null) {
         	int asyncPoolSize = ctx.getConfigureLoader().get().getInt("nutz.ioc.async.poolSize", 64);
-        	String[] args = new String[] {"*js", "ioc/", "*tx", "*async", ""+asyncPoolSize, "*anno", ctx.getMainClass().getPackage().getName()};
+        	String[] args = new String[] {"*js", "ioc/", "*tx", "*async", ""+asyncPoolSize, "*anno", ctx.getPackage()};
             ctx.setComboIocLoader(new ComboIocLoader(args));
         }
         // 用于加载Starter的IocLoader
