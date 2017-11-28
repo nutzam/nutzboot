@@ -3,7 +3,10 @@ package org.nutz.boot.starter.jetty;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +16,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.util.resource.PathResource;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
@@ -116,11 +118,15 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
             wac.setInitParameter("org.eclipse.jetty.servlet.Default.useFileMappedBuffer", "false");
         }
         List<Resource> resources = new ArrayList<>();
-        if (new File("./static").exists()) {
-            resources.add(new PathResource(new File("./static")));
+        for (String resourcePath : Arrays.asList("static/", "webapp/")) {
+        	File f = new File(resourcePath);
+        	if (f.exists())
+        		resources.add(Resource.newResource(f));
+        	Enumeration<URL> urls = appContext.getClassLoader().getResources(resourcePath);
+        	while(urls.hasMoreElements()) {
+        		resources.add(Resource.newResource(urls.nextElement()));
+        	}
         }
-        resources.add(Resource.newClassPathResource("static/"));
-        resources.add(Resource.newClassPathResource("webapp/"));
         wac.setBaseResource(new ResourceCollection(resources.toArray(new Resource[resources.size()])) {
             @Override
             public Resource addPath(String path) throws IOException, MalformedURLException {

@@ -31,13 +31,13 @@ public class ZbusStarter implements IocLoaderProvider, ServerFace {
 	public void start() throws Exception {
 		if (conf.getBoolean("zbus.rpc.service.enable", false)) {
 			if (!conf.has("zbus.rpc.service.packageNames")) {
-				conf.put("zbus.rpc.service.packageNames", appContext.getMainClass().getPackage().getName() + ".service");
+				conf.put("zbus.rpc.service.packageNames", appContext.getPackage() + ".service");
 			}
 			ioc.get(ZbusServiceBootstrap.class).start();
 		}
 		if (conf.getBoolean("zbus.rpc.client.enable", false)) {
 			if (!conf.has("zbus.rpc.client.packageNames")) {
-				conf.put("zbus.rpc.client.packageNames", appContext.getMainClass().getPackage().getName() + ".service");
+				conf.put("zbus.rpc.client.packageNames", appContext.getPackage() + ".service");
 			}
 			ioc.get(ZbusClientBean.class);
 		}

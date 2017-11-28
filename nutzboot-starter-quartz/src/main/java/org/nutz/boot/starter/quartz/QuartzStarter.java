@@ -22,7 +22,7 @@ public class QuartzStarter implements IocLoaderProvider, ServerFace {
 
 	public IocLoader getIocLoader() {
 		if (!conf.has("cron.pkgs")) {
-			conf.put("cron.pkgs", appContext.getMainClass().getPackage().getName());
+			conf.put("cron.pkgs", appContext.getPackage());
 		}
 		return new QuartzIocLoader();
 	}

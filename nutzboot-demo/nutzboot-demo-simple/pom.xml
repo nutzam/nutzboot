@@ -15,6 +15,7 @@
   	<module>nutzboot-demo-simple-jetx</module>
   	<module>nutzboot-demo-simple-mvc-ngrok</module>
   	<module>nutzboot-demo-simple-mvc-shiro</module>
+  	<module>nutzboot-demo-simple-swagger</module>
   </modules>
   <properties>
   </properties>
