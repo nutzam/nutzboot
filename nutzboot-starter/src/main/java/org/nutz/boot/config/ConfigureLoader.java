@@ -7,7 +7,7 @@ public interface ConfigureLoader {
 	/**
 	 * 设置命令行参数
 	 */
-	void setCommandLineProperties(String...args);
+	void setCommandLineProperties(boolean allow, String...args);
 	
 	/**
 	 * 获取配置信息实例

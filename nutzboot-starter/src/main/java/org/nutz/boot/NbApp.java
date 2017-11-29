@@ -39,57 +39,113 @@ import org.nutz.log.LogAdapter;
 import org.nutz.log.Logs;
 import org.nutz.mvc.annotation.IocBy;
 
+/**
+ * NutzBoot的主体
+ * @author wendal
+ *
+ */
 public class NbApp {
     
+	/**
+	 *  日志属性要等日志适配器准备好了才能加载,这里不可以使用Logs.get();
+	 */
     protected static Log log;
     
+    /**
+     * 命令行参数
+     */
     protected String[] args;
     
+    /**
+     * 主启动器类,必须设置
+     */
     protected Class<?> mainClass;
     
+    /**
+     * 是否允许命令行下的 -Dxxx.xxx.xxx=转为配置参数
+     */
     protected boolean allowCommandLineProperties = true;
     
+    /**
+     * 是否打印配置文档
+     */
     protected boolean printProcDoc;
     
+    /**
+     * 主上下文
+     */
     protected AppContext ctx;
     
+    /**
+     * Starter共享的IocLoader
+     */
     protected AnnotationIocLoader starterIocLoader;
     
+    /**
+     * Starter类列表
+     */
     protected List<Class<?>> starterClasses;
     
     protected boolean prepared;
     
+    /**
+     * 创建一个空的NbApp,实际运行之前必须设置mainClass
+     */
     public NbApp() {
     }
     
+    /**
+     * 基于mainClass创建一个NbApp
+     * @param mainClass 主启动类
+     */
     public NbApp(Class<?> mainClass) {
         this.mainClass = mainClass;
     }
     
+    /**
+     * 设置命令行参数,可选
+     */
     public NbApp setArgs(String[] args) {
         this.args = args;
         return this;
     }
     
+    /**
+     * 设置主启动类
+     */
     public NbApp setMainClass(Class<?> mainClass) {
         this.mainClass = mainClass;
         return this;
     }
     
+    /**
+     * 是否允许从命令行读取配置信息, 例如 java -Dnutz.ioc.async.poolSize=128 xxx.jar
+     * @param flag 默认允许
+     */
     public NbApp setAllowCommandLineProperties(boolean flag) {
         this.allowCommandLineProperties = flag;
         return this;
     }
     
+    /**
+     * 是否打印配置文档
+     */
     public NbApp setPrintProcDoc(boolean printProcDoc) {
 		this.printProcDoc = printProcDoc;
 		return this;
 	}
     
+    /**
+     * 获取全局上下文
+     * @return
+     */
     public AppContext getAppContext() {
 		return ctx;
 	}
     
+    /**
+     * 启动整个NbApp
+     */
     public void run() throws Exception {
     	Stopwatch sw = Stopwatch.begin();
 
@@ -121,6 +177,9 @@ public class NbApp {
         ctx.depose();
     }
     
+    /**
+     * 执行预备操作
+     */
     public void prepare() throws Exception {
     	if (prepared)
     		return;
@@ -182,9 +241,7 @@ public class NbApp {
             } else {
                 configureLoader = (ConfigureLoader) ctx.getClassLoader().loadClass(cnfLoader).newInstance(); 
             }
-            if (allowCommandLineProperties) {
-            	configureLoader.setCommandLineProperties(args);
-            }
+            configureLoader.setCommandLineProperties(allowCommandLineProperties, args);
             aware(configureLoader);
             ctx.setConfigureLoader(configureLoader);
             if (configureLoader instanceof LifeCycle)
@@ -317,10 +374,6 @@ public class NbApp {
         if (obj instanceof IocAware) {
             ((IocAware) obj).setIoc(ctx.getIoc());
         }
-    }
-    
-    public static void main(String[] args) throws Exception {
-        new NbApp().setArgs(args).setMainClass(NbApp.class).run();
     }
 
 }

@@ -15,13 +15,15 @@ public abstract class AbstractConfigureLoader implements ConfigureLoader, LifeCy
     protected EnvHolder envHolder;
     protected ResourceLoader resourceLoader;
     protected String[] args;
+    protected boolean allowCommandLineProperties;
 
     public PropertiesProxy get() {
         return conf;
     }
     
-    public void setCommandLineProperties(String... args) {
+    public void setCommandLineProperties(boolean allowCommandLineProperties, String... args) {
     	this.args = args;
+    	this.allowCommandLineProperties = allowCommandLineProperties;
     }
 
     public void setAppContext(AppContext appContext) {

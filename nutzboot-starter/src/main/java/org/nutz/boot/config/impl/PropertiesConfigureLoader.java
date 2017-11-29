@@ -33,6 +33,9 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
         		conf.put("nutz.profiles.active", tmp.remove("nutz.profiles.active"));
         	}
         }
+        if (allowCommandLineProperties) {
+        	conf.putAll(System.getProperties());
+        }
         // 加载指定profile,如果有的话
         if (conf.has("nutz.profiles.active")) {
         	String profile = conf.get("nutz.profiles.active");
