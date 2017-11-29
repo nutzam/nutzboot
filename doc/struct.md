@@ -35,7 +35,7 @@ NutzBoot有强制性的目录规范,请看下图
 			- custom // 个性化配置信息文件
 				- xxx.properties
 				- yyy.properties
-			- msg // 国际化/本地化/i18消息文件存在目录
+			- locales // 国际化/本地化/i18消息文件存在目录
 				- zh_CN
 					- user.properties
 					- sysadmin.properties

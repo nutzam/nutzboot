@@ -4,7 +4,7 @@ import org.nutz.mvc.annotation.LoadingBy;
 import org.nutz.mvc.annotation.Localization;
 
 @LoadingBy(NbMvcLoading.class)
-@Localization("msg/")
+@Localization("locales/")
 public class NbMainModule {
 
 }
