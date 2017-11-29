@@ -61,7 +61,6 @@
 		<dependency>
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzwx</artifactId>
-			<version>${nutzwx.version}</version>
 		</dependency>
 	</dependencies>
 </project>
