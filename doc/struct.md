@@ -18,10 +18,15 @@ NutzBoot有强制性的目录规范,请看下图
 						- MainLauncher.java // 主启动类有main方法,但不一定叫MainLauncher
 						- MainSetup.java // 通常是nutz.mvc项目才需要
 						- bean // 存放Pojo类
+							- User.java
+							- Todo.java
 						- service // 服务类,dubbo/zbus等rpc服务默认从这个package扫描
 							- UserService.java // 接口类
 							- impl // 推荐将实现类放入单独的package
 								- UserServiceImpl.java  // 实现类
+						- module // 非强制,非必须
+							- UserModule.java
+							- BlogModule.java
 		- resources
 			- application.properties // 主配置信息文件
 			- application-prod.properties // 不同profile的配置信息文件
