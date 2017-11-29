@@ -56,8 +56,8 @@ public class SwaggerServletStarter extends HttpServlet implements WebServletFace
 
     public void init(ServletConfig config) throws ServletException {
         PropertiesProxy conf = appContext.getConfigureLoader().get();
-        swagger = conf.make(Swagger.class, "swagger.conf.");
-        Info info = conf.make(Info.class, "swagger.info.");
+        swagger = conf.makeDeep(Swagger.class, "swagger.conf.");
+        Info info = conf.makeDeep(Info.class, "swagger.info.");
         swagger.setInfo(info);
         HashSet<Class<?>> classes = new HashSet<>();
         String pkgName = conf.get("swagger.resource.package", appContext.getPackage());
