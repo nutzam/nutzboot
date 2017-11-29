@@ -13,7 +13,7 @@ TODO
 	* add: 支持打印配置文档
 	* add: 添加beetl和jetx模板的starter
 	* add: starter-jdbc支持HikariCP
-	* add: 添加starter-ngrok,轻松继承内网映射服务
+	* add: 添加starter-ngrok,轻松集成内网映射服务
 	* remove: starter-jetty默认不再添加jsp支持
 	* change: starter-jetty添加nutz-plugins-websocket插件
 	* fix: demo-maker的MainLauncher缺了init方法
