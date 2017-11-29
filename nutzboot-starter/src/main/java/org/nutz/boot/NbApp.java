@@ -37,6 +37,7 @@ import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.LogAdapter;
 import org.nutz.log.Logs;
+import org.nutz.mvc.annotation.IocBy;
 
 public class NbApp {
     
@@ -194,8 +195,48 @@ public class NbApp {
     public void prepareIoc() throws Exception {
         if (ctx.getComboIocLoader() == null) {
         	int asyncPoolSize = ctx.getConfigureLoader().get().getInt("nutz.ioc.async.poolSize", 64);
-        	String[] args = new String[] {"*js", "ioc/", "*tx", "*async", ""+asyncPoolSize, "*anno", ctx.getPackage()};
-            ctx.setComboIocLoader(new ComboIocLoader(args));
+        	List<String> args = new ArrayList<>();
+        	args.add("*js");
+        	args.add("ioc/");
+        	args.add("*tx");
+        	args.add("*async");
+        	args.add(""+asyncPoolSize);
+        	args.add("*anno");
+        	args.add(ctx.getPackage());
+        	IocBy iocBy = ctx.getMainClass().getAnnotation(IocBy.class);
+        	if (iocBy != null) {
+        		String[] tmp = iocBy.args();
+        		ArrayList<String> _args = new ArrayList<>();
+        		for (int i=0;i<tmp.length;i++) {
+        			if (tmp[i].startsWith("*")) {
+        				if (!_args.isEmpty()) {
+        					switch (_args.get(0)) {
+        					case "*tx":
+        					case "*async":
+        					case "*anno":
+        					case "*js":
+        						break;
+        					default:
+        						args.addAll(_args);
+        					}
+    						_args.clear();
+        				}
+        			}
+    				_args.add(tmp[i]);
+        		}
+        		if (_args.size() > 0) {
+        			switch (_args.get(0)) {
+					case "*tx":
+					case "*async":
+					case "*anno":
+					case "*js":
+						break;
+					default:
+						args.addAll(_args);
+					}
+        		}
+        	}
+            ctx.setComboIocLoader(new ComboIocLoader(args.toArray(new String[args.size()])));
         }
         // 用于加载Starter的IocLoader
         starterIocLoader = new AnnotationIocLoader(NbApp.class.getPackage().getName() + ".starter");
