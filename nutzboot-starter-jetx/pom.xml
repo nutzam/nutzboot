@@ -16,12 +16,10 @@
   	<dependency>
   		<groupId>com.github.subchen</groupId>
   		<artifactId>jetbrick-template</artifactId>
-  		<version>2.1.5</version>
   	</dependency>
   	<dependency>
   		<groupId>com.github.subchen</groupId>
   		<artifactId>jetbrick-template-nutz</artifactId>
-  		<version>2.1.5</version>
   	</dependency>
   </dependencies>
 </project>

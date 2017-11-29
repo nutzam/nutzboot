@@ -16,7 +16,6 @@
   	<dependency>
   		<groupId>com.ibeetl</groupId>
   		<artifactId>beetl</artifactId>
-  		<version>2.7.23</version>
   	</dependency>
   </dependencies>
 </project>

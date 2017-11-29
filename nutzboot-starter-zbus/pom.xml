@@ -60,12 +60,10 @@
 		<dependency>
 			<groupId>org.nutz</groupId>
 			<artifactId>nutz-integration-zbus</artifactId>
-			<version>1.r.65-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.zbus</groupId>
 			<artifactId>zbus</artifactId>
-			<version>0.11.0</version>
 		</dependency>
 	</dependencies>
 </project>
