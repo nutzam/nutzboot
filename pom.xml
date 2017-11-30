@@ -14,6 +14,7 @@
 		<jetty.version>9.4.7.v20170914</jetty.version>
 		<shiro.version>1.3.2</shiro.version>
 		<jetx.version>2.1.5</jetx.version>
+		<cxf.version>3.1.12</cxf.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -299,6 +300,32 @@
 				<groupId>com.github.subchen</groupId>
 				<artifactId>jetbrick-template-nutz</artifactId>
 				<version>${jetx.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutz-integration-cxf</artifactId>
+				<version>${nutz.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-core</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-transports-http</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-frontend-simple</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-frontend-jaxws</artifactId>
+				<version>${cxf.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
