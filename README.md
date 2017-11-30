@@ -41,7 +41,7 @@ public class MainLauncher {
 - [ ] 服务器类启动器
 	- [ ] web类启动器
 		- [x] [Jetty](https://www.eclipse.org/jetty/)
-		- [x] [Undertow](http://undertow.io/)
+		- [x] [Undertow](http://undertow.io/) by @qinerg
 		- [ ] [Tomcat](http://tomcat.apache.org/)
 	- [ ] 非Web类启动器
 		- [ ] [netty](https://netty.io/)
