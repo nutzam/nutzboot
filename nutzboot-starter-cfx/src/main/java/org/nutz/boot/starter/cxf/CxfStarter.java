@@ -1,5 +1,8 @@
 package org.nutz.boot.starter.cxf;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.jws.WebService;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -13,7 +16,6 @@ import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
-import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.resource.Scans;
@@ -46,8 +48,8 @@ public class CxfStarter extends CXFNonSpringServlet implements WebServletFace {
 		return this;
 	}
 
-	public NutMap getInitParameters() {
-		return new NutMap();
+	public Map<String, String> getInitParameters() {
+		return new HashMap<>();
 	}
 
     protected void loadBus(ServletConfig sc) {
@@ -66,6 +68,5 @@ public class CxfStarter extends CXFNonSpringServlet implements WebServletFace {
             sfb.setServiceBean(ioc.get(klass));
             sfb.create();
         }
-
     }
 }

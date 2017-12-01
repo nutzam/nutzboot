@@ -12,5 +12,5 @@ public interface WebServletFace {
     
     Servlet getServlet();
     
-    Map<String, Object> getInitParameters();
+    Map<String, String> getInitParameters();
 }

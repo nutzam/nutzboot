@@ -1,6 +1,8 @@
 package org.nutz.boot.starter.jdbc;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.Servlet;
 
@@ -60,14 +62,18 @@ public class DruidWebStatServletStarter implements WebServletFace {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Map<String, Object> getInitParameters() {
-		Map<String, Object> params = Lang.filter((Map)conf.toMap(), "druid.webstat.servlet.", null, null, null);
-		if (!params.containsKey(StatViewServlet.PARAM_NAME_USERNAME))
-			params.put(StatViewServlet.PARAM_NAME_USERNAME, "druid");
-		if (!params.containsKey(StatViewServlet.PARAM_NAME_PASSWORD)) {
+	public Map<String, String> getInitParameters() {
+		Map<String, String> params = new HashMap<>();
+		Map<String, Object> _tmp = Lang.filter((Map)conf.toMap(), "druid.webstat.servlet.", null, null, null);
+		if (!_tmp.containsKey(StatViewServlet.PARAM_NAME_USERNAME))
+			_tmp.put(StatViewServlet.PARAM_NAME_USERNAME, "druid");
+		if (!_tmp.containsKey(StatViewServlet.PARAM_NAME_PASSWORD)) {
 			String pwd = R.UU32();
-			params.put(StatViewServlet.PARAM_NAME_PASSWORD, pwd);
+			_tmp.put(StatViewServlet.PARAM_NAME_PASSWORD, pwd);
 			log.infof("druid stat view random password=%s", pwd);
+		}
+		for (Entry<String, Object> en : _tmp.entrySet()) {
+			params.put(en.getKey(), String.valueOf(en.getValue()));
 		}
 		return params;
 	}

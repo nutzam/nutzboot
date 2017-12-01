@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
@@ -167,11 +165,7 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
                 	continue;
                 ServletHolder holder = new ServletHolder(webServlet.getServlet());
                 holder.setName(webServlet.getName());
-                Map<String, String> inits = new LinkedHashMap<>();
-                for (Entry<String, Object> en : webServlet.getInitParameters().entrySet()) {
-                	inits.put(en.getKey(), Strings.sNull(en.getValue()));
-                }
-                holder.setInitParameters(inits);
+                holder.setInitParameters(webServlet.getInitParameters());
                 wac.addServlet(holder, webServlet.getPathSpec());
             }
             if (object instanceof WebEventListenerFace) {
