@@ -16,6 +16,7 @@
   	<module>nutzboot-demo-simple-mvc-ngrok</module>
   	<module>nutzboot-demo-simple-mvc-shiro</module>
   	<module>nutzboot-demo-simple-swagger</module>
+  	<module>nutzboot-demo-simple-undertow</module>
   </modules>
   <properties>
   </properties>
