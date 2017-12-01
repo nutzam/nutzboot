@@ -1,20 +1,23 @@
 # NB进化史
 
-## 2.0-RC "????"
+## 2.0-RC "属于"
 
-TODO
+首先,必须高亮一下[@qinerg](https://github.com/qinerg)提交的[starter-undertow](https://gitee.com/nutz/nutzboot/tree/dev/nutzboot-starter-undertow),嗷嗷嗷. Jetty与Undertow任意切换^_^
+
+模板引擎([beetl](http://ibeetl.com/)和[jetx](http://subchen.github.io/jetbrick-template/))的starter已经完成,所以移除了starter-jetty的jsp依赖.
 
 * 时间: 2017-12-01
-* 事件: 第一个预备发行版本
-* 曲目: [???](https://www.youtube.com/watch?v=wul6nubmJdU)
+* 事件: 第一个预备GA版本
+* 曲目: [属于](https://www.bilibili.com/video/av5451358/)
 * 变更:
-	* add: 添加starter-undertow by @qinerg
+	* add: 添加starter-undertow by [@qinerg](https://github.com/qinerg)
 	* add: 添加starter-swagger及其demo
 	* add: 支持命令行配置参数及profile
 	* add: 支持打印配置文档
 	* add: 添加beetl和jetx模板的starter
 	* add: starter-jdbc支持HikariCP
-	* add: 添加starter-ngrok,轻松集成内网映射服务
+	* add: 添加starter-ngrok,轻松获取外网调试URL
+	* add: 添加目录规范文档
 	* remove: starter-jetty默认不再添加jsp支持
 	* change: starter-jetty添加nutz-plugins-websocket插件
 	* fix: demo-maker的MainLauncher缺了init方法
