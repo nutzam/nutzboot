@@ -1,6 +1,7 @@
 package org.nutz.boot.starter.undertow;
 
 import java.io.File;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -35,6 +36,8 @@ import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 import io.undertow.servlet.api.FilterInfo;
+import io.undertow.servlet.api.InstanceFactory;
+import io.undertow.servlet.api.InstanceHandle;
 import io.undertow.servlet.api.ListenerInfo;
 import io.undertow.servlet.api.ServletInfo;
 
@@ -131,11 +134,7 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 			}
 			if (object instanceof WebEventListenerFace) {
 				WebEventListenerFace contextListener = (WebEventListenerFace) object;
-				if (contextListener.getEventListener() == null)
-					continue;
-
-				ListenerInfo listener = new ListenerInfo(contextListener.getEventListener().getClass());
-				deployment.addListener(listener);
+				addEventListener(contextListener);
 			}
 		}
 
@@ -199,6 +198,26 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 		deployment.addFilter(filter)
 				.addFilterUrlMapping(webFilter.getName(), webFilter.getPathSpec(), DispatcherType.REQUEST)
 				.addFilterUrlMapping(webFilter.getName(), webFilter.getPathSpec(), DispatcherType.FORWARD);
+	}
+	
+	public void addEventListener(WebEventListenerFace webEventListener) {
+		if (webEventListener.getEventListener() == null)
+			return;
+
+		EventListener et = webEventListener.getEventListener();
+		ListenerInfo listener = new ListenerInfo(et.getClass());
+		listener.setInstanceFactory(new InstanceFactory<EventListener>() {
+			public InstanceHandle<EventListener> createInstance() throws InstantiationException {
+				return new InstanceHandle<EventListener>() {
+					public EventListener getInstance() {
+						return et;
+					}
+					public void release() {
+					}
+				};
+			}
+		});
+		deployment.addListener(listener);
 	}
 
 	public void fetch() throws Exception {
