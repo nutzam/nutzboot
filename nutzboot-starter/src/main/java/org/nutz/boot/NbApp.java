@@ -89,9 +89,13 @@ public class NbApp {
     protected boolean prepared;
     
     /**
-     * 创建一个空的NbApp,实际运行之前必须设置mainClass
+     * 创建一个NbApp,把调用本构造方法的类作为mainClass
      */
     public NbApp() {
+    	StackTraceElement[] ts = Thread.currentThread().getStackTrace();
+    	if (ts.length > 2) {
+    		setMainClass(Lang.loadClassQuite(ts[2].getClassName()));
+    	}
     }
     
     /**

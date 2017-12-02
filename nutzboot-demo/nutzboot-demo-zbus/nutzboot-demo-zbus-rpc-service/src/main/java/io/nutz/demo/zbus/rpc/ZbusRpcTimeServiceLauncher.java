@@ -7,7 +7,7 @@ import org.nutz.ioc.loader.annotation.IocBean;
 public class ZbusRpcTimeServiceLauncher {
 
     public static void main(String[] args) throws Exception {
-        new NbApp(ZbusRpcTimeServiceLauncher.class).run();
+        new NbApp().run();
     }
 
 }
