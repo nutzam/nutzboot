@@ -2,6 +2,8 @@ package io.nutz.demo.simple;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.subject.Subject;
@@ -34,7 +36,7 @@ public class MainLauncher {
     
     @Ok("raw")
     @At("/shiro/test")
-    public boolean isAuthenticated() {
+    public boolean isAuthenticated(HttpSession session) {
     	Subject subject = SecurityUtils.getSubject();
     	return subject.isAuthenticated();
     }
@@ -43,7 +45,7 @@ public class MainLauncher {
     @Fail("http:500")
     @POST
     @At("/user/login")
-    public boolean login(@Param("username")String username, @Param("password")String password) {
+    public boolean login(@Param("username")String username, @Param("password")String password, HttpSession session) {
     	User user = dao.fetch(User.class, username);
     	if (user == null)
     		return false;

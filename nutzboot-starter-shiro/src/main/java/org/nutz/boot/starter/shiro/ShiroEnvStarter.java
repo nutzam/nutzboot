@@ -91,23 +91,21 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 		webSessionManager.setSessionIdCookie(cookie);
 		webSessionManager.setSessionIdCookieEnabled(true);
 		
-		if (conf.has("shiro.session.cache.type")) {
-			webSessionManager.setCacheManager(ioc.get(CacheManager.class, "shiroCacheManager"));
-		}
+		webSessionManager.setCacheManager(ioc.get(CacheManager.class, "shiroCacheManager"));
 
 		return webSessionManager;
 	}
 	
 	@IocBean(name="shiroCacheManager")
 	public CacheManager getCacheManager() {
-		switch (conf.get("shiro.session.cache.type", "memeory")) {
+		switch (conf.get("shiro.session.cache.type", "memory")) {
 		case "ehcache":
 			return ioc.get(CacheManager.class, "shiroEhcacheCacheManager");
 		case "redis":
 			return ioc.get(CacheManager.class, "shiroRedisCacheManager");
 		case "lcache":
 			return ioc.get(CacheManager.class, "shiroLcacheCacheManager");
-		case "memeory":
+		case "memory":
 			return new MemoryConstrainedCacheManager();
 		default:
 			throw new ShiroException("unkown shiro.session.cache.type=" + conf.get("shiro.session.cache.type"));
