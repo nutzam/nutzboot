@@ -96,13 +96,40 @@ author : zozoh
 
 # 执行推送
 > git push orginal issue_42
-
+Counting objects: 4, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 2.27 KiB | 0 bytes/s, done.
+Total 4 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/nutzam/nutzboot.git
+ * [new branch]      issue_42 -> issue_42
 ```
+
+之后你可以邀请其他同伴，一起在这个分支上工作
 
 # 发起 Pull Request
 
+登录 Github 在 [Nutzam/nutzboot](https://github.com/nutzam/nutzboot)
+的 `Code` 视图选择你刚才提交的分支，并点击 `New pull request` 按钮
 
+![](media/nb_workflow_pull_request_a.png)
+
+之后在进入的 `New pull request` 界面你需要写明几点信息:
+
+![](media/nb_workflow_pull_request_b.png)
+
+1. 你必须确保你的 pull request 是 `Able to merge` 的.
+2. 你想要对审核者说点什么，通常说点你的解决主要思路，一些需要重点审核的地方等等
+3. 指明你需要谁来审核你的提交
+4. `Assignees` 通常你不需要填
+5. 标签填成与 Issue 相同
+6. 里程碑填成与 Issue 相同
 
 # 删除分支
+
+如果合并成功，管理员会删除服务器上的分支。
+
+至于你的本地分支，你可以在你本地通过 `git branch -d issue_42` 删除。当然，如果你高兴你也可以留着。我通常都是发现自己一个库本地分支有点多，就删一批，这个看个人喜好。
     
 
