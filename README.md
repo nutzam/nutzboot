@@ -64,7 +64,7 @@ public class MainLauncher {
 		- [ ] mybatis
 	- [ ] 非关系型数据库
 		- [x] [Redis](https://redis.io)
-		- [ ] MongoDB
+		- [x] MongoDB
 		- [ ] neo4j
 		- [ ] memcached
 		- [ ] ssdb

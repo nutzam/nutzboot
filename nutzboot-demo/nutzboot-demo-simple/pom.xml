@@ -11,6 +11,7 @@
   	<module>nutzboot-demo-simple-mvc</module>
   	<module>nutzboot-demo-simple-dao</module>
   	<module>nutzboot-demo-simple-redis</module>
+  	<module>nutzboot-demo-simple-mongodb</module>
   	<module>nutzboot-demo-simple-beetl</module>
   	<module>nutzboot-demo-simple-jetx</module>
   	<module>nutzboot-demo-simple-mvc-ngrok</module>
