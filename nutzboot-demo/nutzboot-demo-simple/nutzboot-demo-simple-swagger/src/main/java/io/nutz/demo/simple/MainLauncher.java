@@ -7,7 +7,7 @@ import org.nutz.ioc.loader.annotation.IocBean;
 public class MainLauncher {
     
     public static void main(String[] args) throws Exception {
-        new NbApp(MainLauncher.class).run();
+        new NbApp().run();
     }
 
 }

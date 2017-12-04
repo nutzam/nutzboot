@@ -7,7 +7,7 @@ import org.nutz.ioc.loader.annotation.IocBean;
 public class DubboRpcTimeServiceLauncher {
 
     public static void main(String[] args) throws Exception {
-        new NbApp(DubboRpcTimeServiceLauncher.class).run();
+        new NbApp().run();
     }
 
 }
