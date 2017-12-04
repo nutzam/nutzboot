@@ -20,6 +20,7 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.session.mgt.WebSessionManager;
 import org.nutz.boot.AppContext;
 import org.nutz.boot.starter.WebEventListenerFace;
+import org.nutz.integration.jedis.JedisAgent;
 import org.nutz.integration.shiro.UU32SessionIdGenerator;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
@@ -102,7 +103,7 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 		case "ehcache":
 			return ioc.get(CacheManager.class, "shiroEhcacheCacheManager");
 		case "redis":
-			return ioc.get(CacheManager.class, "shiroRedisCacheManager");
+			//return ioc.get(CacheManager.class, "shiroRedisCacheManager");
 		case "lcache":
 			return ioc.get(CacheManager.class, "shiroLcacheCacheManager");
 		case "memory":
@@ -119,6 +120,7 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 		LCacheManager cacheManager = new LCacheManager();
 		cacheManager.setLevel1(shiroEhcacheCacheManager);
 		cacheManager.setLevel2(shiroRedisCacheManager);
+		cacheManager.setJedisAgent(ioc.get(JedisAgent.class));
 		return cacheManager;
 	}
 
