@@ -45,7 +45,7 @@ public class NutMongoDbStarter {
 
 	@PropDoc(group = "mongo", value = "最大等待可用连接时间", defaultValue = "1000*60*2")
 	public static final String PROP_MAX_WAIT_TIME = PRE + "maxWaitTime";
-	@PropDoc(group = "mongo", value = "连接超时时间", defaultValue = "1000 * 10")
+	@PropDoc(group = "mongo", value = "连接超时时间", defaultValue = "1000*10")
 	public static final String PROP_CONNECT_TIMEOUT = PRE + "connectTimeout";
 	@PropDoc(group = "mongo", value = "套接字超时时间", defaultValue = "0")
 	public static final String PROP_SOCKET_TIMEOUT = PRE + "socketTimeout";
@@ -63,7 +63,7 @@ public class NutMongoDbStarter {
 		// 连接选项控制
 		MongoClientOptions.Builder builder = MongoClientOptions.builder();
 		builder.minConnectionsPerHost(conf.getInt(PROP_MIN_CONNECTIONS_PER_HOST, 0));
-		builder.connectionsPerHost(conf.getInt(PROP_MIN_CONNECTIONS_PER_HOST, 100));
+		builder.connectionsPerHost(conf.getInt(PROP_MAX_CONNECTIONS_PER_HOST, 100));
 		builder.threadsAllowedToBlockForConnectionMultiplier(conf.getInt(PROP_THREADS, 5));
 		builder.maxWaitTime(conf.getInt(PROP_MAX_WAIT_TIME, 1000 * 60 * 2));
 		builder.connectTimeout(conf.getInt(PROP_CONNECT_TIMEOUT, 1000 * 10));
