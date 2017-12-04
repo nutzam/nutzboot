@@ -32,6 +32,12 @@
 			<email>wendal1985@gmail.com</email>
 			<url>http://wendal.net/</url>
 		</developer>
+		<developer>
+			<id>wolfboys</id>
+			<name>benjobs</name>
+			<email>benjobs@qq.com</email>
+			<url>https://github.com/wolfboys</url>
+		</developer>
 	</developers>
 	<scm>
 		<connection>scm:git:git://github.com/nutzam/nutzboot.git</connection>
