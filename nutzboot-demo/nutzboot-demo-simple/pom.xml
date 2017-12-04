@@ -18,6 +18,7 @@
   	<module>nutzboot-demo-simple-mvc-shiro</module>
   	<module>nutzboot-demo-simple-swagger</module>
   	<module>nutzboot-demo-simple-undertow</module>
+	<module>nutzboot-demo-simple-tomcat</module>
   </modules>
   <properties>
   </properties>
