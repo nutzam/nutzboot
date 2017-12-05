@@ -1,5 +1,13 @@
 # NB进化史
 
+## 2.0-RC2 "?"
+
+* 变更:
+	* add: new NbApp()可以不传类名,从堆栈自动推断
+	* add: starter-mongodb by @qingerg
+	* add: starter-tomcat by @ben
+	* add: starter-beetlsql by wendal
+
 ## 2.0-RC "属于"
 
 首先,必须高亮一下[@qinerg](https://github.com/qinerg)提交的[starter-undertow](https://gitee.com/nutz/nutzboot/tree/dev/nutzboot-starter-undertow),嗷嗷嗷. Jetty与Undertow任意切换^_^
