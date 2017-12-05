@@ -26,7 +26,8 @@ public class BeetlSqlStarter {
 
 	protected static final String PRE = "beetlsql.";
 
-	@PropDoc(group = "beetlsql", value = "数据库类型", defaultValue = "mysql", possible = { "mysql", "oracle", "pgsql" })
+	@PropDoc(group = "beetlsql", value = "数据库类型", defaultValue = "mysql", 
+			possible = { "mysql", "oracle", "h2", "db2", "postgres", "sqlite", "sqlserver", "sqlserver2012" })
 	public static final String PROP_DBSTYLE = PRE + "dbStyle";
 
 	@PropDoc(group = "beetlsql", value = "SQL目录", defaultValue = "/sqls/")
