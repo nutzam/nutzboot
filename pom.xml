@@ -43,6 +43,7 @@
 	</scm>
 	<modules>
 		<module>nutzboot-starter</module>
+		<module>nutzboot-starter-beetlsql</module>
 		<module>nutzboot-starter-jetty</module>
 		<module>nutzboot-starter-undertow</module>
 		<module>nutzboot-starter-tomcat</module>

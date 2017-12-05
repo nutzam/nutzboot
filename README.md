@@ -59,7 +59,7 @@ public class MainLauncher {
 	- [ ] 关系型数据库
 		- [x] Jdbc连接池
 		- [x] Nutz.Dao
-		- [ ] BeetlSql
+		- [x] BeetlSql
 		- [ ] Hibernate
 		- [ ] mybatis
 	- [ ] 非关系型数据库

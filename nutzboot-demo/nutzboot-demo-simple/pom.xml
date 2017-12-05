@@ -13,6 +13,7 @@
   	<module>nutzboot-demo-simple-redis</module>
   	<module>nutzboot-demo-simple-mongodb</module>
   	<module>nutzboot-demo-simple-beetl</module>
+  	<module>nutzboot-demo-simple-beetlsql</module>
   	<module>nutzboot-demo-simple-jetx</module>
   	<module>nutzboot-demo-simple-mvc-ngrok</module>
   	<module>nutzboot-demo-simple-mvc-shiro</module>
