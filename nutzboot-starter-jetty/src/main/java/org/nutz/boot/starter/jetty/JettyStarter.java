@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.websocket.server.ServerContainer;
+import javax.websocket.server.ServerEndpoint;
+
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -21,6 +24,7 @@ import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer;
 import org.nutz.boot.AppContext;
 import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.aware.AppContextAware;
@@ -37,6 +41,7 @@ import org.nutz.lang.Strings;
 import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
+import org.nutz.resource.Scans;
 
 public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, LifeCycle, AppContextAware {
 	
@@ -152,6 +157,13 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         server.setDumpBeforeStop(false);
         server.setStopAtShutdown(true);
         
+        ServerContainer sc = WebSocketServerContainerInitializer.configureContext(wac);
+        for (Class<?> klass : Scans.me().scanPackage(appContext.getPackage())) {
+			if (klass.getAnnotation(ServerEndpoint.class) != null) {
+				sc.addEndpoint(klass);
+			}
+		}
+
         // 添加其他starter提供的WebXXXX服务
         Map<String, WebFilterFace> filters = new HashMap<>();
         for (Object object : appContext.getStarters()) {
