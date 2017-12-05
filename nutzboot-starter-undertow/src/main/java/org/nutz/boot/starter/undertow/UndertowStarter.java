@@ -38,8 +38,6 @@ import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 import io.undertow.servlet.api.FilterInfo;
-import io.undertow.servlet.api.InstanceFactory;
-import io.undertow.servlet.api.InstanceHandle;
 import io.undertow.servlet.api.ListenerInfo;
 import io.undertow.servlet.api.ServletInfo;
 import io.undertow.servlet.util.ImmediateInstanceFactory;
@@ -213,17 +211,6 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 		log.debugf("add listener %s", et.getClass());
 		ImmediateInstanceFactory<EventListener> factory = new ImmediateInstanceFactory<EventListener>(et);
 		ListenerInfo listener = new ListenerInfo(et.getClass(), factory);
-		listener.setInstanceFactory(new InstanceFactory<EventListener>() {
-			public InstanceHandle<EventListener> createInstance() throws InstantiationException {
-				return new InstanceHandle<EventListener>() {
-					public EventListener getInstance() {
-						return et;
-					}
-					public void release() {
-					}
-				};
-			}
-		});
 		deployment.addListener(listener);
 	}
 
