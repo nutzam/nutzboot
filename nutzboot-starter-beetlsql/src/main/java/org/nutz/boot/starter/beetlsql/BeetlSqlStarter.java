@@ -4,7 +4,7 @@ import javax.sql.DataSource;
 
 import org.beetl.sql.core.ClasspathLoader;
 import org.beetl.sql.core.ConnectionSource;
-import org.beetl.sql.core.ConnectionSourceHelper;
+import org.beetl.sql.core.DefaultConnectionSource;
 import org.beetl.sql.core.DefaultNameConversion;
 import org.beetl.sql.core.Interceptor;
 import org.beetl.sql.core.NameConversion;
@@ -21,13 +21,19 @@ import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.resource.Scans;
 
+/**
+ * 封装BeetlSql的初始化逻辑
+ * 
+ * @author wendal(wendal1985@gmail.com)
+ *
+ */
 @IocBean
 public class BeetlSqlStarter {
 
 	protected static final String PRE = "beetlsql.";
 
-	@PropDoc(group = "beetlsql", value = "数据库类型", defaultValue = "mysql", 
-			possible = { "mysql", "oracle", "h2", "db2", "postgres", "sqlite", "sqlserver", "sqlserver2012" })
+	@PropDoc(group = "beetlsql", value = "数据库类型", defaultValue = "mysql", possible = { "mysql", "oracle", "h2", "db2",
+			"postgres", "sqlite", "sqlserver", "sqlserver2012" })
 	public static final String PROP_DBSTYLE = PRE + "dbStyle";
 
 	@PropDoc(group = "beetlsql", value = "SQL目录", defaultValue = "/sqls/")
@@ -39,6 +45,9 @@ public class BeetlSqlStarter {
 	@PropDoc(group = "beetlsql", value = "是否使用DebugInterceptor", defaultValue = "true")
 	public static final String PROP_DEBUG = PRE + "debug";
 
+	@PropDoc(group = "beetlsql", value = "是否启用Trans支持", defaultValue = "true")
+	public static final String PROP_TRANS = PRE + "trans";
+
 	@Inject("refer:$ioc")
 	protected Ioc ioc;
 
@@ -48,6 +57,7 @@ public class BeetlSqlStarter {
 	@IocBean(name = "beetlsqlDBStyle")
 	public DBStyle createDBStyle() throws Exception {
 		String type = conf.check(PROP_DBSTYLE);
+		// DBStyle的实现类总是 XXXStyle风格的命名,但大小写不一,所以需要循环判断一下
 		for (Class<?> klass : Scans.me().scanPackage(AbstractDBStyle.class.getPackage().getName())) {
 			if (klass.getName().endsWith("Style")) {
 				String name = klass.getSimpleName();
@@ -61,16 +71,24 @@ public class BeetlSqlStarter {
 
 	@IocBean(name = "beetlsqlConnectionSource")
 	public ConnectionSource createConnectionSource(@Inject DataSource dataSource) {
-		return ConnectionSourceHelper.getSingle(dataSource);
+		if (conf.getBoolean(PROP_TRANS, true)) {
+			// 默认事务管理,就是没有管理
+			return new DefaultConnectionSource(dataSource, null);
+		}
+		// 支持 Trans.exec 或者 @Aop(TransAop.READ_COMMITTED)
+		return new NutzConnectionSource(dataSource);
 	}
 
 	@IocBean(name = "beetlsqlManager")
 	public SQLManager creatSQLManager(@Inject("refer:beetlsqlDBStyle") DBStyle dbStyle,
 			@Inject("beetlsqlConnectionSource") ConnectionSource ds) {
+		// BeetlSql默认/sql/,但NutzBoot的约定是/sqls/,入乡随俗吧
 		SQLLoader loader = new ClasspathLoader(conf.get(PROP_PATH, "/sqls/"));
+		// TODO 支持更多种类的NameConversion
 		NameConversion nameconv = "default".equals(conf.get(PROP_NAME_CONVERSION, "default"))
 				? new DefaultNameConversion()
 				: new UnderlinedNameConversion();
+		// 是否插入debug拦截器呢? 默认启用好了
 		if (conf.getBoolean(PROP_DEBUG, true))
 			return new SQLManager(dbStyle, loader, ds, nameconv, new Interceptor[] { new DebugInterceptor() });
 		return new SQLManager(dbStyle, loader, ds, nameconv);

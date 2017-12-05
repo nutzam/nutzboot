@@ -6,11 +6,14 @@ import java.sql.Statement;
 
 import org.beetl.sql.core.OnConnection;
 import org.beetl.sql.core.SQLManager;
+import org.nutz.aop.interceptor.ioc.TransAop;
 import org.nutz.boot.NbApp;
+import org.nutz.ioc.aop.Aop;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
+import org.nutz.trans.Trans;
 
 import io.nutz.demo.simple.bean.User;
 
@@ -22,6 +25,7 @@ public class MainLauncher {
 
 	@At({ "/", "/index" })
 	@Ok("beetl:/index.html")
+	@Aop(TransAop.READ_COMMITTED)
 	public User index() {
 		User user = new User();
 		user.setName("admin");
@@ -45,6 +49,7 @@ public class MainLauncher {
 	}
 
 	public static void main(String[] args) throws Exception {
+		Trans.DEBUG = true;
 		new NbApp().setArgs(args).setPrintProcDoc(true).run();
 	}
 
