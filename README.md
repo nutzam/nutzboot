@@ -110,6 +110,18 @@ public class MainLauncher {
 
 期待您的到来,报个issue告知一下吧 ^_^
 
+## Contributors
+
+* 蛋蛋(提交了第一个Banner及打印逻辑)
+* 胖五(nutz.io主笔)
+* qingery(率先提交undertow)
+* 科技(Rekoe,探路者,正在踩坑)
+* 潇潇(howe,探路者,正在踩坑)
+* 道坤(探路者,正在踩坑)
+* HeTaro(探路者,正在踩坑)
+* zozoh(路过...)
+* wendal(到处挖坑)
+
 ## 文档
 
 * [NutzBoot简介](doc/overview.md)
