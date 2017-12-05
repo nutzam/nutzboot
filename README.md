@@ -114,7 +114,7 @@ public class MainLauncher {
 
 * 蛋蛋(提交了第一个Banner及打印逻辑)
 * 胖五(nutz.io主笔)
-* qingery(率先提交undertow)
+* qinerg(率先提交undertow)
 * 科技(Rekoe,探路者,正在踩坑)
 * 潇潇(howe,探路者,正在踩坑)
 * 道坤(探路者,正在踩坑)
