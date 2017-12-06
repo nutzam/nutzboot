@@ -6,7 +6,9 @@
 	* add: new NbApp()可以不传类名,从堆栈自动推断
 	* add: starter-mongodb by @qingerg
 	* add: starter-tomcat by @ben
-	* add: starter-beetlsql by wendal
+	* add: starter-beetlsql 来自beetl的SQL解决方案
+	* add: starter-sharding-jdbc 分库分表
+	* fix: jetty扫描websocket的endpoint有问题
 
 ## 2.0-RC "属于"
 
