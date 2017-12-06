@@ -18,7 +18,7 @@ import org.nutz.mvc.annotation.*;
 
 @IocBean
 public class MainLauncher {
-    
+
     @Ok("raw")
     @At("/time/now")
     public long now() {
@@ -82,7 +82,7 @@ public class MainLauncher {
 	- [x] [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
 	- [ ] Vecloity
 	- [ ] FreeMarker
-	- [ ] Thymeleaf
+	- [x] Thymeleaf
 - [ ] 消息队列
 	- [x] disque
 	- [ ] zeromq

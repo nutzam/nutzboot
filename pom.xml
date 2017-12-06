@@ -70,6 +70,7 @@
 		<module>nutzboot-starter-beetl</module>
 		<module>nutzboot-starter-jetx</module>
 		<module>nutzboot-starter-sharding-jdbc</module>
+		<module>nutzboot-starter-thymeleaf</module>
 	</modules>
 	<profiles>
 		<profile>
