@@ -51,9 +51,12 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
 
 	@PropDoc(group="jetty", value="监听的ip地址", defaultValue="0.0.0.0")
 	public static final String PROP_HOST = PRE + "host";
-	
+
 	@PropDoc(group="jetty", value="监听的端口", defaultValue="8080", type="int")
 	public static final String PROP_PORT = PRE + "port";
+	
+	@PropDoc(group="jetty", value="空闲时间,单位毫秒", defaultValue="300000", type="int")
+	public static final String PROP_IDLE_TIMEOUT = PRE + "http.idleTimeout";
 	
 	@PropDoc(group="jetty", value="上下文路径", defaultValue="/")
 	public static final String PROP_CONTEXT_PATH = PRE + "contextPath";
@@ -107,6 +110,7 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         PropertiesProxy conf = appContext.getConfigureLoader().get();
         connector.setHost(conf.get(PROP_HOST, "0.0.0.0"));
         connector.setPort(conf.getInt(PROP_PORT, 8080));
+        connector.setIdleTimeout(conf.getInt(PROP_IDLE_TIMEOUT, 300*1000));
         server.setConnectors(new Connector[]{connector});
         
         
