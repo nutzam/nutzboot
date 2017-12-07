@@ -120,6 +120,8 @@ public class AppContext implements LifeCycle {
             if (object instanceof LifeCycle)
                 ((LifeCycle) object).depose();
         }
+        if (ioc != null)
+            ioc.depose();
     }
     
     public void startServers() throws Exception {
