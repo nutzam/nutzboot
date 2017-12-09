@@ -62,10 +62,11 @@ public class UfloServletStarter extends UfloServlet implements WebServletFace {
         applicationContext.refresh();
         IocContext ictx = ((Ioc2) ioc).getIocContext();
         for (String name : applicationContext.getBeanDefinitionNames()) {
-            if (name.startsWith("uflo.") && !name.equals("uflo.dataSource")) {
+            if (name.startsWith("uflo.")) {
                 switch (name) {
                 case "uflo.props":
                 case "uflo.dataSource":
+                case "uflo.environmentProvider":
                     break;
                 default:
                     Object bean = applicationContext.getBean(name);

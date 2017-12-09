@@ -13,6 +13,7 @@
 		<property name="platformTransactionManager" ref="uflo.transactionManager" />
 		<property name="sessionFactory" ref="uflo.sessionFactory" />
 	</bean>
+	<bean id="propertyConfigurer" class="org.nutz.boot.starter.uflo.NbUfloPropertyPlaceholderConfigurer"></bean>
 	<!-- uflo总是依赖hibernate,那就给它咯 -->
 	<bean id="uflo.sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="uflo.dataSource" />
