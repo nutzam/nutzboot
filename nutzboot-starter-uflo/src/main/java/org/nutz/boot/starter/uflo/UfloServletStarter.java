@@ -1,12 +1,19 @@
 package org.nutz.boot.starter.uflo;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.nutz.boot.AppContext;
 import org.nutz.boot.starter.WebServletFace;
 import org.nutz.ioc.Ioc;
@@ -17,14 +24,17 @@ import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 
-import com.bstek.uflo.console.UfloServlet;
+import com.bstek.uflo.console.handler.ServletHandler;
 
 @SuppressWarnings("serial")
 @IocBean
-public class UfloServletStarter extends UfloServlet implements WebServletFace {
+public class UfloServletStarter extends HttpServlet implements WebServletFace {
+    
+    public static final String URL="/uflo";
+    
+    protected Map<String,ServletHandler> handlerMap = new HashMap<String,ServletHandler>();
 
     @Inject
     protected PropertiesProxy conf;
@@ -65,7 +75,6 @@ public class UfloServletStarter extends UfloServlet implements WebServletFace {
             if (name.startsWith("uflo.")) {
                 switch (name) {
                 case "uflo.props":
-                case "uflo.dataSource":
                 case "uflo.environmentProvider":
                     break;
                 default:
@@ -75,8 +84,68 @@ public class UfloServletStarter extends UfloServlet implements WebServletFace {
                 }
             }
         }
-        config.getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
-        super.init(config);
+        Collection<ServletHandler> handlers = applicationContext.getBeansOfType(ServletHandler.class).values();
+        for(ServletHandler handler:handlers){
+            String url=handler.url();
+            if(handlerMap.containsKey(url)){
+                throw new RuntimeException("Handler ["+url+"] already exist.");
+            }
+            handlerMap.put(url, handler);
+        }
+    }
+    
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try{
+            String path=req.getContextPath()+URL;
+            String uri=req.getRequestURI();
+            String targetUrl=uri.substring(path.length());
+            if(targetUrl.length()<1){
+                resp.sendRedirect(req.getContextPath()+"/uflo/todo");
+                return;
+            }
+            int slashPos=targetUrl.indexOf("/",1);
+            if(slashPos>-1){
+                targetUrl=targetUrl.substring(0,slashPos);
+            }
+            ServletHandler targetHandler=handlerMap.get(targetUrl);
+            if(targetHandler==null){
+                outContent(resp,"Handler ["+targetUrl+"] not exist.");
+                return;
+            }
+            targetHandler.execute(req, resp);
+        }catch(Exception ex){
+            Throwable e=getCause(ex);
+            resp.setCharacterEncoding("UTF-8");
+            PrintWriter pw=resp.getWriter();
+            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            String errorMsg = e.getMessage();
+            if(StringUtils.isBlank(errorMsg)){
+                errorMsg=e.getClass().getName();
+            }
+            pw.write(errorMsg);
+            pw.close();
+            throw new ServletException(ex);             
+        }
+    }
+    
+    protected Throwable getCause(Throwable e){
+        if(e.getCause()!=null){
+            return getCause(e.getCause());
+        }
+        return e;
+    }
+    
+    protected void outContent(HttpServletResponse resp,String msg) throws IOException {
+        resp.setContentType("text/html");
+        PrintWriter pw=resp.getWriter();
+        pw.write("<html>");
+        pw.write("<header><title>Uflo Console</title></header>");
+        pw.write("<body>");
+        pw.write(msg);
+        pw.write("</body>");
+        pw.write("</html>");
+        pw.flush();
+        pw.close();
     }
 
     @Override
