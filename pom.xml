@@ -71,6 +71,7 @@
 		<module>nutzboot-starter-jetx</module>
 		<module>nutzboot-starter-sharding-jdbc</module>
 		<module>nutzboot-starter-thymeleaf</module>
+		<module>nutzboot-starter-uflo</module>
 	</modules>
 	<profiles>
 		<profile>

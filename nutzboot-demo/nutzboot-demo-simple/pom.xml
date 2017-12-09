@@ -20,6 +20,8 @@
   	<module>nutzboot-demo-simple-swagger</module>
   	<module>nutzboot-demo-simple-undertow</module>
   	<module>nutzboot-demo-simple-thymeleaf</module>
+  	<module>nutzboot-demo-simple-sharding-jdbc</module>
+  	<module>nutzboot-demo-simple-uflo</module>
   </modules>
   <properties>
   </properties>
