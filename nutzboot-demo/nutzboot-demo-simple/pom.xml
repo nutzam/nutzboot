@@ -22,6 +22,7 @@
   	<module>nutzboot-demo-simple-thymeleaf</module>
   	<module>nutzboot-demo-simple-sharding-jdbc</module>
   	<module>nutzboot-demo-simple-uflo</module>
+  	<module>nutzboot-demo-simple-urule</module>
   </modules>
   <properties>
   </properties>
