@@ -10,7 +10,6 @@ import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
-import org.apache.shiro.util.StringUtils;
 import org.apache.shiro.web.env.DefaultWebEnvironment;
 import org.apache.shiro.web.env.EnvironmentLoaderListener;
 import org.apache.shiro.web.env.WebEnvironment;
@@ -65,16 +64,12 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 		if (conf.getBoolean("shiro.session.enable", true)) {
 			webSecurityManager.setSessionManager(ioc.get(WebSessionManager.class, "shiroWebSessionManager"));
 		}
-		if (conf.has("shiro.realm.names")) {
-		    List<Realm> realms = new ArrayList<>();
-		    for (String realmName : StringUtils.split(conf.get("shiro.realm.names"), ',')) {
-		        realms.add(ioc.get(Realm.class, realmName));
-		    };
+		List<Realm> realms = new ArrayList<>();
+		for (String realmName : ioc.getNamesByType(Realm.class)) {
+		    realms.add(ioc.get(Realm.class, realmName));
+		}
+		if (realms.size() > 0)
 		    webSecurityManager.setRealms(realms);
-		}
-		else if (conf.has("shiroRealm")) {
-		    webSecurityManager.setRealm(ioc.get(Realm.class, "shiroRealm"));
-		}
 		return webSecurityManager;
 	}
 
