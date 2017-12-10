@@ -1,6 +1,8 @@
 package org.nutz.boot.starter.shiro;
 
+import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.List;
 
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.cache.CacheManager;
@@ -63,11 +65,15 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 		if (conf.getBoolean("shiro.session.enable", true)) {
 			webSecurityManager.setSessionManager(ioc.get(WebSessionManager.class, "shiroWebSessionManager"));
 		}
-		String realmNames = conf.get("shiro.realm.names", "shiroRealm");
-		String[] realms = StringUtils.split(realmNames, ',');
-		for(String realm :realms) {
-			if (ioc.has(realm))
-				webSecurityManager.setRealm(ioc.get(Realm.class, realm));
+		if (conf.has("shiro.realm.names")) {
+		    List<Realm> realms = new ArrayList<>();
+		    for (String realmName : StringUtils.split(conf.get("shiro.realm.names"), ',')) {
+		        realms.add(ioc.get(Realm.class, realmName));
+		    };
+		    webSecurityManager.setRealms(realms);
+		}
+		else if (conf.has("shiroRealm")) {
+		    webSecurityManager.setRealm(ioc.get(Realm.class, "shiroRealm"));
 		}
 		return webSecurityManager;
 	}
