@@ -17,7 +17,6 @@
 		<dependency>
 			<groupId>io.zbus</groupId>
 			<artifactId>zbus</artifactId>
-			<version>0.11.0</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
