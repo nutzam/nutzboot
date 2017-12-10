@@ -8,7 +8,6 @@ import org.nutz.log.Logs;
 import org.nutz.mvc.LoadingException;
 import org.nutz.mvc.Mvcs;
 import org.nutz.mvc.NutConfig;
-import org.nutz.mvc.SessionProvider;
 import org.nutz.mvc.Setup;
 import org.nutz.mvc.UrlMapping;
 import org.nutz.mvc.annotation.Localization;
