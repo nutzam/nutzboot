@@ -72,6 +72,7 @@
 		<module>nutzboot-starter-sharding-jdbc</module>
 		<module>nutzboot-starter-thymeleaf</module>
 		<module>nutzboot-starter-uflo</module>
+		<module>nutzboot-starter-urule</module>
 	</modules>
 	<profiles>
 		<profile>
