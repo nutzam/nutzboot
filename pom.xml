@@ -73,6 +73,7 @@
 		<module>nutzboot-starter-thymeleaf</module>
 		<module>nutzboot-starter-uflo</module>
 		<module>nutzboot-starter-urule</module>
+		<module>nutzboot-starter-ureport</module>
 	</modules>
 	<profiles>
 		<profile>
