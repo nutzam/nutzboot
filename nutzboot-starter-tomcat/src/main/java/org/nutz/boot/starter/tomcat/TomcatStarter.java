@@ -121,67 +121,61 @@ public class TomcatStarter extends AbstractServletContainerFactory implements Cl
 
     @Override
     public void init() {
+        this.conf = appContext.getConfigureLoader().get();
 
-        synchronized (this.monitor) {
+        this.tomcat = new Tomcat();
 
-            this.conf = appContext.getConfigureLoader().get();
+        File baseDir = createTempDir("tomcat");
+        this.tomcat.setBaseDir(baseDir.getAbsolutePath());
 
-            this.tomcat = new Tomcat();
+        Connector connector = new Connector(this.PROP_PROTOCOL);
+        connector.setPort(getPort());
+        connector.setURIEncoding(getUriEncoding().name());
 
-            File baseDir = createTempDir("tomcat");
-            this.tomcat.setBaseDir(baseDir.getAbsolutePath());
+        //maxThread
+        this.tomcat.getService().addConnector(connector);
+        StandardThreadExecutor executor = new StandardThreadExecutor();
+        executor.setMaxThreads(getMaxThread());
+        connector.getService().addExecutor(executor);
 
-            Connector connector = new Connector(this.PROP_PROTOCOL);
-            connector.setPort(getPort());
-            connector.setURIEncoding(getUriEncoding().name());
+        // If ApplicationContext is slow to start we want Tomcat not to bind to the socket
+        // prematurely...
+        connector.setProperty("bindOnInit", "false");
 
-            //maxThread
-            this.tomcat.getService().addConnector(connector);
-            StandardThreadExecutor executor = new StandardThreadExecutor();
-            executor.setMaxThreads(getMaxThread());
-            connector.getService().addExecutor(executor);
+        this.tomcat.setConnector(connector);
 
-            // If ApplicationContext is slow to start we want Tomcat not to bind to the socket
-            // prematurely...
-            connector.setProperty("bindOnInit", "false");
+        this.tomcat.setHostname(getHost());
+        this.tomcat.getHost().setAutoDeploy(false);
+        this.tomcat.getEngine().setBackgroundProcessorDelay(30);
 
-            this.tomcat.setConnector(connector);
+        prepareContext(this.tomcat.getHost());
 
-            this.tomcat.setHostname(getHost());
-            this.tomcat.getHost().setAutoDeploy(false);
-            this.tomcat.getEngine().setBackgroundProcessorDelay(30);
+        try {
 
-            prepareContext(this.tomcat.getHost());
+            addInstanceIdToEngineName();
 
+            removeServiceConnectors();
+
+            this.tomcat.start();
+
+            this.nutzSupport();
+
+            rethrowDeferredStartupExceptions();
+
+            Context context = findContext();
             try {
-
-                addInstanceIdToEngineName();
-
-                removeServiceConnectors();
-
-                this.tomcat.start();
-
-                this.nutzSupport();
-
-                rethrowDeferredStartupExceptions();
-
-                Context context = findContext();
-                try {
-                    ContextBindings.bindClassLoader(
-                            context,
-                            getNamingToken(context),
-                            getClass().getClassLoader()
-                    );
-                } catch (NamingException ex) {
-                }
-                startDaemonAwaitThread();
-            } catch (Exception ex) {
-                this.containerCounter.decrementAndGet();
-                throw new EmbeddedServletContainerException("Unable to start embedded Tomcat", ex);
+                ContextBindings.bindClassLoader(
+                        context,
+                        getNamingToken(context),
+                        getClass().getClassLoader()
+                );
+            } catch (NamingException ex) {
             }
-
+            startDaemonAwaitThread();
+        } catch (Exception ex) {
+            this.containerCounter.decrementAndGet();
+            throw new EmbeddedServletContainerException("Unable to start embedded Tomcat", ex);
         }
-
     }
 
     @Override

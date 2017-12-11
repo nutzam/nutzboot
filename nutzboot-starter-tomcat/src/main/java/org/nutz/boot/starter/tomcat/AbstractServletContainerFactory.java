@@ -199,7 +199,6 @@ public abstract class AbstractServletContainerFactory {
 
 	protected final File getValidSessionStoreDir(boolean mkdirs) {
 		return new ApplicationTemp().getDir("servlet-sessions");
-
 	}
 
 }
