@@ -1,53 +1,53 @@
 package org.nutz.boot.starter.tomcat;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.catalina.*;
 import org.apache.catalina.connector.Connector;
+import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.core.StandardThreadExecutor;
-import org.apache.catalina.loader.WebappLoader;
 import org.apache.catalina.startup.Tomcat;
-import org.apache.jasper.servlet.JspServlet;
-import org.apache.naming.ContextBindings;
 import org.apache.tomcat.util.descriptor.web.FilterDef;
+import org.apache.tomcat.util.descriptor.web.FilterMap;
 import org.nutz.boot.AppContext;
 import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.aware.AppContextAware;
 import org.nutz.boot.aware.ClassLoaderAware;
-import org.nutz.boot.aware.IocAware;
 import org.nutz.boot.starter.ServerFace;
 import org.nutz.boot.starter.WebEventListenerFace;
 import org.nutz.boot.starter.WebFilterFace;
 import org.nutz.boot.starter.WebServletFace;
-import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
+import org.nutz.ioc.loader.annotation.Inject;
+import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerException;
-import org.springframework.boot.context.embedded.tomcat.ConnectorStartFailedException;
-import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
 import org.springframework.util.StreamUtils;
 
-import javax.naming.NamingException;
 import javax.servlet.ServletContext;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 /**
  * tomcat 启动器
  *
  * @author benjobs (benjobs@qq.com)
+ * @author wendal (wendal1985@gmail.com)
  */
-public class TomcatStarter extends AbstractServletContainerFactory implements ClassLoaderAware, IocAware, ServerFace, LifeCycle, AppContextAware {
+@IocBean
+public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, AppContextAware {
 
-    private static final Log logger = Logs.get();
+    private static final Log log = Logs.get();
 
     protected static final String PRE = "tomcat.";
 
@@ -72,75 +72,37 @@ public class TomcatStarter extends AbstractServletContainerFactory implements Cl
     public static final String PROP_PROTOCOL = "org.apache.coyote.http11.Http11NioProtocol";
 
     protected Tomcat tomcat;
-    protected TomcatContext tomcatContext;
-
+    protected StandardContext tomcatContext;
     protected ClassLoader classLoader;
-    protected Ioc ioc;
     protected AppContext appContext;
+    @Inject
     private PropertiesProxy conf;
-
-
-    private final Map<Service, Connector[]> serviceConnectors = new HashMap<Service, Connector[]>();
-
-    private final Object monitor = new Object();
 
     private static final AtomicInteger containerCounter = new AtomicInteger(-1);
 
-    private Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
-
-    private Charset uriEncoding = DEFAULT_CHARSET;
-
-    private final boolean autoStart = true;
+    private final Object monitor = new Object();
 
     private volatile boolean started;
 
-    //--getConf---
-    public int getPort() {
-        return conf.getInt(PROP_PORT, 8080);
-    }
-
-    public String getHost() {
-        return conf.get(PROP_HOST, "0.0.0.0");
-    }
-
-    public String getStaticPath() {
-        return conf.get(PROP_STATIC_PATH, "static");
-    }
-
-    public String getContextPath() {
-        return conf.get(PROP_CONTEXT_PATH, "");
-    }
-
-    public int getSessionTimeout() {
-        return conf.getInt(PROP_SESSION, 30);
-    }
-
-    public int getMaxThread() {
-        return Lang.isAndroid ? 50 : 500;
-    }
+    private Thread tomcatThread;
 
     @Override
-    public void init() {
-        this.conf = appContext.getConfigureLoader().get();
+    public void init() throws LifecycleException {
 
         this.tomcat = new Tomcat();
 
         File baseDir = createTempDir("tomcat");
         this.tomcat.setBaseDir(baseDir.getAbsolutePath());
 
-        Connector connector = new Connector(this.PROP_PROTOCOL);
+        Connector connector = new Connector(PROP_PROTOCOL);
         connector.setPort(getPort());
-        connector.setURIEncoding(getUriEncoding().name());
+        connector.setURIEncoding("UTF-8");
 
-        //maxThread
+        // 设置一下最大线程数
         this.tomcat.getService().addConnector(connector);
         StandardThreadExecutor executor = new StandardThreadExecutor();
         executor.setMaxThreads(getMaxThread());
         connector.getService().addExecutor(executor);
-
-        // If ApplicationContext is slow to start we want Tomcat not to bind to the socket
-        // prematurely...
-        connector.setProperty("bindOnInit", "false");
 
         this.tomcat.setConnector(connector);
 
@@ -148,158 +110,99 @@ public class TomcatStarter extends AbstractServletContainerFactory implements Cl
         this.tomcat.getHost().setAutoDeploy(false);
         this.tomcat.getEngine().setBackgroundProcessorDelay(30);
 
-        prepareContext(this.tomcat.getHost());
-
-        try {
-
-            addInstanceIdToEngineName();
-
-            removeServiceConnectors();
-
-            this.tomcat.start();
-
-            this.nutzSupport();
-
-            rethrowDeferredStartupExceptions();
-
-            Context context = findContext();
-            try {
-                ContextBindings.bindClassLoader(
-                        context,
-                        getNamingToken(context),
-                        getClass().getClassLoader()
-                );
-            } catch (NamingException ex) {
-            }
-            startDaemonAwaitThread();
-        } catch (Exception ex) {
-            this.containerCounter.decrementAndGet();
-            throw new EmbeddedServletContainerException("Unable to start embedded Tomcat", ex);
-        }
+        this.prepareContext();
     }
 
-    @Override
-    public void start() throws EmbeddedServletContainerException {
+    public void start() throws LifecycleException {
         synchronized (this.monitor) {
             if (this.started) {
                 return;
             }
-            try {
-                addPreviouslyRemovedConnectors();
-                Connector connector = this.tomcat.getConnector();
-                if (connector != null && this.autoStart) {
-                    startConnector(connector);
+            this.tomcat.start();
+
+            tomcatThread = new Thread("container-" + (containerCounter.get())) {
+                @Override
+                public void run() {
+                    TomcatStarter.this.tomcat.getServer().await();
                 }
-                checkThatConnectorsHaveStarted();
-                this.started = true;
-                logger.info("Tomcat started on port(s): " + getPortsDescription(true));
-            } catch (ConnectorStartFailedException ex) {
-                stopSilently();
-                throw ex;
-            } catch (Exception ex) {
-                throw new EmbeddedServletContainerException(
-                        "Unable to start embedded Tomcat servlet container", ex);
-            } finally {
-                Context context = findContext();
-                ContextBindings.unbindClassLoader(context, getNamingToken(context),
-                        getClass().getClassLoader());
+            };
+            tomcatThread.setContextClassLoader(getClass().getClassLoader());
+            tomcatThread.setDaemon(false);
+            tomcatThread.start();
+            this.started = true;
+        }
+    }
+
+    public void stop() throws LifecycleException {
+        synchronized (this.monitor) {
+            if (started) {
+                this.tomcat.stop();
+                this.tomcat = null;
+                this.tomcatThread.interrupt();
+                this.started = false;
             }
         }
     }
 
-    @Override
-    public void stop() throws LifecycleException {
-        this.tomcat.stop();
-        this.started = false;
-    }
-
-    @Override
     public boolean isRunning() {
         return this.started;
     }
 
-    @Override
     public void setAppContext(AppContext appContext) {
         this.appContext = appContext;
     }
 
-    @Override
     public void setClassLoader(ClassLoader classLoader) {
         this.classLoader = classLoader;
     }
 
-    @Override
-    public void setIoc(Ioc ioc) {
-        this.ioc = ioc;
-    }
-
-    @Override
     public boolean failsafe() {
         return false;
     }
 
+    public void fetch() {}
 
-    @Override
-    public void fetch() {
-
+    public void depose() throws LifecycleException {
+        if (this.tomcat != null) {
+            this.stop();
+        }
     }
 
-    @Override
-    public void depose() {
+    private void prepareContext() {
 
-    }
+        File docBase = createTempDir("tomcat-docbase");
 
-    private void prepareContext(Host host) {
-
-         File docBase = getValidDocumentRoot(getStaticPath());
-         docBase = (docBase != null ? docBase : createTempDir("tomcat-docbase"));
-
-        this.tomcatContext = new TomcatContext();
+        this.tomcatContext = new StandardContext();
+        this.tomcatContext.setDocBase(docBase.getAbsolutePath());
         this.tomcatContext.setName(getContextPath());
         this.tomcatContext.setPath(getContextPath());
-        this.tomcatContext.setDocBase(docBase.getAbsolutePath());
         this.tomcatContext.addLifecycleListener(new Tomcat.FixContextListener());
-        this.tomcatContext.setParentClassLoader(ClassUtils.getDefaultClassLoader());
-
-        for (String welcomeFile : Arrays.asList("index.html", "index.htm", "index.jsp", "index.do")) {
-            this.tomcatContext.addWelcomeFile(welcomeFile);
-        }
-
-        resetDefaultLocaleMapping();
+        this.tomcatContext.setParentClassLoader(classLoader);
+        this.tomcatContext.setSessionTimeout(getSessionTimeout());
+        this.tomcatContext.addLifecycleListener(new StoreMergedWebXmlListener());
 
         try {
             this.tomcatContext.setUseRelativeRedirects(false);
         } catch (NoSuchMethodError ex) {
             // Tomcat is < 8.0.30. Continue
         }
-        WebappLoader loader = new WebappLoader(tomcatContext.getParentClassLoader());
-        loader.setLoaderClass(TomcatWebappClassLoader.class.getName());
-        loader.setDelegate(true);
-        this.tomcatContext.setLoader(loader);
 
-        //注册defaultServlet
+        for (String welcomeFile : Arrays.asList("index.html",
+                "index.htm",
+                "index.jsp",
+                "index.do")) {
+            this.tomcatContext.addWelcomeFile(welcomeFile);
+        }
+
+        // 注册defaultServlet
         addDefaultServlet();
 
-        //注册JspServlet
-        addJspServlet();
+        addNutzSupport();
 
-        this.tomcatContext.addLifecycleListener(new StoreMergedWebXmlListener());
-
-        this.tomcatContext.addLifecycleListener(new LifecycleListener() {
-            @Override
-            public void lifecycleEvent(LifecycleEvent event) {
-                if (event.getType().equals(Lifecycle.CONFIGURE_START_EVENT)) {
-                    TomcatResources.get(TomcatStarter.this.tomcatContext)
-                            .addResourceJars(getUrlsOfJarsWithMetaInfResources());
-                }
-            }
-        });
-
-        host.addChild(tomcatContext);
+        this.tomcat.getHost().addChild(tomcatContext);
     }
 
-    private void nutzSupport() {
-        // 添加其他starter提供的WebXXXX服务
+    private void addNutzSupport() {
         Map<String, WebFilterFace> filters = new HashMap<String, WebFilterFace>();
         for (Object object : appContext.getStarters()) {
             if (object instanceof WebFilterFace) {
@@ -324,11 +227,13 @@ public class TomcatStarter extends AbstractServletContainerFactory implements Cl
                 this.tomcatContext.addApplicationEventListener(contextListener.getEventListener());
             }
         }
+
         String _filterOrders = conf.get(PROP_WEB_FILTERS_ORDER);
         if (_filterOrders == null)
             _filterOrders = "whale,druid,shiro,nutz";
         else if (_filterOrders.endsWith("+")) {
-            _filterOrders = _filterOrders.substring(0, _filterOrders.length() - 1) + ",whale,druid,shiro,nutz";
+            _filterOrders = _filterOrders.substring(0, _filterOrders.length() - 1)
+                    + ",whale,druid,shiro,nutz";
         }
         String[] filterOrders = Strings.splitIgnoreBlank(_filterOrders);
 
@@ -352,20 +257,10 @@ public class TomcatStarter extends AbstractServletContainerFactory implements Cl
         addServletMapping("/", "default");
     }
 
-    private void addJspServlet() {
-        Wrapper jspServlet = this.tomcatContext.createWrapper();
-        jspServlet.setName("jsp");
-        jspServlet.setServletClass(JspServlet.class.getName());
-        jspServlet.addInitParameter("fork", "false");
-        jspServlet.addInitParameter("development", "false");
-        jspServlet.setLoadOnStartup(3);
-        this.tomcatContext.addChild(jspServlet);
-        addServletMapping("*.jsp", "jsp");
-        addServletMapping("*.jspx", "jsp");
-    }
-
     private void addServlet(WebServletFace webServlet) {
-        logger.debugf("[NutzBoot] add servlet name=%s pathSpec=%s", webServlet.getName(), webServlet.getPathSpec());
+        log.debugf("[NutzBoot] add servlet name=%s pathSpec=%s",
+                webServlet.getName(),
+                webServlet.getPathSpec());
 
         Wrapper servlet = tomcatContext.createWrapper();
         servlet.setName(webServlet.getName());
@@ -375,7 +270,7 @@ public class TomcatStarter extends AbstractServletContainerFactory implements Cl
             servlet.addInitParameter(entry.getKey(), entry.getValue());
         }
         servlet.setOverridable(true);
-        tomcatContext.addChild(servlet);
+        this.tomcatContext.addChild(servlet);
         addServletMapping(webServlet.getPathSpec(), webServlet.getName());
     }
 
@@ -383,7 +278,7 @@ public class TomcatStarter extends AbstractServletContainerFactory implements Cl
         if (filterFace == null || filterFace.getFilter() == null) {
             return;
         }
-        logger.debugf("[NutzBoot] add filter name=%s pathSpec=%s", filterFace.getName(), filterFace.getPathSpec());
+        log.debugf("[NutzBoot] add filter name=%s pathSpec=%s",filterFace.getName(),filterFace.getPathSpec());
         FilterDef filterDef = new FilterDef();
         filterDef.setFilter(filterFace.getFilter());
         filterDef.setFilterName(filterFace.getName());
@@ -394,135 +289,18 @@ public class TomcatStarter extends AbstractServletContainerFactory implements Cl
             }
         }
         this.tomcatContext.addFilterDef(filterDef);
-    }
 
-    private Context findContext() {
-        for (Container child : this.tomcat.getHost().findChildren()) {
-            if (child instanceof Context) {
-                return (Context) child;
-            }
-        }
-        throw new IllegalStateException("The host does not contain a Context");
-    }
-
-    private void addInstanceIdToEngineName() {
-        int instanceId = containerCounter.incrementAndGet();
-        if (instanceId > 0) {
-            Engine engine = this.tomcat.getEngine();
-            engine.setName(engine.getName() + "-" + instanceId);
-        }
-    }
-
-    private void removeServiceConnectors() {
-        for (Service service : this.tomcat.getServer().findServices()) {
-            Connector[] connectors = service.findConnectors().clone();
-            this.serviceConnectors.put(service, connectors);
-            for (Connector connector : connectors) {
-                service.removeConnector(connector);
-            }
-        }
-    }
-
-    private void rethrowDeferredStartupExceptions() {
-        Container[] children = this.tomcat.getHost().findChildren();
-        for (Container container : children) {
-            if (!LifecycleState.STARTED.equals(container.getState())) {
-                throw new IllegalStateException(container + " failed to start");
-            }
-        }
-    }
-
-    private void addPreviouslyRemovedConnectors() {
-        Service[] services = this.tomcat.getServer().findServices();
-        for (Service service : services) {
-            Connector[] connectors = this.serviceConnectors.get(service);
-            if (connectors != null) {
-                for (Connector connector : connectors) {
-                    service.addConnector(connector);
-                    if (!this.autoStart) {
-                        stopProtocolHandler(connector);
-                    }
-                }
-                this.serviceConnectors.remove(service);
-            }
-        }
-    }
-
-    private void stopProtocolHandler(Connector connector) {
-        try {
-            connector.getProtocolHandler().stop();
-        } catch (Exception ex) {
-            logger.error("Cannot pause connector: ", ex);
-        }
-    }
-
-    private void startConnector(Connector connector) {
-        try {
-            for (Container child : this.tomcat.getHost().findChildren()) {
-                if (child instanceof TomcatContext) {
-                    ((TomcatContext) child).deferredLoadOnStartup();
-                }
-            }
-        } catch (Exception ex) {
-            logger.error("Cannot start connector: ", ex);
-            throw new EmbeddedServletContainerException(
-                    "Unable to start embedded Tomcat connectors", ex);
-        }
-    }
-
-    private void checkThatConnectorsHaveStarted() {
-        for (Connector connector : this.tomcat.getService().findConnectors()) {
-            if (LifecycleState.FAILED.equals(connector.getState())) {
-                throw new ConnectorStartFailedException(connector.getPort());
-            }
-        }
-    }
-
-    private void resetDefaultLocaleMapping() {
-        this.tomcatContext.addLocaleEncodingMappingParameter(Locale.ENGLISH.toString(), DEFAULT_CHARSET.displayName());
-        this.tomcatContext.addLocaleEncodingMappingParameter(Locale.FRENCH.toString(), DEFAULT_CHARSET.displayName());
+        FilterMap filterMap = new FilterMap();
+        filterMap.addURLPatternDecoded(filterFace.getPathSpec());
+        filterMap.setFilterName(filterFace.getName());
+        this.tomcatContext.addFilterMap(filterMap);
     }
 
     private void addServletMapping(String pattern, String name) {
         this.tomcatContext.addServletMappingDecoded(pattern, name);
     }
 
-    private void startDaemonAwaitThread() {
-        Thread awaitThread = new Thread("container-" + (containerCounter.get())) {
-            @Override
-            public void run() {
-                TomcatStarter.this.tomcat.getServer().await();
-            }
-        };
-        awaitThread.setContextClassLoader(getClass().getClassLoader());
-        awaitThread.setDaemon(false);
-        awaitThread.start();
-    }
-
-    private void stopSilently() {
-        try {
-            stop();
-        } catch (LifecycleException ex) {
-            // Ignore
-        }
-    }
-
-    private String getPortsDescription(boolean localPort) {
-        StringBuilder ports = new StringBuilder();
-        for (Connector connector : this.tomcat.getService().findConnectors()) {
-            ports.append(ports.length() == 0 ? "" : " ");
-            int port = (localPort ? connector.getLocalPort() : connector.getPort());
-            ports.append(port + " (" + connector.getScheme() + ")");
-        }
-        return ports.toString();
-    }
-
-
-    public Charset getUriEncoding() {
-        return uriEncoding;
-    }
-
-    protected File createTempDir(String prefix) {
+    private File createTempDir(String prefix) {
         try {
             File tempDir = File.createTempFile(prefix + ".", "." + getPort());
             tempDir.delete();
@@ -557,10 +335,19 @@ public class TomcatStarter extends AbstractServletContainerFactory implements Cl
 
         private String getEmptyWebXml() {
             InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream("empty-web.xml");
-            Assert.state(stream != null, "Unable to read empty web.xml");
+            if (stream == null) {
+                throw new IllegalArgumentException("Unable to read empty web.xml");
+            }
             try {
                 try {
-                    return StreamUtils.copyToString(stream, Charset.forName("UTF-8"));
+                    StringBuilder out = new StringBuilder();
+                    InputStreamReader reader = new InputStreamReader(stream, Charset.forName("UTF-8"));
+                    char[] buffer = new char[ 1024*4 ];
+                    int bytesRead = -1;
+                    while ((bytesRead = reader.read(buffer)) != -1) {
+                        out.append(buffer, 0, bytesRead);
+                    }
+                    return out.toString();
                 } finally {
                     stream.close();
                 }
@@ -571,13 +358,29 @@ public class TomcatStarter extends AbstractServletContainerFactory implements Cl
 
     }
 
-    private Object getNamingToken(Context context) {
-        try {
-            return context.getNamingToken();
-        } catch (NoSuchMethodError ex) {
-            // Use the context itself on Tomcat 7
-            return context;
-        }
 
+    // --getConf---
+    public int getPort() {
+        return conf.getInt(PROP_PORT, 8080);
+    }
+
+    public String getHost() {
+        return conf.get(PROP_HOST, "0.0.0.0");
+    }
+
+    public String getStaticPath() {
+        return conf.get(PROP_STATIC_PATH, "static");
+    }
+
+    public String getContextPath() {
+        return conf.get(PROP_CONTEXT_PATH, "");
+    }
+
+    public int getSessionTimeout() {
+        return conf.getInt(PROP_SESSION, 30);
+    }
+
+    public int getMaxThread() {
+        return Lang.isAndroid ? 50 : 500;
     }
 }
