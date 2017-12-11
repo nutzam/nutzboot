@@ -13,12 +13,18 @@
   	<module>nutzboot-demo-simple-redis</module>
   	<module>nutzboot-demo-simple-mongodb</module>
   	<module>nutzboot-demo-simple-beetl</module>
+  	<module>nutzboot-demo-simple-beetlsql</module>
   	<module>nutzboot-demo-simple-jetx</module>
   	<module>nutzboot-demo-simple-mvc-ngrok</module>
   	<module>nutzboot-demo-simple-mvc-shiro</module>
   	<module>nutzboot-demo-simple-swagger</module>
   	<module>nutzboot-demo-simple-undertow</module>
-	<module>nutzboot-demo-simple-tomcat</module>
+	  <module>nutzboot-demo-simple-tomcat</module>
+  	<module>nutzboot-demo-simple-thymeleaf</module>
+  	<module>nutzboot-demo-simple-sharding-jdbc</module>
+  	<module>nutzboot-demo-simple-uflo</module>
+  	<module>nutzboot-demo-simple-urule</module>
+  	<module>nutzboot-demo-simple-ureport</module>
   </modules>
   <properties>
   </properties>

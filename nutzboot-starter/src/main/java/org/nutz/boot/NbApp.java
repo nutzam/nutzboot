@@ -44,7 +44,7 @@ import org.nutz.mvc.annotation.IocBy;
  * @author wendal
  *
  */
-public class NbApp {
+public class NbApp extends Thread {
     
 	/**
 	 *  日志属性要等日志适配器准备好了才能加载,这里不可以使用Logs.get();
@@ -87,6 +87,8 @@ public class NbApp {
     protected List<Class<?>> starterClasses;
     
     protected boolean prepared;
+    
+    protected Object lock = new Object();
     
     /**
      * 创建一个NbApp,把调用本构造方法的类作为mainClass
@@ -147,10 +149,18 @@ public class NbApp {
 		return ctx;
 	}
     
+    public void run() {
+        try {
+            _run();
+        } catch (Throwable e) {
+            Logs.get().error("something happen", e);
+        }
+    }
+    
     /**
      * 启动整个NbApp
      */
-    public void run() throws Exception {
+    public void _run() throws Exception {
     	Stopwatch sw = Stopwatch.begin();
 
         // 各种预备操作
@@ -163,22 +173,33 @@ public class NbApp {
     	}
         
         // 依次启动
-        ctx.init();
-        
-        ctx.startServers();
-        
-        if (mainClass.getAnnotation(IocBean.class) != null)
-        	ctx.getIoc().get(mainClass);
-        
-        sw.stop();
-        log.infof("NB started : %sms", sw.du());
-        
-        // 等待关闭
-        Lang.quiteSleep(Integer.MAX_VALUE);
-        
+    	try {
+            ctx.init();
+
+            ctx.startServers();
+
+            if (mainClass.getAnnotation(IocBean.class) != null)
+                ctx.getIoc().get(mainClass);
+
+            sw.stop();
+            log.infof("NB started : %sms", sw.du());
+            synchronized (lock) {
+                lock.wait();
+            }
+    	}
+    	catch (Throwable e) {
+            log.error("something happen!!", e);
+        }
         // 收尾
         ctx.stopServers();
         ctx.depose();
+    }
+    
+    public void shutdown() {
+        log.info("ok, shutting down ...");
+        synchronized (lock) {
+            lock.notify();
+        }
     }
     
     /**

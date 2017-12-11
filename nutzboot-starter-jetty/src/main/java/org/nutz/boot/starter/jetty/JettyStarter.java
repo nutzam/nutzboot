@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.websocket.server.ServerContainer;
+import javax.websocket.server.ServerEndpoint;
+
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -21,6 +24,7 @@ import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer;
 import org.nutz.boot.AppContext;
 import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.aware.AppContextAware;
@@ -37,6 +41,7 @@ import org.nutz.lang.Strings;
 import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
+import org.nutz.resource.Scans;
 
 public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, LifeCycle, AppContextAware {
 	
@@ -46,9 +51,12 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
 
 	@PropDoc(group="jetty", value="监听的ip地址", defaultValue="0.0.0.0")
 	public static final String PROP_HOST = PRE + "host";
-	
+
 	@PropDoc(group="jetty", value="监听的端口", defaultValue="8080", type="int")
 	public static final String PROP_PORT = PRE + "port";
+	
+	@PropDoc(group="jetty", value="空闲时间,单位毫秒", defaultValue="300000", type="int")
+	public static final String PROP_IDLE_TIMEOUT = PRE + "http.idleTimeout";
 	
 	@PropDoc(group="jetty", value="上下文路径", defaultValue="/")
 	public static final String PROP_CONTEXT_PATH = PRE + "contextPath";
@@ -102,6 +110,7 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         PropertiesProxy conf = appContext.getConfigureLoader().get();
         connector.setHost(conf.get(PROP_HOST, "0.0.0.0"));
         connector.setPort(conf.getInt(PROP_PORT, 8080));
+        connector.setIdleTimeout(conf.getInt(PROP_IDLE_TIMEOUT, 300*1000));
         server.setConnectors(new Connector[]{connector});
         
         
@@ -152,6 +161,13 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         server.setDumpBeforeStop(false);
         server.setStopAtShutdown(true);
         
+        ServerContainer sc = WebSocketServerContainerInitializer.configureContext(wac);
+        for (Class<?> klass : Scans.me().scanPackage(appContext.getPackage())) {
+			if (klass.getAnnotation(ServerEndpoint.class) != null) {
+				sc.addEndpoint(klass);
+			}
+		}
+
         // 添加其他starter提供的WebXXXX服务
         Map<String, WebFilterFace> filters = new HashMap<>();
         for (Object object : appContext.getStarters()) {

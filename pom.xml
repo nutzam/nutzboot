@@ -44,6 +44,7 @@
 	</scm>
 	<modules>
 		<module>nutzboot-starter</module>
+		<module>nutzboot-starter-beetlsql</module>
 		<module>nutzboot-starter-jetty</module>
 		<module>nutzboot-starter-undertow</module>
 		<module>nutzboot-starter-tomcat</module>
@@ -69,6 +70,11 @@
 		<module>nutzboot-starter-disque</module>
 		<module>nutzboot-starter-beetl</module>
 		<module>nutzboot-starter-jetx</module>
+		<module>nutzboot-starter-sharding-jdbc</module>
+		<module>nutzboot-starter-thymeleaf</module>
+		<module>nutzboot-starter-uflo</module>
+		<module>nutzboot-starter-urule</module>
+		<module>nutzboot-starter-ureport</module>
 	</modules>
 	<profiles>
 		<profile>
@@ -220,7 +226,7 @@
 			<dependency>
 				<groupId>org.thymeleaf</groupId>
 				<artifactId>thymeleaf</artifactId>
-				<version>3.0.8.RELEASE</version>
+				<version>3.0.9.RELEASE</version>
 			</dependency>
 
 			<dependency>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    ">
+	<!-- 定义各种nutz提供的bean -->
+	<bean id="nutz.appContext" class="org.nutz.boot.AppContext" factory-method="getDefault" lazy-init="true"/>
+	<bean id="nutz.ioc" class="org.nutz.ioc.impl.NutIoc" factory-bean="nutz.appContext" factory-method="getIoc" lazy-init="true"/>
+	<bean id="nutz.dataSource" class="javax.sql.DataSource" factory-bean="nutz.ioc" factory-method="get" lazy-init="true">
+		<constructor-arg type="java.lang.Class" value="javax.sql.DataSource"></constructor-arg>
+		<constructor-arg value="dataSource"></constructor-arg>
+	</bean>
+	<bean id="nutz.conf" class="org.nutz.ioc.impl.PropertiesProxy" factory-bean="nutz.appContext" factory-method="getConf" lazy-init="true"/>
+	<bean id="nutz.spring.propertyPlaceHolder" class="org.nutz.boot.tools.Nb2SpringPropertyPlaceholder" lazy-init="true">
+		<property name="conf" ref="nutz.conf"></property>
+	</bean>
+</beans>

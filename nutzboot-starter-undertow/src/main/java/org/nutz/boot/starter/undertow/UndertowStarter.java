@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
+import javax.servlet.Servlet;
 
 import org.nutz.boot.AppContext;
 import org.nutz.boot.annotation.PropDoc;
@@ -36,10 +38,9 @@ import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 import io.undertow.servlet.api.FilterInfo;
-import io.undertow.servlet.api.InstanceFactory;
-import io.undertow.servlet.api.InstanceHandle;
 import io.undertow.servlet.api.ListenerInfo;
 import io.undertow.servlet.api.ServletInfo;
+import io.undertow.servlet.util.ImmediateInstanceFactory;
 
 /**
  * Undertow 启动器
@@ -173,14 +174,15 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 	    if (webServlet == null || webServlet.getServlet() == null)
             return;
 	    
-	    ServletInfo servlet = new ServletInfo(webServlet.getName(), webServlet.getServlet().getClass());
+	    log.debugf("add servlet name=%s pathSpec=%s", webServlet.getName(), webServlet.getPathSpec());
+	    ImmediateInstanceFactory<Servlet> factory = new ImmediateInstanceFactory<Servlet>(webServlet.getServlet());
+	    ServletInfo servlet = new ServletInfo(webServlet.getName(), webServlet.getServlet().getClass(), factory);
         Iterator<Map.Entry<String, String>> entries = webServlet.getInitParameters().entrySet().iterator();
         while (entries.hasNext()) {
             Map.Entry<String, String> entry = entries.next();
             servlet.addInitParam(entry.getKey(), entry.getValue());
         }
         servlet.addMapping(webServlet.getPathSpec());
-        log.debugf("add servlet name=%s pathSpec=%s", webServlet.getName(), webServlet.getPathSpec());
         deployment.addServlet(servlet);
 	}
 
@@ -189,7 +191,8 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 			return;
 
 		log.debugf("add filter name=%s pathSpec=%s", webFilter.getName(), webFilter.getPathSpec());
-		FilterInfo filter = new FilterInfo(webFilter.getName(), webFilter.getFilter().getClass());
+		ImmediateInstanceFactory<Filter> factory = new ImmediateInstanceFactory<Filter>(webFilter.getFilter());
+		FilterInfo filter = new FilterInfo(webFilter.getName(), webFilter.getFilter().getClass(), factory);
 		Iterator<Map.Entry<String, String>> entries = webFilter.getInitParameters().entrySet().iterator();
 		while (entries.hasNext()) {
 			Map.Entry<String, String> entry = entries.next();
@@ -205,18 +208,9 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 			return;
 
 		EventListener et = webEventListener.getEventListener();
-		ListenerInfo listener = new ListenerInfo(et.getClass());
-		listener.setInstanceFactory(new InstanceFactory<EventListener>() {
-			public InstanceHandle<EventListener> createInstance() throws InstantiationException {
-				return new InstanceHandle<EventListener>() {
-					public EventListener getInstance() {
-						return et;
-					}
-					public void release() {
-					}
-				};
-			}
-		});
+		log.debugf("add listener %s", et.getClass());
+		ImmediateInstanceFactory<EventListener> factory = new ImmediateInstanceFactory<EventListener>(et);
+		ListenerInfo listener = new ListenerInfo(et.getClass(), factory);
 		deployment.addListener(listener);
 	}
 

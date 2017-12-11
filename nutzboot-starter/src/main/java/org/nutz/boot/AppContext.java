@@ -8,6 +8,7 @@ import org.nutz.boot.env.EnvHolder;
 import org.nutz.boot.resource.ResourceLoader;
 import org.nutz.boot.starter.ServerFace;
 import org.nutz.ioc.Ioc;
+import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.combo.ComboIocLoader;
 import org.nutz.lang.util.LifeCycle;
 
@@ -47,6 +48,10 @@ public class AppContext implements LifeCycle {
     
     public ConfigureLoader getConfigureLoader() {
         return configureLoader;
+    }
+    
+    public PropertiesProxy getConf() {
+        return configureLoader.get();
     }
     
     public ResourceLoader getResourceLoader() {
@@ -120,6 +125,8 @@ public class AppContext implements LifeCycle {
             if (object instanceof LifeCycle)
                 ((LifeCycle) object).depose();
         }
+        if (ioc != null)
+            ioc.depose();
     }
     
     public void startServers() throws Exception {
