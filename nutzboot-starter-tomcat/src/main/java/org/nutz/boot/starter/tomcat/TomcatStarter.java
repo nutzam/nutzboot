@@ -33,13 +33,16 @@ import org.nutz.lang.Strings;
 import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
-import org.springframework.util.StreamUtils;
 
 import javax.servlet.ServletContext;
 
 
 /**
+ *
  * tomcat 启动器
+ *
+ * 十步杀一人  千里不留行
+ * 事了扶衣去  深藏功与名
  *
  * @author benjobs (benjobs@qq.com)
  * @author wendal (wendal1985@gmail.com)
