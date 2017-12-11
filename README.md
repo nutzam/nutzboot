@@ -41,8 +41,8 @@ public class MainLauncher {
 - [ ] 服务器类启动器
 	- [ ] web类启动器
 		- [x] [Jetty](https://www.eclipse.org/jetty/)
-		- [x] [Undertow](http://undertow.io/) by @qinerg
-		- [ ] [Tomcat](http://tomcat.apache.org/)
+		- [x] [Undertow](http://undertow.io/) by [@qinerg](https://github.com/qinerg)
+		- [x] [Tomcat](http://tomcat.apache.org/) by [@benjobs](https://github.com/benjobs)
 	- [ ] 非Web类启动器
 		- [ ] [netty](https://netty.io/)
 		- [ ] [mina](https://mina.apache.org/)
@@ -123,6 +123,7 @@ public class MainLauncher {
 * 蛋蛋(提交了第一个Banner及打印逻辑)
 * 胖五(nutz.io主笔)
 * [qinerg](https://github.com/qinerg)(率先提交undertow)
+* [benjobs](https://github.com/benjobs)(提交了tomcat)
 * [温泉](https://github.com/ywjno)(提交thymeleaf)
 * 科技(Rekoe,探路者,正在踩坑)
 * 潇潇(howe,探路者,正在踩坑)
@@ -130,6 +131,7 @@ public class MainLauncher {
 * HeTaro(探路者,正在踩坑)
 * zozoh(路过...)
 * wendal(到处挖坑)
+* 还有您的名字哦,告知我们吧
 
 ## 文档
 
