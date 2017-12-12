@@ -26,7 +26,7 @@ public class MainLauncher {
     }
 
     public static void main(String[] args) throws Exception {
-        new NbApp(MainLauncher.class).run();
+        new NbApp().run();
     }
 }
 ```
@@ -101,10 +101,11 @@ public class MainLauncher {
 	- [ ] drools
 - [ ] 报表系统
 	- [x] ureport 中式报表
-	- [ ] drools
+	- [ ] jreport
 - [ ] 开放平台
 	- [ ] 微信公众号开放平台
 		- [x] [NutzWX](https://github.com/nutzam/nutzwx) Weixin Api By Nutz
+		- [ ] [weixin-java-tools](https://gitee.com/binary/weixin-java-tools)
 - [ ] 云平台
 	- [ ] [阿里云](https://aliyun.com)
 	- [ ] [腾讯云](https://qcloud.com)

@@ -113,7 +113,6 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         // 创建基础服务器
         server = new Server(new QueuedThreadPool(getMaxThread()));
         ServerConnector connector = new ServerConnector(server);
-        PropertiesProxy conf = appContext.getConfigureLoader().get();
         connector.setHost(getHost());
         connector.setPort(getPort());
         connector.setIdleTimeout(getIdleTimeout());

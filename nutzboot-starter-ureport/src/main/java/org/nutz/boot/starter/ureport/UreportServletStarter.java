@@ -2,8 +2,10 @@ package org.nutz.boot.starter.ureport;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.Servlet;
@@ -16,10 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.nutz.boot.AppContext;
 import org.nutz.boot.starter.WebServletFace;
+import org.nutz.integration.spring.SpringIocLoader2;
 import org.nutz.ioc.Ioc;
-import org.nutz.ioc.Ioc2;
-import org.nutz.ioc.IocContext;
-import org.nutz.ioc.ObjectProxy;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -71,19 +71,18 @@ public class UreportServletStarter extends HttpServlet implements WebServletFace
         applicationContext.setServletContext(config.getServletContext());
         applicationContext.setConfigLocation("classpath:ureport-spring-context.xml");
         applicationContext.refresh();
-        IocContext ictx = ((Ioc2) ioc).getIocContext();
+        List<String> names = new ArrayList<>();
         for (String name : applicationContext.getBeanDefinitionNames()) {
             if (name.startsWith("ureport.")) {
                 switch (name) {
                 case "ureport.props":
                     break;
                 default:
-                    Object bean = applicationContext.getBean(name);
-                    ictx.save("app", name, new ObjectProxy(bean));
-                    break;
+                    names.add(name);
                 }
             }
         }
+        appContext.getComboIocLoader().addLoader(new SpringIocLoader2(applicationContext, names.toArray(new String[names.size()])));
         Collection<ServletAction> handlers = applicationContext.getBeansOfType(ServletAction.class).values();
         for(ServletAction handler:handlers){
             String url=handler.url();
