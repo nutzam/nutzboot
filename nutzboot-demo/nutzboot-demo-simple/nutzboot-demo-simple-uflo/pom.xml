@@ -20,12 +20,22 @@
 		</dependency>
 		<dependency>
 			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-jdbc</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.193</version>
 		</dependency>
 	</dependencies>
 	<build>
