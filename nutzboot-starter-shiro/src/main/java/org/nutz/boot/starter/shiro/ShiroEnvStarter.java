@@ -8,13 +8,18 @@ import org.apache.shiro.ShiroException;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
+import org.apache.shiro.mgt.RememberMeManager;
 import org.apache.shiro.realm.Realm;
+import org.apache.shiro.session.InvalidSessionException;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
+import org.apache.shiro.subject.SubjectContext;
 import org.apache.shiro.web.env.DefaultWebEnvironment;
 import org.apache.shiro.web.env.EnvironmentLoaderListener;
 import org.apache.shiro.web.env.WebEnvironment;
 import org.apache.shiro.web.filter.mgt.FilterChainResolver;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.mgt.WebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
@@ -23,6 +28,7 @@ import org.apache.shiro.web.session.mgt.WebSessionManager;
 import org.nutz.boot.AppContext;
 import org.nutz.boot.starter.WebEventListenerFace;
 import org.nutz.integration.jedis.JedisAgent;
+import org.nutz.integration.shiro.SimplePrincipalSerializer;
 import org.nutz.integration.shiro.UU32SessionIdGenerator;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
@@ -55,10 +61,35 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 	public WebEnvironment createWebEnvironment() {
 		return new DefaultWebEnvironment();
 	}
+	
+	@IocBean(name = "shiroRememberMeManager")
+	public RememberMeManager createRememberMeManager() {
+	    CookieRememberMeManager rememberMeManager = new CookieRememberMeManager();
+	    rememberMeManager.setSerializer(new SimplePrincipalSerializer());
+	    SimpleCookie cookie = new SimpleCookie();
+	    cookie.setName("rememberMe");
+	    cookie.setHttpOnly(true);
+	    rememberMeManager.setCookie(cookie);
+	    return rememberMeManager;
+	}
 
 	@IocBean(name = "shiroWebSecurityManager")
 	public WebSecurityManager getWebSecurityManager() {
-		DefaultWebSecurityManager webSecurityManager = new DefaultWebSecurityManager();
+		DefaultWebSecurityManager webSecurityManager = new DefaultWebSecurityManager() {
+		    protected SubjectContext resolveSession(SubjectContext context) {
+		        if (context.resolveSession() != null) {
+		            return context;
+		        }
+		        try {
+		            Session session = resolveContextSession(context);
+		            if (session != null) {
+		                context.setSession(session);
+		            }
+		        } catch (InvalidSessionException e) {
+		        }
+		        return context;
+		    }
+		};
 
 		// Shiro Session相关
 		if (conf.getBoolean("shiro.session.enable", true)) {
@@ -70,6 +101,7 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 		}
 		if (realms.size() > 0)
 		    webSecurityManager.setRealms(realms);
+		webSecurityManager.setRememberMeManager(ioc.get(RememberMeManager.class, "shiroRememberMeManager"));
 		return webSecurityManager;
 	}
 
