@@ -37,7 +37,6 @@ import org.nutz.log.Logs;
 
 import javax.servlet.ServletContext;
 
-
 /**
  * tomcat 启动器
  * <p>
@@ -131,7 +130,6 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
                 return;
             }
             this.tomcat.start();
-
             tomcatAwaitThread = new Thread("container-" + (containerCounter.get())) {
                 @Override
                 public void run() {
@@ -232,6 +230,7 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
                     addServlet(webServlet);
                 }
             }
+
             if (object instanceof WebEventListenerFace) {
                 WebEventListenerFace contextListener = (WebEventListenerFace) object;
                 if (contextListener != null && contextListener.getEventListener() != null) {
