@@ -82,13 +82,9 @@ public class MainLauncher {
         
         // maven wrapper from https://github.com/takari/maven-wrapper
         String key = tmpRoot.getName();
-        _copy(key, "mvnw");
-        _copy(key, "mvnw.cmd");
-        _copy(key, ".mvn/wrapper/maven-wrapper.properties");
-        _copy(key, ".mvn/wrapper/maven-wrapper.jar");
         
         // 拷贝个简介
-        _copy(key, "Readme");
+        _copy(key, "REAME.md");
         
         // 打包,手工
         zipIt(tmpRoot);

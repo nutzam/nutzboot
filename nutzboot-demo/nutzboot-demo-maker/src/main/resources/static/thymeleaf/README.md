@@ -6,7 +6,7 @@ MainLauncher是入口,启动即可
 
 ## 环境要求
 
-* 必须JDK8
+* 必须JDK8+
 * eclipse或idea等IDE开发工具,可选
 
 ## 配置信息位置
@@ -15,16 +15,16 @@ MainLauncher是入口,启动即可
 
 ## 命令下启动
 
-仅供测试用,使用附带maven wrapper. 如果已安装maven,将mvnw替换为mvn即可
+仅供测试用,使用mvn命令即可
 
 ```
 // for windows
 set MAVEN_OPTS="-Dfile.encoding=UTF-8"
-mvnw.cmd compile exec:java -Dexec.mainClass="io.nutz.demo.MainLauncher"
+mvn compile exec:java -Dexec.mainClass="io.nutz.demo.MainLauncher"
 
 // for *uix
 export MAVEN_OPTS="-Dfile.encoding=UTF-8"
-mvnw compile exec:java -Dexec.mainClass="io.nutz.demo.MainLauncher"
+mvn compile exec:java -Dexec.mainClass="io.nutz.demo.MainLauncher"
 ```
 
 ## 相关资源

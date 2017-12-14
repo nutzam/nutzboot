@@ -1,16 +1,33 @@
 # NB进化史
 
-## 2.0-RC2 "?"
+## 2.0-RC2 "My Love"
+
+这一次,我们迎来了第三个web容器tomcat,由[@benjobs](https://github.com/wolfboys)完成,终于凑齐了!
+
+* 更多NoSQL数据库? 新增mongodb by [@qingerg](https://github.com/qingerg)
+* 分库分表? 现在支持sharding-jdbc
+* 更多模板引擎,新增thymeleaf
+* 其他ORM/SQL工具? 新增闲大赋的BeetlSQL
+* 添加Spring桥接,完美支持U家三剑客(uflo工作流,ureport报表,urule规则引擎)
+
+* 时间: 2017-12-14
+* 事件: 第二个预备GA版本
+* 曲目: [My Love](https://www.youtube.com/watch?v=ulOb9gIGGd0)
 
 * 变更:
 	* add: new NbApp()可以不传类名,从堆栈自动推断
-	* add: starter-mongodb by @qingerg
+	* add: starter-mongodb by [@qingerg](https://github.com/qingerg)
 	* add: starter-tomcat by [@benjobs](https://github.com/wolfboys)
 	* add: starter-beetlsql 来自beetl的SQL解决方案
 	* add: starter-sharding-jdbc 分库分表
 	* add: starter-thymeleaf 模板引擎
 	* add: starter for U家三剑客(uflo工作流,ureport报表,urule规则引擎)
+	* add: [控制NbApp的启停](https://gitee.com/nutz/nutzboot/issues/IGOE4)
+	* add: starter-shiro支持多个realm by [科技](https://github.com/Rekoe)
+	* add: starter-shiro改造RememberMeManager
 	* fix: jetty扫描websocket的endpoint有问题
+	* fix: 补全demo-maker的新增starter by "瞎折腾"
+	* fix: [修改jetty默认超时设置](https://github.com/nutzam/nutz/issues/1365)
 
 ## 2.0-RC "属于"
 

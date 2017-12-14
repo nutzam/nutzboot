@@ -121,17 +121,17 @@ public class MainLauncher {
 
 ## Contributors
 
-* 蛋蛋(提交了第一个Banner及打印逻辑)
-* 胖五(nutz.io主笔)
+* [蛋蛋](https://github.com/TopCoderMyDream)(提交了第一个Banner及打印逻辑)
+* [胖五](https://github.com/pangwu86)(nutz.io主笔)
 * [qinerg](https://github.com/qinerg)(率先提交undertow)
 * [benjobs](https://github.com/wolfboys)(提交了tomcat)
 * [温泉](https://github.com/ywjno)(提交thymeleaf)
-* 科技(Rekoe,探路者,正在踩坑)
-* 潇潇(howe,探路者,正在踩坑)
+* [科技](https://github.com/Rekoe)(探路者,正在踩坑,正在做后台模板)
+* [潇潇](https://github.com/howe)(探路者,生产环境填坑中)
 * 道坤(探路者,正在踩坑)
 * HeTaro(探路者,正在踩坑)
-* zozoh(路过...)
-* wendal(到处挖坑)
+* [zozoh](https://github.com/zozoh)(路过...)
+* [wendal](https://github.com)(到处挖坑)
 * 瞎折腾(添加了demo-maker的几个选项)
 * 还有您的名字哦,告知我们吧
 
