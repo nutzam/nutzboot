@@ -132,6 +132,7 @@ public class MainLauncher {
 * HeTaro(探路者,正在踩坑)
 * zozoh(路过...)
 * wendal(到处挖坑)
+* 瞎折腾(添加了demo-maker的几个选项)
 * 还有您的名字哦,告知我们吧
 
 ## 文档
