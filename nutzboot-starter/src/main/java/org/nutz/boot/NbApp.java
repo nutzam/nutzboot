@@ -57,11 +57,6 @@ public class NbApp extends Thread {
     protected String[] args;
     
     /**
-     * 主启动器类,必须设置
-     */
-    protected Class<?> mainClass;
-    
-    /**
      * 是否允许命令行下的 -Dxxx.xxx.xxx=转为配置参数
      */
     protected boolean allowCommandLineProperties = true;
@@ -94,6 +89,7 @@ public class NbApp extends Thread {
      * 创建一个NbApp,把调用本构造方法的类作为mainClass
      */
     public NbApp() {
+        ctx = AppContext.getDefault();
     	StackTraceElement[] ts = Thread.currentThread().getStackTrace();
     	if (ts.length > 2) {
     		setMainClass(Lang.loadClassQuite(ts[2].getClassName()));
@@ -105,7 +101,21 @@ public class NbApp extends Thread {
      * @param mainClass 主启动类
      */
     public NbApp(Class<?> mainClass) {
-        this.mainClass = mainClass;
+        ctx = AppContext.getDefault();
+        setMainClass(mainClass);
+    }
+    
+    public NbApp(AppContext ctx) {
+        this.ctx = ctx;
+        StackTraceElement[] ts = Thread.currentThread().getStackTrace();
+        if (ts.length > 2) {
+            setMainClass(Lang.loadClassQuite(ts[2].getClassName()));
+        }
+    }
+    
+    public NbApp(AppContext ctx, Class<?> mainClass) {
+        this.ctx = ctx;
+        setMainClass(mainClass);
     }
     
     /**
@@ -120,7 +130,7 @@ public class NbApp extends Thread {
      * 设置主启动类
      */
     public NbApp setMainClass(Class<?> mainClass) {
-        this.mainClass = mainClass;
+        this.ctx.setMainClass(mainClass);
         return this;
     }
     
@@ -178,8 +188,8 @@ public class NbApp extends Thread {
 
             ctx.startServers();
 
-            if (mainClass.getAnnotation(IocBean.class) != null)
-                ctx.getIoc().get(mainClass);
+            if (ctx.getMainClass().getAnnotation(IocBean.class) != null)
+                ctx.getIoc().get(ctx.getMainClass());
 
             sw.stop();
             log.infof("NB started : %sms", sw.du());
@@ -230,11 +240,6 @@ public class NbApp extends Thread {
     }
     
     public void prepareBasic() throws Exception {
-    	if (this.ctx == null) {
-            ctx = AppContext.getDefault();
-        }
-        if (ctx.getMainClass() == null && mainClass != null)
-            ctx.setMainClass(mainClass);
         // 检查ClassLoader的情况
         if (ctx.getClassLoader() == null)
             ctx.setClassLoader(NbApp.class.getClassLoader());
@@ -330,7 +335,8 @@ public class NbApp extends Thread {
         if (!ctx.ioc.has("appContext")){
             Ioc2 ioc2 = (Ioc2)ctx.getIoc();
             ioc2.getIocContext().save("app", "appContext", new ObjectProxy(ctx));
-            ioc2.getIocContext().save("app", "conf", new ObjectProxy(ctx.getConfigureLoader().get()));
+            ioc2.getIocContext().save("app", "conf", new ObjectProxy(ctx.getConf()));
+            ioc2.getIocContext().save("app", "nbApp", new ObjectProxy(this));
         }
     }
     

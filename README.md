@@ -132,9 +132,12 @@ public class MainLauncher {
 * HeTaro(探路者,正在踩坑)
 * [zozoh](https://github.com/zozoh)(路过...)
 * [wendal](https://github.com)(到处挖坑)
-* 瞎折腾(添加了demo-maker的几个选项)
+* [瞎折腾](https://gitee.com/lx19990999)(添加了demo-maker的几个选项)
 * 还有您的名字哦,告知我们吧
 
+## 采用NutzBoot的公司
+
+请访问链接 [采用公司](https://github.com/nutzam/nutzboot/issues/62)
 ## 文档
 
 * [NutzBoot简介](doc/overview.md)
