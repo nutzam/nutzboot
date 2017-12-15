@@ -1,13 +1,42 @@
 # nutzboot
 
-简称NB,基于Nutz的微服务方案
+NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入式web服务,分布式会话,RPC等一篮子解决方案
 
 * 主页: [NB的官网](https://nutz.io)
 * 项目生成器: [NB Makder](https://get.nutz.io)
 * 版本历史: [NB进化史](ChangeLog.md)
 * 文档: [NB的文档](http://nutzam.com/core/boot/overview.html)
 
-## 来个NB的demo
+## 功能介绍
+
+* 快速创建Nutz应用,提供[初始化工具Maker](https://get.nutz.io)
+* 嵌入式web服务(jetty/tomcat/undertow),直接打包为runnable jar
+* 基于starter的自动配置体系,只需要添加maven依赖,即可自动发现并加载
+* 能满足80%以上常见需求的默认配置,无需过多的自定义
+* 以开放的心态与国内开源团体合作,优先集成国产项目
+* 活跃的社区及稳健的发布周期,推进项目一直前进
+
+## 快速预览一下NB的项目吧
+
+```
+<dependencies>
+    <dependency>
+        <groupId>org.nutz</groupId>
+        <artifactId>nutzboot-starter</artifactId>
+        <version>${nutzboot.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.nutz</groupId>
+        <artifactId>nutzboot-starter-nutz-web</artifactId>
+        <version>${nutzboot.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.nutz</groupId>
+        <artifactId>nutzboot-starter-jetty</artifactId>
+        <version>${nutzboot.version}</version>
+    </dependency>
+</dependencies>
+```
 
 ```java
 package io.nutz.demo.simple;
@@ -31,6 +60,8 @@ public class MainLauncher {
 }
 ```
 
+请访问 [https://get.nutz.io](https://get.nutz.io) 获取属于您的基础代码
+
 ### 开发计划
 
 期待您的加入
@@ -47,8 +78,6 @@ public class MainLauncher {
 		- [ ] [netty](https://netty.io/)
 		- [ ] [mina](https://mina.apache.org/)
 		- [ ] [t-io](http://www.oschina.net/p/t-io)
-		- [ ] mqtt
-		- [ ] pure tcp/udp
 	- [ ] Rpc类启动器
 		- [x] [Dubbo](http://dubbo.io/) 阿里出品的高性能RPC平台
 		- [x] [zbus](http://zbus.io) 国产知名RPC平台
@@ -59,7 +88,7 @@ public class MainLauncher {
 	- [ ] 关系型数据库
 		- [x] Jdbc连接池,默认使用druid,带监控功能
 		- [x] [sharding-jdbc](https://github.com/shardingjdbc/sharding-jdbc) 分库分表
-		- [x] Nutz.Dao
+		- [x] [Nutz.Dao](https://github.com/nutzam/nutz)
 		- [x] [BeetlSql](http://ibeetl.com/guide/#beetlsql) 基于Beetl的SQL框架
 		- [ ] Hibernate
 		- [ ] mybatis
@@ -74,6 +103,7 @@ public class MainLauncher {
 		- [ ] rethinkdb
 - [ ] Mvc
 	- [x] Nutz.Mvc
+	- [ ] [jersey](https://jersey.github.io/)
 - [ ] 安全鉴权
 	- [x] [Shiro](http://shiro.apache.org)
 - [ ] 分布式Session
@@ -138,6 +168,7 @@ public class MainLauncher {
 ## 采用NutzBoot的公司
 
 请访问链接 [采用公司](https://github.com/nutzam/nutzboot/issues/62)
+
 ## 文档
 
 * [NutzBoot简介](doc/overview.md)
