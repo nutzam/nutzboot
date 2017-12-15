@@ -1,4 +1,4 @@
-# nutzboot
+# NutzBoot 微服务
 
 NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入式web服务,分布式会话,RPC等一篮子解决方案
 
@@ -6,6 +6,11 @@ NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入
 * 项目生成器: [NB Makder](https://get.nutz.io)
 * 版本历史: [NB进化史](ChangeLog.md)
 * 文档: [NB的文档](http://nutzam.com/core/boot/overview.html)
+
+[![Build Status](https://travis-ci.org/nutzam/nutzboot.png?branch=master)](https://travis-ci.org/nutzam/nutzboot)
+[![GitHub release](https://img.shields.io/github/release/nutzam/nutzboot.svg)](https://github.com/nutzam/nutzboot/releases)
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![Skywalking Tracing](https://img.shields.io/badge/Skywalking%20Tracing-enable-brightgreen.svg)](https://github.com/OpenSkywalking/skywalking)
 
 ## 功能介绍
 
