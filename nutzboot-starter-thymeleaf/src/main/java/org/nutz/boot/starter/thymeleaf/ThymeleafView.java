@@ -19,24 +19,27 @@ public class ThymeleafView extends AbstractPathView {
 
     private static final Log log = Logs.get();
 
-    private NutMap prop;
-
     private TemplateEngine templateEngine = new TemplateEngine();
+
+    private String contentType;
+
+    private String encoding;
 
     public ThymeleafView(ClassLoader classLoader, NutMap prop, String path) {
         super(path);
-        this.prop = prop;
         templateEngine.setTemplateResolver(initializeTemplateResolver(classLoader, prop));
+
+        encoding = prop.getString("encoding", "UTF-8");
+        contentType = prop.getString("contentType", "text/html") + "; charset=" + encoding;
     }
 
     @Override
     public void render(HttpServletRequest request, HttpServletResponse response, Object value) throws Exception {
         String path = evalPath(request, value);
-        String encoding = prop.getString("encoding", "UTF-8");
-        response.setContentType(prop.getString("contentType", "text/html") + "; charset=" + encoding);
+        response.setContentType(contentType);
         response.setCharacterEncoding(encoding);
         try {
-            Context ctx = super.createContext(request, value);
+            Context ctx = createContext(request, value);
             WebContext context = new WebContext(request,
                     response,
                     Mvcs.getServletContext(),
