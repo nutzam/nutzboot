@@ -18,7 +18,9 @@ NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入
 
 ## 快速预览一下NB的项目吧
 
-```
+pom.xml
+
+```xml
 <dependencies>
     <dependency>
         <groupId>org.nutz</groupId>
@@ -37,6 +39,8 @@ NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入
     </dependency>
 </dependencies>
 ```
+
+src/main/java/io/nutz/demo/simple/MainLauncher.java
 
 ```java
 package io.nutz.demo.simple;
@@ -62,10 +66,10 @@ public class MainLauncher {
 
 请访问 [https://get.nutz.io](https://get.nutz.io) 获取属于您的基础代码
 
-### demo
+### Demo
 
-* (内置demo)[https://github.com/nutzam/nutzboot/tree/dev/nutzboot-demo],每个starter均配套一个demo
-* (Todo-backend)(https://github.com/nutzam/todo-backend-nutzboot),一个类就能通过TodoBackend的测试
+* [内置demo](https://github.com/nutzam/nutzboot/tree/dev/nutzboot-demo),每个starter均配套一个demo
+* [Todo-backend](https://github.com/nutzam/todo-backend-nutzboot),一个类就能通过TodoBackend的测试
 
 
 ## Contributors
@@ -93,6 +97,7 @@ public class MainLauncher {
 * [NutzBoot简介](doc/overview.md)
 * [NutzBoot目录约定](doc/struct.md)
 * [NB与Nutz.Mvc对比](doc/diff_nb_mvc.md)
+
 ## 开发进度
 
 期待您的加入
