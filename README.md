@@ -187,6 +187,8 @@ public class MainLauncher {
 	- [ ] docker compose配置
 - WebService
 	- [ ] CXF
+- 分布式组件
+	- [x] zkclient zookeeper的封装
 ## 第三方starter或项目
 
 期待您的到来,报个issue告知一下吧 ^_^
