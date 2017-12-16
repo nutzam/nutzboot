@@ -61,7 +61,7 @@ public class ZkClientStarter {
 		ZkSerializer serializer = null;
 		String zkSerializer = conf.get(PROP_SERIALIZER);
 		if(!Strings.isBlank(zkSerializer)) {
-			serializer = ioc.get(ZkSerializer.class, "zkSerializer");
+			serializer = ioc.get(ZkSerializer.class, zkSerializer);
 		}
 		if(serializer == null) {
 			serializer = new SerializableSerializer();
