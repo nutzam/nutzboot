@@ -262,7 +262,7 @@
 				</exclusions>
 			</dependency>
 
-			<!--tomcat start-->
+			<!--tomcat start -->
 			<dependency>
 				<groupId>org.apache.tomcat.embed</groupId>
 				<artifactId>tomcat-embed-core</artifactId>
@@ -305,7 +305,7 @@
 				<version>4.4.2</version>
 			</dependency>
 
-			<!--tomcat end-->
+			<!--tomcat end -->
 
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -360,9 +360,9 @@
 				<version>${jetx.version}</version>
 			</dependency>
 			<dependency>
-    			<groupId>com.101tec</groupId>
-    			<artifactId>zkclient</artifactId>
-    			<version>0.10</version>
+				<groupId>com.101tec</groupId>
+				<artifactId>zkclient</artifactId>
+				<version>0.10</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
