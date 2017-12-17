@@ -26,7 +26,7 @@ public class NgrokClientStarter implements ServerFace {
 	public static final String PROP_AUTH_TOKEN = PRE + "auth_token";
 	
 	@PropDoc(value="开关", defaultValue="true", type="boolean")
-	public static final String PROP_START = PRE + "start";
+	public static final String PROP_ENABLE = PRE + "enable";
 	
 	@Inject("refer:$ioc")
 	protected Ioc ioc;
@@ -53,7 +53,7 @@ public class NgrokClientStarter implements ServerFace {
 	}
 
 	public void start() throws Exception {
-		if(conf.getBoolean(PROP_START, true)) {
+		if(conf.getBoolean(PROP_ENABLE, true)) {
 			ngrokClient = ioc.get(NgrokClient.class);
 			ngrokClient.start();
 		}
@@ -61,7 +61,7 @@ public class NgrokClientStarter implements ServerFace {
 
 	@Override
 	public void stop() throws Exception {
-		if(conf.getBoolean(PROP_START, true))
+		if (ngrokClient != null)
 			ngrokClient.stop();
 	}
 
