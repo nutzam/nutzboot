@@ -168,7 +168,7 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 			cacheManager.setCacheManager(ioc.get(net.sf.ehcache.CacheManager.class, "ehcacheCacheManager"));
 		}
 		else {
-			cacheManager.setCacheManagerConfigFile(conf.get("shiro.session.cache.ehcache.cacheManagerConfigFile", "classpath:ehcache.xml"));
+			cacheManager.setCacheManager((net.sf.ehcache.CacheManager) _getCacheManager());
 		}
 		return cacheManager;
 	}
@@ -186,4 +186,13 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 		return ioc.get(EnvironmentLoaderListener.class, "shiroEnvironmentLoaderListener");
 	}
 
+    /**
+     * 返回值不能是CacheManager,因为要考虑没有加ehcache的情况
+     */
+    protected Object _getCacheManager() {
+        net.sf.ehcache.CacheManager cacheManager = net.sf.ehcache.CacheManager.getInstance();
+        if (cacheManager != null)
+            return cacheManager;
+        return net.sf.ehcache.CacheManager.newInstance();
+    }
 }
