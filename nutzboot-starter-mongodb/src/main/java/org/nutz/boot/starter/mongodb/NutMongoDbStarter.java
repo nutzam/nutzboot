@@ -72,7 +72,7 @@ public class NutMongoDbStarter {
 		MongoClientOptions options = builder.build();
 		logger.info(options); // 打印现有的参数信息，便于调优
 
-		ServerAddress address = new ServerAddress(conf.get("mongo.host", "127.0.0.1"), conf.getInt("mongo.port", 27017));
+		ServerAddress address = new ServerAddress(conf.get(PROP_IP), conf.getInt(PROP_PORT));
 		if (conf.containsKey(PROP_USERNAME)) {
 			MongoCredential cred = MongoCredential.createScramSha1Credential(conf.get(PROP_USERNAME), null,
 					conf.get(PROP_PASSWORD, "").toCharArray());
