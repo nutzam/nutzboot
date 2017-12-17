@@ -75,6 +75,7 @@
 		<module>nutzboot-starter-uflo</module>
 		<module>nutzboot-starter-urule</module>
 		<module>nutzboot-starter-ureport</module>
+		<module>nutzboot-starter-zkclient</module>
 	</modules>
 	<profiles>
 		<profile>
@@ -197,6 +198,11 @@
 				<version>${nutz.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutz-integration-zookeeper</artifactId>
+				<version>${nutz.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-web</artifactId>
 				<version>${shiro.version}</version>
@@ -256,7 +262,7 @@
 				</exclusions>
 			</dependency>
 
-			<!--tomcat start-->
+			<!--tomcat start -->
 			<dependency>
 				<groupId>org.apache.tomcat.embed</groupId>
 				<artifactId>tomcat-embed-core</artifactId>
@@ -299,7 +305,7 @@
 				<version>4.4.2</version>
 			</dependency>
 
-			<!--tomcat end-->
+			<!--tomcat end -->
 
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -352,6 +358,11 @@
 				<groupId>com.github.subchen</groupId>
 				<artifactId>jetbrick-template-nutz</artifactId>
 				<version>${jetx.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.101tec</groupId>
+				<artifactId>zkclient</artifactId>
+				<version>0.10</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

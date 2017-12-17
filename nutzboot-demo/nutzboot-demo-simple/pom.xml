@@ -25,6 +25,7 @@
   	<module>nutzboot-demo-simple-uflo</module>
   	<module>nutzboot-demo-simple-urule</module>
   	<module>nutzboot-demo-simple-ureport</module>
+  	<module>nutzboot-demo-simple-zkclient</module>
   </modules>
   <properties>
   </properties>

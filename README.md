@@ -91,6 +91,7 @@ public class MainLauncher {
 * [zozoh](https://github.com/zozoh)(路过...)
 * [wendal](https://github.com)(到处挖坑)
 * [瞎折腾](https://gitee.com/lx19990999)(添加了demo-maker的几个选项)
+* [天空](https://github.com/tiankongkm)(提交zkclient)
 * 还有您的名字哦,告知我们吧
 
 ## 采用NutzBoot的公司
@@ -186,6 +187,8 @@ public class MainLauncher {
 	- [ ] docker compose配置
 - WebService
 	- [ ] CXF
+- 分布式组件
+	- [x] zkclient zookeeper的封装
 ## 第三方starter或项目
 
 期待您的到来,报个issue告知一下吧 ^_^
