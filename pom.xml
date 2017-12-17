@@ -15,6 +15,10 @@
 		<tomcat.version>8.5.24</tomcat.version>
 		<shiro.version>1.3.2</shiro.version>
 		<jetx.version>2.1.5</jetx.version>
+		<spring.version>4.3.13.RELEASE</spring.version>
+		<beetl.version>2.7.25</beetl.version>
+		<beetlsql.version>2.10.3</beetlsql.version>
+		<zbus.version>0.11.4</zbus.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -130,7 +134,12 @@
 			<dependency>
 				<groupId>com.ibeetl</groupId>
 				<artifactId>beetl</artifactId>
-				<version>2.7.23</version>
+				<version>${beetl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ibeetl</groupId>
+				<artifactId>beetlsql</artifactId>
+				<version>${beetlsql.version}</version>
 			</dependency>
 
 			<dependency>
@@ -141,7 +150,7 @@
 			<dependency>
 				<groupId>io.zbus</groupId>
 				<artifactId>zbus</artifactId>
-				<version>0.11.0</version>
+				<version>${zbus.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
@@ -313,6 +322,16 @@
 				<version>${slf4j.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-plugins-websocket</artifactId>
 				<version>${nutz.version}</version>
@@ -363,6 +382,52 @@
 				<groupId>com.101tec</groupId>
 				<artifactId>zkclient</artifactId>
 				<version>0.10</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-expression</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

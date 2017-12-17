@@ -1,5 +1,17 @@
 # NB进化史
 
+## dev
+
+* 变更:
+	* add: zkclient by [天空](https://github.com/tiankongkm)
+	* add: daocache配置化
+	* update: beetl升级到2.7.25
+	* update: beetlsql升级到2.10.3
+	* update: zbus升级到0.11.4
+	* update: dubbo升级到2.5.8
+	* update: tomcat升级到8.5.48
+	* fix: 清理pom.xml中的依赖关系
+
 ## 2.0-RC2 "My Love"
 
 这一次,我们迎来了第三个web容器tomcat,由[@benjobs](https://github.com/wolfboys)完成,终于凑齐了!
