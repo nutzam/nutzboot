@@ -227,11 +227,14 @@ public class NbApp extends Thread {
         // 配置信息要准备好
         this.prepareConfigureLoader();
         
-        // 创建Ioc容器
-        prepareIoc();
+        // 创建IocLoader体系
+        prepareIocLoader();
         
         // 加载各种starter
         prepareStarterClassList();
+
+        // 创建Ioc容器
+        prepareIoc();
         
         // 生成Starter实例
         prepareStarterInstance();
@@ -279,7 +282,7 @@ public class NbApp extends Thread {
         }
     }
     
-    public void prepareIoc() throws Exception {
+    public void prepareIocLoader() throws Exception {
         if (ctx.getComboIocLoader() == null) {
         	int asyncPoolSize = ctx.getConfigureLoader().get().getInt("nutz.ioc.async.poolSize", 64);
         	List<String> args = new ArrayList<>();
@@ -328,16 +331,6 @@ public class NbApp extends Thread {
         // 用于加载Starter的IocLoader
         starterIocLoader = new AnnotationIocLoader(NbApp.class.getPackage().getName() + ".starter");
         ctx.getComboIocLoader().addLoader(starterIocLoader);
-        if (ctx.getIoc() == null) {
-            ctx.setIoc(new NutIoc(ctx.getComboIocLoader()));
-        }
-        // 把核心对象放进ioc容器
-        if (!ctx.ioc.has("appContext")){
-            Ioc2 ioc2 = (Ioc2)ctx.getIoc();
-            ioc2.getIocContext().save("app", "appContext", new ObjectProxy(ctx));
-            ioc2.getIocContext().save("app", "conf", new ObjectProxy(ctx.getConf()));
-            ioc2.getIocContext().save("app", "nbApp", new ObjectProxy(this));
-        }
     }
     
     public void prepareStarterClassList() throws Exception {
@@ -363,6 +356,19 @@ public class NbApp extends Thread {
                     }
                 }
             }
+        }
+    }
+    
+    public void prepareIoc() {
+        if (ctx.getIoc() == null) {
+            ctx.setIoc(new NutIoc(ctx.getComboIocLoader()));
+        }
+        // 把核心对象放进ioc容器
+        if (!ctx.ioc.has("appContext")){
+            Ioc2 ioc2 = (Ioc2)ctx.getIoc();
+            ioc2.getIocContext().save("app", "appContext", new ObjectProxy(ctx));
+            ioc2.getIocContext().save("app", "conf", new ObjectProxy(ctx.getConf()));
+            ioc2.getIocContext().save("app", "nbApp", new ObjectProxy(this));
         }
     }
     
