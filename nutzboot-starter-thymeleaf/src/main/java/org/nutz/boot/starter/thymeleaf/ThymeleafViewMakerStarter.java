@@ -1,10 +1,14 @@
 package org.nutz.boot.starter.thymeleaf;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import org.nutz.boot.AppContext;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Strings;
 import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -31,7 +35,11 @@ public class ThymeleafViewMakerStarter implements ViewMaker {
         log.debug("thymeleaf init ....");
         for (String key : conf.keySet()) {
             if (key.startsWith("thymeleaf.")) {
-                prop.put(key.substring("thymeleaf.".length()), conf.get(key));
+                if (key.startsWith("thymeleaf.dialects.")) {
+                    prop.put("dialects", Arrays.stream(conf.get(key).split(",")).map(Strings::trim).collect(Collectors.toList()));
+                } else {
+                    prop.put(key.substring("thymeleaf.".length()), conf.get(key));
+                }
             }
         }
         log.debug("thymeleaf init complete");

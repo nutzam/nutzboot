@@ -1,5 +1,6 @@
 package org.nutz.boot.starter.thymeleaf;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +13,7 @@ import org.nutz.mvc.Mvcs;
 import org.nutz.mvc.view.AbstractPathView;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
+import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
@@ -31,6 +33,18 @@ public class ThymeleafView extends AbstractPathView {
 
         encoding = prop.getString("encoding", "UTF-8");
         contentType = prop.getString("contentType", "text/html") + "; charset=" + encoding;
+
+        prop.getList("dialects", String.class).forEach(dialect -> {
+            try {
+                Object obj = Class.forName(dialect).getDeclaredConstructor().newInstance();
+                if (obj instanceof IDialect) {
+                    log.debugf("在 thymeleaf 视图中加载 %s 类。", dialect);
+                    templateEngine.setDialect((IDialect) obj);
+                }
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException e) {
+                log.debugf("未在 thymeleaf 视图中加载 %s 类，因为其并不是 org.thymeleaf.dialect.IDialect 合法的实现类。", dialect);
+            }
+        });
     }
 
     @Override
