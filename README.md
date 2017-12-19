@@ -156,7 +156,7 @@ public class MainLauncher {
 - 模板引擎
 	- [x] [Beetl](http://ibeetl.com/) 
 	- [x] [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
-	- [ ] Vecloity
+	- [x] Vecloity by [haoqoo](https://github.com/haoqoo)
 	- [ ] FreeMarker
 	- [x] Thymeleaf by [温泉](https://github.com/ywjno)
 - 消息队列

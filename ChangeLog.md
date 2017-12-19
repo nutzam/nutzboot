@@ -4,6 +4,7 @@
 
 * 变更:
 	* add: zkclient by [天空](https://github.com/tiankongkm)
+	* add: Vecloity模板引擎 by [haoqoo](https://github.com/haoqoo)
 	* add: daocache配置化
 	* update: beetl升级到2.7.25
 	* update: beetlsql升级到2.10.3
