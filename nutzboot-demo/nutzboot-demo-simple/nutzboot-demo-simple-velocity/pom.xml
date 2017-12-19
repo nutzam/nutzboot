@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>org.nutz</groupId>
-            <artifactId>nutzboot-starter-nutz</artifactId>
+            <artifactId>nutzboot-starter-nutz-mvc</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
