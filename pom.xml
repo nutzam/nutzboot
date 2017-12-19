@@ -62,6 +62,7 @@
 		<module>nutzboot-starter-disque</module>
 		<module>nutzboot-starter-beetl</module>
 		<module>nutzboot-starter-jetx</module>
+		<module>nutzboot-starter-velocity</module>
 	</modules>
 	<profiles>
 		<profile>
