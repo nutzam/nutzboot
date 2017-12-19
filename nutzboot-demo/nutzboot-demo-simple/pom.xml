@@ -26,6 +26,8 @@
   	<module>nutzboot-demo-simple-urule</module>
   	<module>nutzboot-demo-simple-ureport</module>
   	<module>nutzboot-demo-simple-zkclient</module>
+  	<module>nutzboot-demo-simple-velocity</module>
+
   </modules>
   <properties>
   </properties>

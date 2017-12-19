@@ -92,6 +92,7 @@ public class MainLauncher {
 * [wendal](https://github.com)(到处挖坑)
 * [瞎折腾](https://gitee.com/lx19990999)(添加了demo-maker的几个选项)
 * [天空](https://github.com/tiankongkm)(提交zkclient)
+* [haoqoo](https://github.com/haoqoo)(提交velocity)
 * 还有您的名字哦,告知我们吧
 
 ## 采用NutzBoot的公司

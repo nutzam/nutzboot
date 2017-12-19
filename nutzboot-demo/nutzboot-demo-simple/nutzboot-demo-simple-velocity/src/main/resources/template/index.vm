@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>NB demo for Velocity</title>
+</head>
+<body>
+<div>
+	<h2>welcome , hello world  </h2>
+</div>
+<div>
+	<h2>${obj.name}, 永远${obj.age}岁</h2>
+</div>
+
+</body>
+</html>

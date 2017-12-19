@@ -20,6 +20,7 @@
 		<beetlsql.version>2.10.3</beetlsql.version>
 		<zbus.version>0.11.4</zbus.version>
 		<undertow.version>1.4.21.Final</undertow.version>
+		<velocity.version>1.7</velocity.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -81,6 +82,7 @@
 		<module>nutzboot-starter-urule</module>
 		<module>nutzboot-starter-ureport</module>
 		<module>nutzboot-starter-zkclient</module>
+		<module>nutzboot-starter-velocity</module>
 	</modules>
 	<profiles>
 		<profile>
@@ -383,6 +385,11 @@
 				<groupId>com.101tec</groupId>
 				<artifactId>zkclient</artifactId>
 				<version>0.10</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.velocity</groupId>
+				<artifactId>velocity</artifactId>
+				<version>${velocity.version}</version>
 			</dependency>
 
 			<dependency>
