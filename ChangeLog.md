@@ -10,6 +10,7 @@
 	* update: zbus升级到0.11.4
 	* update: dubbo升级到2.5.8
 	* update: tomcat升级到8.5.48
+	* update: undertow升级到1.4.21-Final
 	* fix: 清理pom.xml中的依赖关系
 
 ## 2.0-RC2 "My Love"

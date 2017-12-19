@@ -19,6 +19,7 @@
 		<beetl.version>2.7.25</beetl.version>
 		<beetlsql.version>2.10.3</beetlsql.version>
 		<zbus.version>0.11.4</zbus.version>
+		<undertow.version>1.4.21.Final</undertow.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -428,6 +429,23 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
 				<version>${spring.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.undertow</groupId>
+				<artifactId>undertow-core</artifactId>
+				<version>${undertow.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.undertow</groupId>
+				<artifactId>undertow-servlet</artifactId>
+				<version>${undertow.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>jboss-annotations-api_1.2_spec</artifactId>
+						<groupId>org.jboss.spec.javax.annotation</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

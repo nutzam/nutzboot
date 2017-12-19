@@ -12,7 +12,6 @@
 	<name>nutzboot-starter-undertow</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<undertow.version>1.4.20.Final</undertow.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -69,12 +68,10 @@
 		<dependency>
 			<groupId>io.undertow</groupId>
 			<artifactId>undertow-core</artifactId>
-			<version>${undertow.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.undertow</groupId>
 			<artifactId>undertow-servlet</artifactId>
-			<version>${undertow.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>jboss-annotations-api_1.2_spec</artifactId>
