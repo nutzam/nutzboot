@@ -7,7 +7,7 @@ NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入
 * 版本历史: [NB进化史](ChangeLog.md)
 * 文档: [NB的文档](http://nutzam.com/core/boot/overview.html)
 
-[![Build Status](https://travis-ci.org/nutzam/nutzboot.png?branch=master)](https://travis-ci.org/nutzam/nutzboot)
+[![Build Status](https://travis-ci.org/nutzam/nutzboot.png?branch=dev)](https://travis-ci.org/nutzam/nutzboot)
 [![GitHub release](https://img.shields.io/github/release/nutzam/nutzboot.svg)](https://github.com/nutzam/nutzboot/releases)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![Skywalking Tracing](https://img.shields.io/badge/Skywalking%20Tracing-enable-brightgreen.svg)](https://github.com/OpenSkywalking/skywalking)

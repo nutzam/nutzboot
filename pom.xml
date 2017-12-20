@@ -101,6 +101,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
 				<artifactId>nutz-plugins-mongodb</artifactId>
 				<version>${nutz.version}</version>
 			</dependency>
