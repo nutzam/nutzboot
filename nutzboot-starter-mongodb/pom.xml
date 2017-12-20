@@ -59,7 +59,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.nutz</groupId>
-			<artifactId>nutzmongo</artifactId>
+			<artifactId>nutz-plugins-mongodb</artifactId>
 		</dependency>
 	</dependencies>
 </project>

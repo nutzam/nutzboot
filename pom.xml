@@ -106,7 +106,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
-				<artifactId>nutzmongo</artifactId>
+				<artifactId>nutz-plugins-mongodb</artifactId>
 				<version>${nutz.version}</version>
 			</dependency>
 			<dependency>
