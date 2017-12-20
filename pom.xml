@@ -121,11 +121,6 @@
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-log4j12</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
@@ -358,11 +353,6 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-integration-quartz</artifactId>
-				<version>${nutz.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.nutz</groupId>
-				<artifactId>nutz</artifactId>
 				<version>${nutz.version}</version>
 			</dependency>
 			<dependency>
