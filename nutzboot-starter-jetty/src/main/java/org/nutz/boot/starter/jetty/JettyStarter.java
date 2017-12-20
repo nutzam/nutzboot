@@ -55,6 +55,15 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     @PropDoc(group = "jetty", value = "监听的ip地址", defaultValue = "0.0.0.0")
     public static final String PROP_HOST = PRE + "host";
 
+    @PropDoc(group = "jetty", value = "线程池idleTimeout，单位毫秒", defaultValue = "60000", type = "int")
+    public static final String PROP_THREADPOOL_TIMEOUT = PRE + "threadpool.idleTimeout";
+
+    @PropDoc(group = "jetty", value = "线程池最小线程数minThreads", defaultValue = "200", type = "int")
+    public static final String PROP_THREADPOOL_MINTHREADS = PRE + "threadpool.minThreads";
+
+    @PropDoc(group = "jetty", value = "线程池最大线程数maxThreads", defaultValue = "500", type = "int")
+    public static final String PROP_THREADPOOL_MAXTHREADS = PRE + "threadpool.maxThreads";
+
     @PropDoc(group = "jetty", value = "监听的端口", defaultValue = "8080", type = "int")
     public static final String PROP_PORT = PRE + "port";
 
@@ -111,7 +120,11 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     public void init() throws Exception {
 
         // 创建基础服务器
-        server = new Server(new QueuedThreadPool(getMaxThread()));
+        QueuedThreadPool threadPool = new QueuedThreadPool();
+        threadPool.setIdleTimeout(getThreadPoolIdleTimeout());
+        threadPool.setMinThreads(getMinThreads());
+        threadPool.setMaxThreads(getMaxThreads());
+        server = new Server(threadPool);
         ServerConnector connector = new ServerConnector(server);
         connector.setHost(getHost());
         connector.setPort(getPort());
@@ -272,8 +285,16 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         return conf.getInt(PROP_IDLE_TIMEOUT, 300 * 1000);
     }
 
-    public int getMaxThread() {
-        return Lang.isAndroid ? 50 : 500;
+    public int getMinThreads() {
+        return Lang.isAndroid ? 8 :  conf.getInt(PROP_THREADPOOL_MINTHREADS,200);
+    }
+
+    public int getMaxThreads() {
+        return Lang.isAndroid ? 50 : conf.getInt(PROP_THREADPOOL_MAXTHREADS,500);
+    }
+
+    public int getThreadPoolIdleTimeout() {
+        return conf.getInt(PROP_THREADPOOL_TIMEOUT, 60 * 1000);
     }
 
 }
