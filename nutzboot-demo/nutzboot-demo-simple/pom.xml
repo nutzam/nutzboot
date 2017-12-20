@@ -27,6 +27,7 @@
   	<module>nutzboot-demo-simple-ureport</module>
   	<module>nutzboot-demo-simple-zkclient</module>
   	<module>nutzboot-demo-simple-velocity</module>
+      <module>nutzboot-demo-simple-jetty</module>
 
   </modules>
   <properties>
