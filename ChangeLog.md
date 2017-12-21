@@ -6,6 +6,9 @@
 	* add: zkclient by [天空](https://github.com/tiankongkm)
 	* add: Vecloity模板引擎 by [haoqoo](https://github.com/haoqoo)
 	* add: daocache配置化
+	* add: undertow 支持websocket by [qinerg](https://github.com/qinerg)
+	* add: jetty 支持更详细的配置 by [haoqoo](https://github.com/haoqoo)
+	* add: mongodb 支持集群配置 issue by [科技](https://github.com/Rekoe)
 	* update: beetl升级到2.7.25
 	* update: beetlsql升级到2.10.3
 	* update: zbus升级到0.11.4
@@ -13,6 +16,7 @@
 	* update: tomcat升级到8.5.48
 	* update: undertow升级到1.4.21-Final
 	* fix: 清理pom.xml中的依赖关系
+	* fix: beetl模板的自定义属性没有生效  issue by [道坤](https://github.com/Rekoe)
 
 ## 2.0-RC2 "My Love"
 
