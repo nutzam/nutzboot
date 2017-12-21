@@ -35,13 +35,13 @@ public class BeetlViewMakerStarter extends BeetlViewMaker {
     	if (conf == null)
     		return;
         log.debug("beetl init ....");
-        Configuration cfg = Configuration.defaultConfiguration();
         Properties prop = new Properties();
         for (String key : conf.keySet()) {
         	if (key.startsWith("beetl.")) {
         		prop.put(key.substring("beetl.".length()), conf.get(key));
         	}
         }
+        Configuration cfg = new Configuration(prop);
         if (!prop.containsKey(Configuration.DIRECT_BYTE_OUTPUT)) {
             // 默认启用DIRECT_BYTE_OUTPUT,除非用户自定义, 一般不会.
             log.debug("no custom DIRECT_BYTE_OUTPUT found , set to true");
