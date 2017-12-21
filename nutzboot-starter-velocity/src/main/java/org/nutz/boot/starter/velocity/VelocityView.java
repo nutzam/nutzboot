@@ -19,23 +19,26 @@ public class VelocityView extends AbstractPathView {
 
 
     private VelocityEngine engine;
+    private String templateClasspath;
+    private String charsetEncoding;
 
-    public VelocityView(String dest, VelocityEngine engine) {
+    public VelocityView(String dest, VelocityEngine engine, String templateClasspath, String charsetEncoding) {
         super(dest);
         this.engine = engine;
+        this.templateClasspath = templateClasspath;
+        this.charsetEncoding = charsetEncoding;
     }
 
 
     @Override
     public void render(HttpServletRequest req, HttpServletResponse resp, Object obj) throws Throwable {
-        String charsetEncoding = getProperty("encoding","UTF-8");
         resp.setCharacterEncoding(charsetEncoding);
         if (resp.getContentType() == null) {
             resp.setContentType("text/html; charset=" + charsetEncoding);
         }
         try {
-            String templateUrl = getProperty("path","template")+evalPath(req,obj);
-            Template template = engine.getTemplate(templateUrl,charsetEncoding);
+            String templateUrl = templateClasspath + evalPath(req, obj);
+            Template template = engine.getTemplate(templateUrl, charsetEncoding);
             VelocityWebContext webContext = new VelocityWebContext(req, resp);
             VelocityContext context = new VelocityContext(webContext);
             PrintWriter writer = resp.getWriter();
@@ -45,10 +48,5 @@ public class VelocityView extends AbstractPathView {
             throw Lang.wrapThrow(e);
         }
     }
-
-
-    private String getProperty(String key,String defaultValue){
-        String v = (String) engine.getProperty(key);
-        return !Lang.isEmpty(v)?v:defaultValue;
-    }
+    
 }
