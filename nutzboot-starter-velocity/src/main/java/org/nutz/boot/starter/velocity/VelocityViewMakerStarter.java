@@ -41,6 +41,11 @@ public class VelocityViewMakerStarter implements ViewMaker {
         if (conf.has("velocity.encoding")) {
             charsetEncoding = conf.get("velocity.encoding");
         }
+        for (String key : conf.keySet()) {
+            if (key.startsWith("velocity.")) {
+                engine.setProperty(key.substring("velocity.".length()), conf.get(key));
+            }
+        }
         engine.setProperty("input.encoding", charsetEncoding);
         engine.setProperty("output.encoding", charsetEncoding);
         engine.setProperty("resource.loader", "classpath");
