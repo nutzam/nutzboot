@@ -48,10 +48,5 @@ public class VelocityView extends AbstractPathView {
             throw Lang.wrapThrow(e);
         }
     }
-
-
-    private String getProperty(String key, String defaultValue) {
-        String v = (String) engine.getProperty(key);
-        return !Lang.isEmpty(v) ? v : defaultValue;
-    }
+    
 }
