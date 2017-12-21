@@ -35,6 +35,9 @@ public class VelocityViewMakerStarter implements ViewMaker {
         engine = new VelocityEngine();
         engine.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
         engine.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+        engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,"org.apache.velocity.runtime.log.Log4JLogChute");
+        engine.setProperty("runtime.log.logsystem.log4j.category", "velocity");
+        engine.setProperty("runtime.log.logsystem.log4j.logger", "velocity");
         for (String key : conf.keySet()) {
             if (key.startsWith("velocity.")) {
                 engine.setProperty(key.substring("velocity.".length()), conf.get(key));
