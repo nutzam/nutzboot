@@ -48,7 +48,6 @@ import io.undertow.servlet.util.ImmediateInstanceFactory;
  * Undertow 启动器
  * @author qinerg(qinerg@gmail.com)
  */
-
 @IocBean
 public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, LifeCycle, AppContextAware {
 
@@ -115,7 +114,6 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 	}
 
 	public void init() throws Exception {
-
 		String contextPath = getContextPath();
 
 		deployment = Servlets.deployment().setDeploymentName("nb").setClassLoader(classLoader).setEagerFilterInit(true).setSecurityDisabled(true);
@@ -129,6 +127,7 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 		}
 
 		addNutzSupport();
+		addWebSocketSupport();
 
 		deployment.addWelcomePages("index.html", "index.htm", "index.do");
 
@@ -170,6 +169,14 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 		}
 		for (WebFilterFace webFilter : filters.values()) {
 			addFilter(webFilter);
+		}
+	}
+	
+	private void addWebSocketSupport() {
+		try {
+			WebSocketSupport.addWebSocketSupport(deployment, appContext.getPackage());
+		} catch (Error e) {
+			log.info("Not find undertow-websockets-jsr, websocket disable.");
 		}
 	}
 
