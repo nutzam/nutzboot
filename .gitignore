@@ -41,3 +41,4 @@ local.properties
 .gitignore
 dependency-reduced-pom.xml
 nutzboot-demo/nutzboot-demo-simple/nutzboot-demo-simple-urule/urule.repo
+**/bin/**
