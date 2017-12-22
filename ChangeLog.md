@@ -16,7 +16,7 @@
 	* update: tomcat升级到8.5.48
 	* update: undertow升级到1.4.21-Final
 	* fix: 清理pom.xml中的依赖关系
-	* fix: beetl模板的自定义属性没有生效  issue by [道坤](https://github.com/Rekoe)
+	* fix: beetl模板的自定义属性没有生效  issue by [道坤](https://github.com/albinhdk)
 
 ## 2.0-RC2 "My Love"
 
