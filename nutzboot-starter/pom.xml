@@ -61,6 +61,22 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutz-integration-spring</artifactId>
+			<version>${nutz.version}</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 	<distributionManagement>
 		<snapshotRepository>

@@ -1,18 +1,25 @@
 package org.nutz.boot.starter.shiro;
 
+import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.List;
 
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
+import org.apache.shiro.mgt.RememberMeManager;
 import org.apache.shiro.realm.Realm;
+import org.apache.shiro.session.InvalidSessionException;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
+import org.apache.shiro.subject.SubjectContext;
 import org.apache.shiro.web.env.DefaultWebEnvironment;
 import org.apache.shiro.web.env.EnvironmentLoaderListener;
 import org.apache.shiro.web.env.WebEnvironment;
 import org.apache.shiro.web.filter.mgt.FilterChainResolver;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.mgt.WebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
@@ -20,6 +27,8 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.session.mgt.WebSessionManager;
 import org.nutz.boot.AppContext;
 import org.nutz.boot.starter.WebEventListenerFace;
+import org.nutz.integration.jedis.JedisAgent;
+import org.nutz.integration.shiro.SimplePrincipalSerializer;
 import org.nutz.integration.shiro.UU32SessionIdGenerator;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
@@ -52,18 +61,47 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 	public WebEnvironment createWebEnvironment() {
 		return new DefaultWebEnvironment();
 	}
+	
+	@IocBean(name = "shiroRememberMeManager")
+	public RememberMeManager createRememberMeManager() {
+	    CookieRememberMeManager rememberMeManager = new CookieRememberMeManager();
+	    rememberMeManager.setSerializer(new SimplePrincipalSerializer());
+	    SimpleCookie cookie = new SimpleCookie();
+	    cookie.setName("rememberMe");
+	    cookie.setHttpOnly(true);
+	    rememberMeManager.setCookie(cookie);
+	    return rememberMeManager;
+	}
 
 	@IocBean(name = "shiroWebSecurityManager")
 	public WebSecurityManager getWebSecurityManager() {
-		DefaultWebSecurityManager webSecurityManager = new DefaultWebSecurityManager();
+		DefaultWebSecurityManager webSecurityManager = new DefaultWebSecurityManager() {
+		    protected SubjectContext resolveSession(SubjectContext context) {
+		        if (context.resolveSession() != null) {
+		            return context;
+		        }
+		        try {
+		            Session session = resolveContextSession(context);
+		            if (session != null) {
+		                context.setSession(session);
+		            }
+		        } catch (InvalidSessionException e) {
+		        }
+		        return context;
+		    }
+		};
 
 		// Shiro Session相关
 		if (conf.getBoolean("shiro.session.enable", true)) {
 			webSecurityManager.setSessionManager(ioc.get(WebSessionManager.class, "shiroWebSessionManager"));
 		}
-		if (ioc.has(conf.get("shiro.realm.names", "shiroRealm"))) {
-			webSecurityManager.setRealm(ioc.get(Realm.class, conf.get("shiro.realm.names", "shiroRealm")));
+		List<Realm> realms = new ArrayList<>();
+		for (String realmName : ioc.getNamesByType(Realm.class)) {
+		    realms.add(ioc.get(Realm.class, realmName));
 		}
+		if (realms.size() > 0)
+		    webSecurityManager.setRealms(realms);
+		webSecurityManager.setRememberMeManager(ioc.get(RememberMeManager.class, "shiroRememberMeManager"));
 		return webSecurityManager;
 	}
 
@@ -91,23 +129,21 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 		webSessionManager.setSessionIdCookie(cookie);
 		webSessionManager.setSessionIdCookieEnabled(true);
 		
-		if (conf.has("shiro.session.cache.type")) {
-			webSessionManager.setCacheManager(ioc.get(CacheManager.class, "shiroCacheManager"));
-		}
+		webSessionManager.setCacheManager(ioc.get(CacheManager.class, "shiroCacheManager"));
 
 		return webSessionManager;
 	}
 	
 	@IocBean(name="shiroCacheManager")
 	public CacheManager getCacheManager() {
-		switch (conf.get("shiro.session.cache.type", "memeory")) {
+		switch (conf.get("shiro.session.cache.type", "memory")) {
 		case "ehcache":
 			return ioc.get(CacheManager.class, "shiroEhcacheCacheManager");
 		case "redis":
-			return ioc.get(CacheManager.class, "shiroRedisCacheManager");
+			//return ioc.get(CacheManager.class, "shiroRedisCacheManager");
 		case "lcache":
 			return ioc.get(CacheManager.class, "shiroLcacheCacheManager");
-		case "memeory":
+		case "memory":
 			return new MemoryConstrainedCacheManager();
 		default:
 			throw new ShiroException("unkown shiro.session.cache.type=" + conf.get("shiro.session.cache.type"));
@@ -121,6 +157,7 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 		LCacheManager cacheManager = new LCacheManager();
 		cacheManager.setLevel1(shiroEhcacheCacheManager);
 		cacheManager.setLevel2(shiroRedisCacheManager);
+		cacheManager.setJedisAgent(ioc.get(JedisAgent.class));
 		return cacheManager;
 	}
 
@@ -131,7 +168,7 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 			cacheManager.setCacheManager(ioc.get(net.sf.ehcache.CacheManager.class, "ehcacheCacheManager"));
 		}
 		else {
-			cacheManager.setCacheManagerConfigFile(conf.get("shiro.session.cache.ehcache.cacheManagerConfigFile", "classpath:ehcache.xml"));
+			cacheManager.setCacheManager((net.sf.ehcache.CacheManager) _getCacheManager());
 		}
 		return cacheManager;
 	}
@@ -148,4 +185,14 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 	public EventListener getEventListener() {
 		return ioc.get(EnvironmentLoaderListener.class, "shiroEnvironmentLoaderListener");
 	}
+
+    /**
+     * 返回值不能是CacheManager,因为要考虑没有加ehcache的情况
+     */
+    protected Object _getCacheManager() {
+        net.sf.ehcache.CacheManager cacheManager = net.sf.ehcache.CacheManager.getInstance();
+        if (cacheManager != null)
+            return cacheManager;
+        return net.sf.ehcache.CacheManager.newInstance();
+    }
 }

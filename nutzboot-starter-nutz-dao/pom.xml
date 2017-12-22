@@ -55,7 +55,20 @@
 		<dependency>
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter</artifactId>
-			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutz-plugins-daocache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

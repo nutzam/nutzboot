@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.nutz</groupId>
 	<artifactId>demo</artifactId>
@@ -58,15 +58,90 @@
 			<artifactId>nutzboot-starter-weixin</artifactId>
 			<version>${nutzboot.version}</version>
 		</dependency>
+		<dependency th:if="${params.tomcat.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-tomcat</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.undertow.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-undertow</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.dubbo.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-dubbo</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.zbus.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-zbus</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.ngrok.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-ngrok</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.shardingjdbc.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-sharding-jdbc</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.beetlsql.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-beetlsql</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.mongo.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-mongodb</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.shiro.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-shiro</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.beetl.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-beetl</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.thymeleaf.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-thymeleaf</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.disque.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-disque</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.uflo2.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-uflo</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.urule.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-urule</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.ureport.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-ureport</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.wkcache.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-wkcache</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -101,7 +176,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
+				<version>3.7.0</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>

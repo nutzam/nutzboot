@@ -24,7 +24,7 @@ import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 
-@IocBean(create="init")
+@IocBean(create="init", depose="depose")
 public class MainLauncher {
     
     @Inject
@@ -35,6 +35,7 @@ public class MainLauncher {
     public void index() {}
 	
 	public void init() {}
+	public void depose() {}
 
     public static void main(String[] args) throws Exception {
         new NbApp(MainLauncher.class).run();

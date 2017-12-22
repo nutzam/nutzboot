@@ -1,5 +1,6 @@
 package org.nutz.boot.starter;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.Servlet;
@@ -12,5 +13,7 @@ public interface WebServletFace {
     
     Servlet getServlet();
     
-    Map<String, String> getInitParameters();
+    default Map<String, String> getInitParameters() {
+        return new HashMap<>();
+    }
 }

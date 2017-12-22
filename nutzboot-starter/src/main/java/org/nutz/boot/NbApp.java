@@ -44,7 +44,7 @@ import org.nutz.mvc.annotation.IocBy;
  * @author wendal
  *
  */
-public class NbApp {
+public class NbApp extends Thread {
     
 	/**
 	 *  日志属性要等日志适配器准备好了才能加载,这里不可以使用Logs.get();
@@ -55,11 +55,6 @@ public class NbApp {
      * 命令行参数
      */
     protected String[] args;
-    
-    /**
-     * 主启动器类,必须设置
-     */
-    protected Class<?> mainClass;
     
     /**
      * 是否允许命令行下的 -Dxxx.xxx.xxx=转为配置参数
@@ -88,10 +83,17 @@ public class NbApp {
     
     protected boolean prepared;
     
+    protected Object lock = new Object();
+    
     /**
-     * 创建一个空的NbApp,实际运行之前必须设置mainClass
+     * 创建一个NbApp,把调用本构造方法的类作为mainClass
      */
     public NbApp() {
+        ctx = AppContext.getDefault();
+    	StackTraceElement[] ts = Thread.currentThread().getStackTrace();
+    	if (ts.length > 2) {
+    		setMainClass(Lang.loadClassQuite(ts[2].getClassName()));
+    	}
     }
     
     /**
@@ -99,7 +101,21 @@ public class NbApp {
      * @param mainClass 主启动类
      */
     public NbApp(Class<?> mainClass) {
-        this.mainClass = mainClass;
+        ctx = AppContext.getDefault();
+        setMainClass(mainClass);
+    }
+    
+    public NbApp(AppContext ctx) {
+        this.ctx = ctx;
+        StackTraceElement[] ts = Thread.currentThread().getStackTrace();
+        if (ts.length > 2) {
+            setMainClass(Lang.loadClassQuite(ts[2].getClassName()));
+        }
+    }
+    
+    public NbApp(AppContext ctx, Class<?> mainClass) {
+        this.ctx = ctx;
+        setMainClass(mainClass);
     }
     
     /**
@@ -114,7 +130,7 @@ public class NbApp {
      * 设置主启动类
      */
     public NbApp setMainClass(Class<?> mainClass) {
-        this.mainClass = mainClass;
+        this.ctx.setMainClass(mainClass);
         return this;
     }
     
@@ -143,10 +159,18 @@ public class NbApp {
 		return ctx;
 	}
     
+    public void run() {
+        try {
+            _run();
+        } catch (Throwable e) {
+            Logs.get().error("something happen", e);
+        }
+    }
+    
     /**
      * 启动整个NbApp
      */
-    public void run() throws Exception {
+    public void _run() throws Exception {
     	Stopwatch sw = Stopwatch.begin();
 
         // 各种预备操作
@@ -159,22 +183,33 @@ public class NbApp {
     	}
         
         // 依次启动
-        ctx.init();
-        
-        ctx.startServers();
-        
-        if (mainClass.getAnnotation(IocBean.class) != null)
-        	ctx.getIoc().get(mainClass);
-        
-        sw.stop();
-        log.infof("NB started : %sms", sw.du());
-        
-        // 等待关闭
-        Lang.quiteSleep(Integer.MAX_VALUE);
-        
+    	try {
+            ctx.init();
+
+            ctx.startServers();
+
+            if (ctx.getMainClass().getAnnotation(IocBean.class) != null)
+                ctx.getIoc().get(ctx.getMainClass());
+
+            sw.stop();
+            log.infof("NB started : %sms", sw.du());
+            synchronized (lock) {
+                lock.wait();
+            }
+    	}
+    	catch (Throwable e) {
+            log.error("something happen!!", e);
+        }
         // 收尾
         ctx.stopServers();
         ctx.depose();
+    }
+    
+    public void shutdown() {
+        log.info("ok, shutting down ...");
+        synchronized (lock) {
+            lock.notify();
+        }
     }
     
     /**
@@ -192,11 +227,14 @@ public class NbApp {
         // 配置信息要准备好
         this.prepareConfigureLoader();
         
-        // 创建Ioc容器
-        prepareIoc();
+        // 创建IocLoader体系
+        prepareIocLoader();
         
         // 加载各种starter
         prepareStarterClassList();
+
+        // 创建Ioc容器
+        prepareIoc();
         
         // 生成Starter实例
         prepareStarterInstance();
@@ -205,11 +243,6 @@ public class NbApp {
     }
     
     public void prepareBasic() throws Exception {
-    	if (this.ctx == null) {
-            ctx = AppContext.getDefault();
-        }
-        if (ctx.getMainClass() == null && mainClass != null)
-            ctx.setMainClass(mainClass);
         // 检查ClassLoader的情况
         if (ctx.getClassLoader() == null)
             ctx.setClassLoader(NbApp.class.getClassLoader());
@@ -249,7 +282,7 @@ public class NbApp {
         }
     }
     
-    public void prepareIoc() throws Exception {
+    public void prepareIocLoader() throws Exception {
         if (ctx.getComboIocLoader() == null) {
         	int asyncPoolSize = ctx.getConfigureLoader().get().getInt("nutz.ioc.async.poolSize", 64);
         	List<String> args = new ArrayList<>();
@@ -298,15 +331,6 @@ public class NbApp {
         // 用于加载Starter的IocLoader
         starterIocLoader = new AnnotationIocLoader(NbApp.class.getPackage().getName() + ".starter");
         ctx.getComboIocLoader().addLoader(starterIocLoader);
-        if (ctx.getIoc() == null) {
-            ctx.setIoc(new NutIoc(ctx.getComboIocLoader()));
-        }
-        // 把核心对象放进ioc容器
-        if (!ctx.ioc.has("appContext")){
-            Ioc2 ioc2 = (Ioc2)ctx.getIoc();
-            ioc2.getIocContext().save("app", "appContext", new ObjectProxy(ctx));
-            ioc2.getIocContext().save("app", "conf", new ObjectProxy(ctx.getConfigureLoader().get()));
-        }
     }
     
     public void prepareStarterClassList() throws Exception {
@@ -332,6 +356,19 @@ public class NbApp {
                     }
                 }
             }
+        }
+    }
+    
+    public void prepareIoc() {
+        if (ctx.getIoc() == null) {
+            ctx.setIoc(new NutIoc(ctx.getComboIocLoader()));
+        }
+        // 把核心对象放进ioc容器
+        if (!ctx.ioc.has("appContext")){
+            Ioc2 ioc2 = (Ioc2)ctx.getIoc();
+            ioc2.getIocContext().save("app", "appContext", new ObjectProxy(ctx));
+            ioc2.getIocContext().save("app", "conf", new ObjectProxy(ctx.getConf()));
+            ioc2.getIocContext().save("app", "nbApp", new ObjectProxy(this));
         }
     }
     
