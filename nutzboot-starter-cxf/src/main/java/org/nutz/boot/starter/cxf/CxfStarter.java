@@ -1,8 +1,5 @@
 package org.nutz.boot.starter.cxf;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.jws.WebService;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -22,35 +19,31 @@ import org.nutz.resource.Scans;
 
 @IocBean
 public class CxfStarter extends CXFNonSpringServlet implements WebServletFace {
-	
-	private static final long serialVersionUID = 6375628992908998229L;
-	
-	private static final Log log = Logs.get();
-	
-	@Inject
-	protected PropertiesProxy conf;
-	
-	@Inject
-	protected AppContext appContext;
-	
-	@Inject("refer:$ioc")
-	protected Ioc ioc;
 
-	public String getName() {
-		return "cxf";
-	}
+    private static final long serialVersionUID = 6375628992908998229L;
 
-	public String getPathSpec() {
-		return "/webservice/*";
-	}
+    private static final Log log = Logs.get();
 
-	public Servlet getServlet() {
-		return this;
-	}
+    @Inject
+    protected PropertiesProxy conf;
 
-	public Map<String, String> getInitParameters() {
-		return new HashMap<>();
-	}
+    @Inject
+    protected AppContext appContext;
+
+    @Inject("refer:$ioc")
+    protected Ioc ioc;
+
+    public String getName() {
+        return "cxf";
+    }
+
+    public String getPathSpec() {
+        return "/webservice/*";
+    }
+
+    public Servlet getServlet() {
+        return this;
+    }
 
     protected void loadBus(ServletConfig sc) {
         super.loadBus(sc);

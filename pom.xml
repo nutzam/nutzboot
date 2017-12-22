@@ -78,6 +78,7 @@
 		<module>nutzboot-starter-ureport</module>
 		<module>nutzboot-starter-zkclient</module>
 		<module>nutzboot-starter-velocity</module>
+		<module>nutzboot-starter-cxf</module>
 	</modules>
 	<profiles>
 		<profile>

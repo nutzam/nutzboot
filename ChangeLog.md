@@ -9,6 +9,7 @@
 	* add: undertow 支持websocket by [qinerg](https://github.com/qinerg)
 	* add: jetty 支持更详细的配置 by [haoqoo](https://github.com/haoqoo)
 	* add: mongodb 支持集群配置 issue by [科技](https://github.com/Rekoe)
+	* add: cxf 支持webservice
 	* update: beetl升级到2.7.25
 	* update: beetlsql升级到2.10.3
 	* update: zbus升级到0.11.4

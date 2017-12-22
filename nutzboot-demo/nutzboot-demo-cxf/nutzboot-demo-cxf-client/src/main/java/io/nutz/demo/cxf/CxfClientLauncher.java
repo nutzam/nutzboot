@@ -1,27 +1,33 @@
-package io.nutz.demo.zbus.rpc;
+package io.nutz.demo.cxf;
 
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.nutz.boot.NbApp;
-import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 
-import io.nutz.demo.zbus.rpc.service.TimeService;
+import io.nutz.demo.cxf.service.TimeService;
 
-@IocBean
-public class ZbusRpcTimeClientLauncher {
-	
-	@Inject
-	protected TimeService timeService;
-    
+@IocBean(create = "init")
+public class CxfClientLauncher {
+
+    protected TimeService timeService;
+
     @Ok("raw")
     @At("/time/now")
     public long now() {
         return timeService.now();
     }
 
+    public void init() {
+        JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+        factory.setServiceClass(TimeService.class);
+        factory.setAddress("http://127.0.0.1:8081/webservice/TimeService");
+        timeService = (TimeService) factory.create();
+    }
+
     public static void main(String[] args) throws Exception {
-        new NbApp(ZbusRpcTimeClientLauncher.class).run();
+        new NbApp().run();
     }
 
 }

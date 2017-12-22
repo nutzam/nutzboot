@@ -8,6 +8,7 @@
   <artifactId>nutzboot-demo-cxf</artifactId>
   <packaging>pom</packaging>
   <modules>
+  	<module>nutzboot-demo-cxf-common</module>
   	<module>nutzboot-demo-cxf-service</module>
   	<module>nutzboot-demo-cxf-client</module>
   </modules>
@@ -18,7 +19,6 @@
   	<dependency>
   		<groupId>org.nutz</groupId>
   		<artifactId>nutzboot-starter</artifactId>
-  		<version>${project.version}</version>
   	</dependency>
   </dependencies>
 </project>

@@ -1,16 +1,17 @@
 package io.nutz.demo.cxf.service.impl;
 
+import javax.jws.WebService;
+
 import org.nutz.ioc.loader.annotation.IocBean;
 
 import io.nutz.demo.cxf.service.TimeService;
-import io.zbus.rpc.Remote;
 
-@Remote
-@IocBean
+@WebService(endpointInterface = "io.nutz.demo.cxf.service.TimeService", serviceName = "TimeService")
+@IocBean(name = "timeService")
 public class TimeServiceImpl implements TimeService {
 
-	public long now() {
-		return System.currentTimeMillis();
-	}
+    public long now() {
+        return System.currentTimeMillis();
+    }
 
 }
