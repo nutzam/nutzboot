@@ -58,4 +58,7 @@ public class ShiroFilterStarter implements WebFilterFace {
         return new HashMap<>();
     }
 
+    public int getOrder() {
+        return conf.getInt("web.filter.order.shiro", FilterOrder.ShiroFilter);
+    }
 }

@@ -6,10 +6,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.websocket.server.ServerContainer;
 import javax.websocket.server.ServerEndpoint;
@@ -39,7 +39,6 @@ import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
-import org.nutz.lang.Strings;
 import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -52,32 +51,29 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
 
     protected static final String PRE = "jetty.";
 
-    @PropDoc(group = "jetty", value = "监听的ip地址", defaultValue = "0.0.0.0")
+    @PropDoc(value = "监听的ip地址", defaultValue = "0.0.0.0")
     public static final String PROP_HOST = PRE + "host";
 
-    @PropDoc(group = "jetty", value = "线程池idleTimeout，单位毫秒", defaultValue = "60000", type = "int")
+    @PropDoc(value = "线程池idleTimeout，单位毫秒", defaultValue = "60000", type = "int")
     public static final String PROP_THREADPOOL_TIMEOUT = PRE + "threadpool.idleTimeout";
 
-    @PropDoc(group = "jetty", value = "线程池最小线程数minThreads", defaultValue = "200", type = "int")
+    @PropDoc(value = "线程池最小线程数minThreads", defaultValue = "200", type = "int")
     public static final String PROP_THREADPOOL_MINTHREADS = PRE + "threadpool.minThreads";
 
-    @PropDoc(group = "jetty", value = "线程池最大线程数maxThreads", defaultValue = "500", type = "int")
+    @PropDoc(value = "线程池最大线程数maxThreads", defaultValue = "500", type = "int")
     public static final String PROP_THREADPOOL_MAXTHREADS = PRE + "threadpool.maxThreads";
 
-    @PropDoc(group = "jetty", value = "监听的端口", defaultValue = "8080", type = "int")
+    @PropDoc(value = "监听的端口", defaultValue = "8080", type = "int")
     public static final String PROP_PORT = PRE + "port";
 
-    @PropDoc(group = "jetty", value = "空闲时间,单位毫秒", defaultValue = "300000", type = "int")
+    @PropDoc(value = "空闲时间,单位毫秒", defaultValue = "300000", type = "int")
     public static final String PROP_IDLE_TIMEOUT = PRE + "http.idleTimeout";
 
-    @PropDoc(group = "jetty", value = "上下文路径", defaultValue = "/")
+    @PropDoc(value = "上下文路径", defaultValue = "/")
     public static final String PROP_CONTEXT_PATH = PRE + "contextPath";
 
-    @PropDoc(group = "jetty", value = "表单最大尺寸", defaultValue = "1gb", type = "int")
+    @PropDoc(value = "表单最大尺寸", defaultValue = "1gb", type = "int")
     public static final String PROP_MAX_FORM_CONTENT_SIZE = PRE + "maxFormContentSize";
-
-    @PropDoc(group = "web", value = "过滤器顺序", defaultValue = "whale,druid,shiro,nutz")
-    public static final String PROP_WEB_FILTERS_ORDER = "web.filters.order";
 
     @Inject
     private PropertiesProxy conf;
@@ -134,16 +130,16 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         // 设置应用上下文
         wac = new WebAppContext();
         wac.setContextPath(getContextPath());
-        //wac.setExtractWAR(false);
-        //wac.setCopyWebInf(true);
-        //wac.setProtectedTargets(new String[]{"/java", "/javax", "/org", "/net", "/WEB-INF", "/META-INF"});
+        // wac.setExtractWAR(false);
+        // wac.setCopyWebInf(true);
+        // wac.setProtectedTargets(new String[]{"/java", "/javax", "/org",
+        // "/net", "/WEB-INF", "/META-INF"});
         wac.setTempDirectory(createTempDir("jetty").getAbsoluteFile());
         wac.setClassLoader(classLoader);
         wac.setConfigurationDiscovered(true);
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
             wac.setInitParameter("org.eclipse.jetty.servlet.Default.useFileMappedBuffer", "false");
         }
-
 
         List<Resource> resources = new ArrayList<>();
         for (String resourcePath : Arrays.asList("static/", "webapp/")) {
@@ -192,37 +188,23 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     }
 
     private void addNutzSupport() {
-        Map<String, WebFilterFace> filters = new HashMap<>();
-        for (Object object : appContext.getStarters()) {
-            if (object instanceof WebFilterFace) {
-                WebFilterFace webFilter = (WebFilterFace) object;
-                filters.put(webFilter.getName(), webFilter);
+        List<WebFilterFace> filters = appContext.getBeans(WebFilterFace.class);
+        Collections.sort(filters, Comparator.comparing(WebFilterFace::getOrder));
+        filters.forEach((face) -> addFilter(face));
+        appContext.getBeans(WebServletFace.class).forEach((face) -> {
+            if (face.getServlet() == null) {
+                return;
             }
-            if (object instanceof WebServletFace) {
-                WebServletFace webServlet = (WebServletFace) object;
-                if (webServlet.getServlet() == null) {
-                    continue;
-                }
-                ServletHolder holder = new ServletHolder(webServlet.getServlet());
-                holder.setName(webServlet.getName());
-                holder.setInitParameters(webServlet.getInitParameters());
-                wac.addServlet(holder, webServlet.getPathSpec());
+            ServletHolder holder = new ServletHolder(face.getServlet());
+            holder.setName(face.getName());
+            holder.setInitParameters(face.getInitParameters());
+            wac.addServlet(holder, face.getPathSpec());
+        });
+        appContext.getBeans(WebEventListenerFace.class).forEach((face) -> {
+            if (face.getEventListener() != null) {
+                wac.addEventListener(face.getEventListener());
             }
-            if (object instanceof WebEventListenerFace) {
-                WebEventListenerFace contextListener = (WebEventListenerFace) object;
-                if (contextListener.getEventListener() != null) {
-                    wac.addEventListener(contextListener.getEventListener());
-                }
-            }
-        }
-
-        String[] filterOrders = Strings.splitIgnoreBlank(getWebFiltersOrder());
-        for (String filterName : filterOrders) {
-            addFilter(filters.remove(filterName));
-        }
-        for (WebFilterFace webFilter : filters.values()) {
-            addFilter(webFilter);
-        }
+        });
     }
 
     public void addFilter(WebFilterFace webFilter) {
@@ -236,11 +218,9 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         wac.addFilter(holder, webFilter.getPathSpec(), webFilter.getDispatches());
     }
 
-    public void fetch() throws Exception {
-    }
+    public void fetch() throws Exception {}
 
-    public void depose() throws Exception {
-    }
+    public void depose() throws Exception {}
 
     private File createTempDir(String prefix) {
         try {
@@ -249,11 +229,9 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
             tempDir.mkdir();
             tempDir.deleteOnExit();
             return tempDir;
-        } catch (IOException ex) {
-            throw new RuntimeException(
-                    "Unable to create tempDir. java.io.tmpdir is set to "
-                            + System.getProperty("java.io.tmpdir"),
-                    ex);
+        }
+        catch (IOException ex) {
+            throw new RuntimeException("Unable to create tempDir. java.io.tmpdir is set to " + System.getProperty("java.io.tmpdir"), ex);
         }
     }
 
@@ -270,13 +248,6 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         return conf.getInt(PROP_MAX_FORM_CONTENT_SIZE, 1024 * 1024 * 1024);
     }
 
-    public String getWebFiltersOrder() {
-        String filterOrder = conf.get(PROP_WEB_FILTERS_ORDER);
-        return filterOrder == null
-                ? "whale,druid,shiro,nutz"
-                : filterOrder.replaceFirst("\\+$", ",whale,druid,shiro,nutz");
-    }
-
     public String getContextPath() {
         return conf.get(PROP_CONTEXT_PATH, "/");
     }
@@ -286,11 +257,11 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     }
 
     public int getMinThreads() {
-        return Lang.isAndroid ? 8 :  conf.getInt(PROP_THREADPOOL_MINTHREADS,200);
+        return Lang.isAndroid ? 8 : conf.getInt(PROP_THREADPOOL_MINTHREADS, 200);
     }
 
     public int getMaxThreads() {
-        return Lang.isAndroid ? 50 : conf.getInt(PROP_THREADPOOL_MAXTHREADS,500);
+        return Lang.isAndroid ? 50 : conf.getInt(PROP_THREADPOOL_MAXTHREADS, 500);
     }
 
     public int getThreadPoolIdleTimeout() {

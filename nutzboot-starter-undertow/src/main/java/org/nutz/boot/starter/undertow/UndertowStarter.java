@@ -1,9 +1,11 @@
 package org.nutz.boot.starter.undertow;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.EventListener;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.DispatcherType;
@@ -24,7 +26,6 @@ import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Files;
-import org.nutz.lang.Strings;
 import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -64,11 +65,8 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 	@PropDoc(group = "undertow", value = "上下文路径", defaultValue = "/")
 	public static final String PROP_CONTEXT_PATH = PRE + "contextPath";
 
-	@PropDoc(group = "undertow", value = "session过期时间", defaultValue = "20")
+	@PropDoc(group = "undertow", value = "session过期时间", defaultValue = "30")
 	public static final String PROP_SESSION = PRE + "session";
-
-	@PropDoc(group = "undertow", value = "过滤器顺序", defaultValue = "whale,druid,shiro,nutz")
-	public static final String PROP_WEB_FILTERS_ORDER = "web.filters.order";
 
 	@PropDoc(group = "undertow", value = "静态文件路径", defaultValue = "/static/")
 	public static final String PROP_STATIC_PATH = PRE + "staticPath";
@@ -147,29 +145,20 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 	}
 
 	private void addNutzSupport() {
-		Map<String, WebFilterFace> filters = new HashMap<>();
-		for (Object object : appContext.getStarters()) {
-			if (object instanceof WebFilterFace) {
-				WebFilterFace webFilter = (WebFilterFace) object;
-				filters.put(webFilter.getName(), webFilter);
-			}
-			if (object instanceof WebServletFace) {
-				WebServletFace webServlet = (WebServletFace) object;
-				addServlet(webServlet);
-			}
-			if (object instanceof WebEventListenerFace) {
-				WebEventListenerFace contextListener = (WebEventListenerFace) object;
-				addEventListener(contextListener);
-			}
-		}
-
-		String[] filterOrders = Strings.splitIgnoreBlank(getWebFiltersOrder());
-		for (String filterName : filterOrders) {
-			addFilter(filters.remove(filterName));
-		}
-		for (WebFilterFace webFilter : filters.values()) {
-			addFilter(webFilter);
-		}
+        List<WebFilterFace> filters = appContext.getBeans(WebFilterFace.class);
+        Collections.sort(filters, Comparator.comparing(WebFilterFace::getOrder));
+        filters.forEach((face) -> addFilter(face));
+        appContext.getBeans(WebServletFace.class).forEach((face) -> {
+            if (face.getServlet() == null) {
+                return;
+            }
+            addServlet(face);
+        });
+        appContext.getBeans(WebEventListenerFace.class).forEach((face) -> {
+            if (face.getEventListener() != null) {
+                addEventListener(face);
+            }
+        });
 	}
 	
 	private void addWebSocketSupport() {
@@ -243,13 +232,6 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 
 	public String getStaticPath() {
 		return conf.get(PROP_STATIC_PATH, "static");
-	}
-
-	public String getWebFiltersOrder() {
-		String filterOrder = conf.get(PROP_WEB_FILTERS_ORDER);
-		return filterOrder == null
-				? "whale,druid,shiro,nutz"
-				: filterOrder.replaceFirst("\\+$", ",whale,druid,shiro,nutz");
 	}
 
 	public String getContextPath() {

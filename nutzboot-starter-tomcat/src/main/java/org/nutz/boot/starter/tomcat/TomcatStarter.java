@@ -6,7 +6,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -30,7 +32,6 @@ import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Files;
 import org.nutz.lang.Lang;
-import org.nutz.lang.Strings;
 import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -65,9 +66,6 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
 
     @PropDoc(group = "tomcat", value = "session过期时间", defaultValue = "20")
     public static final String PROP_SESSION = PRE + "session";
-
-    @PropDoc(group = "tomcat", value = "过滤器顺序", defaultValue = "whale,druid,shiro,nutz")
-    public static final String PROP_WEB_FILTERS_ORDER = "web.filters.order";
 
     @PropDoc(group = "tomcat", value = "静态文件路径", defaultValue = "static")
     public static final String PROP_STATIC_PATH = PRE + "staticPath";
@@ -216,37 +214,20 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
     }
 
     private void addNutzSupport() {
-        Map<String, WebFilterFace> filters = new HashMap<String, WebFilterFace>();
-        for (Object object : appContext.getStarters()) {
-            if (object instanceof WebFilterFace) {
-                WebFilterFace webFilter = (WebFilterFace) object;
-                if (webFilter != null && webFilter.getFilter() != null) {
-                    filters.put(webFilter.getName(), webFilter);
-                }
+        List<WebFilterFace> filters = appContext.getBeans(WebFilterFace.class);
+        Collections.sort(filters, Comparator.comparing(WebFilterFace::getOrder));
+        filters.forEach((face) -> addFilter(face));
+        appContext.getBeans(WebServletFace.class).forEach((face) -> {
+            if (face.getServlet() == null) {
+                return;
             }
-            if (object instanceof WebServletFace) {
-                WebServletFace webServlet = (WebServletFace) object;
-                if (webServlet != null && webServlet.getServlet() != null) {
-                    addServlet(webServlet);
-                }
+            addServlet(face);
+        });
+        appContext.getBeans(WebEventListenerFace.class).forEach((face) -> {
+            if (face.getEventListener() != null) {
+                this.tomcatContext.addApplicationEventListener(face.getEventListener());
             }
-
-            if (object instanceof WebEventListenerFace) {
-                WebEventListenerFace contextListener = (WebEventListenerFace) object;
-                if (contextListener != null && contextListener.getEventListener() != null) {
-                    this.tomcatContext.addApplicationEventListener(contextListener.getEventListener());
-                }
-            }
-        }
-
-        String[] filterOrders = Strings.splitIgnoreBlank(getWebFiltersOrder());
-
-        for (String filterName : filterOrders) {
-            addFilter(filters.remove(filterName));
-        }
-        for (WebFilterFace webFilter : filters.values()) {
-            addFilter(webFilter);
-        }
+        });
     }
 
     private void addDefaultServlet() {
@@ -373,13 +354,6 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
 
     public String getStaticPath() {
         return conf.get(PROP_STATIC_PATH, "static");
-    }
-
-    public String getWebFiltersOrder() {
-        String filterOrder = conf.get(PROP_WEB_FILTERS_ORDER);
-        return filterOrder == null
-                ? "whale,druid,shiro,nutz"
-                : filterOrder.replaceFirst("\\+$", ",whale,druid,shiro,nutz");
     }
 
     public String getContextPath() {
