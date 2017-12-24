@@ -69,7 +69,11 @@ public class MainLauncher {
 }
 ```
 
+[![asciicast](https://asciinema.org/a/40Brr8ZNsHx1ILfjhJ7zppJ3v.png)](https://asciinema.org/a/40Brr8ZNsHx1ILfjhJ7zppJ3v)
+
 请访问 [https://get.nutz.io](https://get.nutz.io) 获取属于您的基础代码
+
+
 
 ### Demo
 
