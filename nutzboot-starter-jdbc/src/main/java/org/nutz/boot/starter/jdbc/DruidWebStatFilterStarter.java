@@ -74,5 +74,7 @@ public class DruidWebStatFilterStarter implements WebFilterFace {
 		}
 		return params;
 	}
-
+    public int getOrder() {
+        return conf.getInt("web.filter.order.druid", FilterOrder.DruidFilter);
+    }
 }

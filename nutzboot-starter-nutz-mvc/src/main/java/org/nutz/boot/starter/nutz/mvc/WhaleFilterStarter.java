@@ -61,4 +61,7 @@ public class WhaleFilterStarter implements WebFilterFace {
         return params;
     }
 
+    public int getOrder() {
+        return conf.getInt("web.filter.order.whale", FilterOrder.WhaleFilter);
+    }
 }

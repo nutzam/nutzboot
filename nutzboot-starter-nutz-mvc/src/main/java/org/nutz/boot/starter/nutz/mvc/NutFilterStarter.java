@@ -55,4 +55,7 @@ public class NutFilterStarter implements WebFilterFace {
         return params;
     }
 
+    public int getOrder() {
+        return conf.getInt("web.filter.order.nutz", FilterOrder.NutFilter);
+    }
 }

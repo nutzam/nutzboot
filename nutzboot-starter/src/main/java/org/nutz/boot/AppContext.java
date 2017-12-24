@@ -144,4 +144,14 @@ public class AppContext implements LifeCycle {
             }
         }
     }
+    
+    public <T> List<T> getBeans(Class<T> klass) {
+        List<T> list = new ArrayList<>();
+        for (String name : getIoc().getNamesByType(klass)) {
+            if (name == null)
+                continue;
+            list.add(getIoc().get(klass, name));
+        }
+        return list;
+    }
 }

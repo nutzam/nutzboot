@@ -17,4 +17,14 @@ public interface WebFilterFace {
     Filter getFilter();
     
     Map<String, String> getInitParameters();
+    
+    int getOrder();
+    
+    public static interface FilterOrder {
+        // whale,druid,shiro,nutz
+        int WhaleFilter = 10;
+        int DruidFilter = 20;
+        int ShiroFilter = 30;
+        int NutFilter = 50;
+    }
 }
