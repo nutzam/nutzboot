@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.nutz</groupId>
 		<artifactId>nutzboot-parent</artifactId>
-		<version>2.0-SNAPSHOT</version>
+		<version>2.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>nutzboot-starter-nutz-dao</artifactId>
 	<packaging>jar</packaging>
