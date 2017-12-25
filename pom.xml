@@ -79,7 +79,8 @@
 		<module>nutzboot-starter-zkclient</module>
 		<module>nutzboot-starter-velocity</module>
 		<module>nutzboot-starter-cxf</module>
-	</modules>
+        <module>nutzboot-starter-feign</module>
+    </modules>
 	<profiles>
 		<profile>
 			<id>demo</id>

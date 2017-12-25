@@ -28,6 +28,7 @@ public class QuartzStarter implements IocLoaderProvider, ServerFace {
 	}
 
 	public void start() throws Exception {
+
 		appContext.getIoc().get(QuartzManager.class);
 		appContext.getIoc().get(NutQuartzCronJobFactory.class);
 	}

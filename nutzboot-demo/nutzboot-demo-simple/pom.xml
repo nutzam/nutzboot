@@ -29,7 +29,8 @@
 		<module>nutzboot-demo-simple-zkclient</module>
 		<module>nutzboot-demo-simple-velocity</module>
 		<module>nutzboot-demo-simple-jetty</module>
-	</modules>
+        <module>nutzboot-demo-simple-feign</module>
+    </modules>
 
 	<dependencies>
 		<dependency>
