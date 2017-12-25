@@ -1,5 +1,10 @@
 # NB进化史
 
+## dev
+
+* 变更
+	* add: [feign](https://github.com/OpenFeign/feign) by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
+
 ## 2.0 "Merry Christmas"
 
 大家昨晚都很累吧 ^_^

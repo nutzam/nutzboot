@@ -128,6 +128,7 @@ public class MainLauncher {
 	- Rpc类启动器
 		- [x] [Dubbo](http://dubbo.io/) 阿里出品的高性能RPC平台
 		- [x] [zbus](http://zbus.io) 国产知名RPC平台
+		- [x] [feign](https://github.com/OpenFeign/feign) by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
 		- [ ] [motan](https://github.com/weibocom/motan)
 	- 其他
 		- [x] Ngrok 内网穿透,轻松获取外网地址
