@@ -27,6 +27,11 @@
 			<artifactId>nutzboot-starter-nutz-mvc</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-jdbc</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
