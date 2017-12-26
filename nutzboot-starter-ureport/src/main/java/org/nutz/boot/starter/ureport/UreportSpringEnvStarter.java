@@ -8,8 +8,11 @@ import javax.servlet.ServletContextEvent;
 import javax.sql.DataSource;
 
 import org.nutz.boot.tools.SpringWebContextProxy;
+import org.nutz.ioc.impl.PropertiesProxy;
+import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Mirror;
+import org.nutz.lang.Strings;
 
 import com.bstek.ureport.Utils;
 import com.bstek.ureport.definition.datasource.BuildinDatasource;
@@ -18,6 +21,9 @@ import com.bstek.ureport.provider.image.ImageProvider;
 @IocBean
 public class UreportSpringEnvStarter extends SpringWebContextProxy {
 
+    @Inject
+    protected PropertiesProxy conf;
+    
     public UreportSpringEnvStarter() {
         configLocation = "classpath:ureport-spring-context.xml";
         selfName = "ureport";
@@ -35,12 +41,12 @@ public class UreportSpringEnvStarter extends SpringWebContextProxy {
         super.contextInitialized(sce);
         // 把BuildinDatasource统统注册一下
         List<BuildinDatasource> buildinDatasources = appContext.getBeans(BuildinDatasource.class);
-        if (appContext.getIoc().has("dataSource")) {
+        if (!Strings.isBlank(conf.get("ureport.nutzboot.dsName"))) {
             // 添加一个内置的BuildinDatasource
             DataSource ds = appContext.getIoc().get(DataSource.class);
             buildinDatasources.add(new BuildinDatasource() {
                 public String name() {
-                    return "nutzboot.buildin";
+                    return conf.get("ureport.nutzboot.dsName");
                 }
 
                 public Connection getConnection() {
