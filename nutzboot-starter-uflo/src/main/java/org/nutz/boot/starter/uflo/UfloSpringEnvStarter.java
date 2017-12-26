@@ -1,5 +1,7 @@
 package org.nutz.boot.starter.uflo;
 
+import java.util.List;
+
 import org.nutz.boot.tools.SpringWebContextProxy;
 import org.nutz.ioc.loader.annotation.IocBean;
 
@@ -11,4 +13,10 @@ public class UfloSpringEnvStarter extends SpringWebContextProxy {
         selfName = "uflo";
     }
 
+    @Override
+    protected List<String> getSpringBeanNames() {
+        List<String> names = super.getSpringBeanNames();
+        names.remove(selfName + ".props");
+        return names;
+    }
 }

@@ -1,5 +1,7 @@
 package org.nutz.boot.starter.urule;
 
+import java.util.List;
+
 import org.nutz.boot.tools.SpringWebContextProxy;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -23,5 +25,12 @@ public class UruleSpringEnvStarter extends SpringWebContextProxy {
             dir = Files.createDirIfNoExists(dir).getAbsolutePath();
             conf.set("rule.repository.di", dir);
         }
+    }
+    
+    @Override
+    protected List<String> getSpringBeanNames() {
+        List<String> names = super.getSpringBeanNames();
+        names.remove(selfName + ".props");
+        return names;
     }
 }
