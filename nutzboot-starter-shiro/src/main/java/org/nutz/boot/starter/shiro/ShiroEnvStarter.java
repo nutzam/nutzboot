@@ -26,6 +26,7 @@ import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.session.mgt.WebSessionManager;
 import org.nutz.boot.AppContext;
+import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.starter.WebEventListenerFace;
 import org.nutz.integration.jedis.JedisAgent;
 import org.nutz.integration.shiro.SimplePrincipalSerializer;
@@ -45,7 +46,24 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 
 	@Inject
 	protected PropertiesProxy conf;
-	
+
+	@PropDoc(value = "是否启用Shiro的Session管理", defaultValue = "true")
+	public static final String SHIRO_SESSION_ENABLE = "shiro.session.enable";
+	@PropDoc(value = "Cookie的name", defaultValue = "sid")
+	public static final String SHIRO_SESSION_COOKIE_NAME = "shiro.session.cookie.name";
+	@PropDoc(value = "Cookie的过期时间,单位:毫秒", defaultValue = "946080000")
+	public static final String SHIRO_SESSION_COOKIE_MAXAGE = "shiro.session.cookie.maxAge";
+	@PropDoc(value = "Cookie是否只读", defaultValue = "true")
+	public static final String SHIRO_SESSION_COOKIE_HTTPONLY = "shiro.session.cookie.httpOnly";
+	@PropDoc(value = "设置使用的缓存类型", defaultValue = "memory")
+	public static final String SHIRO_SESSION_CACHE_TYPE = "shiro.session.cache.type";
+	@PropDoc(value = "设置redis缓存的模式", defaultValue = "kv")
+	public static final String SHIRO_SESSION_CACHE_REDIS_MODE= "shiro.session.cache.redis.mode";
+	@PropDoc(value = "session持久化时redis的debug模式", defaultValue = "false")
+	public static final String SHIRO_SESSION_CACHE_REDIS_DEBUG= "shiro.session.cache.redis.debug";
+	@PropDoc(value = "redis缓存的过期时间", defaultValue = "-1")
+	public static final String SHIRO_SESSION_CACHE_REDIS_TTL= "shiro.session.cache.redis.ttl";
+
 	@Inject
 	protected AppContext appContext;
 
@@ -92,7 +110,7 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 		};
 
 		// Shiro Session相关
-		if (conf.getBoolean("shiro.session.enable", true)) {
+		if (conf.getBoolean(SHIRO_SESSION_ENABLE, true)) {
 			webSecurityManager.setSessionManager(ioc.get(WebSessionManager.class, "shiroWebSessionManager"));
 		}
 		List<Realm> realms = new ArrayList<>();
@@ -111,7 +129,6 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 
 		return filterChainResolver;
 	}
-
 	@IocBean(name = "shiroWebSessionManager")
 	public WebSessionManager getWebSessionManager() {
 		DefaultWebSessionManager webSessionManager = conf.make(DefaultWebSessionManager.class, "shiro.session.manager.");
@@ -122,9 +139,10 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 		webSessionManager.setSessionDAO(sessionDAO);
 
 		// cookie
-		conf.putIfAbsent("shiro.session.cookie.name", "sid");
-		conf.putIfAbsent("shiro.session.cookie.maxAge", "946080000");
-		conf.putIfAbsent("shiro.session.cookie.httpOnly", "true");
+		conf.putIfAbsent(SHIRO_SESSION_COOKIE_NAME,"sid");
+		conf.putIfAbsent(SHIRO_SESSION_COOKIE_MAXAGE,"946080000");
+		conf.putIfAbsent(SHIRO_SESSION_COOKIE_HTTPONLY,"true");
+
 		SimpleCookie cookie = conf.make(SimpleCookie.class, "shiro.session.cookie.");
 		webSessionManager.setSessionIdCookie(cookie);
 		webSessionManager.setSessionIdCookieEnabled(true);
@@ -133,10 +151,11 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 
 		return webSessionManager;
 	}
-	
+
+
 	@IocBean(name="shiroCacheManager")
 	public CacheManager getCacheManager() {
-		switch (conf.get("shiro.session.cache.type", "memory")) {
+		switch (conf.get(SHIRO_SESSION_CACHE_TYPE, "memory")) {
 		case "ehcache":
 			return ioc.get(CacheManager.class, "shiroEhcacheCacheManager");
 		case "redis":
@@ -172,12 +191,12 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 		}
 		return cacheManager;
 	}
-	
+
 	@IocBean(name="shiroRedisCacheManager")
 	public CacheManager getRedisLcacheCacheManager() {
-		conf.putIfAbsent("shiro.session.cache.redis.mode", "kv");
-		conf.putIfAbsent("shiro.session.cache.redis.debug", "false");
-		conf.putIfAbsent("shiro.session.cache.redis.ttl", "-1");
+		conf.putIfAbsent(SHIRO_SESSION_CACHE_REDIS_MODE,"kv");
+		conf.putIfAbsent(SHIRO_SESSION_CACHE_REDIS_DEBUG,"false");
+		conf.putIfAbsent(SHIRO_SESSION_CACHE_REDIS_TTL,"-1");
 		RedisCacheManager cacheManager = conf.make(RedisCacheManager.class, "shiro.session.cache.redis.");
 		return cacheManager;
 	}
