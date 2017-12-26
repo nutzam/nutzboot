@@ -40,7 +40,7 @@ public class UreportSpringEnvStarter extends SpringWebContextProxy {
             DataSource ds = appContext.getIoc().get(DataSource.class);
             buildinDatasources.add(new BuildinDatasource() {
                 public String name() {
-                    return "nutztboot.buildin";
+                    return "nutzboot.buildin";
                 }
 
                 public Connection getConnection() {
