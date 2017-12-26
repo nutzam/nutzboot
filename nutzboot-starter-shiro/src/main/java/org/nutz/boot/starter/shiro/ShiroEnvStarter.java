@@ -47,21 +47,21 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 	@Inject
 	protected PropertiesProxy conf;
 
-	@PropDoc(value = "是否启用Shiro的Session管理", defaultValue = "true")
+	@PropDoc(group = "shiro",value = "是否启用Shiro的Session管理", defaultValue = "true")
 	public static final String SHIRO_SESSION_ENABLE = "shiro.session.enable";
-	@PropDoc(value = "Cookie的name", defaultValue = "sid")
+	@PropDoc(group = "shiro",value = "Cookie的name", defaultValue = "sid")
 	public static final String SHIRO_SESSION_COOKIE_NAME = "shiro.session.cookie.name";
-	@PropDoc(value = "Cookie的过期时间,单位:毫秒", defaultValue = "946080000")
+	@PropDoc(group = "shiro",value = "Cookie的过期时间,单位:毫秒", defaultValue = "946080000")
 	public static final String SHIRO_SESSION_COOKIE_MAXAGE = "shiro.session.cookie.maxAge";
-	@PropDoc(value = "Cookie是否只读", defaultValue = "true")
+	@PropDoc(group = "shiro",value = "Cookie是否只读", defaultValue = "true")
 	public static final String SHIRO_SESSION_COOKIE_HTTPONLY = "shiro.session.cookie.httpOnly";
-	@PropDoc(value = "设置使用的缓存类型", defaultValue = "memory")
+	@PropDoc(group = "shiro",value = "设置使用的缓存类型", defaultValue = "memory")
 	public static final String SHIRO_SESSION_CACHE_TYPE = "shiro.session.cache.type";
-	@PropDoc(value = "设置redis缓存的模式", defaultValue = "kv")
+	@PropDoc(group = "shiro",value = "设置redis缓存的模式", defaultValue = "kv")
 	public static final String SHIRO_SESSION_CACHE_REDIS_MODE= "shiro.session.cache.redis.mode";
-	@PropDoc(value = "设置redis缓存是否开启Debug", defaultValue = "false")
+	@PropDoc(group = "shiro",value = "设置redis缓存是否开启Debug", defaultValue = "false")
 	public static final String SHIRO_SESSION_CACHE_REDIS_DEBUG= "shiro.session.cache.redis.debug";
-	@PropDoc(value = "不知道这个配置是啥...", defaultValue = "-1")
+	@PropDoc(group = "shiro",value = "不知道这个配置是啥...", defaultValue = "-1")
 	public static final String SHIRO_SESSION_CACHE_REDIS_TTL= "shiro.session.cache.redis.ttl";
 
 	@Inject
