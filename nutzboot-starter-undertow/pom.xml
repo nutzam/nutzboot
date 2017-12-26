@@ -83,5 +83,9 @@
 			<artifactId>undertow-websockets-jsr</artifactId>
 			<version>${undertow.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutz-plugins-websocket</artifactId>
+		</dependency>
 	</dependencies>
 </project>
