@@ -26,7 +26,7 @@ public class UruleSpringEnvStarter extends SpringWebContextProxy {
             conf.set("rule.repository.di", dir);
         }
     }
-    
+
     @Override
     protected List<String> getSpringBeanNames() {
         List<String> names = super.getSpringBeanNames();
