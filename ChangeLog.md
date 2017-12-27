@@ -4,6 +4,10 @@
 
 * 变更
 	* add: [feign](https://github.com/OpenFeign/feign) by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
+	* add: ureport需要从nutz ioc读取BuildinDatasource和ImageProvider的对象,由"鱼夫"报告
+	* update: 补全shiro的@ProcDoc文档 by 蛋蛋
+	* fix: ureport与nutz mvc一起使用时报SpringBean抽象错误,由"鱼夫"报告
+	* fix: beetl模板在应该自动刷新 ,由"温泉"报告
 
 ## 2.0 "Merry Christmas"
 

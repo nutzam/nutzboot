@@ -60,7 +60,9 @@ public class BeetlViewMakerStarter extends BeetlViewMaker {
         if (!prop.containsKey(Configuration.RESOURCE_LOADER)) {
             // 默认选用WebAppResourceLoader,除非用户自定义了RESOURCE_LOADER
             log.debug("no custom RESOURCE_LOADER found , select ClasspathResourceLoader");
-            groupTemplate.setResourceLoader(new ClasspathResourceLoader(appContext.getClassLoader(), prop.getProperty("root", "template/")));
+            ClasspathResourceLoader loader = new ClasspathResourceLoader(appContext.getClassLoader(), prop.getProperty("root", "template/"));
+            loader.setAutoCheck(true);
+            groupTemplate.setResourceLoader(loader);
         }
         render = new WebRender(groupTemplate);
         log.debug("beetl init complete");
