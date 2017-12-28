@@ -22,7 +22,7 @@ public class UfloServletStarter extends UfloServlet implements WebServletFace {
     @PropDoc(value = "义UFLO中所有表数据主键中的缓冲区大小", defaultValue = "10")
     public static final String UFLO_IDBLOCKSIZE = "uflo.idBlockSize";
 
-    @PropDoc(value = "是否禁用当前应用中任务提醒功能", defaultValue = "false???")
+    @PropDoc(value = "是否禁用当前应用中任务提醒功能", defaultValue = "false")
     public static final String UFLO_DISABLESCHEDULER = "uflo.disableScheduler";
 
     @PropDoc(value = "任务提醒Job池的大小", defaultValue = "10")

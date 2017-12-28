@@ -31,7 +31,7 @@ public class UruleServletStarter extends URuleServlet implements WebServletFace 
     @PropDoc(value = "用来指定客户端多久到服务端检查当前知识包有没有更新", defaultValue = "0")
     public static final String URULE_KNOWLEDGEUPDATECYCLE = "urule.knowledgeUpdateCycle";
 
-    @PropDoc(value = "一个URL，用于替换URule Console主界面第一次看到的工作区内容", defaultValue = "0")
+    @PropDoc(value = "一个URL，用于替换URule Console主界面第一次看到的工作区内容", defaultValue = "")
     public static final String URULE_WELCOMEPAGE = "urule.welcomePage";
 
     @PropDoc(value = "一个字符串，用来替代URule控制台页面的title", defaultValue = "URule Console")
