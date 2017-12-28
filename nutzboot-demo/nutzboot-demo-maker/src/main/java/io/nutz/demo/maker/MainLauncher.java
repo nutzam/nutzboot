@@ -84,7 +84,7 @@ public class MainLauncher {
         String key = tmpRoot.getName();
         
         // 拷贝个简介
-        _copy(key, "REAME.md");
+        _copy(key, "README.md");
         
         // 打包,手工
         zipIt(tmpRoot);
