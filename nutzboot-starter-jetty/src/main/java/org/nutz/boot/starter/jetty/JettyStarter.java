@@ -134,7 +134,7 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         // wac.setCopyWebInf(true);
         // wac.setProtectedTargets(new String[]{"/java", "/javax", "/org",
         // "/net", "/WEB-INF", "/META-INF"});
-        wac.setTempDirectory(createTempDir("jetty").getAbsoluteFile());
+        wac.setTempDirectory(new File("temp"));
         wac.setClassLoader(classLoader);
         wac.setConfigurationDiscovered(true);
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
@@ -221,19 +221,6 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     public void fetch() throws Exception {}
 
     public void depose() throws Exception {}
-
-    private File createTempDir(String prefix) {
-        try {
-            File tempDir = File.createTempFile(prefix + ".", "." + getPort());
-            tempDir.delete();
-            tempDir.mkdir();
-            tempDir.deleteOnExit();
-            return tempDir;
-        }
-        catch (IOException ex) {
-            throw new RuntimeException("Unable to create tempDir. java.io.tmpdir is set to " + System.getProperty("java.io.tmpdir"), ex);
-        }
-    }
 
     // --getConf---
     public int getPort() {

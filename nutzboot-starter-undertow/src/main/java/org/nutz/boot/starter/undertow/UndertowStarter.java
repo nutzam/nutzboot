@@ -1,6 +1,7 @@
 package org.nutz.boot.starter.undertow;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EventListener;
@@ -25,7 +26,7 @@ import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
-import org.nutz.lang.Files;
+import org.nutz.lang.Strings;
 import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -65,10 +66,10 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 	@PropDoc(group = "undertow", value = "上下文路径", defaultValue = "/")
 	public static final String PROP_CONTEXT_PATH = PRE + "contextPath";
 
-	@PropDoc(group = "undertow", value = "session过期时间", defaultValue = "30")
+	@PropDoc(group = "undertow", value = "session过期时间,单位分钟", defaultValue = "30", type="int")
 	public static final String PROP_SESSION = PRE + "session";
 
-	@PropDoc(group = "undertow", value = "静态文件路径", defaultValue = "/static/")
+	@PropDoc(group = "undertow", value = "静态文件路径", defaultValue = "static/")
 	public static final String PROP_STATIC_PATH = PRE + "staticPath";
 
 	@Inject
@@ -117,12 +118,13 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 		deployment = Servlets.deployment().setDeploymentName("nb").setClassLoader(classLoader).setEagerFilterInit(true).setSecurityDisabled(true);
 		deployment.setContextPath(contextPath).setDefaultSessionTimeout(getSessionTimeout());
 
-		File resRootDir = Files.findFile(getStaticPath());
-		if (resRootDir != null && resRootDir.isDirectory()) {
-			deployment.setResourceManager(new FileResourceManager(resRootDir, 1024));
-		} else {
-			deployment.setResourceManager(new ClassPathResourceManager(classLoader, getStaticPath()));
-		}
+		ComboResourceManager resourceManager = new ComboResourceManager();
+		for (String path : getResourcePaths()) {
+		    if (new File(path).exists())
+		        resourceManager.add(new FileResourceManager(new File(path), 1024));
+            resourceManager.add(new ClassPathResourceManager(classLoader, path));
+        }
+		deployment.setResourceManager(resourceManager);
 
 		addNutzSupport();
 		addWebSocketSupport();
@@ -220,7 +222,6 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 	public void depose() throws Exception {
 	}
 
-
 	// --getConf---
 	public int getPort() {
 		return conf.getInt(PROP_PORT, 8080);
@@ -232,6 +233,13 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 
 	public String getStaticPath() {
 		return conf.get(PROP_STATIC_PATH, "static");
+	}
+	
+	public List<String> getResourcePaths() {
+	    if (Strings.isBlank(conf.get(PROP_STATIC_PATH)) &&
+	            ("static".equals(conf.get(PROP_STATIC_PATH)) || "static/".equals(conf.get(PROP_STATIC_PATH))))
+	        return Arrays.asList("static", "webapp");
+	    return Arrays.asList("static", "webapp");
 	}
 
 	public String getContextPath() {

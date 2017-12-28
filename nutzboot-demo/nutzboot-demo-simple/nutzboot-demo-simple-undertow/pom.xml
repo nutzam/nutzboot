@@ -20,7 +20,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.nutz</groupId>
-			<artifactId>nutzboot-starter-shiro</artifactId>
+			<artifactId>nutzboot-starter-swagger</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

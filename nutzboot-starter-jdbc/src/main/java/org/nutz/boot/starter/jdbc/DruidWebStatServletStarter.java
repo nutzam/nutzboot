@@ -70,7 +70,7 @@ public class DruidWebStatServletStarter implements WebServletFace {
 		if (!_tmp.containsKey(StatViewServlet.PARAM_NAME_PASSWORD)) {
 			String pwd = R.UU32();
 			_tmp.put(StatViewServlet.PARAM_NAME_PASSWORD, pwd);
-			log.infof("druid stat view random password=%s", pwd);
+			log.infof("druid stat view random user=%s password=%s", _tmp.get(StatViewServlet.PARAM_NAME_USERNAME), pwd);
 		}
 		for (Entry<String, Object> en : _tmp.entrySet()) {
 			params.put(en.getKey(), String.valueOf(en.getValue()));

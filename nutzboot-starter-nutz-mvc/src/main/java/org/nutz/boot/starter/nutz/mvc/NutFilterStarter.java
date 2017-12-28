@@ -7,7 +7,9 @@ import java.util.Map;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 
+import org.nutz.boot.AppContext;
 import org.nutz.boot.starter.WebFilterFace;
+import org.nutz.boot.starter.WebServletFace;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -23,6 +25,9 @@ public class NutFilterStarter implements WebFilterFace {
 	
 	@Inject
 	protected PropertiesProxy conf;
+	
+	@Inject
+	protected AppContext appContext;
 
     public String getName() {
         return "nutz";
@@ -51,7 +56,11 @@ public class NutFilterStarter implements WebFilterFace {
         if (conf.has("nutz.mvc.ignore")) {
         	params.put("ignore", conf.get("nutz.mvc.ignore"));
         }
-        params.put("exclusions", conf.get("nutz.mvc.exclusions", "/druid/*,/uflo/*,/ureport/*,/urule/*,/webservice/*,/swagger/*"));
+        StringBuilder sb = new StringBuilder();
+        for (WebServletFace face : appContext.getBeans(WebServletFace.class)) {
+            sb.append(',').append(face.getPathSpec());
+        }
+        params.put("exclusions", conf.get("nutz.mvc.exclusions", "") + sb);
         return params;
     }
 

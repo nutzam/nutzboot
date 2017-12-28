@@ -72,6 +72,7 @@ public class SwaggerServletStarter extends HttpServlet implements WebServletFace
         final String pathInfo = request.getRequestURI();
         if (pathInfo.endsWith("/swagger.json")) {
             response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
             response.getWriter().println(Json.mapper().writeValueAsString(swagger));
         } else {
             response.setStatus(404);
