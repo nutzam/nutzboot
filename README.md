@@ -5,7 +5,9 @@ NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入
 * 主页: [NB的官网](https://nutz.io)
 * 项目生成器: [NB Makder](https://get.nutz.io)
 * 版本历史: [NB进化史](ChangeLog.md)
-* 文档: [NB的文档](http://nutzam.com/core/boot/overview.html)
+* 文档: [NB的文档](https://gitee.com/nutz/nutzboot/tree/dev/doc)
+* 文档2: [NB的文档2](http://nutzam.com/core/boot/overview.html)
+* 社区: [NutzCN](https://nutz.cn)
 
 [![Build Status](https://travis-ci.org/nutzam/nutzboot.png?branch=dev)](https://travis-ci.org/nutzam/nutzboot)
 [![GitHub release](https://img.shields.io/github/release/nutzam/nutzboot.svg)](https://github.com/nutzam/nutzboot/releases)
@@ -26,21 +28,29 @@ NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入
 pom.xml
 
 ```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.nutz</groupId>
+            <artifactId>nutzboot-parent</artifactId>
+            <version>${nutzboot.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
 <dependencies>
     <dependency>
         <groupId>org.nutz</groupId>
         <artifactId>nutzboot-starter</artifactId>
-        <version>${nutzboot.version}</version>
     </dependency>
     <dependency>
         <groupId>org.nutz</groupId>
         <artifactId>nutzboot-starter-nutz-web</artifactId>
-        <version>${nutzboot.version}</version>
     </dependency>
     <dependency>
         <groupId>org.nutz</groupId>
         <artifactId>nutzboot-starter-jetty</artifactId>
-        <version>${nutzboot.version}</version>
     </dependency>
 </dependencies>
 ```
@@ -115,87 +125,87 @@ public class MainLauncher {
 期待您的加入
 
 - 基础框架
-	- [x] 基础框架的文档
-	- [x] 基本框架的实现
+    - [x] 基础框架的文档
+    - [x] 基本框架的实现
 - 服务器类启动器
-	- web类启动器
-		- [x] [Jetty](https://www.eclipse.org/jetty/)
-		- [x] [Undertow](http://undertow.io/) by [@qinerg](https://github.com/qinerg)
-		- [x] [Tomcat](http://tomcat.apache.org/) by [@benjobs](https://github.com/wolfboys)
-	- 非Web类启动器
-		- [ ] [netty](https://netty.io/)
-		- [ ] [mina](https://mina.apache.org/)
-		- [ ] [t-io](http://www.oschina.net/p/t-io)
-	- Rpc类启动器
-		- [x] [Dubbo](http://dubbo.io/) 阿里出品的高性能RPC平台
-		- [x] [zbus](http://zbus.io) 国产知名RPC平台
-		- [x] [feign](https://github.com/OpenFeign/feign) by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
-		- [ ] [motan](https://github.com/weibocom/motan)
-	- 其他
-		- [x] Ngrok 内网穿透,轻松获取外网地址
+    - web类启动器
+        - [x] [Jetty](https://www.eclipse.org/jetty/)
+        - [x] [Undertow](http://undertow.io/) by [@qinerg](https://github.com/qinerg)
+        - [x] [Tomcat](http://tomcat.apache.org/) by [@benjobs](https://github.com/wolfboys)
+    - 非Web类启动器
+        - [ ] [netty](https://netty.io/)
+        - [ ] [mina](https://mina.apache.org/)
+        - [ ] [t-io](http://www.oschina.net/p/t-io)
+    - Rpc类启动器
+        - [x] [Dubbo](http://dubbo.io/) 阿里出品的高性能RPC平台
+        - [x] [zbus](http://zbus.io) 国产知名RPC平台
+        - [x] [feign](https://github.com/OpenFeign/feign) by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
+        - [ ] [motan](https://github.com/weibocom/motan)
+    - 其他
+        - [x] Ngrok 内网穿透,轻松获取外网地址
 - 数据库类相关
-	- 关系型数据库
-		- [x] Jdbc连接池,默认使用druid,带监控功能
-		- [x] [sharding-jdbc](https://github.com/shardingjdbc/sharding-jdbc) 分库分表
-		- [x] [Nutz.Dao](https://github.com/nutzam/nutz)
-		- [x] [BeetlSql](http://ibeetl.com/guide/#beetlsql) 基于Beetl的SQL框架
-		- [ ] Hibernate
-		- [ ] mybatis
-	- 非关系型数据库
-		- [x] [Redis](https://redis.io)
-		- [x] MongoDB
-		- [ ] neo4j
-		- [ ] memcached
-		- [ ] ssdb
-		- [ ] Cassandra
-		- [ ] HBase
-		- [ ] rethinkdb
+    - 关系型数据库
+        - [x] Jdbc连接池,默认使用druid,带监控功能
+        - [x] [sharding-jdbc](https://github.com/shardingjdbc/sharding-jdbc) 分库分表
+        - [x] [Nutz.Dao](https://github.com/nutzam/nutz)
+        - [x] [BeetlSql](http://ibeetl.com/guide/#beetlsql) 基于Beetl的SQL框架
+        - [ ] Hibernate
+        - [ ] mybatis
+    - 非关系型数据库
+        - [x] [Redis](https://redis.io)
+        - [x] MongoDB
+        - [ ] neo4j
+        - [ ] memcached
+        - [ ] ssdb
+        - [ ] Cassandra
+        - [ ] HBase
+        - [ ] rethinkdb
 - Mvc
-	- [x] Nutz.Mvc
-	- [ ] [jersey](https://jersey.github.io/)
+    - [x] Nutz.Mvc
+    - [ ] [jersey](https://jersey.github.io/)
 - 安全鉴权
-	- [x] [Shiro](http://shiro.apache.org)
+    - [x] [Shiro](http://shiro.apache.org)
 - 分布式Session
-	- [x] [Shiro+LCache](https://github.com/nutzam/nutzmore/tree/master/nutz-plugins-cache)基于shiro/jedis/插件的分布式可持久化的session缓存
+    - [x] [Shiro+LCache](https://github.com/nutzam/nutzmore/tree/master/nutz-plugins-cache)基于shiro/jedis/插件的分布式可持久化的session缓存
 - 计划任务
-	- [x] [Quartz](http://www.quartz-scheduler.org)
+    - [x] [Quartz](http://www.quartz-scheduler.org)
 - 模板引擎
-	- [x] [Beetl](http://ibeetl.com/) 
-	- [x] [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
-	- [x] Velocity by [haoqoo](https://github.com/haoqoo)
-	- [ ] FreeMarker
-	- [x] Thymeleaf by [温泉](https://github.com/ywjno)
+    - [x] [Beetl](http://ibeetl.com/) 
+    - [x] [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
+    - [x] Velocity by [haoqoo](https://github.com/haoqoo)
+    - [ ] FreeMarker
+    - [x] Thymeleaf by [温泉](https://github.com/ywjno)
 - 消息队列
-	- [x] disque redis作者的另一作品
-	- [ ] zeromq
-	- [ ] rabbitmq
-	- [ ] rocketmq
-	- [ ] activemq
-	- [ ] zbus
+    - [x] disque redis作者的另一作品
+    - [ ] zeromq
+    - [ ] rabbitmq
+    - [ ] rocketmq
+    - [ ] activemq
+    - [ ] zbus
 - 工作流
-	- [x] [uflo2](https://github.com/youseries/uflo) 中式工作流引擎
-	- [ ] Activity
+    - [x] [uflo2](https://github.com/youseries/uflo) 中式工作流引擎
+    - [ ] Activity
 - 规则引擎
-	- [x] [urule](https://github.com/youseries/urule) 中式规则引擎
-	- [ ] drools
+    - [x] [urule](https://github.com/youseries/urule) 中式规则引擎
+    - [ ] drools
 - 报表系统
-	- [x] ureport 中式报表
-	- [ ] jreport
+    - [x] ureport 中式报表
+    - [ ] jreport
 - 开放平台
-	- 微信公众号开放平台
-		- [x] [NutzWX](https://github.com/nutzam/nutzwx) Weixin Api By Nutz
-		- [ ] [weixin-java-tools](https://gitee.com/binary/weixin-java-tools)
+    - 微信公众号开放平台
+        - [x] [NutzWX](https://github.com/nutzam/nutzwx) Weixin Api By Nutz
+        - [ ] [weixin-java-tools](https://gitee.com/binary/weixin-java-tools)
 - 云平台
-	- [ ] [阿里云](https://aliyun.com)
-	- [ ] [腾讯云](https://qcloud.com)
+    - [ ] [阿里云](https://aliyun.com)
+    - [ ] [腾讯云](https://qcloud.com)
 - 缓存相关
-	- [x] wkcache 方法缓存 by 大鲨鱼
+    - [x] wkcache 方法缓存 by 大鲨鱼
 - docker相关
-	- [ ] docker compose配置
+    - [ ] docker compose配置
 - WebService
-	- [x] CXF
+    - [x] CXF
 - 分布式组件
-	- [x] zkclient zookeeper的封装
+    - [x] zkclient zookeeper的封装
 ## 第三方starter或项目
 
 期待您的到来,报个issue告知一下吧 ^_^

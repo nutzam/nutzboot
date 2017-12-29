@@ -1,10 +1,20 @@
 # NB进化史
 
-## dev
+## 2.0.1 "小步舞曲"
+
+在各位的支持和关照下, NutzBoot成为GVP(码云最有价值开源项目)了,这份荣耀属于大家 ^_^
+
+本次更新,带来了feign, 由[haoqoo](https://github.com/haoqoo)和[wendal](https://github.com/wendal)共同完成
+
+* 时间: 2017-12-30
+* 事件: 2017年年底GVP纪念版
+* 曲目: [小步舞曲](https://www.youtube.com/watch?v=-hvZiEqs8d4)
+
+-----------------------------------------------------------------------------
 
 * 变更
 	* add: [feign](https://github.com/OpenFeign/feign) by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
-	* add: ureport需要从nutz ioc读取BuildinDatasource和ImageProvider的对象,由"鱼夫"报告
+	* add: ureport从nutz ioc读取BuildinDatasource和ImageProvider的对象,由"鱼夫"报告
 	* add: NutFilterStarter新增ActionLoaderFace
 	* update: 补全shiro的@ProcDoc文档 by 蛋蛋
 	* update: 补全U家三剑客(uflo/urule/ureport)的@ProcDoc文档 by 蛋蛋
@@ -12,7 +22,7 @@
 	* fix: ureport与nutz mvc一起使用时报SpringBean抽象错误,由"鱼夫"报告
 	* fix: beetl模板在应该自动刷新 ,由"温泉"报告
 	* fix: undertow与swagger的兼容性问题
-	* fix: swagger乱码
+	* fix: swagger可能乱码
 
 ## 2.0 "Merry Christmas"
 
