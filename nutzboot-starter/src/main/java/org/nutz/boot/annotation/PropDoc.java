@@ -11,12 +11,47 @@ import java.lang.annotation.Target;
 @Documented
 public @interface PropDoc {
 
-	String prefix() default "";
-	String key() default "";
-	String value() default "";
-	String type() default "";
-	String group() default "";
-	String[] possible() default "";
-	String defaultValue() default "";
-	boolean need() default false;
+    /**
+     * 配置信息的前缀,貌似没啥用,预留
+     */
+    String prefix() default "";
+
+    /**
+     * 配置信息的名字, 例如 nutz.application.name=nutzboot
+     */
+    String key() default "";
+
+    /**
+     * 本配置信息的描述,给人看的
+     */
+    String value() default "";
+
+    /**
+     * 配置数据的java类型,例如int,long,String
+     */
+    String type() default "";
+
+    /**
+     * 属于哪个组的配置信息,预留
+     */
+    String group() default "";
+
+    /**
+     * 可选值列表
+     */
+    String[] possible() default "";
+
+    /**
+     * 默认值
+     * 
+     * @return 默认木有
+     */
+    String defaultValue() default "";
+
+    /**
+     * 是否必填
+     * 
+     * @return 默认false
+     */
+    boolean need() default false;
 }

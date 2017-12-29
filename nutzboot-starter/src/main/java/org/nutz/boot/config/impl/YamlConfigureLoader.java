@@ -4,6 +4,11 @@ import java.io.InputStream;
 
 import org.nutz.ioc.impl.PropertiesProxy;
 
+/**
+ * 未完成
+ * @author wendal(wendal1985@gmail.com)
+ *
+ */
 public class YamlConfigureLoader extends AbstractConfigureLoader {
 
     public void init() throws Exception {

@@ -5,15 +5,15 @@ import java.io.InputStream;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.lang.Streams;
 
+/**
+ * 配置信息优先级, 从低到高: <p/>
+ * <p/>custom目录下的配置文件
+ * <p/>application.properties
+ * <p/>application-${profile}.properties
+ * <p/>命令行参数
+ */
 public class PropertiesConfigureLoader extends AbstractConfigureLoader {
 
-	/**
-	 * 配置信息优先级, 从低到高: <p/>
-	 * <p/>custom目录下的配置文件
-	 * <p/>application.properties
-	 * <p/>application-${profile}.properties
-	 * <p/>命令行参数
-	 */
     public void init() throws Exception {
     	// 首先, 确定一些从什么路径加载配置文件,默认值application.properties
         String path = envHolder.get("nutz.boot.configure.properties_path", "application.properties");
