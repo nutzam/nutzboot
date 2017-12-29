@@ -30,6 +30,7 @@ import org.nutz.boot.starter.WebServletFace;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Encoding;
 import org.nutz.lang.Files;
 import org.nutz.lang.Lang;
 import org.nutz.lang.util.LifeCycle;
@@ -72,7 +73,7 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
 
     private static final String PROP_PROTOCOL = "org.apache.coyote.http11.Http11NioProtocol";
 
-    private static final Charset DEFAULT_CHARSET = Charset.forName("utf-8");
+    private static final Charset DEFAULT_CHARSET = Encoding.CHARSET_UTF8;
 
     @Inject
     private PropertiesProxy conf;

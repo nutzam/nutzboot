@@ -24,7 +24,7 @@ import com.zaxxer.hikari.HikariDataSource;
 public class DataSourceStarter {
 
 	protected static String PRE = "jdbc.";
-	@PropDoc(group = "jdbc", value = "连接池类型", possible = { "druid", "simple" }, defaultValue = "druid")
+	@PropDoc(group = "jdbc", value = "连接池类型", possible = { "druid", "simple", "hikari" }, defaultValue = "druid")
 	public static final String PROP_TYPE = PRE + "type";
 	@PropDoc(group = "jdbc", value = "JDBC URL", need = true)
 	public static final String PROP_URL = PRE + "url";

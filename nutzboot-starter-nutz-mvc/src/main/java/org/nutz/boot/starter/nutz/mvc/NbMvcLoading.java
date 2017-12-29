@@ -43,8 +43,8 @@ public class NbMvcLoading extends NutLoading {
 
     protected Set<Class<?>> getModuleClasses(Ioc ioc, Class<?> mainModule, EntryDeterminer determiner) {
         Set<Class<?>> modules = super.getModuleClasses(ioc, mainModule, determiner);
-        for (String beanName : ioc.getNamesByType(ActionLoaderFace.class)) {
-            ioc.get(ActionLoaderFace.class, beanName).getActions(ioc, mainModule, determiner, modules);
+        for (ActionLoaderFace face : appContext.getBeans(ActionLoaderFace.class)) {
+            face.getActions(ioc, mainModule, determiner, modules);
         }
         return modules;
     }

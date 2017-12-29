@@ -5,6 +5,7 @@
 * 变更
 	* add: [feign](https://github.com/OpenFeign/feign) by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
 	* add: ureport需要从nutz ioc读取BuildinDatasource和ImageProvider的对象,由"鱼夫"报告
+	* add: NutFilterStarter新增ActionLoaderFace
 	* update: 补全shiro的@ProcDoc文档 by 蛋蛋
 	* update: 补全U家三剑客(uflo/urule/ureport)的@ProcDoc文档 by 蛋蛋
 	* update: NutFilterStarter自动过滤所有Servlet声明
