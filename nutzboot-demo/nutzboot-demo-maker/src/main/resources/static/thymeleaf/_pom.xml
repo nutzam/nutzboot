@@ -3,55 +3,59 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.nutz</groupId>
 	<artifactId>demo</artifactId>
-	<version>2.0-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<properties>
-		<slf4j.version>1.7.25</slf4j.version>
 		<nutzboot.version th:text="${params.version}"></nutzboot.version>
-		<junit.version>4.12</junit.version>
-		<log4j.version>1.2.17</log4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-parent</artifactId>
+				<version>${nutzboot.version}</version>
+				<type>pom</type>
+            	<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter</artifactId>
-			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-swagger</artifactId>
 		</dependency>
 		<dependency th:if="${params.jetty.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-jetty</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.nutzmvc.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-nutz-mvc</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.nutzdao.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-nutz-dao</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.jdbc.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-jdbc</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.jdbc.enable}">
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
-			<version>1.1.5</version>
 		</dependency>
 		<dependency th:if="${params.redis.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-redis</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.quartz.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-quartz</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.weixin.enable}">
 			<groupId>org.nutz</groupId>
@@ -61,89 +65,76 @@
 		<dependency th:if="${params.tomcat.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-tomcat</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.undertow.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-undertow</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.dubbo.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-dubbo</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.zbus.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-zbus</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.ngrok.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-ngrok</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.shardingjdbc.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-sharding-jdbc</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.beetlsql.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-beetlsql</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.mongo.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-mongodb</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.shiro.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-shiro</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.beetl.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-beetl</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.thymeleaf.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-thymeleaf</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.disque.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-disque</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.uflo2.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-uflo</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.urule.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-urule</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.ureport.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-ureport</artifactId>
-			<version>${nutzboot.version}</version>
 		</dependency>
 		<dependency th:if="${params.wkcache.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-wkcache</artifactId>
-			<version>${nutzboot.version}</version>
+		</dependency>
+		<dependency th:if="${params.feign.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-feign</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j.version}</version>
 		</dependency>
-		<dependency>
+		<dependency th:if="${params.jdbc.enable || params.shardingjdbc.enable}">
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>1.4.196</version>
@@ -151,7 +142,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

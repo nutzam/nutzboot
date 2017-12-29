@@ -162,6 +162,11 @@
                         <el-form-item label="wkcache">
                             <el-switch v-model="nb.wkcache.enable"></el-switch>
                         </el-form-item>
+                        
+                        <!--feign-->
+                        <el-form-item label="feign">
+                            <el-switch v-model="nb.feign.enable"></el-switch>
+                        </el-form-item>
 
                         <el-form-item>
                             <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -296,6 +301,9 @@
                         enable: false
                     },
                     wkcache: {
+                        enable: false
+                    },
+                    feign: {
                         enable: false
                     }
                 },
