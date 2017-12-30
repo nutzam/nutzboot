@@ -22,6 +22,7 @@
 		<zbus.version>0.11.4</zbus.version>
 		<undertow.version>1.4.21.Final</undertow.version>
 		<velocity.version>1.7</velocity.version>
+		<caffeine.version>2.6.1</caffeine.version>
 		<nutzboot.version>2.1-SNAPSHOT</nutzboot.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
@@ -81,6 +82,7 @@
 		<module>nutzboot-starter-velocity</module>
 		<module>nutzboot-starter-cxf</module>
 		<module>nutzboot-starter-feign</module>
+		<module>nutzboot-starter-caffeine</module>
 	</modules>
 	<profiles>
 		<profile>
@@ -602,6 +604,11 @@
 				<artifactId>javassist</artifactId>
 				<version>3.12.1.GA</version>
 			</dependency>
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <version>${caffeine.version}</version>
+            </dependency>
 		</dependencies>
 	</dependencyManagement>
 	<repositories>

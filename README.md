@@ -200,6 +200,7 @@ public class MainLauncher {
     - [ ] [腾讯云](https://qcloud.com)
 - 缓存相关
     - [x] wkcache 方法缓存 by 大鲨鱼
+    - [x] Caffeine 方法缓存 by 幸福的旁边
 - docker相关
     - [ ] docker compose配置
 - WebService
