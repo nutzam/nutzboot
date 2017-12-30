@@ -10,6 +10,8 @@ import org.nutz.ioc.loader.annotation.IocBean;
 
 @IocBean(name = "$aop_cache")
 public class CaffeineStarter extends SimpleAopMaker<Cache> {
+    
+    public static String PRE = "caffeine.cache";
 
     private static List<? extends MethodInterceptor> interceptor;
 

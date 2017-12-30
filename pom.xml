@@ -519,6 +519,11 @@
 				<artifactId>nutzboot-starter-weixin</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-cxf</artifactId>
+			<version>${nutzboot.version}</version>
+		</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-tomcat</artifactId>
@@ -532,6 +537,11 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-dubbo</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-velocity</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
@@ -600,15 +610,25 @@
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-zkclient</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-jetx</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>javassist</groupId>
 				<artifactId>javassist</artifactId>
 				<version>3.12.1.GA</version>
 			</dependency>
-            <dependency>
-                <groupId>com.github.ben-manes.caffeine</groupId>
-                <artifactId>caffeine</artifactId>
-                <version>${caffeine.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>com.github.ben-manes.caffeine</groupId>
+				<artifactId>caffeine</artifactId>
+				<version>${caffeine.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<repositories>

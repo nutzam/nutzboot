@@ -10,12 +10,10 @@
 		<dependency>
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-nutz-mvc</artifactId>
-			<version>${project.version}</version>
 		</dependency>
        	<dependency>
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-zkclient</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 	<build>

@@ -108,6 +108,7 @@ public class MainLauncher {
 * [天空](https://github.com/tiankongkm)(提交zkclient)
 * [haoqoo](https://github.com/haoqoo)(提交velocity)
 * [鱼夫](https://gitee.com/yustory)(正在踩NB+U家三剑客的坑)
+* [幸福的旁边](https://github.com/happyday517)(提交caffeine方法缓存)
 * 还有您的名字哦,告知我们吧
 
 ## 采用NutzBoot的公司
@@ -199,8 +200,8 @@ public class MainLauncher {
     - [ ] [阿里云](https://aliyun.com)
     - [ ] [腾讯云](https://qcloud.com)
 - 缓存相关
-    - [x] wkcache 方法缓存 by 大鲨鱼
-    - [x] Caffeine 方法缓存 by 幸福的旁边
+    - [x] wkcache 方法缓存  by [大鲨鱼](https://github.com/Wizzercn)
+    - [x] [caffeine](https://github.com/ben-manes/caffeine) 方法缓存  by [幸福的旁边](https://github.com/happyday517)
 - docker相关
     - [ ] docker compose配置
 - WebService

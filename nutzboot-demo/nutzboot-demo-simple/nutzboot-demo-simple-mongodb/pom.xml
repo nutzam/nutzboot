@@ -11,17 +11,14 @@
 		<dependency>
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-nutz-mvc</artifactId>
-			<version>${project.version}</version>
 		</dependency>
         <dependency>
             <groupId>org.nutz</groupId>
             <artifactId>nutzboot-starter-mongodb</artifactId>
-            <version>${project.version}</version>
         </dependency>
 		<dependency>
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-undertow</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

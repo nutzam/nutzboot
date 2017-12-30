@@ -37,8 +37,6 @@ public class CaffeineInterceptor implements MethodInterceptor {
     @Inject("refer:$ioc")
     protected Ioc ioc;
 
-    private static final String CACHE_PREFIX = "cache.";
-
     private static Cache<String, Object> getCache(CacheStrategy strategy) {
         Cache<String, Object> cache = cacheMap.get(strategy);
         if (cache == null) {
@@ -101,7 +99,7 @@ public class CaffeineInterceptor implements MethodInterceptor {
             this.stringifier = ioc.get(KeyStringifier.class, types[0]);
         }
         log.debugf("use %s as KeyStringifier", this.stringifier);
-        conf.entrySet().stream().filter(entry -> entry.getKey().startsWith(CACHE_PREFIX)).forEach(entry -> {
+        conf.entrySet().stream().filter(entry -> entry.getKey().startsWith(CaffeineStarter.PRE)).forEach(entry -> {
             if (entry.getValue() == null)
                 return;
             String[] split = entry.getKey().split("\\.");

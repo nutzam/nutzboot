@@ -1,5 +1,10 @@
 # NB进化史
 
+## dev
+
+变更:
+	* add: [caffeine](https://github.com/ben-manes/caffeine) by [幸福的旁边](https://github.com/happyday517)
+
 ## 2.0.1 "刚好遇见你"
 
 在各位的支持和关照下, NutzBoot成为GVP(码云最有价值开源项目)了,这份荣耀属于大家 ^_^
