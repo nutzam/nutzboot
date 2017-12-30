@@ -4,6 +4,7 @@
 
 变更:
 	* add: [caffeine](https://github.com/ben-manes/caffeine) by [幸福的旁边](https://github.com/happyday517)
+	* change: feign默认不设置encoder/decoder,上一个版本默认jackson,并添加更多配置项.
 
 ## 2.0.1 "刚好遇见你"
 

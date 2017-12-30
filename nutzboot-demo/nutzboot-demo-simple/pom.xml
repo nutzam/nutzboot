@@ -29,7 +29,7 @@
 		<module>nutzboot-demo-simple-zkclient</module>
 		<module>nutzboot-demo-simple-velocity</module>
 		<module>nutzboot-demo-simple-jetty</module>
-        <module>nutzboot-demo-simple-feign</module>
+        
         <module>nutzboot-demo-simple-caffeine</module>
     </modules>
 

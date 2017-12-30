@@ -15,13 +15,12 @@ import org.nutz.mvc.annotation.POST;
 import org.nutz.mvc.annotation.Param;
 
 import io.nutz.demo.feign.bean.User;
-import io.nutz.demo.feign.service.UserService;
 
 @IocBean
-@At("/user")
+@At("/feign/json/user")
 @Ok("json:full")
 @AdaptBy(type=JsonAdaptor.class)
-public class UserModule implements UserService {
+public class UserWsModule {
 
     @Inject
     protected Dao dao;

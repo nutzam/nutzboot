@@ -16,7 +16,14 @@ public @interface FeignInject {
 
     String apiBaseUrl() default "";
 
-    String encoder() default "jackson";
+    String encoder() default "";
 
-    String decoder() default "jackson";
+    String decoder() default "";
+    
+    /**
+     * JAXB作为编码/解码器的时候必须填写
+     */
+    String schema() default "";
+    
+    String client() default "";
 }

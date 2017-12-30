@@ -24,6 +24,7 @@
 		<velocity.version>1.7</velocity.version>
 		<caffeine.version>2.6.1</caffeine.version>
 		<nutzboot.version>2.1-SNAPSHOT</nutzboot.version>
+		<feign.version>9.5.1</feign.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -519,11 +520,11 @@
 				<artifactId>nutzboot-starter-weixin</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
-		<dependency>
-			<groupId>org.nutz</groupId>
-			<artifactId>nutzboot-starter-cxf</artifactId>
-			<version>${nutzboot.version}</version>
-		</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-cxf</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-tomcat</artifactId>
@@ -628,6 +629,57 @@
 				<groupId>com.github.ben-manes.caffeine</groupId>
 				<artifactId>caffeine</artifactId>
 				<version>${caffeine.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.github.openfeign</groupId>
+				<artifactId>feign-core</artifactId>
+				<version>${feign.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.openfeign</groupId>
+				<artifactId>feign-jackson</artifactId>
+				<version>${feign.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.openfeign</groupId>
+				<artifactId>feign-gson</artifactId>
+				<version>${feign.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.openfeign</groupId>
+				<artifactId>feign-httpclient</artifactId>
+				<version>${feign.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.openfeign</groupId>
+				<artifactId>feign-hystrix</artifactId>
+				<version>${feign.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.openfeign</groupId>
+				<artifactId>feign-jaxb</artifactId>
+				<version>${feign.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.openfeign</groupId>
+				<artifactId>feign-jaxrs</artifactId>
+				<version>${feign.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.openfeign</groupId>
+				<artifactId>feign-okhttp</artifactId>
+				<version>${feign.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.openfeign</groupId>
+				<artifactId>feign-slf4j</artifactId>
+				<version>${feign.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.openfeign</groupId>
+				<artifactId>feign-ribbon</artifactId>
+				<version>${feign.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

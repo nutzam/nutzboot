@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>nutzboot-demo-simple</artifactId>
+		<artifactId>nutzboot-demo-feign</artifactId>
 		<groupId>org.nutz</groupId>
 		<version>2.1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>nutzboot-demo-simple-feign</artifactId>
+	<artifactId>nutzboot-demo-feign-service</artifactId>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -15,10 +15,6 @@
 		<dependency>
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-nutz-mvc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.nutz</groupId>
-			<artifactId>nutzboot-starter-feign</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.nutz</groupId>
