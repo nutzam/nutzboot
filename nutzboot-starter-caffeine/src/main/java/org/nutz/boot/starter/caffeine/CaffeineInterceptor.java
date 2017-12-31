@@ -102,7 +102,7 @@ public class CaffeineInterceptor implements MethodInterceptor {
         conf.entrySet().stream().filter(entry -> entry.getKey().startsWith(CaffeineStarter.PRE)).forEach(entry -> {
             if (entry.getValue() == null)
                 return;
-            String[] split = entry.getKey().split("\\.");
+            String[] split = entry.getKey().substring(CaffeineStarter.PRE.length()).split("\\.");
             if (split.length == 2) {
                 // cache.name=10000,-1,-1 这种
                 try {
