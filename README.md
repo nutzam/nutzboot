@@ -129,19 +129,14 @@ public class MainLauncher {
     - [x] 基础框架的文档
     - [x] 基本框架的实现
 - 服务器类启动器
-    - web类启动器
+    - Servlet容器
         - [x] [Jetty](https://www.eclipse.org/jetty/)
         - [x] [Undertow](http://undertow.io/) by [@qinerg](https://github.com/qinerg)
         - [x] [Tomcat](http://tomcat.apache.org/) by [@benjobs](https://github.com/wolfboys)
-    - 非Web类启动器
+    - 非Web启动器
         - [ ] [netty](https://netty.io/)
         - [ ] [mina](https://mina.apache.org/)
         - [ ] [t-io](http://www.oschina.net/p/t-io)
-    - Rpc类启动器
-        - [x] [Dubbo](http://dubbo.io/) 阿里出品的高性能RPC平台
-        - [x] [zbus](http://zbus.io) 国产知名RPC平台
-        - [x] [feign](https://github.com/OpenFeign/feign) by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
-        - [ ] [motan](https://github.com/weibocom/motan)
     - 其他
         - [x] Ngrok 内网穿透,轻松获取外网地址
 - 数据库类相关
@@ -164,6 +159,15 @@ public class MainLauncher {
 - Mvc
     - [x] Nutz.Mvc
     - [ ] [jersey](https://jersey.github.io/)
+- 分布式组件
+	- RPC(Remote Procedure Call)
+		- [x] [Dubbo](http://dubbo.io/) 阿里出品的高性能RPC平台
+		- [x] [zbus](http://zbus.io) 国产知名RPC平台
+		- [ ] [motan](https://github.com/weibocom/motan)
+		- [x] [feign](https://github.com/OpenFeign/feign) by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
+		- [ ] [ribbon](https://github.com/Netflix/ribbon)
+    - [x] zkclient zookeeper的封装
+    - [x] [hystrix](https://github.com/Netflix/Hystrix) 熔断器
 - 安全鉴权
     - [x] [Shiro](http://shiro.apache.org)
 - 分布式Session
@@ -174,8 +178,8 @@ public class MainLauncher {
     - [x] [Beetl](http://ibeetl.com/) 
     - [x] [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
     - [x] Velocity by [haoqoo](https://github.com/haoqoo)
-    - [ ] FreeMarker
     - [x] Thymeleaf by [温泉](https://github.com/ywjno)
+    - [ ] FreeMarker
 - 消息队列
     - [x] disque redis作者的另一作品
     - [ ] zeromq
@@ -206,8 +210,6 @@ public class MainLauncher {
     - [ ] docker compose配置
 - WebService
     - [x] CXF
-- 分布式组件
-    - [x] zkclient zookeeper的封装
 ## 第三方starter或项目
 
 期待您的到来,报个issue告知一下吧 ^_^

@@ -31,7 +31,8 @@
 		<module>nutzboot-demo-simple-jetty</module>
         
         <module>nutzboot-demo-simple-caffeine</module>
-    </modules>
+        <module>nutzboot-demo-simple-hystrix</module>
+	</modules>
 
 	<dependencies>
 		<dependency>
