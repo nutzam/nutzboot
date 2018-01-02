@@ -1,6 +1,6 @@
 # NutzBoot 微服务
 
-NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入式web服务,分布式会话,RPC等一篮子解决方案
+NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入式web服务,分布式会话,hystrix, RPC等一篮子解决方案
 
 * 主页: [NB的官网](https://nutz.io)
 * 项目生成器: [NB Makder](https://get.nutz.io)
@@ -150,12 +150,8 @@ public class MainLauncher {
     - 非关系型数据库
         - [x] [Redis](https://redis.io)
         - [x] MongoDB
-        - [ ] neo4j
         - [ ] memcached
         - [ ] ssdb
-        - [ ] Cassandra
-        - [ ] HBase
-        - [ ] rethinkdb
 - Mvc
     - [x] Nutz.Mvc
     - [ ] [jersey](https://jersey.github.io/)
@@ -174,6 +170,7 @@ public class MainLauncher {
     - [x] [Shiro+LCache](https://github.com/nutzam/nutzmore/tree/master/nutz-plugins-cache)基于shiro/jedis/插件的分布式可持久化的session缓存
 - 计划任务
     - [x] [Quartz](http://www.quartz-scheduler.org)
+    - [ ] xxl-job [国产分布式任务调度平台](https://github.com/xuxueli/xxl-job/pull/253)
 - 模板引擎
     - [x] [Beetl](http://ibeetl.com/) 
     - [x] [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
