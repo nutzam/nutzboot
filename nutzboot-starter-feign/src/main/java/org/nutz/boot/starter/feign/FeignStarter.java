@@ -10,6 +10,8 @@ import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 
 import feign.Client;
 import feign.Feign;
@@ -33,6 +35,8 @@ import feign.slf4j.Slf4jLogger;
 
 @IocBean
 public class FeignStarter implements IocEventListener {
+    
+    private static final Log log = Logs.get();
 
     protected static String PRE = "feign.";
 
@@ -55,7 +59,7 @@ public class FeignStarter implements IocEventListener {
     public static final String PROP_DECODER = PRE + "decoder";
 
     @PropDoc(value = "是否使用Hystrix", defaultValue = "false", possible = {"true", "false"})
-    public static final String PROP_USE_HYSTRIX = PRE + "useHystrix";
+    public static final String PROP_HYSTRIX_ENABLE = PRE + "hystrix.enable";
 
     @Inject("refer:$ioc")
     protected Ioc ioc;
@@ -78,7 +82,7 @@ public class FeignStarter implements IocEventListener {
                 Class<?> apiType = field.getType();
                 Logger logger = new Slf4jLogger(apiType);
 
-                boolean useHystrix = "true".equals(Strings.sBlank(fc.useHystrix(), conf.get(PROP_USE_HYSTRIX)));
+                boolean useHystrix = "true".equals(Strings.sBlank(fc.useHystrix(), conf.get(PROP_HYSTRIX_ENABLE)));
                 Feign.Builder builder = useHystrix ? HystrixFeign.builder() : Feign.builder();
                 if (encoder != null)
                     builder.encoder(encoder);
@@ -90,9 +94,15 @@ public class FeignStarter implements IocEventListener {
                 builder.logLevel(level);
                 Object t = useHystrix ? ((HystrixFeign.Builder) builder).target(apiType, url, new FallbackFactory() {
                     public Object create(Throwable cause) {
-                        if (Strings.isBlank(fc.fallback()))
-                            return ioc.getByType(apiType);
-                        return ioc.get(apiType, fc.fallback());
+                        try {
+                            if (Strings.isBlank(fc.fallback()))
+                                return ioc.getByType(apiType);
+                            return ioc.get(apiType, fc.fallback());
+                        }
+                        catch (Exception e) {
+                            log.debugf("fallback to ioc bean type=[%s], but not found or error", apiType.getName());
+                            return null;
+                        }
                     }
                 }) : builder.target(apiType, url);
                 field.setAccessible(true);
