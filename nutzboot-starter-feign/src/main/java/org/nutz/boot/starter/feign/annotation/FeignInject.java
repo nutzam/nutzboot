@@ -19,11 +19,15 @@ public @interface FeignInject {
     String encoder() default "";
 
     String decoder() default "";
-    
+
     /**
      * JAXB作为编码/解码器的时候必须填写
      */
     String schema() default "";
-    
+
     String client() default "";
+
+    String useHystrix() default "";
+
+    String fallback() default "";
 }

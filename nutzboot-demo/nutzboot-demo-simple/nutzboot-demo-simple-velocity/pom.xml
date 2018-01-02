@@ -22,7 +22,6 @@
         <dependency>
             <groupId>org.nutz</groupId>
             <artifactId>nutzboot-starter-velocity</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

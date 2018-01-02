@@ -25,6 +25,7 @@
 		<caffeine.version>2.6.1</caffeine.version>
 		<nutzboot.version>2.1-SNAPSHOT</nutzboot.version>
 		<feign.version>9.5.1</feign.version>
+		<hystrix.vesion>1.5.12</hystrix.vesion>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -84,6 +85,7 @@
 		<module>nutzboot-starter-cxf</module>
 		<module>nutzboot-starter-feign</module>
 		<module>nutzboot-starter-caffeine</module>
+		<module>nutzboot-starter-hystrix</module>
 	</modules>
 	<profiles>
 		<profile>
@@ -108,7 +110,7 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter</artifactId>
-				<version>${project.version}</version>
+				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
@@ -617,6 +619,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-hystrix</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-jetx</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
@@ -680,6 +687,37 @@
 				<groupId>io.github.openfeign</groupId>
 				<artifactId>feign-ribbon</artifactId>
 				<version>${feign.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ow2.asm</groupId>
+				<artifactId>asm</artifactId>
+				<version>6.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.netflix.hystrix</groupId>
+				<artifactId>hystrix-request-servlet</artifactId>
+				<version>${hystrix.vesion}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.netflix.hystrix</groupId>
+				<artifactId>hystrix-core</artifactId>
+				<version>${hystrix.vesion}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.netflix.hystrix</groupId>
+				<artifactId>hystrix-javanica</artifactId>
+				<version>${hystrix.vesion}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.netflix.hystrix</groupId>
+				<artifactId>hystrix-metrics-event-stream</artifactId>
+				<version>${hystrix.vesion}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.reactivex</groupId>
+				<artifactId>rxjava</artifactId>
+				<version>1.1.1</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
