@@ -183,12 +183,6 @@ public class NbApp extends Thread {
         // 各种预备操作
         this.prepare();
 
-        if (printProcDoc) {
-            PropDocReader docReader = new PropDocReader(ctx);
-            docReader.load();
-            Logs.get().info("Configure Manual:\r\n" + docReader.toMarkdown());
-        }
-
         // 依次启动
         try {
             ctx.init();
@@ -239,6 +233,13 @@ public class NbApp extends Thread {
 
         // 加载各种starter
         prepareStarterClassList();
+
+        // 打印配置文档
+        if (printProcDoc) {
+            PropDocReader docReader = new PropDocReader();
+            docReader.load(starterClasses);
+            Logs.get().info("Configure Manual:\r\n" + docReader.toMarkdown());
+        }
 
         // 创建Ioc容器
         prepareIoc();

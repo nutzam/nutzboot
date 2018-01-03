@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.nutz.boot.AppContext;
@@ -28,27 +29,10 @@ public class PropDocReader {
      * 文档列表
      */
     protected Map<String, PropDocBean> docs = new HashMap<>();
-
-    /**
-     * 创建一个空PropDocReader
-     */
-    public PropDocReader() {}
-
-    /**
-     * 创建一个PropDocReader,并给与AppContext
-     * 
-     * @param appContext
-     */
-    public PropDocReader(AppContext appContext) {
-        this.appContext = appContext;
-    }
-
-    /**
-     * 从AppContext读取Starter,并加载之
-     */
-    public void load() throws Exception {
-        for (Object starter : appContext.getStarters()) {
-            addClass(starter.getClass());
+    
+    public void load(List<Class<?>> starterClasses) throws Exception {
+        for (Class<?> klass : starterClasses) {
+            addClass(klass);
         }
     }
 
@@ -117,13 +101,4 @@ public class PropDocReader {
         return docs;
     }
 
-    /**
-     * 设置全局上下文
-     * 
-     * @param appContext
-     *            全局上下文
-     */
-    public void setAppContext(AppContext appContext) {
-        this.appContext = appContext;
-    }
 }
