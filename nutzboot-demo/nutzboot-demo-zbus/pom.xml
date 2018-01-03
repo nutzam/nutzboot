@@ -18,7 +18,7 @@
   <dependencies>
   	<dependency>
   		<groupId>org.nutz</groupId>
-  		<artifactId>nutzboot-starter</artifactId>
+  		<artifactId>nutzboot-core</artifactId>
   	</dependency>
   </dependencies>
 </project>

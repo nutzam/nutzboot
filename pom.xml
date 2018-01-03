@@ -54,38 +54,9 @@
 		<url>git://github.com/nutzam/nutzboot.git</url>
 	</scm>
 	<modules>
+		<module>nutzboot-core</module>
 		<module>nutzboot-starter</module>
-		<module>nutzboot-starter-beetlsql</module>
-		<module>nutzboot-starter-jetty</module>
-		<module>nutzboot-starter-undertow</module>
-		<module>nutzboot-starter-tomcat</module>
-		<module>nutzboot-starter-nutz-mvc</module>
-		<module>nutzboot-starter-shiro</module>
-		<module>nutzboot-starter-dubbo</module>
-		<module>nutzboot-starter-zbus</module>
-		<module>nutzboot-starter-nutz-dao</module>
-		<module>nutzboot-starter-swagger</module>
-		<module>nutzboot-starter-mongodb</module>
-		<module>nutzboot-starter-ngrok</module>
-		<module>nutzboot-starter-jdbc</module>
-		<module>nutzboot-starter-weixin</module>
-		<module>nutzboot-starter-quartz</module>
-		<module>nutzboot-starter-wkcache</module>
-		<module>nutzboot-starter-redis</module>
-		<module>nutzboot-starter-disque</module>
-		<module>nutzboot-starter-beetl</module>
-		<module>nutzboot-starter-jetx</module>
-		<module>nutzboot-starter-sharding-jdbc</module>
-		<module>nutzboot-starter-thymeleaf</module>
-		<module>nutzboot-starter-uflo</module>
-		<module>nutzboot-starter-urule</module>
-		<module>nutzboot-starter-ureport</module>
-		<module>nutzboot-starter-zkclient</module>
-		<module>nutzboot-starter-velocity</module>
-		<module>nutzboot-starter-cxf</module>
-		<module>nutzboot-starter-feign</module>
-		<module>nutzboot-starter-caffeine</module>
-		<module>nutzboot-starter-hystrix</module>
+		<module>nutzboot-contrib</module>
 	</modules>
 	<profiles>
 		<profile>
@@ -110,6 +81,11 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-core</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>

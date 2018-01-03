@@ -12,13 +12,5 @@
   	<module>nutzboot-demo-cxf-service</module>
   	<module>nutzboot-demo-cxf-client</module>
   </modules>
-  <properties>
-  </properties>
 
-  <dependencies>
-  	<dependency>
-  		<groupId>org.nutz</groupId>
-  		<artifactId>nutzboot-starter</artifactId>
-  	</dependency>
-  </dependencies>
 </project>
