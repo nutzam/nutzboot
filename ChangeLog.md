@@ -5,8 +5,11 @@
 * 变更:
 	* add: [caffeine](https://github.com/ben-manes/caffeine) by [幸福的旁边](https://github.com/happyday517)
 	* add: [hystrix](https://github.com/Netflix/Hystrix) 支持@HystrixCommand和/hystrix.stream
+	* add: [xxl-job-executor](https://github.com/xuxueli/xxl-job) 
 	* change: feign默认不设置encoder/decoder,上一个版本默认jackson,并添加更多配置项.
 	* change: feign添加feign-hystrix依赖,强化与hystrix的集成
+	* change: 重构项目结构,用户项目不再需要依赖nutzboot-starter
+	
 
 ## 2.0.1 "刚好遇见你"
 

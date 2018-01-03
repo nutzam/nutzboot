@@ -166,7 +166,7 @@ public class MainLauncher {
     - [x] [Shiro+LCache](https://github.com/nutzam/nutzmore/tree/master/nutz-plugins-cache)基于shiro/jedis/插件的分布式可持久化的session缓存
 - 计划任务
     - [x] [Quartz](http://www.quartz-scheduler.org)
-    - [ ] xxl-job [国产分布式任务调度平台](https://github.com/xuxueli/xxl-job/pull/253)
+    - [x] xxl-job [国产分布式任务调度平台](https://github.com/xuxueli/xxl-job/pull/253)
 - 模板引擎
     - [x] [Beetl](http://ibeetl.com/) 
     - [x] [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
