@@ -42,10 +42,6 @@ pom.xml
 <dependencies>
     <dependency>
         <groupId>org.nutz</groupId>
-        <artifactId>nutzboot-starter</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.nutz</groupId>
         <artifactId>nutzboot-starter-nutz-web</artifactId>
     </dependency>
     <dependency>

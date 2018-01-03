@@ -7,92 +7,52 @@
 		<version>2.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>nutzboot-starter</artifactId>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 	<name>nutzboot-starter</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<description>NutzBoot, micoservice base on Nutz</description>
-
-	<url>http://nutzam.com</url>
-	<issueManagement>
-		<system>Github Issue</system>
-		<url>http://github.com/nutzam/nutzboot/issues</url>
-	</issueManagement>
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://apache.org/licenses/LICENSE-2.0.txt</url>
-		</license>
-	</licenses>
-	<developers>
-		<developer>
-			<id>wendal</id>
-			<name>Wendal Chen</name>
-			<email>wendal1985@gmail.com</email>
-			<url>http://wendal.net/</url>
-		</developer>
-	</developers>
-	<scm>
+		<scm>
 		<connection>scm:git:git://github.com/nutzam/nutzboot.git</connection>
 		<developerConnection>scm:git:git://github.com/nutzam/nutzboot.git</developerConnection>
 		<url>git://github.com/nutzam/nutzboot.git</url>
 	</scm>
+	<modules>
+		<module>nutzboot-starter-beetlsql</module>
+		<module>nutzboot-starter-jetty</module>
+		<module>nutzboot-starter-undertow</module>
+		<module>nutzboot-starter-tomcat</module>
+		<module>nutzboot-starter-nutz-dao</module>
+		<module>nutzboot-starter-swagger</module>
+		<module>nutzboot-starter-mongodb</module>
+		<module>nutzboot-starter-jdbc</module>
+		<module>nutzboot-starter-weixin</module>
+		<module>nutzboot-starter-quartz</module>
+		<module>nutzboot-starter-wkcache</module>
+		<module>nutzboot-starter-redis</module>
+		<module>nutzboot-starter-disque</module>
+		<module>nutzboot-starter-beetl</module>
+		<module>nutzboot-starter-jetx</module>
+		<module>nutzboot-starter-sharding-jdbc</module>
+		<module>nutzboot-starter-thymeleaf</module>
+		<module>nutzboot-starter-zkclient</module>
+		<module>nutzboot-starter-velocity</module>
+		<module>nutzboot-starter-cxf</module>
+		<module>nutzboot-starter-feign</module>
+		<module>nutzboot-starter-caffeine</module>
+		<module>nutzboot-starter-hystrix</module>
+		
+		<module>nutzboot-starter-nutz-mvc</module>
+		<module>nutzboot-starter-shiro</module>
+		<module>nutzboot-starter-dubbo</module>
+		<module>nutzboot-starter-zbus</module>
+		
+		
+	</modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.nutz</groupId>
-			<artifactId>nutz</artifactId>
+			<artifactId>nutzboot-core</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.nutz</groupId>
-			<artifactId>nutz-integration-spring</artifactId>
-			<version>${nutz.version}</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
-	<distributionManagement>
-		<snapshotRepository>
-			<id>nutzcn-snapshots</id>
-			<name>NutzCN snapshot repository</name>
-			<url>https://jfrog.nutz.cn/artifactory/snapshots</url>
-		</snapshotRepository>
-
-		<repository>
-			<id>sonatype-release-staging</id>
-			<name>Sonatype Nexus release repository</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-		</repository>
-	</distributionManagement>
-	<dependencyManagement>
-		<dependencies>
-		</dependencies>
-	</dependencyManagement>
+    </dependencies>
 </project>
