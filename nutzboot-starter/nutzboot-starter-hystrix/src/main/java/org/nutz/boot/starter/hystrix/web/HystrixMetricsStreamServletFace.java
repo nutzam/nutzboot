@@ -15,7 +15,7 @@ public class HystrixMetricsStreamServletFace implements WebServletFace {
     }
 
     public String getPathSpec() {
-        return "/hystrix.stream";
+        return "/hystrix/hystrix.stream";
     }
 
     public Servlet getServlet() {

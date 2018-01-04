@@ -21,6 +21,10 @@
 		</dependency>
        	<dependency>
 			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-hystrix-dashboard</artifactId>
+		</dependency>
+       	<dependency>
+			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-swagger</artifactId>
 		</dependency>
 		<dependency>

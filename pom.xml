@@ -600,6 +600,16 @@
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-hystrix-dashboard</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-xxl-job-executor</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-jetx</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>

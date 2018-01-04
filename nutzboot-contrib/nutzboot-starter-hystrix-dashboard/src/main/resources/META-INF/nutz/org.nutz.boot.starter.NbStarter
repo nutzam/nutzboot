@@ -1,0 +1,2 @@
+org.nutz.boot.starter.hystrix_dashboard.EurekaInfoServletStarter
+org.nutz.boot.starter.hystrix_dashboard.ProxyStreamServletStarter
