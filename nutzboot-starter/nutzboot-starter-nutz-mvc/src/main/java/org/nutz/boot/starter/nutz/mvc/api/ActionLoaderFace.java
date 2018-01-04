@@ -9,6 +9,6 @@ import org.nutz.mvc.impl.Loadings;
 public interface ActionLoaderFace {
 
     default void getActions(Ioc ioc, Class<?> mainModule, EntryDeterminer determiner, Set<Class<?>> modules) {
-        Loadings.scanModuleInPackage(modules, getClass().getPackage().getName());
+        Loadings.scanModuleInPackage(modules, getClass().getPackage().getName(), determiner);
     }
 }
