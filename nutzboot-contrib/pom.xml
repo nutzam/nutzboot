@@ -23,7 +23,7 @@
 		<module>nutzboot-starter-urule</module>
 		<module>nutzboot-starter-xxl-job-executor</module>
 		<module>nutzboot-starter-ngrok</module>
-		<module>nutzboot-starter-hibernate5</module>
+		<module>nutzboot-starter-hystrix-dashboard</module>
 	</modules>
 	<dependencies>
 		<dependency>
