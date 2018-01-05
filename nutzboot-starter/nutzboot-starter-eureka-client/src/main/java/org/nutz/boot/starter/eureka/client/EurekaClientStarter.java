@@ -5,6 +5,7 @@ import java.util.Iterator;
 import javax.inject.Provider;
 
 import org.apache.commons.configuration.AbstractConfiguration;
+import org.nutz.boot.AppContext;
 import org.nutz.boot.starter.ServerFace;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
@@ -31,6 +32,9 @@ public class EurekaClientStarter implements ServerFace, Provider<EurekaClient> {
     
     @Inject("refer:$ioc")
     protected Ioc ioc;
+    
+    @Inject
+    protected AppContext appContext;
 
     protected ApplicationInfoManager applicationInfoManager;
     
@@ -67,16 +71,17 @@ public class EurekaClientStarter implements ServerFace, Provider<EurekaClient> {
             eurekaClient.shutdown();
     }
 
-    public void setConf(PropertiesProxy conf) {
-        this.conf = conf;
+    public void setAppContext(AppContext appContext) {
+        this.appContext = appContext;
         if (!conf.has("eureka.port")) {
-            conf.put("eureka.port", conf.get("server.port", conf.get("jetty.port", conf.get("undertow.port", conf.get("tomcat.port")))));
+            conf.put("eureka.port", ""+appContext.getServerPort("jetty.port"));
         }
         if (!conf.has("eureka.name")) {
-            conf.put("eureka.name", conf.check("nutz.application.name"));
+            conf.put("eureka.name", appContext.getConf().check("nutz.application.name"));
         }
         DynamicPropertyFactory.initWithConfigurationSource(new XConfigure());
     }
+    
     public class XConfigure extends AbstractConfiguration {
 
         public boolean isEmpty() {
@@ -110,7 +115,7 @@ public class EurekaClientStarter implements ServerFace, Provider<EurekaClient> {
         public String getInstanceId() {
             String instanceId = super.getInstanceId();
             if (Strings.isBlank(instanceId))
-                return getHostName(false) + "-" +getNonSecurePort();
+                return getIpAddress() + ":" + getVirtualHostName() + ":" +getNonSecurePort();
             return instanceId;
         }
         

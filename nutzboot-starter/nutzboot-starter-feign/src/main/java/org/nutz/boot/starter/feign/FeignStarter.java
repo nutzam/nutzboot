@@ -1,9 +1,8 @@
 package org.nutz.boot.starter.feign;
 
 import java.lang.reflect.Field;
+import java.net.URI;
 import java.util.List;
-
-import javax.inject.Provider;
 
 import org.nutz.boot.AppContext;
 import org.nutz.boot.annotation.PropDoc;
@@ -98,11 +97,11 @@ public class FeignStarter implements IocEventListener {
                 FeignInject fc = field.getAnnotation(FeignInject.class);
                 if (fc == null)
                     continue;
+                String url = Strings.sBlank(conf.get(PROP_URL), "http://127.0.0.1:8080");
                 Encoder encoder = getEncoder(fc, field);
                 Decoder decoder = getDecoder(fc, field);
-                Client client = getClient(fc, field);
+                Client client = getClient(fc, field, url);
                 Logger.Level level = Level.valueOf(conf.get(PROP_LOGLEVEL, "BASIC").toUpperCase());
-                String url = Strings.sBlank(conf.get(PROP_URL), "http://127.0.0.1:8080");
                 Class apiType = field.getType();
                 Logger logger = new Slf4jLogger(apiType);
 
@@ -184,7 +183,7 @@ public class FeignStarter implements IocEventListener {
         return null;
     }
 
-    protected Client getClient(FeignInject fc, Field field) {
+    protected Client getClient(FeignInject fc, Field field, String url) {
         switch (getClientString(fc)) {
         case "jdk":
             // nop
@@ -194,9 +193,10 @@ public class FeignStarter implements IocEventListener {
         case "httpclient":
             return new ApacheHttpClient();
         case "ribbon":
+            LBClient lb = getLoadBalancer(URI.create(url).getHost(), fc);
             return RibbonClient.builder().lbClientFactory(new LBClientFactory() {
                 public LBClient create(String clientName) {
-                    return getLoadBalancer(clientName, fc);
+                    return lb;
                 }
             }).build();
         default:
@@ -227,15 +227,11 @@ public class FeignStarter implements IocEventListener {
     }
     
     public LBClient getLoadBalancer(String name, FeignInject fc) {
-        Provider<EurekaClient> provider = new Provider<EurekaClient>() {
-            public EurekaClient get() {
-                return ioc.get(EurekaClient.class, "eurekaClient");
-            }
-        };
+        EurekaClient eurekaClient = ioc.get(EurekaClient.class, "eurekaClient");
         DefaultClientConfigImpl clientConfig = DefaultClientConfigImpl.getClientConfigWithDefaultValues(name);
-        ServerList<DiscoveryEnabledServer> list = new DiscoveryEnabledNIWSServerList(name, provider);
+        ServerList<DiscoveryEnabledServer> list = new DiscoveryEnabledNIWSServerList(name, ()->eurekaClient);
         ServerListFilter<DiscoveryEnabledServer> filter = new ZoneAffinityServerListFilter<DiscoveryEnabledServer>(clientConfig);
-        ServerListUpdater updater = new EurekaNotificationServerListUpdater(provider);
+        ServerListUpdater updater = new EurekaNotificationServerListUpdater(()->eurekaClient);
 
         IRule rule = null;
         switch (getLbRuleString(fc.lbRule())) {
@@ -255,7 +251,6 @@ public class FeignStarter implements IocEventListener {
                 .withServerListUpdater(updater)
                 .withClientConfig(clientConfig)
                 .buildDynamicServerListLoadBalancerWithUpdater();
-        lb.enableAndInitLearnNewServersFeature();
         return LBClient.create(lb, clientConfig);
     }
 }
