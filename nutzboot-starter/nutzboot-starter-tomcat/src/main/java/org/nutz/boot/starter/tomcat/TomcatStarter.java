@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,11 +13,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.catalina.*;
+import javax.servlet.ServletContext;
+
+import org.apache.catalina.Context;
+import org.apache.catalina.Lifecycle;
+import org.apache.catalina.LifecycleEvent;
+import org.apache.catalina.LifecycleException;
+import org.apache.catalina.LifecycleListener;
+import org.apache.catalina.WebResource;
+import org.apache.catalina.WebResourceRoot;
+import org.apache.catalina.Wrapper;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.core.StandardThreadExecutor;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.webresources.EmptyResourceSet;
+import org.apache.catalina.webresources.StandardRoot;
 import org.apache.tomcat.util.descriptor.web.FilterDef;
 import org.apache.tomcat.util.descriptor.web.FilterMap;
 import org.nutz.boot.AppContext;
@@ -36,8 +48,6 @@ import org.nutz.lang.Lang;
 import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
-
-import javax.servlet.ServletContext;
 
 /**
  * tomcat 启动器
@@ -192,6 +202,9 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
         this.tomcatContext.setParentClassLoader(classLoader);
         this.tomcatContext.setSessionTimeout(getSessionTimeout());
         this.tomcatContext.addLifecycleListener(new StoreMergedWebXmlListener());
+        StandardRoot sr = new StandardRoot(this.tomcatContext);
+        sr.addPreResources(new ClasspathResourceSet(sr, "static/"));
+        this.tomcatContext.setResources(sr);
 
         try {
             this.tomcatContext.setUseRelativeRedirects(false);
@@ -346,7 +359,7 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
 
     // --getConf---
     public int getPort() {
-        return conf.getInt(PROP_PORT, 8080);
+        return appContext.getServerPort(PROP_PORT);
     }
 
     public String getHost() {
@@ -369,5 +382,30 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
         return Lang.isAndroid ? 50 : 500;
     }
 
+    public class ClasspathResourceSet extends EmptyResourceSet {
+        
+        protected String prefix;
 
+        public ClasspathResourceSet(WebResourceRoot root, String prefix) {
+            super(root);
+            this.prefix = prefix;
+        }
+
+        public boolean isReadOnly() {
+            return true;
+        }
+
+        public URL getBaseUrl() {
+            return appContext.getClassLoader().getResource(prefix);
+        }
+
+        public WebResource getResource(String path) {
+            return super.getResource(path);
+        }
+        
+        @Override
+        public boolean getStaticOnly() {
+            return true;
+        }
+    }
 }

@@ -224,7 +224,7 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
 
     // --getConf---
     public int getPort() {
-        return conf.getInt(PROP_PORT, 8080);
+        return appContext.getServerPort(PROP_PORT);
     }
 
     public String getHost() {

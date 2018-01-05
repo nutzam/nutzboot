@@ -2,6 +2,7 @@ package org.nutz.boot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.nutz.boot.config.ConfigureLoader;
 import org.nutz.boot.env.EnvHolder;
@@ -320,5 +321,17 @@ public class AppContext implements LifeCycle {
             list.add(getIoc().get(klass, name));
         }
         return list;
+    }
+    
+    public int getServerPort(String legacyKey) {
+        if (legacyKey != null && getConf().has(legacyKey)) {
+            return getConf().getInt(legacyKey);
+        }
+        int port = getConf().getInt("server.port", 8080);
+        if (port == 0) {
+            port = new Random(System.currentTimeMillis()).nextInt(1000) + 8000;
+            getConf().set("server.port", ""+port);
+        }
+        return port;
     }
 }
