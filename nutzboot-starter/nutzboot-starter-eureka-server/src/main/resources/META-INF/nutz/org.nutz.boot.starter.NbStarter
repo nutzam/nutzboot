@@ -1,0 +1,4 @@
+org.nutz.boot.starter.eureka.server.EurekaGzipEncodingEnforcingFilterStarter
+org.nutz.boot.starter.eureka.server.EurekaJerseyServletContainerStarter
+org.nutz.boot.starter.eureka.server.EurekaServerRequestAuthFilterStarter
+org.nutz.boot.starter.eureka.server.EurekaStatusFilterStarter
