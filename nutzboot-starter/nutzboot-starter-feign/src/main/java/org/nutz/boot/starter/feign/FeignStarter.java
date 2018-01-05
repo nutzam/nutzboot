@@ -18,6 +18,7 @@ import org.nutz.lang.Strings;
 
 import com.netflix.client.config.DefaultClientConfigImpl;
 import com.netflix.discovery.EurekaClient;
+import com.netflix.loadbalancer.AvailabilityFilteringRule;
 import com.netflix.loadbalancer.IRule;
 import com.netflix.loadbalancer.LoadBalancerBuilder;
 import com.netflix.loadbalancer.RandomRule;
@@ -76,6 +77,9 @@ public class FeignStarter implements IocEventListener {
 
     @PropDoc(value = "是否使用Hystrix", defaultValue = "false", possible = {"true", "false"})
     public static final String PROP_HYSTRIX_ENABLE = PRE + "hystrix.enable";
+
+    @PropDoc(value = "默认负载均衡的规则", defaultValue = "availability", possible = {"availability", "random"})
+    public static final String PROP_LB_RULE = PRE + "loadbalancer.rule";
 
     @Inject("refer:$ioc")
     protected Ioc ioc;
@@ -137,7 +141,7 @@ public class FeignStarter implements IocEventListener {
 
     protected Decoder getDecoder(FeignInject fc, Field field) {
 
-        switch (Strings.sBlank(fc.decoder(), conf.get(PROP_DECODER, ""))) {
+        switch (Strings.sBlank(fc.decoder(), conf.get(PROP_DECODER, "availability"))) {
         case "":
         case "raw":
             break;
@@ -192,7 +196,7 @@ public class FeignStarter implements IocEventListener {
         case "ribbon":
             return RibbonClient.builder().lbClientFactory(new LBClientFactory() {
                 public LBClient create(String clientName) {
-                    return getLoadBalancer(clientName);
+                    return getLoadBalancer(clientName, fc);
                 }
             }).build();
         default:
@@ -218,17 +222,32 @@ public class FeignStarter implements IocEventListener {
         return Strings.sBlank(schema, conf.get(PROP_SCHEMA));
     }
     
-    public LBClient getLoadBalancer(String name) {
+    public String getLbRuleString(String lbRule) {
+        return Strings.sBlank(lbRule, conf.get(PROP_LB_RULE, ""));
+    }
+    
+    public LBClient getLoadBalancer(String name, FeignInject fc) {
         Provider<EurekaClient> provider = new Provider<EurekaClient>() {
             public EurekaClient get() {
                 return ioc.get(EurekaClient.class, "eurekaClient");
             }
         };
-        IRule rule = new RandomRule();
         DefaultClientConfigImpl clientConfig = DefaultClientConfigImpl.getClientConfigWithDefaultValues(name);
         ServerList<DiscoveryEnabledServer> list = new DiscoveryEnabledNIWSServerList(name, provider);
         ServerListFilter<DiscoveryEnabledServer> filter = new ZoneAffinityServerListFilter<DiscoveryEnabledServer>(clientConfig);
         ServerListUpdater updater = new EurekaNotificationServerListUpdater(provider);
+
+        IRule rule = null;
+        switch (getLbRuleString(fc.lbRule())) {
+        case "random":
+            rule = new RandomRule();
+            break;
+        default:
+            AvailabilityFilteringRule _rule = new AvailabilityFilteringRule();
+            _rule.initWithNiwsConfig(clientConfig);
+            rule = _rule;
+            break;
+        }
         ZoneAwareLoadBalancer<DiscoveryEnabledServer> lb = LoadBalancerBuilder.<DiscoveryEnabledServer>newBuilder()
                 .withDynamicServerList(list)
                 .withRule(rule)
