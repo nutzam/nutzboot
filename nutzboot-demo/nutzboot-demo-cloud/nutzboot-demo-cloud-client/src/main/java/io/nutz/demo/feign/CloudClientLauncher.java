@@ -4,7 +4,7 @@ import org.nutz.boot.NbApp;
 import org.nutz.ioc.loader.annotation.IocBean;
 
 @IocBean
-public class MainLauncher {
+public class CloudClientLauncher {
 
     // 端口是8082
     public static void main(String[] args) throws Exception {

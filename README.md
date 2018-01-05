@@ -160,6 +160,8 @@ public class MainLauncher {
 		- [ ] [ribbon](https://github.com/Netflix/ribbon)
     - [x] zkclient zookeeper的封装
     - [x] [hystrix](https://github.com/Netflix/Hystrix) 熔断器
+    - [x] [eureka-server](https://github.com/Netflix/eureka) 服务治理的服务器端
+    - [x] [eureka-client](https://github.com/Netflix/eureka) 服务治理的客户端
 - 安全鉴权
     - [x] [Shiro](http://shiro.apache.org)
 - 分布式Session

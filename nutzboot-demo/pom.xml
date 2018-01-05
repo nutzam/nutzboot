@@ -16,6 +16,7 @@
 
 		<module>nutzboot-demo-cxf</module>
 		<module>nutzboot-demo-feign</module>
+		<module>nutzboot-demo-cloud</module>
 	</modules>
 	<properties>
 	</properties>

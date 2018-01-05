@@ -25,9 +25,21 @@ public @interface FeignInject {
      */
     String schema() default "";
 
+    /**
+     * 客户端用什么
+     */
     String client() default "";
 
+    /**
+     * 是否启用feign-hystrix
+     * @return
+     */
     String useHystrix() default "";
 
     String fallback() default "";
+    
+    /**
+     * 负载均衡规则
+     */
+    String lbRule() default "";
 }

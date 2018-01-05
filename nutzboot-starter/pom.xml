@@ -46,8 +46,10 @@
 		<module>nutzboot-starter-shiro</module>
 		<module>nutzboot-starter-dubbo</module>
 		<module>nutzboot-starter-zbus</module>
-		
-		
+
+
+		<module>nutzboot-starter-eureka-client</module>
+		<module>nutzboot-starter-eureka-server</module>
 	</modules>
 	<dependencies>
 		<dependency>
