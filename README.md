@@ -10,6 +10,7 @@ NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入
 * 社区: [NutzCN](https://nutz.cn)
 
 [![Build Status](https://travis-ci.org/nutzam/nutzboot.png?branch=dev)](https://travis-ci.org/nutzam/nutzboot)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.nutz/nutzboot-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.nutz/nutzboot-parent/)
 [![GitHub release](https://img.shields.io/github/release/nutzam/nutzboot.svg)](https://github.com/nutzam/nutzboot/releases)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![Skywalking Tracing](https://img.shields.io/badge/Skywalking%20Tracing-enable-brightgreen.svg)](https://github.com/OpenSkywalking/skywalking)
@@ -124,17 +125,21 @@ public class MainLauncher {
 - 基础框架
     - [x] 基础框架的文档
     - [x] 基本框架的实现
-- 服务器类启动器
-    - Servlet容器
-        - [x] [Jetty](https://www.eclipse.org/jetty/)
-        - [x] [Undertow](http://undertow.io/) by [@qinerg](https://github.com/qinerg)
-        - [x] [Tomcat](http://tomcat.apache.org/) by [@benjobs](https://github.com/wolfboys)
-    - 非Web启动器
-        - [ ] [netty](https://netty.io/)
-        - [ ] [mina](https://mina.apache.org/)
-        - [ ] [t-io](http://www.oschina.net/p/t-io)
-    - 其他
-        - [x] Ngrok 内网穿透,轻松获取外网地址
+- 嵌入式web容器
+    - [x] [Jetty](https://www.eclipse.org/jetty/)
+    - [x] [Undertow](http://undertow.io/) by [@qinerg](https://github.com/qinerg)
+    - [x] [Tomcat](http://tomcat.apache.org/) by [@benjobs](https://github.com/wolfboys) 
+- 分布式组件
+	- RPC(Remote Procedure Call)
+		- [x] [Dubbo](http://dubbo.io/) 阿里出品的高性能RPC平台
+		- [x] [zbus](http://zbus.io) 国产知名RPC平台
+		- [ ] [motan](https://github.com/weibocom/motan)
+		- [x] [feign](https://github.com/OpenFeign/feign) by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
+		- [ ] [ribbon](https://github.com/Netflix/ribbon)
+    - [x] zkclient zookeeper的封装
+    - [x] [hystrix](https://github.com/Netflix/Hystrix) 熔断器
+    - [x] [eureka-server](https://github.com/Netflix/eureka) 服务治理的服务器端
+    - [x] [eureka-client](https://github.com/Netflix/eureka) 服务治理的客户端
 - 数据库类相关
     - 关系型数据库
         - [x] Jdbc连接池,默认使用druid,带监控功能
@@ -151,17 +156,6 @@ public class MainLauncher {
 - Mvc
     - [x] Nutz.Mvc
     - [ ] [jersey](https://jersey.github.io/)
-- 分布式组件
-	- RPC(Remote Procedure Call)
-		- [x] [Dubbo](http://dubbo.io/) 阿里出品的高性能RPC平台
-		- [x] [zbus](http://zbus.io) 国产知名RPC平台
-		- [ ] [motan](https://github.com/weibocom/motan)
-		- [x] [feign](https://github.com/OpenFeign/feign) by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
-		- [ ] [ribbon](https://github.com/Netflix/ribbon)
-    - [x] zkclient zookeeper的封装
-    - [x] [hystrix](https://github.com/Netflix/Hystrix) 熔断器
-    - [x] [eureka-server](https://github.com/Netflix/eureka) 服务治理的服务器端
-    - [x] [eureka-client](https://github.com/Netflix/eureka) 服务治理的客户端
 - 安全鉴权
     - [x] [Shiro](http://shiro.apache.org)
 - 分布式Session
@@ -205,6 +199,8 @@ public class MainLauncher {
     - [ ] docker compose配置
 - WebService
     - [x] CXF
+- 其他
+    - [x] Ngrok 内网穿透,轻松获取外网地址
 ## 第三方starter或项目
 
 期待您的到来,报个issue告知一下吧 ^_^
