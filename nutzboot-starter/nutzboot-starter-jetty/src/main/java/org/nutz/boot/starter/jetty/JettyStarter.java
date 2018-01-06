@@ -224,7 +224,13 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
 
     // --getConf---
     public int getPort() {
-        return appContext.getServerPort(PROP_PORT);
+        try {
+            return appContext.getServerPort(PROP_PORT);
+        }
+        catch (NoSuchMethodError e) {
+            log.info("Please remove 'nutzboot-starter' dependency from pom.xml. https://github.com/nutzam/nutzboot/issues/93");
+            return conf.getInt(PROP_PORT, 8080);
+        }
     }
 
     public String getHost() {
