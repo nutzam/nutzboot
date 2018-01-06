@@ -233,9 +233,15 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
         }
     }
 
-	public String getHost() {
-		return conf.get(PROP_HOST, "0.0.0.0");
-	}
+    public String getHost() {
+        try {
+            return appContext.getServerHost(PROP_HOST);
+        }
+        catch (NoSuchMethodError e) {
+            log.info("Please remove 'nutzboot-starter' dependency from pom.xml. https://github.com/nutzam/nutzboot/issues/93");
+            return conf.get(PROP_HOST, "0.0.0.0");
+        }
+    }
 
 	public String getStaticPath() {
 		return conf.get(PROP_STATIC_PATH, "static");

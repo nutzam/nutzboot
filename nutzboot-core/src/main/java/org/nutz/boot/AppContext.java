@@ -12,6 +12,8 @@ import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.combo.ComboIocLoader;
 import org.nutz.lang.util.LifeCycle;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 
 /**
  * 全局上下文
@@ -20,6 +22,8 @@ import org.nutz.lang.util.LifeCycle;
  *
  */
 public class AppContext implements LifeCycle {
+
+    private static final Log log = Logs.get();
 
     protected static AppContext _default = new AppContext();
 
@@ -322,9 +326,10 @@ public class AppContext implements LifeCycle {
         }
         return list;
     }
-    
+
     public int getServerPort(String legacyKey) {
         if (legacyKey != null && getConf().has(legacyKey)) {
+            log.infof("%s is deprecated, use %s instead", legacyKey, "server.port");
             return getConf().getInt(legacyKey);
         }
         int port = getConf().getInt("server.port", 8080);
@@ -333,5 +338,13 @@ public class AppContext implements LifeCycle {
             getConf().set("server.port", ""+port);
         }
         return port;
+    }
+
+    public String getServerHost(String legacyKey) {
+        if (legacyKey != null && getConf().has(legacyKey)) {
+            log.infof("%s is deprecated, use %s instead", legacyKey, "server.host");
+            return getConf().get(legacyKey);
+        }
+        return getConf().get("server.host", "0.0.0.0");
     }
 }

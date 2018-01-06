@@ -234,7 +234,13 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     }
 
     public String getHost() {
-        return conf.get(PROP_HOST, "0.0.0.0");
+        try {
+            return appContext.getServerHost(PROP_HOST);
+        }
+        catch (NoSuchMethodError e) {
+            log.info("Please remove 'nutzboot-starter' dependency from pom.xml. https://github.com/nutzam/nutzboot/issues/93");
+            return conf.get(PROP_HOST, "0.0.0.0");
+        }
     }
 
     public int getMaxFormContentSize() {
