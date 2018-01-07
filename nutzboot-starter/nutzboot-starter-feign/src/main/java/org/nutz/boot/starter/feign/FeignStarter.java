@@ -193,7 +193,7 @@ public class FeignStarter implements IocEventListener {
         case "httpclient":
             return new ApacheHttpClient();
         case "ribbon":
-            LBClient lb = getLoadBalancer(URI.create(url).getHost(), fc);
+            LBClient lb = (LBClient)getLoadBalancer(URI.create(url).getHost(), fc);
             return RibbonClient.builder().lbClientFactory(new LBClientFactory() {
                 public LBClient create(String clientName) {
                     return lb;
@@ -226,7 +226,7 @@ public class FeignStarter implements IocEventListener {
         return Strings.sBlank(lbRule, conf.get(PROP_LB_RULE, ""));
     }
     
-    public LBClient getLoadBalancer(String name, FeignInject fc) {
+    public Object getLoadBalancer(String name, FeignInject fc) {
         EurekaClient eurekaClient = ioc.get(EurekaClient.class, "eurekaClient");
         DefaultClientConfigImpl clientConfig = DefaultClientConfigImpl.getClientConfigWithDefaultValues(name);
         ServerList<DiscoveryEnabledServer> list = new DiscoveryEnabledNIWSServerList(name, ()->eurekaClient);
