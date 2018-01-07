@@ -133,9 +133,8 @@ public class MainLauncher {
 	- RPC(Remote Procedure Call)
 		- [x] [Dubbo](http://dubbo.io/) 阿里出品的高性能RPC平台
 		- [x] [zbus](http://zbus.io) 国产知名RPC平台
-		- [ ] [motan](https://github.com/weibocom/motan)
-		- [x] [feign](https://github.com/OpenFeign/feign) by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
-		- [ ] [ribbon](https://github.com/Netflix/ribbon)
+		- [x] [feign](https://github.com/OpenFeign/feign) makes writing java http clients easier, by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
+		- [x] [ribbon](https://github.com/Netflix/ribbon) 负载均衡
     - [x] zkclient zookeeper的封装
     - [x] [hystrix](https://github.com/Netflix/Hystrix) 熔断器
     - [x] [eureka-server](https://github.com/Netflix/eureka) 服务治理的服务器端
@@ -146,8 +145,6 @@ public class MainLauncher {
         - [x] [sharding-jdbc](https://github.com/shardingjdbc/sharding-jdbc) 分库分表
         - [x] [Nutz.Dao](https://github.com/nutzam/nutz)
         - [x] [BeetlSql](http://ibeetl.com/guide/#beetlsql) 基于Beetl的SQL框架
-        - [ ] Hibernate
-        - [ ] mybatis
     - 非关系型数据库
         - [x] [Redis](https://redis.io)
         - [x] MongoDB
