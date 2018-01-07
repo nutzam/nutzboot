@@ -56,7 +56,6 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-ribbon</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
         	<groupId>com.netflix.ribbon</groupId>
