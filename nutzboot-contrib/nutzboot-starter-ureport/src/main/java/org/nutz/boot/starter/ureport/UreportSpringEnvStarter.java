@@ -11,7 +11,6 @@ import org.nutz.boot.tools.SpringWebContextProxy;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
-import org.nutz.lang.Mirror;
 import org.nutz.lang.Strings;
 
 import com.bstek.ureport.Utils;
@@ -59,11 +58,8 @@ public class UreportSpringEnvStarter extends SpringWebContextProxy {
                 }
             });
         }
-        buildinDatasources.addAll(Utils.getBuildinDatasources());
-        Mirror.me(Utils.class).setValue(null, "buildinDatasources", buildinDatasources);
+        Utils.getBuildinDatasources().addAll(buildinDatasources);
         // 把ImageProvider也注册一下
-        List<ImageProvider> images = appContext.getBeans(ImageProvider.class);
-        images.addAll(Utils.getImageProviders());
-        Mirror.me(Utils.class).setValue(null, "imageProviders", images);
+        Utils.getImageProviders().addAll(appContext.getBeans(ImageProvider.class));
     }
 }

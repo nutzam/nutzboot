@@ -14,6 +14,11 @@
 	* change: feign默认不设置encoder/decoder,上一个版本默认jackson,并添加更多配置项.
 	* change: 重构项目结构,用户项目不再需要依赖nutzboot-starter
 	* change: 启用server.port和server.host,将jetty/undertow/tomcat的port和host设为过期配置,但继续兼容.
+	* update: beetl更新到2.7.26
+	* update: ureport2更新到2.2.4, 不再需要通过反射设置BuildinDatasource和ImageProvider列表
+	* update: urule更新到2.1.4,可以注入FunctionDescriptor了
+	* update: uflo更新到2.1.1
+	* fix: U家三剑客的PropDoc文档没显示出来
 	
 
 ## 2.0.1 "刚好遇见你"
