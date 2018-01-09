@@ -23,6 +23,8 @@ NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入
 * 能满足80%以上常见需求的默认配置,无需过多的自定义
 * 以开放的心态与国内开源团体合作,优先集成国产项目
 * 活跃的社区及稳健的发布周期,推进项目一直前进
+* 默认使用eureka作为服务治理, ribbon提供负载均衡,feign封装http请求, hystrix提供熔断
+* 提供swagger api文件自动生成
 
 ## 快速预览一下NB的项目吧
 
@@ -134,7 +136,7 @@ public class MainLauncher {
 		- [x] [Dubbo](http://dubbo.io/) 阿里出品的高性能RPC平台
 		- [x] [zbus](http://zbus.io) 国产知名RPC平台
 		- [x] [feign](https://github.com/OpenFeign/feign) makes writing java http clients easier, by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
-		- [x] [ribbon](https://github.com/Netflix/ribbon) 负载均衡
+		- [x] [ribbon](https://github.com/Netflix/ribbon) 配合feign实现负载均衡
     - [x] zkclient zookeeper的封装
     - [x] [hystrix](https://github.com/Netflix/Hystrix) 熔断器
     - [x] [eureka-server](https://github.com/Netflix/eureka) 服务治理的服务器端
@@ -171,7 +173,6 @@ public class MainLauncher {
     - [x] rabbitmq
     - [ ] rocketmq
     - [ ] activemq
-    - [ ] zbus
 - 工作流
     - [x] [uflo2](https://github.com/youseries/uflo) 中式工作流引擎
     - [x] [activiti](https://www.activiti.org/)
@@ -191,6 +192,8 @@ public class MainLauncher {
 - 缓存相关
     - [x] wkcache 方法缓存  by [大鲨鱼](https://github.com/Wizzercn)
     - [x] [caffeine](https://github.com/ben-manes/caffeine) 方法缓存  by [幸福的旁边](https://github.com/happyday517)
+- API文档生成器
+	- [x] [swagger](https://swagger.io) Most Popular API Framework
 - docker相关
     - [ ] docker compose配置
 - WebService
