@@ -35,6 +35,7 @@
         <module>nutzboot-demo-simple-eureka-client</module>
         <module>nutzboot-demo-simple-rabbitmq</module>
         <module>nutzboot-demo-simple-xxl-job-executor</module>
+        <module>nutzboot-demo-simple-activiti</module>
 	</modules>
 
 	<dependencies>

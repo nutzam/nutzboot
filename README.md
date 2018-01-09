@@ -174,7 +174,7 @@ public class MainLauncher {
     - [ ] zbus
 - 工作流
     - [x] [uflo2](https://github.com/youseries/uflo) 中式工作流引擎
-    - [ ] Activity
+    - [x] [activiti](https://www.activiti.org/)
 - 规则引擎
     - [x] [urule](https://github.com/youseries/urule) 中式规则引擎
     - [ ] drools

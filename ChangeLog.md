@@ -12,6 +12,7 @@
 	* add: feign完成feign-ribbon-eureka集成,实现负载均衡和服务发现
 	* add: feign添加feign-hystrix依赖,强化与hystrix的集成
 	* add: [rabbitmq](https://www.rabbitmq.com/) 开源消息代理
+	* add: [activiti](https://www.activiti.org/) 工作流
 	* change: feign默认不设置encoder/decoder,上一个版本默认jackson,并添加更多配置项.
 	* change: 重构项目结构,用户项目不再需要依赖nutzboot-starter
 	* change: 启用server.port和server.host,将jetty/undertow/tomcat的port和host设为过期配置,但继续兼容.
