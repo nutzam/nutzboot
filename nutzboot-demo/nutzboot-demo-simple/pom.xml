@@ -32,6 +32,9 @@
         
         <module>nutzboot-demo-simple-caffeine</module>
         <module>nutzboot-demo-simple-hystrix</module>
+        <module>nutzboot-demo-simple-eureka-client</module>
+        <module>nutzboot-demo-simple-rabbitmq</module>
+        <module>nutzboot-demo-simple-xxl-job-executor</module>
 	</modules>
 
 	<dependencies>
