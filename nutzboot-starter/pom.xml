@@ -50,6 +50,7 @@
 
 		<module>nutzboot-starter-eureka-client</module>
 		<module>nutzboot-starter-eureka-server</module>
+		<module>nutzboot-starter-rabbitmq</module>
 	</modules>
 	<dependencies>
 		<dependency>
