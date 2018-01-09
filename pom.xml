@@ -167,6 +167,11 @@
 				<version>${nutz.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutz-integration-rabbitmq</artifactId>
+				<version>${nutz.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>com.github.xetorthio</groupId>
 				<artifactId>jedisque</artifactId>
 				<version>0.0.5-SNAPSHOT</version>
@@ -624,6 +629,11 @@
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-rabbitmq</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>javassist</groupId>
 				<artifactId>javassist</artifactId>
 				<version>3.12.1.GA</version>
@@ -741,6 +751,11 @@
 				<groupId>com.sun.jersey</groupId>
 				<artifactId>jersey-servlet</artifactId>
 				<version>1.19.4</version>
+			</dependency>
+			<dependency>
+				<groupId>com.rabbitmq</groupId>
+				<artifactId>amqp-client</artifactId>
+				<version>5.0.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

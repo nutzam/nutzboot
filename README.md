@@ -168,8 +168,7 @@ public class MainLauncher {
     - [ ] FreeMarker
 - 消息队列
     - [x] disque redis作者的另一作品
-    - [ ] zeromq
-    - [ ] rabbitmq
+    - [x] rabbitmq
     - [ ] rocketmq
     - [ ] activemq
     - [ ] zbus
