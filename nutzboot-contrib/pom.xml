@@ -24,6 +24,7 @@
 		<module>nutzboot-starter-xxl-job-executor</module>
 		<module>nutzboot-starter-ngrok</module>
 		<module>nutzboot-starter-hystrix-dashboard</module>
+		<module>nutzboot-starter-activiti</module>
 	</modules>
 	<dependencies>
 		<dependency>
