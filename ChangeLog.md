@@ -20,6 +20,7 @@
 	* update: ureport2更新到2.2.4, 不再需要通过反射设置BuildinDatasource和ImageProvider列表
 	* update: urule更新到2.1.4,可以注入FunctionDescriptor了
 	* update: uflo更新到2.1.1
+	* update: Swagger UI 更新到3.9.0
 	* fix: U家三剑客的PropDoc文档没显示出来
 	
 
