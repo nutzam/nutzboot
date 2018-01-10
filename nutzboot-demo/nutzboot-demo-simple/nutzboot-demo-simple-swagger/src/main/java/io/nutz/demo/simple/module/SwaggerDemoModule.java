@@ -27,7 +27,7 @@ public class SwaggerDemoModule {
     }
 
     @POST
-    @ApiOperation(value = "回显接口", notes = "发我一个字符串,原样回复一个字符串", httpMethod="POST")
+    @ApiOperation(value = "回显接口", notes = "发我一个字符串,原样回复一个字符串", httpMethod="POST", consumes="application/x-www-form-urlencoded")
     @ApiImplicitParams({@ApiImplicitParam(name = "text", paramType="form", value = "想发啥就发啥", dataType="string", required = true)})
     @At
     @Ok("raw")
