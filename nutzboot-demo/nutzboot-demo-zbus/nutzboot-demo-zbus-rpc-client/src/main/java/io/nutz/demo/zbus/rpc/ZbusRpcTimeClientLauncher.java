@@ -21,7 +21,7 @@ public class ZbusRpcTimeClientLauncher {
     }
 
     public static void main(String[] args) throws Exception {
-        new NbApp(ZbusRpcTimeClientLauncher.class).run();
+        new NbApp().run();
     }
 
 }

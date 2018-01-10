@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.nutz</groupId>
+    <artifactId>nutzboot-contrib</artifactId>
+    <version>2.2-SNAPSHOT</version>
+  </parent>
+  <artifactId>nutzboot-starter-urule</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.bstek.urule</groupId>
+  		<artifactId>urule-console</artifactId>
+  		<version>2.1.4</version>
+  		<exclusions>
+  			<exclusion>
+  				<groupId>org.slf4j</groupId>
+  				<artifactId>slf4j-jdk14</artifactId>
+  			</exclusion>
+  		</exclusions>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.nutz</groupId>
+  		<artifactId>nutz-integration-spring</artifactId>
+  		<version>${nutz.version}</version>
+  		<exclusions>
+  			<exclusion>
+  				<groupId>org.springframework</groupId>
+  				<artifactId>spring-context</artifactId>
+  			</exclusion>
+  		</exclusions>
+  	</dependency>
+  </dependencies>
+</project>

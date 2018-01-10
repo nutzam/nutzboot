@@ -83,6 +83,91 @@
                             <el-switch v-model="nb.weixin.enable"></el-switch>
                         </el-form-item>
 
+                        <!--Tomcat-->
+                        <el-form-item label="Tomcat">
+                            <el-switch v-model="nb.tomcat.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--Undertow-->
+                        <el-form-item label="Undertow">
+                            <el-switch v-model="nb.undertow.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--Dubbo-->
+                        <el-form-item label="Dubbo">
+                            <el-switch v-model="nb.dubbo.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--Zbus-->
+                        <el-form-item label="Zbus">
+                            <el-switch v-model="nb.zbus.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--Ngrok-->
+                        <el-form-item label="Ngrok">
+                            <el-switch v-model="nb.ngrok.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--ShardingJdbc-->
+                        <el-form-item label="ShardingJdbc">
+                            <el-switch v-model="nb.shardingjdbc.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--BeetlSql-->
+                        <el-form-item label="BeetlSql">
+                            <el-switch v-model="nb.beetlsql.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--MongoDB-->
+                        <el-form-item label="MongoDB">
+                            <el-switch v-model="nb.mongo.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--Shiro-->
+                        <el-form-item label="Shiro">
+                            <el-switch v-model="nb.shiro.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--Beetl-->
+                        <el-form-item label="Beetl">
+                            <el-switch v-model="nb.beetl.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--Thymeleaf-->
+                        <el-form-item label="Thymeleaf">
+                            <el-switch v-model="nb.thymeleaf.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--Jedisque-->
+                        <el-form-item label="Jedisque">
+                            <el-switch v-model="nb.disque.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--uflo2-->
+                        <el-form-item label="uflo2">
+                            <el-switch v-model="nb.uflo2.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--urule-->
+                        <el-form-item label="urule">
+                            <el-switch v-model="nb.urule.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--ureport-->
+                        <el-form-item label="ureport">
+                            <el-switch v-model="nb.ureport.enable"></el-switch>
+                        </el-form-item>
+
+                        <!--wkcache-->
+                        <el-form-item label="wkcache">
+                            <el-switch v-model="nb.wkcache.enable"></el-switch>
+                        </el-form-item>
+                        
+                        <!--feign-->
+                        <el-form-item label="feign">
+                            <el-switch v-model="nb.feign.enable"></el-switch>
+                        </el-form-item>
+
                         <el-form-item>
                             <el-button type="primary" @click="onSubmit">立即创建</el-button>
                         </el-form-item>
@@ -123,15 +208,16 @@
                 done: false,
                 nbTextArea: {minRows: 2, maxRows: 6},
                 versionOptions: [{
-                    label: "2.0-SNAPSHOT",
-                    value: "2.0-SNAPSHOT"
-                }, {
-                    label: "2.0-Beta",
-                    value: "2.0-Beta"
-                }],
+                    label: "2.1.0",
+                    value: "2.1.0"
+                },{
+                    label: "2.2-SNAPSHOT",
+                    value: "2.2-SNAPSHOT"
+                }
+                ],
                 nb: {
                     packageName: "io.nutz.demo",
-                    version: "2.0-SNAPSHOT",
+                    version: "2.2-SNAPSHOT",
                     nutzmvc: {
                         enable: true
                     },
@@ -158,6 +244,65 @@
                     },
                     weixin: {
                         enable: false
+                    },
+                    tomcat: {
+                        enable: false,
+                        port: 8080,
+                        host: "127.0.0.1"
+                    },
+                    undertow: {
+                        enable: false,
+                        port: 8080,
+                        host: "127.0.0.1"
+                    },
+                    dubbo: {
+                        enable: false
+                    },
+                    zbus: {
+                        enable: false
+                    },
+                    ngrok: {
+                        enable: false,
+                        client: {
+                            auth_token: "4kg9lckq5og4ip02j736e3i7ku"
+                        }
+                    },
+                    shardingjdbc: {
+                        enable: false
+                    },
+                    beetlsql: {
+                        enable: false
+                    },
+                    mongo: {
+                        enable: false,
+                        dbname: "nutzboot"
+                    },
+                    shiro: {
+                        enable: false,
+                    },
+                    beetl: {
+                        enable: false
+                    },
+                    thymeleaf: {
+                        enable: false
+                    },
+                    disque: {
+                        enable: false
+                    },
+                    uflo2: {
+                        enable: false
+                    },
+                    urule: {
+                        enable: false
+                    },
+                    ureport: {
+                        enable: false
+                    },
+                    wkcache: {
+                        enable: false
+                    },
+                    feign: {
+                        enable: false
                     }
                 },
                 nbJson: "",
@@ -181,7 +326,7 @@
                             self.upload = false;
                             self.nbUrl = "/maker/download/" + re.key;
                         } else {
-                            self.$message.error('创建失败了，请联系wendal');
+                            self.$message.error('创建失败了，请到 https://nutz.cn 获取帮助');
                         }
                     }
                 });

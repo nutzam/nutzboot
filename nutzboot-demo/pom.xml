@@ -1,27 +1,30 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.nutz</groupId>
-    <artifactId>nutzboot-parent</artifactId>
-    <version>2.0-SNAPSHOT</version>
-  </parent>
-  <artifactId>nutzboot-demo</artifactId>
-  <packaging>pom</packaging>
-  <modules>
-  	<module>nutzboot-demo-maker</module>
-  	<module>nutzboot-demo-simple</module>
-  	<module>nutzboot-demo-zbus</module>
-  	<module>nutzboot-demo-dubbo</module>
-  	
-  </modules>
-  <properties>
-  </properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.nutz</groupId>
+		<artifactId>nutzboot-parent</artifactId>
+		<version>2.2-SNAPSHOT</version>
+	</parent>
+	<artifactId>nutzboot-demo</artifactId>
+	<packaging>pom</packaging>
+	<modules>
+		<module>nutzboot-demo-maker</module>
+		<module>nutzboot-demo-simple</module>
+		<module>nutzboot-demo-zbus</module>
+		<module>nutzboot-demo-dubbo</module>
 
-  <dependencies>
-  	<dependency>
-  		<groupId>org.nutz</groupId>
-  		<artifactId>nutzboot-starter</artifactId>
-  		<version>${project.version}</version>
-  	</dependency>
-  </dependencies>
+		<module>nutzboot-demo-cxf</module>
+		<module>nutzboot-demo-feign</module>
+		<module>nutzboot-demo-cloud</module>
+	</modules>
+	<properties>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-core</artifactId>
+		</dependency>
+	</dependencies>
 </project>

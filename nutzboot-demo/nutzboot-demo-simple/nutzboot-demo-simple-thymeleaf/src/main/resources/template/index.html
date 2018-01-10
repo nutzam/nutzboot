@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>NB demo for Thymeleaf</title>
+</head>
+<body>
+<div>
+	<h2>Context Path = '<span th:text="${#request.getAttribute('base')}">No Value</span>'</h2>
+</div>
+<div>
+	<h2>From Action name=<span th:text="${obj.name}">name</span>, age=<span th:text="${obj.age}">age</span></h2>
+</div>
+
+</body>
+</html>

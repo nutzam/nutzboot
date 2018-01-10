@@ -24,7 +24,7 @@ public class DubboRpcTimeClientLauncher {
     }
 
     public static void main(String[] args) throws Exception {
-        new NbApp(DubboRpcTimeClientLauncher.class).run();
+        new NbApp().run();
     }
 
 }

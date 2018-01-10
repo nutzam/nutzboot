@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.nutz</groupId>
+		<artifactId>nutzboot-parent</artifactId>
+		<version>2.2-SNAPSHOT</version>
+	</parent>
+	<artifactId>nutzboot-contrib</artifactId>
+	<packaging>pom</packaging>
+	<name>nutzboot-contrib-parent</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+		<scm>
+		<connection>scm:git:git://github.com/nutzam/nutzboot.git</connection>
+		<developerConnection>scm:git:git://github.com/nutzam/nutzboot.git</developerConnection>
+		<url>git://github.com/nutzam/nutzboot.git</url>
+	</scm>
+	<modules>
+		<module>nutzboot-starter-uflo</module>
+		<module>nutzboot-starter-ureport</module>
+		<module>nutzboot-starter-urule</module>
+		<module>nutzboot-starter-xxl-job-executor</module>
+		<module>nutzboot-starter-ngrok</module>
+		<module>nutzboot-starter-hystrix-dashboard</module>
+		<module>nutzboot-starter-activiti</module>
+	</modules>
+	<dependencies>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-core</artifactId>
+		</dependency>
+    </dependencies>
+</project>

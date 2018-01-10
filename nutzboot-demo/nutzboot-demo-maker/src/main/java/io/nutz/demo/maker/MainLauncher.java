@@ -75,20 +75,26 @@ public class MainLauncher {
         String log4jPropertiesStr = _render("src/main/resources/log4j.properties", params);
         _write(new File(tmpRoot, "src/main/resources/log4j.properties"), log4jPropertiesStr);
         
-        // 生成MainLauncher
+
+        String indexHtmlStr = _render("src/main/resources/static/index.html", params);
+        _write(new File(tmpRoot, "src/main/resources/static/index.html"), indexHtmlStr);
+        
+
         String packagePath = params.getString("packageName").replace('.', '/');
+        
+        // 生成MainLauncher
         String mainLauncherStr = _render("src/main/java/_package/MainLauncher.java", params);
         _write(new File(tmpRoot, "src/main/java/"+packagePath + "/MainLauncher.java"), mainLauncherStr);
         
+        // 生成TimeModule
+        String timeModuleStr = _render("src/main/java/_package/module/TimeModule.java", params);
+        _write(new File(tmpRoot, "src/main/java/"+packagePath + "/module/TimeModule.java"), timeModuleStr);
+        
         // maven wrapper from https://github.com/takari/maven-wrapper
         String key = tmpRoot.getName();
-        _copy(key, "mvnw");
-        _copy(key, "mvnw.cmd");
-        _copy(key, ".mvn/wrapper/maven-wrapper.properties");
-        _copy(key, ".mvn/wrapper/maven-wrapper.jar");
         
         // 拷贝个简介
-        _copy(key, "Readme");
+        _copy(key, "README.md");
         
         // 打包,手工
         zipIt(tmpRoot);
@@ -142,7 +148,7 @@ public class MainLauncher {
     }
 
     public static void main(String[] args) throws Exception {
-        new NbApp(MainLauncher.class).run();
+        new NbApp().run();
     }
 
 }

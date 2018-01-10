@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hello, So NB!</title>
+</head>
+<body>
+	<div>
+		<h2>这是Hystrix的Demo,会随机访问后台的/time/now,请访问hystrix dashboard查看</h2>
+	</div>
+	<div>
+		<h2>
+			<a target="_blank" href="http://127.0.0.1:8080/hystrix-dashboard/monitor/monitor.html?streams=%5B%7B%22name%22%3A%22%22%2C%22stream%22%3A%22http%3A%2F%2F127.0.0.1%3A8080%2Fhystrix%2Fhystrix.stream%22%2C%22auth%22%3A%22%22%2C%22delay%22%3A%22%22%7D%5D">直接查看本地hystrix数据</a>
+		</h2>
+	</div>
+	<div>
+		<h2>
+			<a href="hystrix-dashboard/index.html" target="_blank">查看hystrix dashboard,按"Add Stream",再按"Monitor Streams"</a>
+		</h2>
+	</div>
+	<div>
+		<h2>
+			<a href="hystrix.stream">查看hystrix.stream裸数据</a>
+		</h2>
+	</div>
+	<div>
+		<h2>
+			<a href="swagger/index.html">查看api文档(由Swagger生成)</a>
+		</h2>
+	</div>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script type="text/javascript">
+function r_ajax() {
+	setTimeout(r_ajax, Math.floor(Math.random() * 1000) + 300);
+	$.ajax({url:"time/now"});
+};
+$(r_ajax);
+$(r_ajax);
+</script>
+</body>
+</html>
