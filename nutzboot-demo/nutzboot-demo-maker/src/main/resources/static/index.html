@@ -208,12 +208,16 @@
                 done: false,
                 nbTextArea: {minRows: 2, maxRows: 6},
                 versionOptions: [{
-                    label: "2.1-SNAPSHOT",
-                    value: "2.1-SNAPSHOT"
-                }],
+                    label: "2.1.0",
+                    value: "2.1.0"
+                },{
+                    label: "2.2-SNAPSHOT",
+                    value: "2.2-SNAPSHOT"
+                }
+                ],
                 nb: {
                     packageName: "io.nutz.demo",
-                    version: "2.1-SNAPSHOT",
+                    version: "2.2-SNAPSHOT",
                     nutzmvc: {
                         enable: true
                     },
@@ -322,7 +326,7 @@
                             self.upload = false;
                             self.nbUrl = "/maker/download/" + re.key;
                         } else {
-                            self.$message.error('创建失败了，请联系wendal');
+                            self.$message.error('创建失败了，请到 https://nutz.cn 获取帮助');
                         }
                     }
                 });
