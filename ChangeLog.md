@@ -1,6 +1,15 @@
 # NB进化史
 
-## dev
+## 2.1.0 "Start Of Something New"
+
+新增和更新了一堆组件,推荐更新到这个版本
+
+* 时间: 2017-01-10
+* 事件: 2018年新的开始
+* 曲目: [Start Of Something New](https://www.youtube.com/watch?v=I6EOUaWscrE)
+
+-----------------------------------------------------------------------------
+
 
 * 变更:
 	* add: [caffeine](https://github.com/ben-manes/caffeine) 方法缓存 by [幸福的旁边](https://github.com/happyday517)

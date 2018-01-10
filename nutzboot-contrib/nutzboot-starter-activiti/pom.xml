@@ -3,18 +3,14 @@
   <parent>
     <groupId>org.nutz</groupId>
     <artifactId>nutzboot-contrib</artifactId>
-    <version>2.1.0</version>
+    <version>2.2-SNAPSHOT</version>
   </parent>
   <artifactId>nutzboot-starter-activiti</artifactId>
   <dependencies>
-  <dependency>
-  	<groupId>org.nutz</groupId>
-  	<artifactId>nutz-integration-activiti</artifactId>
-  </dependency>
-  <dependency>
-  	<groupId>org.activiti</groupId>
-  	<artifactId>activiti-engine</artifactId>
-  	<version>5.22.0</version>
-  </dependency>
+  	<dependency>
+  		<groupId>org.nutz</groupId>
+  		<artifactId>nutz-integration-activiti</artifactId>
+  		<version>1.r.65-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>
