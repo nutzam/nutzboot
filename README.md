@@ -143,10 +143,12 @@ public class MainLauncher {
     - [x] [eureka-client](https://github.com/Netflix/eureka) 服务治理的客户端
 - 数据库类相关
     - 关系型数据库
-        - [x] Jdbc连接池,默认使用druid,带监控功能
-        - [x] [sharding-jdbc](https://github.com/shardingjdbc/sharding-jdbc) 分库分表
-        - [x] [Nutz.Dao](https://github.com/nutzam/nutz)
-        - [x] [BeetlSql](http://ibeetl.com/guide/#beetlsql) 基于Beetl的SQL框架
+        - 数据源
+            - [x] Jdbc连接池,默认使用druid,带监控功能
+            - [x] [sharding-jdbc](https://github.com/shardingjdbc/sharding-jdbc) 分库分表
+        - ORM
+            - [x] [Nutz.Dao](https://github.com/nutzam/nutz)
+            - [x] [BeetlSql](http://ibeetl.com/guide/#beetlsql) 基于Beetl的SQL框架
     - 非关系型数据库
         - [x] [Redis](https://redis.io)
         - [x] MongoDB
@@ -154,6 +156,7 @@ public class MainLauncher {
         - [ ] ssdb
 - Mvc
     - [x] Nutz.Mvc
+    - [ ] t-io mvc
     - [ ] [jersey](https://jersey.github.io/)
 - 安全鉴权
     - [x] [Shiro](http://shiro.apache.org)
