@@ -1,5 +1,10 @@
 # NB进化史
 
+## dev 迭代中
+
+* 变更:
+	* update: 更新到HikariCP 2.7.5
+
 ## 2.1.0 "Start Of Something New"
 
 新增和更新了一堆组件,推荐更新到这个版本
