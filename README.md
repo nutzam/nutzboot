@@ -123,89 +123,90 @@ public class MainLauncher {
 
 ## 开发进度
 
-期待您的加入
+期待您的加入, 下述 by `xxx` 为通常是集成该功能的首次提交者,不一定对应软件的作者
 
 - 基础框架
     - [x] 基础框架的文档
-    - [x] 基本框架的实现
+    - [x] starter-core 核心框架的实现
 - 嵌入式web容器
-    - [x] [Jetty](https://www.eclipse.org/jetty/)
-    - [x] [Undertow](http://undertow.io/) by [@qinerg](https://github.com/qinerg)
-    - [x] [Tomcat](http://tomcat.apache.org/) by [@benjobs](https://github.com/wolfboys) 
+    - [x] starter-[jetty](https://www.eclipse.org/jetty/)
+    - [x] starter-[undertow](http://undertow.io/) by [@qinerg](https://github.com/qinerg)
+    - [x] starter-[tomcat](http://tomcat.apache.org/) by [@benjobs](https://github.com/wolfboys) 
 - 分布式组件
 	- RPC(Remote Procedure Call)
-		- [x] [Dubbo](http://dubbo.io/) 阿里出品的高性能RPC平台
-		- [x] [zbus](http://zbus.io) 国产知名RPC平台
-		- [x] [feign](https://github.com/OpenFeign/feign) makes writing java http clients easier, by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
-		- [x] [ribbon](https://github.com/Netflix/ribbon) 配合feign实现负载均衡
-    - [x] zkclient zookeeper的封装
-    - [x] [hystrix](https://github.com/Netflix/Hystrix) 熔断器
-    - [x] [eureka-server](https://github.com/Netflix/eureka) 服务治理的服务器端
-    - [x] [eureka-client](https://github.com/Netflix/eureka) 服务治理的客户端
+		- [x] starter-[dubbo](http://dubbo.io/) 阿里出品的高性能RPC平台
+		- [x] starter-[zbus](http://zbus.io) 国产知名RPC平台
+		- [x] starter-[feign](https://github.com/OpenFeign/feign) makes writing java http clients easier, by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
+		- [x] [ribbon](https://github.com/Netflix/ribbon) ,集成在feign中,配合erueka-client实现负载均衡
+    - [x] starter-zkclient zookeeper的封装
+    - [x] [hystrix](https://github.com/Netflix/Hystrix) 熔断器,集成在feign中
+    - [x] starter-[eureka-server](https://github.com/Netflix/eureka) 服务治理的服务器端
+    - [x] starter-[eureka-client](https://github.com/Netflix/eureka) 服务治理的客户端
 - 数据库类相关
     - 关系型数据库
         - 数据源
-            - [x] Jdbc连接池,默认使用druid,带监控功能
-            - [x] [sharding-jdbc](https://github.com/shardingjdbc/sharding-jdbc) 分库分表
+            - [x] starter-jdbc, 普通连接池,默认使用druid,带监控功能
+            - [x] starter-[sharding-jdbc](https://github.com/shardingjdbc/sharding-jdbc) 分库分表
         - ORM
-            - [x] [Nutz.Dao](https://github.com/nutzam/nutz)
-            - [x] [BeetlSql](http://ibeetl.com/guide/#beetlsql) 基于Beetl的SQL框架
+            - [x] starter-[nutz-dao](https://github.com/nutzam/nutz)
+            - [x] starter-[beetlsql](http://ibeetl.com/guide/#beetlsql) 基于Beetl的SQL框架
     - 非关系型数据库
-        - [x] [Redis](https://redis.io)
-        - [x] MongoDB
+        - [x] starter-[redis](https://redis.io) 特点就是快,吃内存!
+        - [x] starter-mongodb NoSQL的重要一支
         - [ ] memcached
         - [ ] ssdb
 - Mvc
-    - [x] Nutz.Mvc
+    - [x] starter-nutz-mvc Nutz自带的Mvc框架
     - [ ] t-io mvc
     - [ ] [jersey](https://jersey.github.io/)
 - 非servlet容器
-	- [x] t-io 高性能网络开发包 by [蛋蛋](https://github.com/TopCoderMyDream)
+	- [x] starter-tio 国产高性能网络开发包 by [蛋蛋](https://github.com/TopCoderMyDream)
 - 安全鉴权
     - [x] [Shiro](http://shiro.apache.org)
 - 分布式Session
     - [x] [Shiro+LCache](https://github.com/nutzam/nutzmore/tree/master/nutz-plugins-cache)基于shiro/jedis/插件的分布式可持久化的session缓存
 - 计划任务
-    - [x] [Quartz](http://www.quartz-scheduler.org)
-    - [x] xxl-job [国产分布式任务调度平台](https://github.com/xuxueli/xxl-job/pull/253)
+    - [x] starter-[quartz](http://www.quartz-scheduler.org)
+    - [x] starter-xxl-job [国产分布式任务调度平台](https://github.com/xuxueli/xxl-job/pull/253)
 - 模板引擎
-    - [x] [Beetl](http://ibeetl.com/) 
-    - [x] [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
-    - [x] Velocity by [haoqoo](https://github.com/haoqoo)
-    - [x] Thymeleaf by [温泉](https://github.com/ywjno)
+    - [x] starter-[beetl](http://ibeetl.com/) 
+    - [x] starter-jetx [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
+    - [x] starter-velocity by [haoqoo](https://github.com/haoqoo)
+    - [x] starter-thymeleaf by [温泉](https://github.com/ywjno)
     - [ ] FreeMarker
 - 消息队列
-    - [x] disque redis作者的另一作品
-    - [x] rabbitmq
+    - [x] starter-disque redis作者的另一作品
+    - [x] starter-rabbitmq
     - [ ] rocketmq
     - [ ] activemq
 - 工作流
-    - [x] [uflo2](https://github.com/youseries/uflo) 中式工作流引擎
-    - [x] [activiti](https://www.activiti.org/)
+    - [x] starter-[uflo](https://github.com/youseries/uflo) 中式工作流引擎
+    - [x] starter-[activiti](https://www.activiti.org/)
 - 规则引擎
-    - [x] [urule](https://github.com/youseries/urule) 中式规则引擎
+    - [x] starter-[urule](https://github.com/youseries/urule) 中式规则引擎
     - [ ] drools
 - 报表系统
-    - [x] ureport 中式报表
+    - [x] starter-ureport 中式报表
     - [ ] jreport
 - 开放平台
     - 微信公众号开放平台
-        - [x] [NutzWX](https://github.com/nutzam/nutzwx) Weixin Api By Nutz
+        - [x] starter-[nutzwx](https://github.com/nutzam/nutzwx) Weixin Api By Nutz
         - [ ] [weixin-java-tools](https://gitee.com/binary/weixin-java-tools)
 - 云平台
     - [ ] [阿里云](https://aliyun.com)
     - [ ] [腾讯云](https://qcloud.com)
 - 缓存相关
-    - [x] wkcache 方法缓存  by [大鲨鱼](https://github.com/Wizzercn)
-    - [x] [caffeine](https://github.com/ben-manes/caffeine) 方法缓存  by [幸福的旁边](https://github.com/happyday517)
+    - [x] starter-wkcache 方法缓存  by [大鲨鱼](https://github.com/Wizzercn)
+    - [x] starter-[caffeine](https://github.com/ben-manes/caffeine) 方法缓存  by [幸福的旁边](https://github.com/happyday517)
 - API文档生成器
-	- [x] [swagger](https://swagger.io) Most Popular API Framework
+	- [x] starter-[swagger](https://swagger.io) Most Popular API Framework
 - docker相关
     - [ ] docker compose配置
+    - [ ] docker file
 - WebService
-    - [x] CXF
+    - [x] starter-cxf WebService的事实标准
 - 其他
-    - [x] Ngrok 内网穿透,轻松获取外网地址
+    - [x] starter-ngrok-client 内网穿透,轻松获取外网地址
 ## 第三方starter或项目
 
 期待您的到来,报个issue告知一下吧 ^_^
