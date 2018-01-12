@@ -3,6 +3,7 @@
 ## dev 迭代中
 
 * 变更:
+	* add: starter-tio by [蛋蛋](https://github.com/TopCoderMyDream)
 	* update: 更新到HikariCP 2.7.5
 
 ## 2.1.0 "Start Of Something New"

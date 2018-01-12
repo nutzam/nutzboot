@@ -326,15 +326,19 @@ public class AppContext implements LifeCycle {
         }
         return list;
     }
-
+    
     public int getServerPort(String legacyKey) {
-        if (legacyKey != null && getConf().has(legacyKey)) {
+        return getServerPort(legacyKey, 8080);
+    }
+
+    public int getServerPort(String legacyKey, int defaultValue) {
+        if (defaultValue == 8080 && legacyKey != null && getConf().has(legacyKey)) {
             log.infof("%s is deprecated, use %s instead", legacyKey, "server.port");
             return getConf().getInt(legacyKey);
         }
-        int port = getConf().getInt("server.port", 8080);
+        int port = getConf().getInt("server.port", defaultValue);
         if (port == 0) {
-            port = new Random(System.currentTimeMillis()).nextInt(1000) + 8000;
+            port = new Random(System.currentTimeMillis()).nextInt(1000) + defaultValue;
             getConf().set("server.port", ""+port);
         }
         return port;
@@ -342,7 +346,6 @@ public class AppContext implements LifeCycle {
 
     public String getServerHost(String legacyKey) {
         if (legacyKey != null && getConf().has(legacyKey)) {
-            log.infof("%s is deprecated, use %s instead", legacyKey, "server.host");
             return getConf().get(legacyKey);
         }
         return getConf().get("server.host", "0.0.0.0");

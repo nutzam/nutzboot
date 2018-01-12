@@ -7,7 +7,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>nutzboot-demo-simple.tio</artifactId>
+    <artifactId>nutzboot-demo-simple-tio</artifactId>
     <packaging>jar</packaging>
 
     <name>nutzboot-demo-simple.tio</name>
@@ -21,7 +21,6 @@
         <dependency>
             <groupId>org.nutz</groupId>
             <artifactId>nutzboot-starter-tio</artifactId>
-            <version>2.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

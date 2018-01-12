@@ -1,4 +1,4 @@
-package io.nutz.demo.simple;
+package io.nutz.demo.simple.tio;
 
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.log.Log;

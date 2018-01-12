@@ -1,4 +1,6 @@
-package io.nutz.demo.simple;
+package io.nutz.demo.simple.tio;
+
+import java.nio.ByteBuffer;
 
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.tio.core.Aio;
@@ -7,9 +9,6 @@ import org.tio.core.GroupContext;
 import org.tio.core.exception.AioDecodeException;
 import org.tio.core.intf.Packet;
 import org.tio.server.intf.ServerAioHandler;
-import sun.java2d.pipe.SpanShapeRenderer;
-
-import java.nio.ByteBuffer;
 
 @IocBean
 public class SimpleHandler implements ServerAioHandler {
