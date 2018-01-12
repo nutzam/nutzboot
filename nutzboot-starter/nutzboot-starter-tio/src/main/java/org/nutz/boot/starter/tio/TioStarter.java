@@ -15,6 +15,8 @@ import org.tio.server.ServerGroupContext;
 import org.tio.server.intf.ServerAioHandler;
 import org.tio.server.intf.ServerAioListener;
 
+import java.util.List;
+
 /**
  *
  * @Author 蛋蛋
@@ -27,18 +29,17 @@ public class TioStarter implements ServerFace {
     protected static final String PRE = "tio.";
 
     @Inject
+    private AppContext appContext;
+
+    @Inject
     protected PropertiesProxy conf;
     @PropDoc(group = "tio", value = "配置Tio监听端口", defaultValue = "9420")
     public static final String PROP_PORT = PRE + "port";
     @PropDoc(group = "tio", value = "配置ip", defaultValue = "127.0.0.1")
     public static final String PROP_IP = PRE + "host";
-    @PropDoc(group = "tio", value = "主Handler类", defaultValue = "null")
-    public static final String PROP_HANDLER = PRE + "handler";
-    @PropDoc(group = "tio", value = "配置Listener", defaultValue = "null")
-    public static final String PROP_LISTENER = PRE + "listener";
     @PropDoc(group = "tio", value = "是否启动框架层面心跳", defaultValue = "false")
     public static final String PROP_HEARTBEAT = PRE + "heartbeat";
-    @PropDoc(group = "tio", value = "心跳超时时间(单位:毫秒)", defaultValue = "1000 * 120;")
+    @PropDoc(group = "tio", value = "心跳超时时间(单位:毫秒)", defaultValue = "120000")
     public static final String PROP_HEARTBEATTIMEOUT = PRE + "heartbeatTimeout";
 
 
@@ -53,24 +54,27 @@ public class TioStarter implements ServerFace {
     private int port;
 
     public void init(){
-        String handler_class = conf.get(PROP_HANDLER);
-        String listener_class = conf.get(PROP_LISTENER);
-        if(Strings.isBlank(handler_class)){
-            log.error("tio初始化失败", new Exception("未指定核心Handler类"));
-        }
-
         try{
-            serverAioHandler = (ServerAioHandler)  Mirror.me(Class.forName(handler_class)).born();;
-            if(Strings.isNotBlank(listener_class)){
-                serverAioListener = (ServerAioListener)  Mirror.me(Class.forName(listener_class)).born();;
+            List<ServerAioHandler> hanlders = appContext.getBeans(ServerAioHandler.class);
+            List<ServerAioListener> listeners = appContext.getBeans(ServerAioListener.class);
+            ServerAioHandler handler = null;
+            ServerAioListener listener = null;
+
+            if(hanlders == null || hanlders.size() > 0){
+                handler = hanlders.get(0);
             }
+
+            if(listeners != null && listeners.size() > 0){
+                listener = listeners.get(0);
+            }
+
             serverGroupContext = new ServerGroupContext(serverAioHandler,serverAioListener);
             serverGroupContext.setName("NutzBoot GroupContext");
             serverGroupContext.setHeartbeatTimeout(0);
             String heartbeat = conf.get(PROP_HEARTBEAT);
             if(Strings.isNotBlank(heartbeat)){
                 if (heartbeat.equals("true")) {
-                    serverGroupContext.setHeartbeatTimeout(Long.valueOf(conf.get(PROP_HEARTBEATTIMEOUT)));
+                    serverGroupContext.setHeartbeatTimeout(Long.valueOf(conf.get(PROP_HEARTBEATTIMEOUT,"120000")));
                 }
             }
             ip = conf.get(PROP_IP,"127.0.0.1");
