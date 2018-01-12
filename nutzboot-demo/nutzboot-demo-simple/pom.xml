@@ -36,7 +36,8 @@
         <module>nutzboot-demo-simple-rabbitmq</module>
         <module>nutzboot-demo-simple-xxl-job-executor</module>
         <module>nutzboot-demo-simple-activiti</module>
-	</modules>
+        <module>nutzboot-demo-simple.tio</module>
+    </modules>
 
 	<dependencies>
 		<dependency>
