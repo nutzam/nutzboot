@@ -7,7 +7,8 @@ NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入
 * 版本历史: [NB进化史](ChangeLog.md)
 * 文档: [NB的文档](https://gitee.com/nutz/nutzboot/tree/dev/doc)
 * 文档2: [NB的文档2](http://nutzam.com/core/boot/overview.html)
-* 社区: [NutzCN](https://nutz.cn)
+* 社区: [NutzCN](https://nutz.cn) 推荐
+* QQ群: 68428921
 
 [![Build Status](https://travis-ci.org/nutzam/nutzboot.png?branch=dev)](https://travis-ci.org/nutzam/nutzboot)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.nutz/nutzboot-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.nutz/nutzboot-parent/)
