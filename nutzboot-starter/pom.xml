@@ -51,7 +51,8 @@
 		<module>nutzboot-starter-eureka-client</module>
 		<module>nutzboot-starter-eureka-server</module>
 		<module>nutzboot-starter-rabbitmq</module>
-	</modules>
+        <module>nutzboot-starter-tio</module>
+    </modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.nutz</groupId>
