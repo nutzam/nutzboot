@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
 
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.lang.Streams;
