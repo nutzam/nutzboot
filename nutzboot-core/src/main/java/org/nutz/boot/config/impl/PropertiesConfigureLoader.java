@@ -1,5 +1,7 @@
 package org.nutz.boot.config.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.nutz.ioc.impl.PropertiesProxy;
@@ -24,6 +26,17 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
             if (ins != null) {
                 conf.load(Streams.utf8r(ins), false);
             }
+        }
+        // 如果当前文件夹存在application.properties,读取之
+        try {
+            File tmp = new File(path);
+            if (tmp.exists() && tmp.canRead()) {
+                try (FileInputStream ins = new FileInputStream(tmp)) {
+                    conf.load(Streams.utf8r(ins), false);
+                }
+            }
+        }
+        catch (Throwable e) {
         }
         // 也许命令行里面指定了profile,需要提前load进来
         PropertiesProxy tmp = new PropertiesProxy();
