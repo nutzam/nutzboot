@@ -21,7 +21,7 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
 
     // 获取应用程序绝对路径
     private static String getBasePath() {
-        // 获取mainClass，参照AppContext调试分析，Thread.currentThread().getStackTrace()的最后一个元素就是主方法
+        // 获取mainClass，参照AppContext调试分析，Thread.currentThread().getStackTrace()的最后一个元素就是主类mainClass
         String basePath = "";
         StackTraceElement[] ts = Thread.currentThread().getStackTrace();
         basePath = Lang.loadClassQuite(ts[ts.length-1].getClassName()).getProtectionDomain().getCodeSource().getLocation().getPath();
