@@ -109,6 +109,7 @@ public class MainLauncher {
 * [haoqoo](https://github.com/haoqoo)(提交velocity)
 * [鱼夫](https://gitee.com/yustory)(正在踩NB+U家三剑客的坑)
 * [幸福的旁边](https://github.com/happyday517)(提交caffeine方法缓存)
+* [文涛](https://github.com/swtseaman) (新增支持加载外部配置文件)
 * 还有您的名字哦,告知我们吧
 
 ## 采用NutzBoot的公司
