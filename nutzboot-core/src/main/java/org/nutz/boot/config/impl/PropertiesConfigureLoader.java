@@ -1,13 +1,14 @@
 package org.nutz.boot.config.impl;
 
+import org.nutz.ioc.impl.PropertiesProxy;
+import org.nutz.lang.Lang;
+import org.nutz.lang.Streams;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.io.UnsupportedEncodingException;
-
-import org.nutz.ioc.impl.PropertiesProxy;
-import org.nutz.lang.Streams;
+import java.util.ArrayList;
 
 /**
  * 配置信息优先级, 从低到高: <p/>
@@ -20,7 +21,10 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
 
     // 获取应用程序绝对路径
     private static String getBasePath() {
-        String basePath = PropertiesConfigureLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        // 获取mainClass，参照AppContext调试分析，Thread.currentThread().getStackTrace()的最后一个元素就是主方法
+        String basePath = "";
+        StackTraceElement[] ts = Thread.currentThread().getStackTrace();
+        basePath = Lang.loadClassQuite(ts[ts.length-1].getClassName()).getProtectionDomain().getCodeSource().getLocation().getPath();
         int lastIndex = basePath.lastIndexOf(File.separator);
         basePath = basePath.substring(0, lastIndex);
         try {
