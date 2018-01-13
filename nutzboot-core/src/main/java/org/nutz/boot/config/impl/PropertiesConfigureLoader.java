@@ -65,9 +65,8 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
             }
         }
         // 如果当前文件夹存在application.properties,读取之
-        String applicationPath = getPath("application.properties");
         try {
-            File tmp = new File(applicationPath);
+            File tmp = new File(getPath(path));
             if (tmp.exists() && tmp.canRead()) {
                 try (FileInputStream ins = new FileInputStream(tmp)) {
                     conf.load(Streams.utf8r(ins), false);
@@ -78,8 +77,8 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
         }
         // 如果conf内含有configDir配置，则读取configDir下的所有配置文件
         // 配置示例： configDir=config, 那么读取的就是jar包当前目录下config子目录下的所有properties文件
-        if(conf.has("configDir")) {
-            String configDir = getPath(conf.get("configDir"));
+        if(conf.has("nutz.boot.configure.properties.dir")) {
+            String configDir = getPath(conf.get("nutz.boot.configure.properties.dir"));
             for(String fileName: getFiles(configDir, "properties")) {
                 try {
                     File tmp = new File(getPath(fileName));
