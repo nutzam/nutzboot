@@ -143,6 +143,12 @@ public class MainLauncher {
     - [x] [hystrix](https://github.com/Netflix/Hystrix) 熔断器,集成在feign中
     - [x] starter-[eureka-server](https://github.com/Netflix/eureka) 服务治理的服务器端
     - [x] starter-[eureka-client](https://github.com/Netflix/eureka) 服务治理的客户端
+    - 配置中心
+        - [ ] NB Config Server/Client
+        - [x] starter-[apollo-client](https://github.com/ctripcorp/apollo) 携程框架部门研发的分布式配置中心
+    - API网关
+        - [ ] NB API网关
+        - [ ] zuul
 - 数据库类相关
     - 关系型数据库
         - 数据源
