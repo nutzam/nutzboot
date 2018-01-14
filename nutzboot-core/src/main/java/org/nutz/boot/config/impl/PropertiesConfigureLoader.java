@@ -86,7 +86,7 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
             String configDir = getPath(conf.get("nutz.boot.configure.properties.dir"));
             for(String fileName: getFiles(configDir, "properties")) {
                 try {
-                    File tmp = new File(getPath(fileName));
+                    File tmp = new File(getPath(configDir, fileName));
                     if (tmp.exists() && tmp.canRead()) {
                         try (FileInputStream ins = new FileInputStream(tmp)) {
                             conf.load(Streams.utf8r(ins), false);
