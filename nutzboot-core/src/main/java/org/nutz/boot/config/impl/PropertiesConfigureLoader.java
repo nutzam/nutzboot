@@ -1,14 +1,18 @@
 package org.nutz.boot.config.impl;
 
-import org.nutz.ioc.impl.PropertiesProxy;
-import org.nutz.lang.Lang;
-import org.nutz.lang.Streams;
-
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.net.URLDecoder;
+
+import org.nutz.ioc.impl.PropertiesProxy;
+import org.nutz.lang.Encoding;
+import org.nutz.lang.Streams;
+import org.nutz.lang.util.Disks;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 
 /**
  * 配置信息优先级, 从低到高: <p/>
@@ -18,44 +22,29 @@ import java.util.ArrayList;
  * <p/>命令行参数
  */
 public class PropertiesConfigureLoader extends AbstractConfigureLoader {
+    
+    private static final Log log = Logs.get();
 
     // 获取应用程序绝对路径
-    private static String getBasePath() {
-        // 获取mainClass，参照AppContext调试分析，Thread.currentThread().getStackTrace()的最后一个元素就是主类mainClass
+    protected String getBasePath() {
         String basePath = "";
-        StackTraceElement[] ts = Thread.currentThread().getStackTrace();
-        basePath = Lang.loadClassQuite(ts[ts.length-1].getClassName()).getProtectionDomain().getCodeSource().getLocation().getPath();
+        basePath = appContext.getMainClass().getProtectionDomain().getCodeSource().getLocation().getPath();
         int lastIndex = basePath.lastIndexOf(File.separator);
         basePath = basePath.substring(0, lastIndex);
         try {
-            basePath = java.net.URLDecoder.decode(basePath, "UTF-8");
+            basePath = URLDecoder.decode(basePath, Encoding.UTF8);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         }
         return basePath;
     }
 
     // 根据目录和文件名拼接绝对路径
-    private static String getPath(String... name) {
+    protected String getPath(String... name) {
         String path = getBasePath();
         for(int i=0; i< name.length; i++) {
             path = path + File.separator + name[i];
         }
         return path;
-    }
-
-    // 获取指定目录下所有指定扩展名的文件列表
-    private static ArrayList<String> getFiles(String path, String extName) {
-        ArrayList<String> fileNames = new ArrayList<>();
-        File file = new File(path);
-        if(file.isDirectory()) {
-            for(File f : file.listFiles()) {
-                if(f.getName().endsWith(extName)) {
-                    fileNames.add(f.getName());
-                }
-            }
-        }
-        return fileNames;
     }
 
     public void init() throws Exception {
@@ -85,18 +74,17 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
         if(conf.has("nutz.boot.configure.properties.dir")) {
             String configDir = conf.get("nutz.boot.configure.properties.dir");
             String configPath = getPath(configDir);
-            for(String fileName: getFiles(configPath, "properties")) {
-                try {
-                    File tmp = new File(getPath(configDir, fileName));
-                    if (tmp.exists() && tmp.canRead()) {
-                        try (FileInputStream ins = new FileInputStream(tmp)) {
+            Disks.visitFile(configPath, ".+properties^", true, (file)->{
+                if (file.canRead())
+                    try {
+                        try (FileInputStream ins = new FileInputStream(file)) {
                             conf.load(Streams.utf8r(ins), false);
                         }
                     }
-                }
-                catch (Throwable e) {
-                }
-            }
+                    catch (IOException e) {
+                        log.info("fail to load " + file.getAbsolutePath());
+                    }
+            });
         }
         // 也许命令行里面指定了profile,需要提前load进来
         PropertiesProxy tmp = new PropertiesProxy();
