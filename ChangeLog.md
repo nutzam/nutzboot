@@ -4,6 +4,7 @@
 
 * 变更:
 	* add: starter-tio by [蛋蛋](https://github.com/TopCoderMyDream)
+	* add: starter-apollo-client 对接apollo配置中心. apollo是携程框架部门研发的分布式配置中心
 	* update: 更新到HikariCP 2.7.5
 
 ## 2.1.0 "Start Of Something New"
