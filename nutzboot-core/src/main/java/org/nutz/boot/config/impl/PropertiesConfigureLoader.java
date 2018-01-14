@@ -83,8 +83,9 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
         // 如果conf内含有nutz.boot.configure.properties.dir配置，则读取该目录下的所有配置文件
         // 配置示例： nutz.boot.configure.properties.dir=config, 那么读取的就是jar包当前目录下config子目录下的所有properties文件
         if(conf.has("nutz.boot.configure.properties.dir")) {
-            String configDir = getPath(conf.get("nutz.boot.configure.properties.dir"));
-            for(String fileName: getFiles(configDir, "properties")) {
+            String configDir = conf.get("nutz.boot.configure.properties.dir");
+            String configPath = getPath(configDir);
+            for(String fileName: getFiles(configPath, "properties")) {
                 try {
                     File tmp = new File(getPath(configDir, fileName));
                     if (tmp.exists() && tmp.canRead()) {
