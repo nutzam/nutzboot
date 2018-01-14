@@ -275,12 +275,17 @@ public class NbApp extends Thread {
 
     public void prepareConfigureLoader() throws Exception {
         if (ctx.getConfigureLoader() == null) {
-            String cnfLoader = ctx.getEnvHolder().get("nutz.boot.base.ConfigureLoader");
-            ConfigureLoader configureLoader;
-            if (Strings.isBlank(cnfLoader)) {
+            ConfigureLoader configureLoader = null;
+            InputStream ins = ctx.getResourceLoader().get("META-INF/nutz/org.nutz.boot.config.ConfigureLoader");
+            if (ins != null) {
+                String cnfLoader = new String(Streams.readBytes(ins)).trim();
+                if (!Strings.isBlank(cnfLoader)) {
+                    log.debugf("using %s as ConfigureLoader", cnfLoader);
+                    configureLoader = (ConfigureLoader) ctx.getClassLoader().loadClass(cnfLoader).newInstance();
+                }
+            }
+            if (configureLoader == null) {
                 configureLoader = new PropertiesConfigureLoader();
-            } else {
-                configureLoader = (ConfigureLoader) ctx.getClassLoader().loadClass(cnfLoader).newInstance();
             }
             configureLoader.setCommandLineProperties(allowCommandLineProperties, args);
             aware(configureLoader);
