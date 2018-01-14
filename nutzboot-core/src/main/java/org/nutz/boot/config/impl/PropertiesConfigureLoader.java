@@ -74,7 +74,7 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
         if(conf.has("nutz.boot.configure.properties.dir")) {
             String configDir = conf.get("nutz.boot.configure.properties.dir");
             String configPath = getPath(configDir);
-            Disks.visitFile(configPath, ".+properties^", true, (file)->{
+            Disks.visitFile(configPath, ".+properties$", true, (file)->{
                 if (file.canRead())
                     try {
                         try (FileInputStream ins = new FileInputStream(file)) {
