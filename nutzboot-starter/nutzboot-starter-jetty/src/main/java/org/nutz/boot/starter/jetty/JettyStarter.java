@@ -75,6 +75,9 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     @PropDoc(value = "表单最大尺寸", defaultValue = "1gb", type = "int")
     public static final String PROP_MAX_FORM_CONTENT_SIZE = PRE + "maxFormContentSize";
 
+    @PropDoc(value = "Session空闲时间,单位分钟", defaultValue = "30", type = "int")
+    public static final String PROP_SESSION_TIMEOUT = "web.session.timeout";
+
     @Inject
     private PropertiesProxy conf;
 
@@ -170,6 +173,7 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         list.add("org.eclipse.jetty.annotations.AnnotationConfiguration");
         wac.setConfigurationClasses(list);
         wac.getServletContext().setExtendedListenerTypes(true);
+        wac.getSessionHandler().setMaxInactiveInterval(conf.getInt(PROP_SESSION_TIMEOUT, 30) * 60);
 
         // 设置一下额外的东西
         server.setAttribute("org.eclipse.jetty.server.Request.maxFormContentSize", getMaxFormContentSize());
