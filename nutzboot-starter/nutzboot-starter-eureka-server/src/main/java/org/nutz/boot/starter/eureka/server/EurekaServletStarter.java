@@ -34,6 +34,7 @@ import com.netflix.eureka.EurekaServerContext;
 import com.netflix.eureka.EurekaServerContextHolder;
 import com.netflix.eureka.cluster.PeerEurekaNode;
 import com.netflix.eureka.registry.PeerAwareInstanceRegistry;
+import com.netflix.eureka.registry.PeerAwareInstanceRegistryImpl;
 import com.netflix.eureka.resources.StatusResource;
 import com.netflix.eureka.util.StatusInfo;
 
@@ -76,6 +77,19 @@ public class EurekaServletStarter extends HttpServlet implements WebServletFace 
                                + "/");
 
         populateBase(result);
+
+        if (pathInfo.endsWith("/status.json")) {
+            status(result);
+            lastn(result);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().println(Json.toJson(result, JsonFormat.tidy()));
+        } else {
+            response.setStatus(404);
+        }
+    }
+
+    private void status(NutMap result) {
         populateApps(result);
 
         StatusInfo statusInfo;
@@ -89,14 +103,27 @@ public class EurekaServletStarter extends HttpServlet implements WebServletFace 
         result.put("statusInfo", statusInfo);
         populateInstanceInfo(result, statusInfo);
         filterReplicas(result, statusInfo);
+    }
 
-        if (pathInfo.endsWith("/status.json")) {
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().println(Json.toJson(result, JsonFormat.tidy()));
-        } else {
-            response.setStatus(404);
-        }
+    private void lastn(NutMap result) {
+        PeerAwareInstanceRegistryImpl registry = (PeerAwareInstanceRegistryImpl) getRegistry();
+        List<NutMap> lastNCanceled = registry.getLastNCanceledInstances()
+                                             .stream()
+                                             .map(entry -> NutMap.NEW()
+                                                                 .setv("id", entry.second())
+                                                                 .setv("date",
+                                                                       new Date(entry.first())))
+                                             .collect(Collectors.toList());
+        result.put("lastNCanceled", lastNCanceled);
+
+        List<NutMap> lastNRegistered = registry.getLastNRegisteredInstances()
+                                               .stream()
+                                               .map(entry -> NutMap.NEW()
+                                                                   .setv("id", entry.second())
+                                                                   .setv("date",
+                                                                         new Date(entry.first())))
+                                               .collect(Collectors.toList());
+        result.put("lastNRegistered", lastNRegistered);
     }
 
     private PeerAwareInstanceRegistry getRegistry() {
@@ -109,7 +136,6 @@ public class EurekaServletStarter extends HttpServlet implements WebServletFace 
 
     private void populateBase(NutMap result) {
         result.put("time", new Date());
-        result.put("basePath", "/eureka");
         populateHeader(result);
         populateNavbar(result);
     }
