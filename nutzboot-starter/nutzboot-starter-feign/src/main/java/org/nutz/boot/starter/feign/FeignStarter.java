@@ -180,7 +180,7 @@ public class FeignStarter implements IocEventListener {
             break;
         case "nutzjson":
             JsonFormat jf = JsonFormat.full();
-            String jfStr = conf.get(PROP_JSON_FORMAT);
+            String jfStr = Strings.sBlank(fc.jsonFormat(), conf.get(PROP_JSON_FORMAT, ""));
             if (!Strings.isBlank(jfStr)) {
                 if (jfStr.startsWith("{")) {
                     jf = Json.fromJson(JsonFormat.class, jfStr);
