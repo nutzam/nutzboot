@@ -97,7 +97,7 @@ public class MainLauncher {
 * [胖五](https://github.com/pangwu86)(nutz.io主笔)
 * [qinerg](https://github.com/qinerg)(率先提交undertow)
 * [benjobs](https://github.com/wolfboys)(提交了tomcat)
-* [温泉](https://github.com/ywjno)(提交thymeleaf)
+* [温泉](https://github.com/ywjno)(提交thymeleaf和eureka静态status页面)
 * [科技](https://github.com/Rekoe)(探路者,正在踩坑,正在做后台模板)
 * [潇潇](https://github.com/howe)(探路者,生产环境填坑中)
 * [道坤](https://github.com/albinhdk)(探路者,正在踩坑)

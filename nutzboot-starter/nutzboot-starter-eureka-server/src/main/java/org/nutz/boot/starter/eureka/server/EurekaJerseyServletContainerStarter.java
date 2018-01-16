@@ -34,7 +34,7 @@ public class EurekaJerseyServletContainerStarter implements WebFilterFace {
     public Map<String, String> getInitParameters() {
         Map<String, String> params = new HashMap<>();
         params.put("com.sun.jersey.config.property.WebPageContentRegex",
-                   "/(js|css|jsp)/.*|/status");
+                   "/(js|css|action)/.*|/status");
         params.put("com.sun.jersey.config.property.packages", "com.sun.jersey;com.netflix");
         return params;
     }

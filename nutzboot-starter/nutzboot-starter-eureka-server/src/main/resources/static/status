@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nutzboot Eureka</title>
+  <title>NutzBoot Eureka Server</title>
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
@@ -276,7 +276,7 @@
 <script src="js/bootstrap.min.js"></script>
 <script>
   $(function () {
-    $.getJSON('./js/status.json', function (data) {
+    $.getJSON('./action/status.json', function (data) {
       new Vue({
         el: 'nav',
         data: {home: data.basePath + 'status.html'}

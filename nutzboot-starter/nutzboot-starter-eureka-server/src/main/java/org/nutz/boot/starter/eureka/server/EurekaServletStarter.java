@@ -38,6 +38,7 @@ import com.netflix.eureka.registry.PeerAwareInstanceRegistryImpl;
 import com.netflix.eureka.resources.StatusResource;
 import com.netflix.eureka.util.StatusInfo;
 
+@SuppressWarnings("serial")
 @IocBean
 public class EurekaServletStarter extends HttpServlet implements WebServletFace {
 
@@ -48,7 +49,7 @@ public class EurekaServletStarter extends HttpServlet implements WebServletFace 
 
     @Override
     public String getPathSpec() {
-        return "/js/status.json";
+        return "/action/status.json";
     }
 
     @Override
