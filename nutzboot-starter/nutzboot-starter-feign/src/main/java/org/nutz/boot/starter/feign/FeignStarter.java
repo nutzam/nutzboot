@@ -12,8 +12,12 @@ import org.nutz.ioc.IocEventListener;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.json.Json;
+import org.nutz.json.JsonFormat;
 import org.nutz.lang.Mirror;
 import org.nutz.lang.Strings;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 
 import com.netflix.client.config.DefaultClientConfigImpl;
 import com.netflix.discovery.EurekaClient;
@@ -53,6 +57,8 @@ import feign.slf4j.Slf4jLogger;
 
 @IocBean
 public class FeignStarter implements IocEventListener {
+    
+    private static final Log log = Logs.get();
 
     protected static String PRE = "feign.";
 
@@ -62,16 +68,16 @@ public class FeignStarter implements IocEventListener {
     @PropDoc(value = "Api Base URL", defaultValue = "http://127.0.0.1:8080")
     public static final String PROP_URL = PRE + "url";
 
-    @PropDoc(value = "客户端实现类", defaultValue = "jdk", possible = {"jdk", "httpclient", "okhttp", "ribbon"})
+    @PropDoc(value = "客户端实现类", defaultValue = "jdk", possible = {"jdk", "httpclient", "okhttp", "ribbon", "ioc:XXX"})
     public static final String PROP_CLIENT = PRE + "client";
 
     @PropDoc(value = "WebService的schema地址")
     public static final String PROP_SCHEMA = PRE + "schema";
 
-    @PropDoc(value = "默认编码器", possible = {"raw", "nutzjson", "jackson", "gson", "jaxb", "jaxrs"})
+    @PropDoc(value = "默认编码器", possible = {"raw", "nutzjson", "jackson", "gson", "jaxb", "jaxrs", "ioc:XXX"})
     public static final String PROP_ENCODER = PRE + "encoder";
 
-    @PropDoc(value = "默认解码器", possible = {"raw", "nutzjson", "jackson", "gson", "jaxb", "jaxrs"})
+    @PropDoc(value = "默认解码器", possible = {"raw", "nutzjson", "jackson", "gson", "jaxb", "jaxrs", "ioc:XXX"})
     public static final String PROP_DECODER = PRE + "decoder";
 
     @PropDoc(value = "是否使用Hystrix", defaultValue = "false", possible = {"true", "false"})
@@ -79,6 +85,9 @@ public class FeignStarter implements IocEventListener {
 
     @PropDoc(value = "默认负载均衡的规则", defaultValue = "availability", possible = {"availability", "random"})
     public static final String PROP_LB_RULE = PRE + "loadbalancer.rule";
+    
+    @PropDoc(value = "JsonFormat", possible = {"full", "forLook", "compact", "nice", "tidy", "ioc:XXX",  "{...}"})
+    public static final String PROP_JSON_FORMAT = PRE + "jsonFormat";
 
     @Inject("refer:$ioc")
     protected Ioc ioc;
@@ -117,7 +126,7 @@ public class FeignStarter implements IocEventListener {
                 builder.logLevel(level);
                 Object t = null;
                 if (useHystrix) {
-                    t = ((HystrixFeign.Builder) builder).target(apiType, url, getIocBean(apiType, fc.fallback()));
+                    t = ((HystrixFeign.Builder) builder).target(apiType, url, getFallbackIocBean(apiType, fc.fallback()));
                 } else {
                     t = builder.target(apiType, url);
                 }
@@ -139,8 +148,8 @@ public class FeignStarter implements IocEventListener {
     }
 
     protected Decoder getDecoder(FeignInject fc, Field field) {
-
-        switch (Strings.sBlank(fc.decoder(), conf.get(PROP_DECODER, "availability"))) {
+        String decoderStr = Strings.sBlank(fc.decoder(), conf.get(PROP_DECODER, ""));
+        switch (decoderStr) {
         case "":
         case "raw":
             break;
@@ -156,18 +165,39 @@ public class FeignStarter implements IocEventListener {
                                                                              .build();
             return new JAXBDecoder(jaxbFactory);
         default:
+            if (decoderStr.startsWith("ioc:"))
+                return ioc.get(Decoder.class, decoderStr.substring(4));
             break;
         }
         return null;
     }
 
     protected Encoder getEncoder(FeignInject fc, Field field) {
-        switch (Strings.sBlank(fc.encoder(), conf.get(PROP_ENCODER, ""))) {
+        String encoderStr = Strings.sBlank(fc.encoder(), conf.get(PROP_ENCODER, ""));
+        switch (encoderStr) {
         case "":
         case "raw":
             break;
         case "nutzjson":
-            return new NutzJsonEncoder();
+            JsonFormat jf = JsonFormat.full();
+            String jfStr = Strings.sBlank(fc.jsonFormat(), conf.get(PROP_JSON_FORMAT, ""));
+            if (!Strings.isBlank(jfStr)) {
+                if (jfStr.startsWith("{")) {
+                    jf = Json.fromJson(JsonFormat.class, jfStr);
+                }
+                else if (jfStr.startsWith("ioc:")) {
+                    jf = ioc.get(JsonFormat.class, jfStr.substring(4));
+                }
+                else {
+                   try {
+                        jf = (JsonFormat) JsonFormat.class.getMethod(jfStr).invoke(null);
+                    }
+                     catch (Exception e) {
+                         log.infof("invaild JsonFormat=[%s] at %s", jfStr, field);
+                    }
+                }
+            }
+            return new NutzJsonEncoder(jf);
         case "jackson":
             return new JacksonEncoder();
         case "gson":
@@ -178,13 +208,16 @@ public class FeignStarter implements IocEventListener {
                                                                              .build();
             return new JAXBEncoder(jaxbFactory);
         default:
+            if (encoderStr.startsWith("ioc"))
+                return ioc.get(Encoder.class, encoderStr.substring(4));
             break;
         }
         return null;
     }
 
     protected Client getClient(FeignInject fc, Field field, String url) {
-        switch (getClientString(fc)) {
+        String clientStr = getClientString(fc);
+        switch (clientStr) {
         case "jdk":
             // nop
             break;
@@ -200,6 +233,8 @@ public class FeignStarter implements IocEventListener {
                 }
             }).build();
         default:
+            if (clientStr.startsWith("ioc:"))
+                return ioc.get(Client.class, clientStr.substring(4));
             break;
         }
         return null;
@@ -209,7 +244,7 @@ public class FeignStarter implements IocEventListener {
         return Strings.sBlank(fc.client(), conf.get(PROP_CLIENT, "jdk"));
     }
 
-    public <T> T getIocBean(Class<T> apiType, String fallbackName) {
+    public <T> T getFallbackIocBean(Class<T> apiType, String fallbackName) {
         if (!Strings.isBlank(fallbackName))
             return ioc.get(apiType, fallbackName);
         List<T> list = appContext.getBeans(apiType);
@@ -223,7 +258,7 @@ public class FeignStarter implements IocEventListener {
     }
     
     public String getLbRuleString(String lbRule) {
-        return Strings.sBlank(lbRule, conf.get(PROP_LB_RULE, ""));
+        return Strings.sBlank(lbRule, conf.get(PROP_LB_RULE, "availability"));
     }
     
     public Object getLoadBalancer(String name, FeignInject fc) {
@@ -238,6 +273,7 @@ public class FeignStarter implements IocEventListener {
         case "random":
             rule = new RandomRule();
             break;
+        case "availability":
         default:
             AvailabilityFilteringRule _rule = new AvailabilityFilteringRule();
             _rule.initWithNiwsConfig(clientConfig);
