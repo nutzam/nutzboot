@@ -1,4 +1,4 @@
-package org.nutz.boot.starter.zkclient;
+package org.nutz.boot.starter.apollo;
 
 import org.nutz.boot.AppContext;
 import org.nutz.boot.starter.ServerFace;
@@ -11,13 +11,13 @@ import com.ctrip.framework.apollo.ConfigService;
 
 @IocBean
 public class ApolloConfigureChangeStarter implements ServerFace {
-    
+
     @Inject
     protected AppContext appContext;
 
     public void start() throws Exception {
         Config config = ConfigService.getAppConfig();
-        appContext.getBeans(ConfigChangeListener.class).forEach((listener)->config.addChangeListener(listener));
+        appContext.getBeans(ConfigChangeListener.class).forEach((listener) -> config.addChangeListener(listener));
     }
 
 }
