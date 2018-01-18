@@ -144,8 +144,9 @@ public class MainLauncher {
     - [x] starter-[eureka-server](https://github.com/Netflix/eureka) 服务治理的服务器端
     - [x] starter-[eureka-client](https://github.com/Netflix/eureka) 服务治理的客户端
     - 配置中心
-        - [ ] NB Config Server/Client
-        - [x] starter-[apollo-client](https://github.com/ctripcorp/apollo) 携程框架部门研发的分布式配置中心
+        - [ ] NB Config Server 配置中心的服务端
+        - [x] starter-config-client NB Config Client 配置中心的客户端
+        - [x] starter-[apollo-client](https://github.com/ctripcorp/apollo) 携程框架部门研发的分布式配置中心的客户端
     - API网关
         - [ ] NB API网关
         - [ ] zuul
