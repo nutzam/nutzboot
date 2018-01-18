@@ -53,6 +53,7 @@
 		<module>nutzboot-starter-rabbitmq</module>
         <module>nutzboot-starter-tio</module>
         <module>nutzboot-starter-apollo-client</module>
+        <module>nutzboot-starter-config-client</module>
 	</modules>
 	<dependencies>
 		<dependency>

@@ -46,11 +46,7 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
         }
         if (flag) {
             // 加载application.properties
-            try (InputStream ins = resourceLoader.get(path)) {
-                if (ins != null) {
-                    conf.load(Streams.utf8r(ins), false);
-                }
-            }
+            readPropertiesPath(path);
         }
         // 也许命令行里面指定了profile,需要提前load进来
         PropertiesProxy tmp = new PropertiesProxy();
@@ -66,12 +62,8 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
         // 加载指定profile,如果有的话
         if (conf.has("nutz.profiles.active")) {
         	String profile = conf.get("nutz.profiles.active");
-        	path = path.substring(0, path.lastIndexOf('.')) + "-" + profile + ".properties";
-        	try (InputStream ins = resourceLoader.get(path)) {
-                if (ins != null) {
-                    conf.load(Streams.utf8r(ins), false);
-                }
-            }
+        	String _path = path.substring(0, path.lastIndexOf('.')) + "-" + profile + ".properties";
+        	readPropertiesPath(_path);
         }
         // 如果conf内含有nutz.boot.configure.properties.dir配置，则读取该目录下的所有配置文件
         // 配置示例： nutz.boot.configure.properties.dir=config, 那么读取的就是jar包当前目录下config子目录下的所有properties文件
@@ -119,5 +111,13 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
             path = path + File.separator + name[i];
         }
         return path;
+    }
+    
+    protected void readPropertiesPath(String path) throws IOException {
+        try (InputStream ins = resourceLoader.get(path)) {
+            if (ins != null) {
+                conf.load(Streams.utf8r(ins), false);
+            }
+        }
     }
 }
