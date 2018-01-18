@@ -7,6 +7,9 @@
 		<version>2.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>nutzboot-demo-simple-dao</artifactId>
+	<properties>
+		<docker.image.prefix>nutzboot</docker.image.prefix>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.nutz</groupId>
@@ -63,6 +66,18 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.3.7</version>
+				<configuration>
+					<repository>${docker.image.prefix}/${project.artifactId}</repository>
+					<buildArgs>
+						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
