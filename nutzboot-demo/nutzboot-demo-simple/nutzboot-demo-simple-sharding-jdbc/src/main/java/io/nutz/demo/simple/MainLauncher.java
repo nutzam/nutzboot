@@ -5,9 +5,6 @@ import java.util.List;
 import org.nutz.boot.NbApp;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
-import org.nutz.dao.impl.NutDao;
-import org.nutz.dao.impl.SimpleDataSource;
-import org.nutz.dao.util.Daos;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
@@ -43,16 +40,7 @@ public class MainLauncher {
 	}
 
 	protected void creare_order_table() {
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 2; j++) {
-				SimpleDataSource ds = new SimpleDataSource();
-				ds.setJdbcUrl("jdbc:mysql://localhost:3306/ds_" + i);
-				ds.setUsername("root");
-				ds.setPassword("root");
-				NutDao dao = new NutDao(ds);
-				Daos.ext(dao, "_" + j).create(UserOrder.class, false);
-			}
-		}
+	    dao.create(UserOrder.class, false);
 		// 分别为userId=1和userId=2插入2条记录
 		if (dao.count(UserOrder.class, Cnd.where("userId", "=", 1)) == 0) {
 			dao.insert(new UserOrder(1, 11));
