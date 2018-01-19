@@ -12,7 +12,6 @@ import org.nutz.http.Sender;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
-import org.nutz.lang.random.R;
 import org.nutz.lang.util.NutMap;
 import org.nutz.log.Logs;
 import org.nutz.repo.Base64;
@@ -30,7 +29,7 @@ public class CloudConfig {
                 selfConf.putIfAbsent("app.id", "SampleApp");
                 selfConf.putIfAbsent("config.zone", "guest");
                 selfConf.putIfAbsent("config.token", "123456");
-                selfConf.putIfAbsent("config.label", "HEAD");
+                selfConf.putIfAbsent("config.label", "default");
                 selfConf.putIfAbsent("config.type", "simple");
                 selfConf.putIfAbsent("config.hosts", "nbconfig.nutz.cn");
             }
@@ -47,7 +46,7 @@ public class CloudConfig {
         params.put("id", getSelfConfig("app.id", null));
         params.put("zone", getSelfConfig("app.zone", "guest"));
         params.put("token", getSelfConfig("config.token", "123456"));
-        params.put("label", getSelfConfig("config.label", "HEAD"));
+        params.put("label", getSelfConfig("config.label", "default"));
         params.put("password", getSelfConfig("config.password", "ABC123456"));
         String hosts = getSelfConfig("config.hosts", null);
         String type = getSelfConfig("config.type", "simple");
@@ -79,18 +78,19 @@ public class CloudConfig {
     }
     
     protected static void bySimple(PropertiesProxy conf, NutMap params, String host, String fileName) {
-        String url = String.format("http://%s/%s/%s/%s", host, params.get("zone"), params.get("id"), fileName);
+        String url = String.format("http://%s/%s/%s/%s/%s", host, params.get("zone"), params.get("id"), params.get("label"), fileName);
         try {
             Request req = Request.create(url, METHOD.GET);
-            long now = System.currentTimeMillis();
-            String once = R.UU32();
-            String sign = Lang.sha1(String.format("%s,%s,%s,%s,%s", params.get("zone"), params.get("id"), now, params.get("token"), once));
-            req.getHeader().set("X-Client-Once", once);
-            req.getHeader().set("X-Client-Time", now + "");
-            req.getHeader().set("X-Client-Sign", sign);
+            //long now = System.currentTimeMillis();
+            //String once = R.UU32();
+            //String sign = Lang.sha1(String.format("%s,%s,%s,%s,%s", params.get("zone"), params.get("id"), now, params.get("token"), once));
+            //req.getHeader().set("X-Client-Once", once);
+            //req.getHeader().set("X-Client-Time", now + "");
+            //req.getHeader().set("X-Client-Sign", sign);
             req.getHeader().set("Authorization", Base64.encodeToString((params.get("zone") + ":" + params.getString("password")).getBytes(), false));
             Response resp = Sender.create(req).setTimeout(3000).send();
             if (resp.isOK()) {
+                Logs.get().debug("load from " + url);
                 conf.load(resp.getReader());
                 return;
             }
