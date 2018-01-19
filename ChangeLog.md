@@ -7,6 +7,7 @@
 	* add: starter-apollo-client 对接apollo配置中心. apollo是携程框架部门研发的分布式配置中心
 	* add: starter-config-client NB配置中心的客户端,其服务端可以是任意支持Restful的服务器
 	* add: feign支持从ioc容器获取client/encoder/decoder,且自定义JsonFormat
+	* add: feign支持全局connect和read的timeout设置
 	* add: starter-eureka-server新版的status页面 by [温泉](https://github.com/ywjno)
 	* update: 更新HikariCP到2.7.5
 	* update: 更新sharding-jdbc到2.0.2,终于支持建表语句了,所以dao.create也能工作了!

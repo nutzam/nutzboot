@@ -38,6 +38,7 @@ import feign.Client;
 import feign.Feign;
 import feign.Logger;
 import feign.Logger.Level;
+import feign.Request.Options;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
 import feign.gson.GsonDecoder;
@@ -85,9 +86,15 @@ public class FeignStarter implements IocEventListener {
 
     @PropDoc(value = "默认负载均衡的规则", defaultValue = "availability", possible = {"availability", "random"})
     public static final String PROP_LB_RULE = PRE + "loadbalancer.rule";
-    
+
     @PropDoc(value = "JsonFormat", possible = {"full", "forLook", "compact", "nice", "tidy", "ioc:XXX",  "{...}"})
     public static final String PROP_JSON_FORMAT = PRE + "jsonFormat";
+
+    @PropDoc(value = "连接超时", defaultValue="10000", type="int")
+    public static final String PROP_CONNECT_TIMEOUT = PRE + "connectTimeout";
+
+    @PropDoc(value = "读取超时", defaultValue="60000", type="int")
+    public static final String PROP_READ_TIMEOUT = PRE + "readTimeout";
 
     @Inject("refer:$ioc")
     protected Ioc ioc;
@@ -124,6 +131,13 @@ public class FeignStarter implements IocEventListener {
                     builder.client(client);
                 builder.logger(logger);
                 builder.logLevel(level);
+                int connectTimeout = fc.connectTimeout();
+                if (connectTimeout == 0)
+                    connectTimeout = conf.getInt(PROP_CONNECT_TIMEOUT, 10*1000);
+                int readTimeout = fc.readTimeout();
+                if (readTimeout == 0)
+                    readTimeout = conf.getInt(PROP_READ_TIMEOUT, 10*1000);
+                builder.options(new Options(connectTimeout, readTimeout));
                 Object t = null;
                 if (useHystrix) {
                     t = ((HystrixFeign.Builder) builder).target(apiType, url, getFallbackIocBean(apiType, fc.fallback()));

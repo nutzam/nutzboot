@@ -48,4 +48,14 @@ public @interface FeignInject {
      * @return full/forLook/.... 或者 一个json字符串
      */
     String jsonFormat() default "";
+
+    /**
+     * 设置连接超时
+     */
+    int connectTimeout() default 0;
+
+    /**
+     * 设置读取超时
+     */
+    int readTimeout() default 0;
 }
