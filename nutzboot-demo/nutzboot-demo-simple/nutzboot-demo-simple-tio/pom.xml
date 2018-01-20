@@ -10,7 +10,7 @@
     <artifactId>nutzboot-demo-simple-tio</artifactId>
     <packaging>jar</packaging>
 
-    <name>nutzboot-demo-simple.tio</name>
+    <name>nutzboot-demo-simple-tio</name>
     <url>http://maven.apache.org</url>
 
     <properties>

@@ -23,7 +23,7 @@ public class CloudServiceLauncher {
     }
     
     public void init() {
-        dao.create(User.class, true);
+        dao.create(User.class, false);
     }
 
     public static void main(String[] args) throws Exception {

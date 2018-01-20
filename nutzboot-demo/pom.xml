@@ -19,6 +19,7 @@
 		<module>nutzboot-demo-cloud</module>
 	</modules>
 	<properties>
+		<docker.image.prefix>nutzboot</docker.image.prefix>
 	</properties>
 
 	<dependencies>

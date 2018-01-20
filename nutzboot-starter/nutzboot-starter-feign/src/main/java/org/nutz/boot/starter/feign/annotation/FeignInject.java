@@ -42,4 +42,20 @@ public @interface FeignInject {
      * 负载均衡规则
      */
     String lbRule() default "";
+    
+    /**
+     * 专属nutz.json的JsonFormat
+     * @return full/forLook/.... 或者 一个json字符串
+     */
+    String jsonFormat() default "";
+
+    /**
+     * 设置连接超时
+     */
+    int connectTimeout() default 0;
+
+    /**
+     * 设置读取超时
+     */
+    int readTimeout() default 0;
 }
