@@ -53,7 +53,8 @@
 		<module>nutzboot-starter-rabbitmq</module>
         <module>nutzboot-starter-tio</module>
         <module>nutzboot-starter-apollo-client</module>
-	</modules>
+        <module>nutzboot-starter-j2cache</module>
+    </modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.nutz</groupId>
