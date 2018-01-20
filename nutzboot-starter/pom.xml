@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.nutz</groupId>
@@ -12,7 +12,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-		<scm>
+	<scm>
 		<connection>scm:git:git://github.com/nutzam/nutzboot.git</connection>
 		<developerConnection>scm:git:git://github.com/nutzam/nutzboot.git</developerConnection>
 		<url>git://github.com/nutzam/nutzboot.git</url>
@@ -41,7 +41,7 @@
 		<module>nutzboot-starter-feign</module>
 		<module>nutzboot-starter-caffeine</module>
 		<module>nutzboot-starter-hystrix</module>
-		
+
 		<module>nutzboot-starter-nutz-mvc</module>
 		<module>nutzboot-starter-shiro</module>
 		<module>nutzboot-starter-dubbo</module>
@@ -51,14 +51,15 @@
 		<module>nutzboot-starter-eureka-client</module>
 		<module>nutzboot-starter-eureka-server</module>
 		<module>nutzboot-starter-rabbitmq</module>
-        <module>nutzboot-starter-tio</module>
-        <module>nutzboot-starter-apollo-client</module>
-        <module>nutzboot-starter-j2cache</module>
-    </modules>
+		<module>nutzboot-starter-tio</module>
+		<module>nutzboot-starter-apollo-client</module>
+		<module>nutzboot-starter-config-client</module>
+		<module>nutzboot-starter-j2cache</module>
+	</modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-core</artifactId>
 		</dependency>
-    </dependencies>
+	</dependencies>
 </project>

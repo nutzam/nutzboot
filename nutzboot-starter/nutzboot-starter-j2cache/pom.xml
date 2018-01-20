@@ -61,8 +61,9 @@
         <dependency>
             <groupId>net.oschina.j2cache</groupId>
             <artifactId>j2cache-core</artifactId>
-            <version>2.3.1-release</version>
+            <version>2.3.4-release</version>
         </dependency>
+
 
     </dependencies>
 </project>
