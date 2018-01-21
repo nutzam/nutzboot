@@ -93,11 +93,11 @@ public class MainLauncher {
 
 ## Contributors
 
-* [蛋蛋](https://github.com/TopCoderMyDream)(提交了第一个Banner及打印逻辑)及starter-tio
+* [蛋蛋](https://github.com/TopCoderMyDream)(提交了第一个Banner及打印逻辑)及starter-tio和starter-j2cache
 * [胖五](https://github.com/pangwu86)(nutz.io主笔)
 * [qinerg](https://github.com/qinerg)(率先提交undertow)
 * [benjobs](https://github.com/wolfboys)(提交了tomcat)
-* [温泉](https://github.com/ywjno)(提交thymeleaf)
+* [温泉](https://github.com/ywjno)(提交thymeleaf和eureka静态status页面)
 * [科技](https://github.com/Rekoe)(探路者,正在踩坑,正在做后台模板)
 * [潇潇](https://github.com/howe)(探路者,生产环境填坑中)
 * [道坤](https://github.com/albinhdk)(探路者,正在踩坑)
@@ -143,6 +143,13 @@ public class MainLauncher {
     - [x] [hystrix](https://github.com/Netflix/Hystrix) 熔断器,集成在feign中
     - [x] starter-[eureka-server](https://github.com/Netflix/eureka) 服务治理的服务器端
     - [x] starter-[eureka-client](https://github.com/Netflix/eureka) 服务治理的客户端
+    - 配置中心
+        - [ ] NB Config Server 配置中心的服务端
+        - [x] starter-config-client NB Config Client 配置中心的客户端
+        - [x] starter-[apollo-client](https://github.com/ctripcorp/apollo) 携程框架部门研发的分布式配置中心的客户端
+    - API网关
+        - [ ] NB API网关
+        - [ ] zuul
 - 数据库类相关
     - 关系型数据库
         - 数据源
@@ -199,6 +206,7 @@ public class MainLauncher {
 - 缓存相关
     - [x] starter-wkcache 方法缓存  by [大鲨鱼](https://github.com/Wizzercn)
     - [x] starter-[caffeine](https://github.com/ben-manes/caffeine) 方法缓存  by [幸福的旁边](https://github.com/happyday517)
+    - [x] starter-j2cache 开源中国缓存框架 by [蛋蛋的忧伤](https://github.com/TopCoderMyDream)
 - API文档生成器
 	- [x] starter-[swagger](https://swagger.io) Most Popular API Framework
 - docker相关

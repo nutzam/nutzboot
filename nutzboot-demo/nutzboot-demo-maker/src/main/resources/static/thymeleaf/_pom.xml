@@ -144,11 +144,11 @@
 	<repositories>
 		<repository>
 			<id>nutz</id>
-			<url>https://jfrog.nutz.cn/artifactory/jcenter</url>
+			<url>http://jfrog.nutz.cn/artifactory/libs-release</url>
 		</repository>
 		<repository>
 			<id>nutz-snapshots</id>
-			<url>https://jfrog.nutz.cn/artifactory/snapshots</url>
+			<url>http://jfrog.nutz.cn/artifactory/snapshots</url>
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>

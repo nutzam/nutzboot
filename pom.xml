@@ -645,6 +645,16 @@
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-apollo-client</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-config-client</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>javassist</groupId>
 				<artifactId>javassist</artifactId>
 				<version>3.12.1.GA</version>
@@ -772,6 +782,16 @@
 				<groupId>org.t-io</groupId>
 				<artifactId>tio-core</artifactId>
 				<version>2.0.5.v20180115-RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>net.oschina.j2cache</groupId>
+				<artifactId>j2cache-core</artifactId>
+				<version>2.3.4-release</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-j2cache</artifactId>
+				<version>${nutzboot.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

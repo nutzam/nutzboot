@@ -52,7 +52,10 @@
 		<module>nutzboot-starter-eureka-server</module>
 		<module>nutzboot-starter-rabbitmq</module>
         <module>nutzboot-starter-tio</module>
-    </modules>
+        <module>nutzboot-starter-apollo-client</module>
+        <module>nutzboot-starter-config-client</module>
+        <module>nutzboot-starter-j2cache</module>
+	</modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.nutz</groupId>

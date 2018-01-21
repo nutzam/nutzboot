@@ -37,7 +37,8 @@
         <module>nutzboot-demo-simple-xxl-job-executor</module>
         <module>nutzboot-demo-simple-activiti</module>
         <module>nutzboot-demo-simple-tio</module>
-    </modules>
+		<module>nutzboot-demo-simple-j2cache</module>
+	</modules>
 
 	<dependencies>
 		<dependency>

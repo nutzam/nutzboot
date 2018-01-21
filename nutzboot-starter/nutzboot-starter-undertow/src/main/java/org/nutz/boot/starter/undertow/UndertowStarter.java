@@ -66,8 +66,8 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 	@PropDoc(group = "undertow", value = "上下文路径", defaultValue = "/")
 	public static final String PROP_CONTEXT_PATH = PRE + "contextPath";
 
-	@PropDoc(group = "undertow", value = "session过期时间,单位分钟", defaultValue = "30", type="int")
-	public static final String PROP_SESSION = PRE + "session";
+    @PropDoc(value = "Session空闲时间,单位分钟", defaultValue = "30", type = "int")
+    public static final String PROP_SESSION_TIMEOUT = "web.session.timeout";
 
 	@PropDoc(group = "undertow", value = "静态文件路径", defaultValue = "static/")
 	public static final String PROP_STATIC_PATH = PRE + "staticPath";
@@ -259,7 +259,7 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 	}
 
 	public int getSessionTimeout() {
-		return conf.getInt(PROP_SESSION, 20) * 60;
+	    return conf.getInt(PRE+"session", conf.getInt(PROP_SESSION_TIMEOUT, 30)) * 60;
 	}
 
 }

@@ -75,8 +75,8 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
     @PropDoc(group = "tomcat", value = "上下文路径")
     public static final String PROP_CONTEXT_PATH = PRE + "contextPath";
 
-    @PropDoc(group = "tomcat", value = "session过期时间", defaultValue = "20")
-    public static final String PROP_SESSION = PRE + "session";
+    @PropDoc(value = "Session空闲时间,单位分钟", defaultValue = "30", type = "int")
+    public static final String PROP_SESSION_TIMEOUT = "web.session.timeout";
 
     @PropDoc(group = "tomcat", value = "静态文件路径", defaultValue = "static")
     public static final String PROP_STATIC_PATH = PRE + "staticPath";
@@ -200,7 +200,7 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
         this.tomcatContext.setDelegate(false);
         this.tomcatContext.addLifecycleListener(new Tomcat.FixContextListener());
         this.tomcatContext.setParentClassLoader(classLoader);
-        this.tomcatContext.setSessionTimeout(getSessionTimeout());
+        this.tomcatContext.setSessionTimeout(getSessionTimeout() / 60);
         this.tomcatContext.addLifecycleListener(new StoreMergedWebXmlListener());
         StandardRoot sr = new StandardRoot(this.tomcatContext);
         sr.addPreResources(new ClasspathResourceSet(sr, "static/"));
@@ -387,7 +387,7 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
     }
 
     public int getSessionTimeout() {
-        return conf.getInt(PROP_SESSION, 30);
+        return conf.getInt(PRE+"session", conf.getInt(PROP_SESSION_TIMEOUT, 30)) * 60;
     }
 
     public int getMaxThread() {
