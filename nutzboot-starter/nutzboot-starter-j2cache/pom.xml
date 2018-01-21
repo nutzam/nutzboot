@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>nutzboot-starter</artifactId>
+        <groupId>org.nutz</groupId>
+        <version>2.2-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>nutzboot-starter-j2cache</artifactId>
+    <packaging>jar</packaging>
+
+    <name>nutzboot-starter-j2cache</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <description>NutzBoot, micoservice base on Nutz</description>
+
+    <!--<url>http://nutzam.com</url>-->
+    <issueManagement>
+        <system>Github Issue</system>
+        <url>http://github.com/nutzam/nutzboot/issues</url>
+    </issueManagement>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>蛋蛋</id>
+            <name>王庆华</name>
+            <email>TopCoderMyDream@gmail.com</email>
+            <url>https://github.com/TopCoderMyDream</url>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git://github.com/nutzam/nutzboot.git</connection>
+        <developerConnection>scm:git:git://github.com/nutzam/nutzboot.git</developerConnection>
+        <url>git://github.com/nutzam/nutzboot.git</url>
+    </scm>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nutzcn-snapshots</id>
+            <name>NutzCN snapshot repository</name>
+            <url>https://jfrog.nutz.cn/artifactory/snapshots</url>
+        </snapshotRepository>
+
+        <repository>
+            <id>sonatype-release-staging</id>
+            <name>Sonatype Nexus release repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>net.oschina.j2cache</groupId>
+            <artifactId>j2cache-core</artifactId>
+
+        </dependency>
+
+
+    </dependencies>
+</project>

@@ -783,6 +783,16 @@
 				<artifactId>tio-core</artifactId>
 				<version>2.0.5.v20180115-RELEASE</version>
 			</dependency>
+			<dependency>
+				<groupId>net.oschina.j2cache</groupId>
+				<artifactId>j2cache-core</artifactId>
+				<version>2.3.4-release</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-j2cache</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<repositories>
