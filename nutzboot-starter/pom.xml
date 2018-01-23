@@ -54,6 +54,7 @@
         <module>nutzboot-starter-tio</module>
         <module>nutzboot-starter-apollo-client</module>
         <module>nutzboot-starter-config-client</module>
+        <module>nutzboot-starter-j2cache</module>
 	</modules>
 	<dependencies>
 		<dependency>

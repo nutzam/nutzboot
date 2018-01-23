@@ -4,6 +4,7 @@
 
 * 变更:
 	* add: starter-tio by [蛋蛋](https://github.com/TopCoderMyDream)
+	* add: starter-j2cache by [蛋蛋](https://github.com/TopCoderMyDream)
 	* add: starter-apollo-client 对接apollo配置中心. apollo是携程框架部门研发的分布式配置中心
 	* add: starter-config-client NB配置中心的客户端,其服务端可以是任意支持Restful的服务器
 	* add: feign支持从ioc容器获取client/encoder/decoder,且自定义JsonFormat
