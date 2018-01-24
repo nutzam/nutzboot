@@ -62,7 +62,7 @@ org.quartz.scheduler.skipUpdateCheck=true
         properties.putIfAbsent("org.quartz.scheduler.skipUpdateCheck", "true");
 		try {
             StdSchedulerFactory factory = new StdSchedulerFactory(properties);
-            Scheduler scheduler = factory.getScheduler();
+            scheduler = factory.getScheduler();
             scheduler.setJobFactory(new NutQuartzJobFactory(appContext.getIoc()));
             ((Ioc2)appContext.getIoc()).getIocContext().save("app", "scheduler", new ObjectProxy(scheduler));
         }
