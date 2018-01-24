@@ -332,8 +332,11 @@ public class AppContext implements LifeCycle {
     }
 
     public int getServerPort(String legacyKey, int defaultValue) {
-        if (defaultValue == 8080 && legacyKey != null && getConf().has(legacyKey)) {
-            log.infof("%s is deprecated, use %s instead", legacyKey, "server.port");
+        if (defaultValue == 8080 && legacyKey != null && getConf().has(legacyKey)){
+            log.infof("%s is deprecated, use %s instead,the defaultValue is %s", "server.port", legacyKey,"8080");
+            return getConf().getInt(legacyKey);
+        }
+        if (legacyKey != null && getConf().has(legacyKey)) {
             return getConf().getInt(legacyKey);
         }
         int port = getConf().getInt("server.port", defaultValue);
