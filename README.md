@@ -89,6 +89,7 @@ public class MainLauncher {
 
 * [内置demo](https://github.com/nutzam/nutzboot/tree/dev/nutzboot-demo),每个starter均配套一个demo
 * [Todo-backend](https://github.com/nutzam/todo-backend-nutzboot),一个类就能通过TodoBackend的测试
+* [urls](https://gitee.com/howe/urls) Java版短地址服务
 
 
 ## Contributors
