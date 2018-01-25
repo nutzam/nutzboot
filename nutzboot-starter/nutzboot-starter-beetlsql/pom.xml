@@ -12,5 +12,10 @@
 			<groupId>com.ibeetl</groupId>
 			<artifactId>beetlsql</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-jdbc</artifactId>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 </project>

@@ -10,6 +10,7 @@
 	* add: feign支持从ioc容器获取client/encoder/decoder,且自定义JsonFormat
 	* add: feign支持全局connect和read的timeout设置
 	* add: starter-eureka-server新版的status页面 by [温泉](https://github.com/ywjno)
+	* add: starter-jdbc添加slave数据源的支持,使得starter-nutz-dao和starter-beetlsql支持slave数据源
 	* update: 更新HikariCP到2.7.5
 	* update: 更新sharding-jdbc到2.0.2,终于支持建表语句了,所以dao.create也能工作了!
 

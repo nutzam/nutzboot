@@ -1,4 +1,4 @@
-package org.nutz.boot.starter.nutz.dao;
+package org.nutz.boot.starter.jdbc;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
