@@ -1,14 +1,18 @@
 package org.nutz.boot.starter.nutz.dao;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.sql.DataSource;
 
 import org.nutz.boot.annotation.PropDoc;
+import org.nutz.boot.starter.jdbc.DataSourceStarter;
 import org.nutz.dao.SqlManager;
 import org.nutz.dao.impl.FileSqlManager;
 import org.nutz.dao.impl.NutDao;
+import org.nutz.dao.impl.sql.run.NutDaoRunner;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -170,6 +174,45 @@ public class NutDaoStarter {
 
         // 将拦截器赋予dao对象
         dao.setInterceptors(interceptors);
+        // 看看是不是需要注入从数据库
+        NutDaoRunner runner = new NutDaoRunner();
+        if (ioc.has("slaveDataSource")) {
+            runner.setSlaveDataSource(ioc.get(DataSource.class, "slaveDataSource"));
+            dao.setRunner(runner);
+        }
+        else {
+            // 看看有多少从数据库被定义了
+            List<DataSource> slaveDataSources = new ArrayList<>();
+            for (String key : conf.keys()) {
+                if (key.startsWith("jdbc.slave.") && key.endsWith(".url")) {
+                    String slaveName = key.substring("jdbc.slave.".length(), key.length() - ".url".length());
+                    log.debug("found Slave DataSource name=" + slaveName);
+                    slaveDataSources.add(DataSourceStarter.createDataSource(ioc, conf, "jdbc.slave." + slaveName + "."));
+                }
+            }
+            // 如果的确定义了从数据库集合
+            if (slaveDataSources.size() > 0) {
+                if (slaveDataSources.size() == 1) {
+                    // 单个? 那就直接set吧
+                    runner.setSlaveDataSource(slaveDataSources.get(0));
+                }
+                else {
+                    // 多个从数据源,使用DynaDataSource进行随机挑选
+                    // TODO 更多更精细的挑选策略(轮训/随机/可用性...)
+                    runner.setSlaveDataSource(new DynaDataSource(new Iterator<DataSource>() {
+                        protected Random random = new Random(System.currentTimeMillis());
+                        protected DataSource[] ds = slaveDataSources.toArray(new DataSource[slaveDataSources.size()]);
+                        public DataSource next() {
+                            return ds[random.nextInt(slaveDataSources.size())];
+                        }
+                        public boolean hasNext() {
+                            return true;
+                        }
+                    }));
+                }
+                dao.setRunner(runner);
+            }
+        }
         return dao;
     }
 

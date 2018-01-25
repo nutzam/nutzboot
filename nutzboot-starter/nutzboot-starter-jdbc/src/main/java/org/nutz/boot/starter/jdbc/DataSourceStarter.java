@@ -41,65 +41,77 @@ public class DataSourceStarter {
 
 	@IocBean
 	public DataSource getDataSource() throws Exception {
-		switch (conf.get(PROP_TYPE, "druid")) {
-		case "simple":
-		case "org.nutz.dao.impl.SimpleDataSource":
-			SimpleDataSource simpleDataSource = new SimpleDataSource();
-			String jdbcUrl = conf.get(PRE + "jdbcUrl", conf.get(PRE + "url"));
-			if (Strings.isBlank(jdbcUrl)) {
-				throw new RuntimeException("need " + PRE + ".url");
-			}
-			simpleDataSource.setJdbcUrl(jdbcUrl);
-			simpleDataSource.setUsername(conf.get(PROP_USERNAME));
-			simpleDataSource.setPassword(conf.get(PROP_PASSWORD));
-			return simpleDataSource;
-		case "druid":
-		case "com.alibaba.druid.pool.DruidDataSource":
-			return ioc.get(DataSource.class, "druidDataSource");
-		case "hikari":
-		case "com.zaxxer.hikari.HikariDataSource":
-			return ioc.get(DataSource.class, "hikariDataSource");
-		default:
-			break;
-		}
-		throw new RuntimeException("not supported jdbc.type=" + conf.get("jdbc.type"));
+		return createDataSource(ioc, conf, PRE);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@IocBean(name = "druidDataSource", depose = "close")
 	public DataSource createDruidDataSource() throws Exception {
-		if (Strings.isBlank(conf.get(PROP_URL))) {
-			throw new RuntimeException("need jdbc.url");
-		}
-		Map map = Lang.filter(new HashMap(conf.toMap()), PRE, null, null, null);
-		DruidDataSource dataSource = (DruidDataSource) DruidDataSourceFactory.createDataSource(map);
-		if (!conf.has(PRE + ".filters"))
-			dataSource.setFilters("stat");
-		return dataSource;
+        if (Strings.isBlank(conf.get(PROP_URL))) {
+            throw new RuntimeException("need jdbc.url");
+        }
+		return createDruidDataSource(conf, PRE);
 	}
 	
 	@IocBean(name = "hikariDataSource", depose = "close")
 	public DataSource createHikariCPDataSource() throws Exception {
-		if (Strings.isBlank(conf.get(PROP_URL))) {
-			throw new RuntimeException("need jdbc.url");
-		}
-		Properties properties = new Properties();
-		for (String key : conf.keys()) {
-			if (!key.startsWith("jdbc.") || key.equals("jdbc.type"))
-				continue;
-			if (key.equals("jdbc.url")) {
-				if (!conf.has("jdbc.jdbcUrl"))
-					properties.put("jdbcUrl", conf.get(key));
-			}
-			else {
-				properties.put(key.substring(5), conf.get(key));
-			}
-		}
-		return new HikariDataSource(new HikariConfig(properties));
+        if (Strings.isBlank(conf.get(PROP_URL))) {
+            throw new RuntimeException("need jdbc.url");
+        }
+		return createHikariCPDataSource(conf, PRE);
 	}
 
 	protected static boolean isDruid(PropertiesProxy conf) {
 		String type = conf.get(PROP_TYPE, "druid");
 		return "druid".equals(type) || "com.alibaba.druid.pool.DruidDataSource".equals(type);
+	}
+	
+	public static DataSource createDataSource(Ioc ioc, PropertiesProxy conf, String prefix) {
+	    switch (conf.get(prefix + "type", "druid")) {
+        case "simple":
+        case "org.nutz.dao.impl.SimpleDataSource":
+            SimpleDataSource simpleDataSource = new SimpleDataSource();
+            String jdbcUrl = conf.get(PRE + "jdbcUrl", conf.get(PRE + "url"));
+            if (Strings.isBlank(jdbcUrl)) {
+                throw new RuntimeException("need " + PRE + ".url");
+            }
+            simpleDataSource.setJdbcUrl(jdbcUrl);
+            simpleDataSource.setUsername(conf.get(PROP_USERNAME));
+            simpleDataSource.setPassword(conf.get(PROP_PASSWORD));
+            return simpleDataSource;
+        case "druid":
+        case "com.alibaba.druid.pool.DruidDataSource":
+            return ioc.get(DataSource.class, "druidDataSource");
+        case "hikari":
+        case "com.zaxxer.hikari.HikariDataSource":
+            return ioc.get(DataSource.class, "hikariDataSource");
+        default:
+            break;
+        }
+        throw new RuntimeException("not supported jdbc.type=" + conf.get("jdbc.type"));
+	}
+
+	@SuppressWarnings({"rawtypes", "unchecked"})
+    public static DataSource createDruidDataSource(PropertiesProxy conf, String prefix) throws Exception {
+        Map map = Lang.filter(new HashMap(conf.toMap()), prefix, null, null, null);
+        DruidDataSource dataSource = (DruidDataSource) DruidDataSourceFactory.createDataSource(map);
+        if (!conf.has(prefix + "filters"))
+            dataSource.setFilters("stat");
+        return dataSource;
+	}
+
+	public static DataSource createHikariCPDataSource(PropertiesProxy conf, String prefix) throws Exception {
+        Properties properties = new Properties();
+        for (String key : conf.keys()) {
+            if (!key.startsWith(prefix) || key.equals(prefix + "type"))
+                continue;
+            if (key.equals(prefix + "url")) {
+                if (!conf.has(prefix + "jdbcUrl"))
+                    properties.put("jdbcUrl", conf.get(key));
+            }
+            else {
+                properties.put(key.substring(5), conf.get(key));
+            }
+        }
+        return new HikariDataSource(new HikariConfig(properties));
 	}
 }
