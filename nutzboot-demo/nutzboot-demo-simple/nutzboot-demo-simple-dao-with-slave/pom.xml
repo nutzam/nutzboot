@@ -6,7 +6,7 @@
 		<artifactId>nutzboot-demo-simple</artifactId>
 		<version>2.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>nutzboot-demo-simple-dao</artifactId>
+	<artifactId>nutzboot-demo-simple-dao-with-slave</artifactId>
 	<properties>
 		<docker.image.prefix>nutzboot</docker.image.prefix>
 	</properties>
@@ -45,35 +45,24 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib/</classpathPrefix>
-							<useUniqueVersions>false</useUniqueVersions>
-							<!--<addDefaultImplementationEntries>true</addDefaultImplementationEntries> -->
-							<mainClass>io.nutz.demo.simple.MainLauncher</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-			<!-- 拷贝依赖的jar包到lib目录 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.0.0</version>
 				<executions>
 					<execution>
-						<id>copy</id>
 						<phase>package</phase>
 						<goals>
-							<goal>copy-dependencies</goal>
+							<goal>shade</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+									<resource>META-INF/nutz/org.nutz.boot.starter.NbStarter</resource>
+								</transformer>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>io.nutz.demo.simple.MainLauncher</mainClass>
+								</transformer>
+							</transformers>
 						</configuration>
 					</execution>
 				</executions>

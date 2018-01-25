@@ -41,6 +41,7 @@
         <module>nutzboot-demo-simple-config-client</module>
         <module>nutzboot-demo-simple-quartz</module>
 		<module>nutzboot-demo-simple-j2cache</module>
+		<module>nutzboot-demo-simple-dao-with-slave</module>
 	</modules>
 
 	<dependencies>

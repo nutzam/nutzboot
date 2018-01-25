@@ -6,13 +6,16 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.nutz.boot.annotation.PropDoc;
+import org.nutz.boot.starter.jdbc.DataSourceStarter;
 import org.nutz.dao.SqlManager;
 import org.nutz.dao.impl.FileSqlManager;
 import org.nutz.dao.impl.NutDao;
+import org.nutz.dao.impl.sql.run.NutDaoRunner;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -170,6 +173,15 @@ public class NutDaoStarter {
 
         // 将拦截器赋予dao对象
         dao.setInterceptors(interceptors);
+        // 看看是不是需要注入从数据库
+        if (Lang.loadClassQuite("org.nutz.boot.starter.jdbc.DataSourceStarter") != null) {
+            DataSource slaveDataSource = DataSourceStarter.getSlaveDataSource(ioc, conf);
+            if (slaveDataSource != null) {
+                NutDaoRunner runner = new NutDaoRunner();
+                runner.setSlaveDataSource(slaveDataSource);
+                dao.setRunner(runner);
+            }
+        }
         return dao;
     }
 

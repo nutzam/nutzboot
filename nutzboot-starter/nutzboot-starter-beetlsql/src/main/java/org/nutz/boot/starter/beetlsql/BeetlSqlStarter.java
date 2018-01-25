@@ -15,10 +15,12 @@ import org.beetl.sql.core.db.AbstractDBStyle;
 import org.beetl.sql.core.db.DBStyle;
 import org.beetl.sql.ext.DebugInterceptor;
 import org.nutz.boot.annotation.PropDoc;
+import org.nutz.boot.starter.jdbc.DataSourceStarter;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Lang;
 import org.nutz.resource.Scans;
 
 /**
@@ -71,12 +73,18 @@ public class BeetlSqlStarter {
 
 	@IocBean(name = "beetlsqlConnectionSource")
 	public ConnectionSource createConnectionSource(@Inject DataSource dataSource) {
+	    DataSource[] slaves = null;
+        if (Lang.loadClassQuite("org.nutz.boot.starter.jdbc.DataSourceStarter") != null) {
+            DataSource slaveDataSource = DataSourceStarter.getSlaveDataSource(ioc, conf);
+            if (slaveDataSource != null)
+                slaves = new DataSource[] {slaveDataSource};
+        }
 		if (conf.getBoolean(PROP_TRANS, true)) {
 			// 默认事务管理,就是没有管理
-			return new DefaultConnectionSource(dataSource, null);
+			return new DefaultConnectionSource(dataSource, slaves);
 		}
 		// 支持 Trans.exec 或者 @Aop(TransAop.READ_COMMITTED)
-		return new NutzConnectionSource(dataSource);
+		return new NutzConnectionSource(dataSource, slaves);
 	}
 
 	@IocBean(name = "beetlsqlManager")
