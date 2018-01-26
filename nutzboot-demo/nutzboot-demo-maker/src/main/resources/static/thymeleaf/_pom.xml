@@ -126,6 +126,22 @@
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-feign</artifactId>
 		</dependency>
+		<dependency th:if="${params.tio.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-tio</artifactId>
+		</dependency>
+		<dependency th:if="${params.j2cache.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-j2cache</artifactId>
+		</dependency>
+		<dependency th:if="${params.apollo-client.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-apollo-client</artifactId>
+		</dependency>
+		<dependency th:if="${params.config-client.enable}">
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-config</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>

@@ -1,6 +1,16 @@
 # NB进化史
 
-## dev 迭代中
+## 2.1.1 "La Vie en Rose"
+
+新增由[蛋蛋](https://github.com/TopCoderMyDream)提供的starter-tio和starter-j2cache, 温泉同学完成了eureka-server新版的status页面, 及2个配置中心的客户端 ^_^
+
+这个版本完全兼容2.1.0,所以没有跳到2.2.0,请放心升级.
+
+* 时间: 2018-01-26
+* 事件: 春节前发个版本吧
+* 曲目: [La Vie en Rose_玫瑰人生法语原声](https://www.youtube.com/watch?v=0feNVUwQA8U)
+
+-----------------------------------------------------------------------------
 
 * 变更:
 	* add: starter-tio by [蛋蛋](https://github.com/TopCoderMyDream)
@@ -11,8 +21,13 @@
 	* add: feign支持全局connect和read的timeout设置
 	* add: starter-eureka-server新版的status页面 by [温泉](https://github.com/ywjno)
 	* add: starter-jdbc添加slave数据源的支持,使得starter-nutz-dao和starter-beetlsql支持slave数据源
+	* add: 从jar所在目录读取配置文件 by [文涛](https://github.com/swtseaman)
 	* update: 更新HikariCP到2.7.5
 	* update: 更新sharding-jdbc到2.0.2,终于支持建表语句了,所以dao.create也能工作了!
+	* fix: tomcat的默认maxPostSize太小了,容易挂
+	* fix: tio端口设置没有生效
+	* fix: quartz没有对应的demo
+	* fix: 兼容sfl4j-simple
 
 ## 2.1.0 "Start Of Something New"
 
