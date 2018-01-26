@@ -11,6 +11,7 @@ NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入
 * QQ群: 68428921
 
 [![Build Status](https://travis-ci.org/nutzam/nutzboot.png?branch=dev)](https://travis-ci.org/nutzam/nutzboot)
+[![CircleCI](https://circleci.com/gh/nutzam/nutzboot/tree/dev.svg?style=svg)](https://circleci.com/gh/nutzam/nutzboot/tree/dev)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.nutz/nutzboot-parent/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.nutz/nutzboot-parent/)
 [![GitHub release](https://img.shields.io/github/release/nutzam/nutzboot.svg)](https://github.com/nutzam/nutzboot/releases)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
