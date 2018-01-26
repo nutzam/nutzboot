@@ -80,6 +80,9 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
 
     @PropDoc(group = "tomcat", value = "静态文件路径", defaultValue = "static")
     public static final String PROP_STATIC_PATH = PRE + "staticPath";
+    
+    @PropDoc(value = "POST表单最大尺寸", defaultValue = "64 * 1024 * 1024")
+    public static final String PROP_MAX_POST_SIZE = PRE + "maxPostSize";
 
     private static final String PROP_PROTOCOL = "org.apache.coyote.http11.Http11NioProtocol";
 
@@ -117,6 +120,7 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
         Connector connector = new Connector(PROP_PROTOCOL);
         connector.setPort(getPort());
         connector.setURIEncoding(DEFAULT_CHARSET.name());
+        connector.setMaxPostSize(conf.getInt(PROP_MAX_POST_SIZE, 64 * 1024 * 1024));
 
         // 设置一下最大线程数
         this.tomcat.getService().addConnector(connector);
