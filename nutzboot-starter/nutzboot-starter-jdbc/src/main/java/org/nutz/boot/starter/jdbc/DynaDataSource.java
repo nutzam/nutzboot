@@ -1,5 +1,7 @@
 package org.nutz.boot.starter.jdbc;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,7 +16,7 @@ import javax.sql.DataSource;
  * @author wendal(wendal1985@gmail.com)
  *
  */
-public class DynaDataSource implements DataSource {
+public class DynaDataSource implements DataSource, Closeable {
     
     protected Iterator<DataSource> it;
 
@@ -60,6 +62,13 @@ public class DynaDataSource implements DataSource {
 
     public Connection getConnection(String username, String password) throws SQLException {
         return it.next().getConnection(username, password);
+    }
+
+    @Override
+    public void close() throws IOException {
+        if (it instanceof Closeable) {
+            ((Closeable) it).close();
+        }
     }
 
 }
