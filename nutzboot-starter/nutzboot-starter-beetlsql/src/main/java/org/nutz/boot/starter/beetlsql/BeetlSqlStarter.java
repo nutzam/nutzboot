@@ -75,7 +75,7 @@ public class BeetlSqlStarter {
 	public ConnectionSource createConnectionSource(@Inject DataSource dataSource) {
 	    DataSource[] slaves = null;
         if (Lang.loadClassQuite("org.nutz.boot.starter.jdbc.DataSourceStarter") != null) {
-            DataSource slaveDataSource = DataSourceStarter.getSlaveDataSource(ioc, conf);
+            DataSource slaveDataSource = DataSourceStarter.getSlaveDataSource(ioc, conf, "jdbc.slave.");
             if (slaveDataSource != null)
                 slaves = new DataSource[] {slaveDataSource};
         }

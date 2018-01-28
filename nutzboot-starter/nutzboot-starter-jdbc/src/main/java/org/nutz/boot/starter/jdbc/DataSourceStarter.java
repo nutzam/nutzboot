@@ -153,18 +153,18 @@ public class DataSourceStarter {
         return new HikariDataSource(new HikariConfig(properties));
     }
 
-    public static DataSource getSlaveDataSource(Ioc ioc, PropertiesProxy conf) {
+    public static DataSource getSlaveDataSource(Ioc ioc, PropertiesProxy conf, String prefix) {
         if (ioc.has("slaveDataSource")) {
             return ioc.get(DataSource.class, "slaveDataSource");
         } else {
             // 看看有多少从数据库被定义了
             List<DataSource> slaveDataSources = new ArrayList<>();
             for (String key : conf.keys()) {
-                if (key.startsWith("jdbc.slave.") && key.endsWith(".url")) {
-                    String slaveName = key.substring("jdbc.slave.".length(), key.length() - ".url".length());
+                if (key.startsWith(prefix) && key.endsWith(".url")) {
+                    String slaveName = key.substring(prefix.length(), key.length() - ".url".length());
                     log.debug("found Slave DataSource name=" + slaveName);
                     try {
-                        DataSource slaveDataSource = DataSourceStarter.createSlaveDataSource(ioc, conf, "jdbc.slave." + slaveName + ".");
+                        DataSource slaveDataSource = DataSourceStarter.createSlaveDataSource(ioc, conf, prefix + slaveName + ".");
                         slaveDataSources.add(slaveDataSource);
                         slaves.add(slaveDataSource);
                     }

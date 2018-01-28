@@ -175,7 +175,7 @@ public class NutDaoStarter {
         dao.setInterceptors(interceptors);
         // 看看是不是需要注入从数据库
         if (Lang.loadClassQuite("org.nutz.boot.starter.jdbc.DataSourceStarter") != null) {
-            DataSource slaveDataSource = DataSourceStarter.getSlaveDataSource(ioc, conf);
+            DataSource slaveDataSource = DataSourceStarter.getSlaveDataSource(ioc, conf, "jdbc.slave.");
             if (slaveDataSource != null) {
                 NutDaoRunner runner = new NutDaoRunner();
                 runner.setSlaveDataSource(slaveDataSource);
