@@ -134,11 +134,11 @@
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-j2cache</artifactId>
 		</dependency>
-		<dependency th:if="${params.apollo-client.enable}">
+		<dependency th:if="${params.apolloClient.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-apollo-client</artifactId>
 		</dependency>
-		<dependency th:if="${params.config-client.enable}">
+		<dependency th:if="${params.configClient.enable}">
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-config</artifactId>
 		</dependency>
