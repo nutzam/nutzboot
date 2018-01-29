@@ -112,6 +112,7 @@ public class MainLauncher {
 * [鱼夫](https://gitee.com/yustory)(正在踩NB+U家三剑客的坑)
 * [幸福的旁边](https://github.com/happyday517)(提交caffeine方法缓存)
 * [文涛](https://github.com/swtseaman) (新增支持加载外部配置文件)
+* [zjSniper](https://gitee.com/zjSniper) (优化starter-tio的逻辑)
 * 还有您的名字哦,告知我们吧
 
 ## 采用NutzBoot的公司

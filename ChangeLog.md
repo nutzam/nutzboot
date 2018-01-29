@@ -1,5 +1,11 @@
 # NB进化史
 
+
+## dev 迭代中
+
+* 变更:
+	* update: 优化starter-tio的逻辑 by [zjSniper](https://gitee.com/zjSniper)
+
 ## 2.1.1 "La Vie en Rose"
 
 新增由[蛋蛋](https://github.com/TopCoderMyDream)提供的starter-tio和starter-j2cache, 温泉同学完成了eureka-server新版的status页面, 及2个配置中心的客户端 ^_^
