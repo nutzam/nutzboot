@@ -58,11 +58,11 @@ public class TioStarter implements ServerFace {
         List<ServerAioHandler> hanlders = appContext.getBeans(ServerAioHandler.class);
         List<ServerAioListener> listeners = appContext.getBeans(ServerAioListener.class);
 
-        if (hanlders != null && hanlders.size() > 0) {
+        if (hanlders.size() > 0) {
             serverAioHandler = hanlders.get(0);
         }
 
-        if (listeners != null && listeners.size() > 0) {
+        if (listeners.size() > 0) {
             serverAioListener = listeners.get(0);
         }
         if (serverAioHandler == null) {
