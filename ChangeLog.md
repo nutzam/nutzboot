@@ -5,6 +5,7 @@
 
 * 变更:
 	* update: 优化starter-tio的逻辑 by [zjSniper](https://gitee.com/zjSniper)
+	* fix: 一主多从的逻辑有问题,修正之
 
 ## 2.1.1 "La Vie en Rose"
 

@@ -143,7 +143,7 @@ public class MainLauncher {
 		- [x] starter-[feign](https://github.com/OpenFeign/feign) makes writing java http clients easier, by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
 		- [x] [ribbon](https://github.com/Netflix/ribbon) ,集成在feign中,配合erueka-client实现负载均衡
     - [x] starter-zkclient zookeeper的封装
-    - [x] [hystrix](https://github.com/Netflix/Hystrix) 熔断器,集成在feign中
+    - [x] starter-[hystrix](https://github.com/Netflix/Hystrix) 熔断器及其dashboard
     - [x] starter-[eureka-server](https://github.com/Netflix/eureka) 服务治理的服务器端
     - [x] starter-[eureka-client](https://github.com/Netflix/eureka) 服务治理的客户端
     - 配置中心
