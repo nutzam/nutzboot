@@ -4,17 +4,14 @@ import net.oschina.j2cache.CacheChannel;
 import net.oschina.j2cache.J2CacheBuilder;
 import net.oschina.j2cache.J2CacheConfig;
 import org.nutz.boot.annotation.PropDoc;
-import org.nutz.castor.Castors;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
-import org.nutz.lang.Mirror;
 import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 /**
