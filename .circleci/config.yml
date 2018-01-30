@@ -8,11 +8,6 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
-      
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
 
     working_directory: ~/repo
 
@@ -69,7 +64,7 @@ jobs:
         
       - run:
           name: Deploy if tests pass and branch is Master
-          command: mvn package source:jar deploy -Dmaven.test.skip=true
+          command: mvn package source:jar deploy -Dmaven.test.skip=true --settings mvn_settings.xml
 workflows:
   version: 2
   build-deploy:
