@@ -33,7 +33,7 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
         
       # run tests!
-      - run: mvn integration-test  
+      - run: mvn -Dmaven.test.skip=true compile
   deploy-job:
     docker:
       # specify the version you desire here
@@ -43,28 +43,11 @@ jobs:
 
     environment:
       # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m
+      MAVEN_OPTS: -Xmx1024m
     
     steps:
-      - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "pom.xml" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run: mvn dependency:go-offline
-
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
-        
-      - run:
-          name: Deploy if tests pass and branch is Master
-          command: mvn package source:jar deploy -Dmaven.test.skip=true --settings mvn_settings.xml
+      # trigger deploy
+      - run: curl "http://180.76.176.118:8601/deploy/trigger?name=$CIRCLE_PROJECT_REPONAME&token=$DEPLOY_TOKEN"
 workflows:
   version: 2
   build-deploy:
