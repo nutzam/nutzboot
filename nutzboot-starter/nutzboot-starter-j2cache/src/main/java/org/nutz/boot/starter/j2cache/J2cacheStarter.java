@@ -1,18 +1,17 @@
 package org.nutz.boot.starter.j2cache;
 
-import net.oschina.j2cache.CacheChannel;
-import net.oschina.j2cache.J2CacheBuilder;
-import net.oschina.j2cache.J2CacheConfig;
+import java.io.IOException;
+import java.util.Properties;
+
 import org.nutz.boot.annotation.PropDoc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
-import org.nutz.log.Log;
-import org.nutz.log.Logs;
 
-import java.io.IOException;
-import java.util.Properties;
+import net.oschina.j2cache.CacheChannel;
+import net.oschina.j2cache.J2CacheBuilder;
+import net.oschina.j2cache.J2CacheConfig;
 
 /**
  * @Author 蛋蛋(https://github.com/TopCoderMyDream)
@@ -20,7 +19,7 @@ import java.util.Properties;
  */
 @IocBean
 public class J2cacheStarter {
-    private static final Log log = Logs.get();
+    
     @Inject
     PropertiesProxy conf;
 
