@@ -223,6 +223,15 @@ public class MainLauncher {
 
 期待您的到来,报个issue告知一下吧 ^_^
 
+## 公共服务
+
+* Eureka注册服务
+	* 供测试用,请勿进行压力测试
+	* 根地址 http://eureka.nutz.cn/eureka
+	* 状态地址 http://eureka.nutz.cn/eureka/status
+	* 客户端注册地址 http://eureka.nutz.cn/eureka/v2
+* Ngrok内网穿透服务: https://nutz.cn 登录看个人主页
+
 ## 授权协议
 
 与Nutz一样, NutzBoot遵循[Apache协议](LICENSE),完全开源,文档齐全,永远免费(商用也是)
