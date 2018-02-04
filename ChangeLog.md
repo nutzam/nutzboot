@@ -8,6 +8,7 @@
 	* update: j2cache配置文件融入nutzboot的主配置信息 by [蛋蛋](https://github.com/TopCoderMyDream)
 	* update: starter-beetl将GroupTemplate放入ioc容器,方便用户自定义和获取
 	* fix: 一主多从的逻辑有问题,修正之
+	* fix: tomcat与shiro一起使用时报错, report by [蛋蛋](https://github.com/TopCoderMyDream)
 
 ## 2.1.1 "La Vie en Rose"
 
