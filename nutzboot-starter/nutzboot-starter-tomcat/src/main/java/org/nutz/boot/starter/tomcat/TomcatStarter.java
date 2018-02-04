@@ -9,11 +9,19 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EventListener;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletContextAttributeListener;
+import javax.servlet.ServletContextListener;
+import javax.servlet.ServletRequestAttributeListener;
+import javax.servlet.ServletRequestListener;
+import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionIdListener;
+import javax.servlet.http.HttpSessionListener;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.Lifecycle;
@@ -242,8 +250,19 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
             addServlet(face);
         });
         appContext.getBeans(WebEventListenerFace.class).forEach((face) -> {
-            if (face.getEventListener() != null) {
-                this.tomcatContext.addApplicationEventListener(face.getEventListener());
+            EventListener listener = face.getEventListener();
+            if (listener != null) {
+                if ((listener instanceof ServletContextAttributeListener)
+                        || (listener instanceof ServletRequestAttributeListener)
+                        || (listener instanceof ServletRequestListener)
+                        || (listener instanceof HttpSessionIdListener)
+                        || (listener instanceof HttpSessionAttributeListener)) {
+                        this.tomcatContext.addApplicationEventListener(listener);
+                    }
+                    if ((listener instanceof ServletContextListener)
+                        || (listener instanceof HttpSessionListener)) {
+                        this.tomcatContext.addApplicationLifecycleListener(listener);
+                    }
             }
         });
     }
@@ -266,6 +285,7 @@ public class TomcatStarter implements ClassLoaderAware, ServerFace, LifeCycle, A
         Wrapper servlet = tomcatContext.createWrapper();
         servlet.setName(webServlet.getName());
         servlet.setServletClass(webServlet.getServlet().getClass().getName());
+        servlet.setServlet(webServlet.getServlet());
 
         for (Map.Entry<String, String> entry : webServlet.getInitParameters().entrySet()) {
             servlet.addInitParameter(entry.getKey(), entry.getValue());
