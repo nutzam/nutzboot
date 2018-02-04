@@ -29,9 +29,6 @@ public class FreeMarkerConfigurer {
 
 	private final static Log log = Logs.get();
 
-	protected static final String PRE = "freemarker.";
-	public static final String PRE_SUFFIX = PRE + "suffix";
-
 	private Configuration configuration;
 	private String prefix;
 	private String suffix;
@@ -42,7 +39,7 @@ public class FreeMarkerConfigurer {
 		Configuration configuration = new Configuration(Configuration.VERSION_2_3_26);
 		Ioc ioc = Mvcs.ctx().getDefaultIoc();
 		PropertiesProxy conf = ioc.get(PropertiesProxy.class,"conf");
-		this.initp(configuration, Mvcs.getServletContext(), "template", conf.get(PRE_SUFFIX,".html"), new FreemarkerDirectiveFactory());
+		this.initp(configuration, Mvcs.getServletContext(), "template", conf.get(FreemarkerViewMaker.PROP_SUFFIX,".html"), new FreemarkerDirectiveFactory());
 	}
 
 
