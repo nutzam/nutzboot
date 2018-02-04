@@ -4,6 +4,7 @@
 ## dev 迭代中
 
 * 变更:
+	* add: starter-freemarker by [蛋蛋](https://github.com/TopCoderMyDream)
 	* update: 优化starter-tio的逻辑 by [zjSniper](https://gitee.com/zjSniper)
 	* update: j2cache配置文件融入nutzboot的主配置信息 by [蛋蛋](https://github.com/TopCoderMyDream)
 	* update: starter-beetl将GroupTemplate放入ioc容器,方便用户自定义和获取

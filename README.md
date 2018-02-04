@@ -184,7 +184,7 @@ public class MainLauncher {
     - [x] starter-jetx [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
     - [x] starter-velocity by [haoqoo](https://github.com/haoqoo)
     - [x] starter-thymeleaf by [温泉](https://github.com/ywjno)
-    - [ ] FreeMarker
+    - [x] starter-freemarker by [蛋蛋](https://github.com/TopCoderMyDream)
 - 消息队列
     - [x] starter-disque redis作者的另一作品
     - [x] starter-rabbitmq
