@@ -1,12 +1,8 @@
 package org.nutz.boot.starter.freemarker;
 
 import freemarker.template.*;
-import org.nutz.boot.annotation.PropDoc;
 import org.nutz.ioc.Ioc;
-import org.nutz.ioc.IocContext;
-import org.nutz.ioc.Iocs;
 import org.nutz.ioc.impl.PropertiesProxy;
-import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Files;
 import org.nutz.lang.Lang;
