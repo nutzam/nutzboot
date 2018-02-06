@@ -89,9 +89,9 @@ public class MainLauncher {
 ### Demo
 
 * [内置demo](https://github.com/nutzam/nutzboot/tree/dev/nutzboot-demo),每个starter均配套一个demo
-* [Todo-backend](https://github.com/nutzam/todo-backend-nutzboot),一个类就能通过TodoBackend的测试
-* [urls](https://gitee.com/howe/urls) Java版短地址服务
-
+* [Todo-backend](https://github.com/nutzam/todo-backend-nutzboot),一个类就能通过TodoBackend的测试 by wendal
+* [urls](https://gitee.com/howe/urls) Java版短地址服务 by howe
+* [LuliChat](https://github.com/TopCoderMyDream/LuliChat/tree/nutzboot) 一个Nutz为后台支撑,T-io为通讯支持,LayIM为前台UI交互的纯国产框架开发的一个即时通讯项目 by 蛋蛋
 
 ## Contributors
 
