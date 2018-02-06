@@ -3,14 +3,14 @@
     <parent>
         <artifactId>nutzboot-demo-simple</artifactId>
         <groupId>org.nutz</groupId>
-        <version>2.2-SNAPSHOT</version>
+        <version>2.1.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>nutzboot-demo-simple-tio-mvc</artifactId>
     <packaging>jar</packaging>
 
-    <name>nutzboot-demo-simple-tio-mvc</name>
+    <name>nutzboot-demo-simple-tio</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -20,24 +20,11 @@
     <dependencies>
         <dependency>
             <groupId>org.nutz</groupId>
-            <artifactId>nutzboot-starter-tio-mvc</artifactId>
+            <artifactId>nutzboot-starter-tio</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-        </dependency>
-        <dependency>
-        	<groupId>org.nutz</groupId>
-        	<artifactId>nutzboot-starter-nutz-dao</artifactId>
-        </dependency>
-        <dependency>
-        	<groupId>org.nutz</groupId>
-        	<artifactId>nutzboot-starter-jdbc</artifactId>
-        </dependency>
-        <dependency>
-        	<groupId>com.h2database</groupId>
-        	<artifactId>h2</artifactId>
-        	<version>1.4.193</version>
         </dependency>
     </dependencies>
 

@@ -5,7 +5,7 @@
 感谢tio社区为nutz特意发布的[2.0.8.v20180205-RELEASE](http://www.oschina.net/news/93135/t-io-2-08) ^_^
 
 这次更新,带来
-* [蛋蛋](https://github.com/TopCoderMyDream)完成的starter-freeamarker及
+* [蛋蛋](https://github.com/TopCoderMyDream)完成的starter-freemarker及
 * 到处挖坑的[wendal](https://gitee.com/wendal)带来的starter-tio-mvc, 将ioc机制融入tio-mvc
 
 这个版本完全兼容2.1.0/2.1.1,所以没有跳到2.2.0,请放心升级.
