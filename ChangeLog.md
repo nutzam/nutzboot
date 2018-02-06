@@ -1,7 +1,20 @@
 # NB进化史
 
+## 2.1.2 "いつも何度でも "
 
-## dev 迭代中
+感谢tio社区为nutz特意发布的[2.0.8.v20180205-RELEASE](http://www.oschina.net/news/93135/t-io-2-08) ^_^
+
+这次更新,带来
+* [蛋蛋](https://github.com/TopCoderMyDream)完成的starter-freeamarker及
+* 到处挖坑的[wendal](https://gitee.com/wendal)带来的starter-tio-mvc, 将ioc机制融入tio-mvc
+
+这个版本完全兼容2.1.0/2.1.1,所以没有跳到2.2.0,请放心升级.
+
+* 时间: 2018-02-06
+* 事件: tio特别版
+* 曲目: [いつも何度でも _千与千寻主题曲](https://www.youtube.com/watch?v=2zda1Tr4big)
+
+-----------------------------------------------------------------------------
 
 * 变更:
 	* add: starter-tio-mvc 基于tio的高性能MVC框架
