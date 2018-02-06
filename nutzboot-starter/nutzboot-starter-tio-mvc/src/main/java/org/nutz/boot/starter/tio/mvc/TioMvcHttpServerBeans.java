@@ -29,7 +29,7 @@ public class TioMvcHttpServerBeans implements ControllerFactory {
 
     @Inject
     protected PropertiesProxy conf;
-    @PropDoc(value = "tio监听端口", defaultValue = "9900")
+    @PropDoc(value = "tio监听端口", defaultValue = "8080")
     public static final String PROP_PORT = PRE + "port";
     @PropDoc(value = "tio监听ip/主机名", defaultValue = "0.0.0.0")
     public static final String PROP_IP = PRE + "host";
@@ -69,7 +69,7 @@ public class TioMvcHttpServerBeans implements ControllerFactory {
     @IocBean
     public HttpConfig getHttpConfig() {
         String ip = appContext.getServerHost(PROP_IP);
-        int port = appContext.getServerPort(PROP_PORT, 9900);
+        int port = appContext.getServerPort(PROP_PORT, 8080);
         HttpConfig httpConfig = new HttpConfig(port, 
                                                conf.getLong(PROP_SESSION_TIMEOUT, 1800), 
                                                conf.get(PROP_CONTEXT_PATH),

@@ -17,7 +17,7 @@ public class MainLauncher {
     protected Dao dao;
     
     public void init() {
-        dao.create(User.class, true);
+        dao.create(User.class, false);
         dao.insert(new User("apple", 40, "北京"));
         dao.insert(new User("ball", 30, "未知"));
         dao.insert(new User("cat", 50, "温哥华"));
