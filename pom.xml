@@ -486,6 +486,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-tio-mvc</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-nutz-dao</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
@@ -781,7 +786,12 @@
 			<dependency>
 				<groupId>org.t-io</groupId>
 				<artifactId>tio-core</artifactId>
-				<version>2.0.5.v20180115-RELEASE</version>
+				<version>2.0.8.v20180205-RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>org.t-io</groupId>
+				<artifactId>tio-http-server</artifactId>
+				<version>0.0.8-tio-http</version>
 			</dependency>
 			<dependency>
 				<groupId>net.oschina.j2cache</groupId>

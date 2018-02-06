@@ -1,4 +1,4 @@
-package org.nutz.boot.starter.tio;
+package org.nutz.boot.starter.tio.server;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import org.tio.server.intf.ServerAioListener;
  * @Time 2018年1月11日 19:00:01
  */
 @IocBean(create = "init")
-public class TioStarter implements ServerFace {
+public class TioServerStarter implements ServerFace {
     
     private static final Log log = Logs.get();
 

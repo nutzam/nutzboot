@@ -43,7 +43,8 @@
 		<module>nutzboot-demo-simple-j2cache</module>
 		<module>nutzboot-demo-simple-dao-with-slave</module>
         <module>nutzboot-demo-simple-freemarker</module>
-    </modules>
+        <module>nutzboot-demo-simple-tio-mvc</module>
+	</modules>
 
 	<dependencies>
 		<dependency>

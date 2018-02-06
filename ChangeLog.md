@@ -4,10 +4,12 @@
 ## dev 迭代中
 
 * 变更:
+	* add: starter-tio-mvc 基于tio的高性能MVC框架
 	* add: starter-freemarker by [蛋蛋](https://github.com/TopCoderMyDream)
 	* update: 优化starter-tio的逻辑 by [zjSniper](https://gitee.com/zjSniper)
 	* update: j2cache配置文件融入nutzboot的主配置信息 by [蛋蛋](https://github.com/TopCoderMyDream)
 	* update: starter-beetl将GroupTemplate放入ioc容器,方便用户自定义和获取
+	* update: 更新tio版本到2.0.8.v20180205-RELEASE, 感谢tio社区的大力支持
 	* fix: 一主多从的逻辑有问题,修正之
 	* fix: tomcat与shiro一起使用时报错, report by [蛋蛋](https://github.com/TopCoderMyDream)
 
