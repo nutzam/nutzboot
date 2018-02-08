@@ -5,6 +5,7 @@
 * 变更:
 	* update: HikariCP更新到2.7.7
 	* update: BeetlSql更新到2.10.8
+	* fix: undertow的staticPath就没生效
 
 ## 2.1.2 "いつも何度でも "
 

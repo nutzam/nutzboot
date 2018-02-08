@@ -122,7 +122,12 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 		for (String path : getResourcePaths()) {
 		    if (new File(path).exists())
 		        resourceManager.add(new FileResourceManager(new File(path), 1024));
-            resourceManager.add(new ClassPathResourceManager(classLoader, path));
+            try {
+                resourceManager.add(new ClassPathResourceManager(classLoader, path));
+            }
+            catch (Throwable e) {
+                // 不合法的,就跳过吧
+            }
         }
 		deployment.setResourceManager(resourceManager);
 
@@ -251,7 +256,7 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 	    if (Strings.isBlank(conf.get(PROP_STATIC_PATH)) &&
 	            ("static".equals(conf.get(PROP_STATIC_PATH)) || "static/".equals(conf.get(PROP_STATIC_PATH))))
 	        return Arrays.asList("static", "webapp");
-	    return Arrays.asList("static", "webapp");
+	    return Arrays.asList(conf.get(PROP_STATIC_PATH), "static", "webapp");
 	}
 
 	public String getContextPath() {
