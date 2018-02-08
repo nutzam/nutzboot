@@ -1,5 +1,11 @@
 # NB进化史
 
+# dev 迭代中
+
+* 变更:
+	* update: HikariCP更新到2.7.7
+	* update: BeetlSql更新到2.10.8
+
 ## 2.1.2 "いつも何度でも "
 
 感谢tio社区为nutz特意发布的[2.0.8.v20180205-RELEASE](http://www.oschina.net/news/93135/t-io-2-08) ^_^

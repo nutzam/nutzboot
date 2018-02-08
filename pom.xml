@@ -20,7 +20,7 @@
 		<cxf.version>3.1.12</cxf.version>
 		<spring.version>4.3.13.RELEASE</spring.version>
 		<beetl.version>2.7.26</beetl.version>
-		<beetlsql.version>2.10.3</beetlsql.version>
+		<beetlsql.version>2.10.8</beetlsql.version>
 		<zbus.version>0.11.4</zbus.version>
 		<undertow.version>1.4.21.Final</undertow.version>
 		<velocity.version>1.7</velocity.version>
@@ -154,7 +154,7 @@
 			<dependency>
 				<groupId>com.zaxxer</groupId>
 				<artifactId>HikariCP</artifactId>
-				<version>2.7.5</version>
+				<version>2.7.7</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
