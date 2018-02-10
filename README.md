@@ -3,7 +3,7 @@
 NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入式web服务,分布式会话,hystrix, RPC等一篮子解决方案
 
 * 主页: [NB的官网](https://nutz.io)
-* 项目生成器: [NB Makder](https://get.nutz.io)
+* 项目生成器: [NB Maker](https://get.nutz.io)
 * 版本历史: [NB进化史](ChangeLog.md)
 * 文档: [NB的文档](https://gitee.com/nutz/nutzboot/tree/dev/doc)
 * 文档2: [NB的文档2](http://nutzam.com/core/boot/overview.html)
