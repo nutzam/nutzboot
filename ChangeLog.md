@@ -5,6 +5,13 @@
 * 变更:
 	* update: HikariCP更新到2.7.7
 	* update: BeetlSql更新到2.10.8
+	* update: sharding-jdbc更新到2.0.3
+	* update: dubbo更新到2.5.9
+	* update: cxf更新到3.1.14
+	* update: beetlsql更新到2.10.10
+	* update: undertow更新到1.4.22.Final
+	* update: tomcat更新到8.5.28
+	* update: zbus更新到0.11.5
 	* fix: undertow的staticPath就没生效 report by [道坤](https://github.com/albinhdk)和[tasdingoo](https://github.com/tasdingoo)
 
 ## 2.1.2 "いつも何度でも "
