@@ -4,7 +4,6 @@
 
 * 变更:
 	* update: HikariCP更新到2.7.7
-	* update: BeetlSql更新到2.10.8
 	* update: sharding-jdbc更新到2.0.3
 	* update: dubbo更新到2.5.9
 	* update: cxf更新到3.1.14
