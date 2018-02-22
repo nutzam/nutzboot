@@ -232,7 +232,7 @@ public class MainLauncher {
 	* 状态地址 http://eureka.nutz.cn/eureka/status
 	* 客户端注册地址 http://eureka.nutz.cn/eureka/v2
 * Ngrok内网穿透服务: 
-	* 访问https://nutz.cn并登录, 看个人主页,获取token
+	* 访问 https://nutz.cn 并登录, 看个人主页,获取token
 * 外网ip探查服务
 	* 浏览器访问 http://ip.nutz.cn/ 可看网页版帮助
 	* 在服务器执行 `curl ip.nutz.cn` 可返回当前服务器的外网信息

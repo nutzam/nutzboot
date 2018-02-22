@@ -253,8 +253,9 @@ public class UndertowStarter implements ClassLoaderAware, IocAware, ServerFace, 
 	}
 	
 	public List<String> getResourcePaths() {
-	    if (Strings.isBlank(conf.get(PROP_STATIC_PATH)) &&
-	            ("static".equals(conf.get(PROP_STATIC_PATH)) || "static/".equals(conf.get(PROP_STATIC_PATH))))
+	    if (Strings.isBlank(conf.get(PROP_STATIC_PATH))
+	            || "static".equals(conf.get(PROP_STATIC_PATH))
+	            || "static/".equals(conf.get(PROP_STATIC_PATH)))
 	        return Arrays.asList("static", "webapp");
 	    return Arrays.asList(conf.get(PROP_STATIC_PATH), "static", "webapp");
 	}
