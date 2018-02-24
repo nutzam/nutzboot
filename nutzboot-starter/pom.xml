@@ -57,6 +57,7 @@
         <module>nutzboot-starter-j2cache</module>
 		<module>nutzboot-starter-freemarker</module>
 		<module>nutzboot-starter-tio-mvc</module>
+		<module>nutzboot-starter-web3j</module>
 	</modules>
 	<dependencies>
 		<dependency>
