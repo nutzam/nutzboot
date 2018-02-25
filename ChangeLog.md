@@ -3,6 +3,7 @@
 # dev 迭代中
 
 * 变更:
+	* add: starter-web3j 区块链-"以太坊"客户端API 
 	* update: HikariCP更新到2.7.7
 	* update: sharding-jdbc更新到2.0.3
 	* update: dubbo更新到2.5.9

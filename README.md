@@ -218,6 +218,8 @@ public class MainLauncher {
     - [ ] docker file
 - WebService
     - [x] starter-cxf WebService的事实标准
+- 区块链
+    - [x] starter-[web3j](https://github.com/web3j/web3j) 以太坊轻量级客户端API
 - 其他
     - [x] starter-ngrok-client 内网穿透,轻松获取外网地址
 ## 第三方starter或项目

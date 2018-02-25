@@ -44,6 +44,7 @@
 		<module>nutzboot-demo-simple-dao-with-slave</module>
         <module>nutzboot-demo-simple-freemarker</module>
         <module>nutzboot-demo-simple-tio-mvc</module>
+        <module>nutzboot-demo-simple-web3j</module>
 	</modules>
 
 	<dependencies>
