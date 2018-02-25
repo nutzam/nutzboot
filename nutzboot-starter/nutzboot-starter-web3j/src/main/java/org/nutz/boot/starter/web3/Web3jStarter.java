@@ -79,7 +79,6 @@ public class Web3jStarter {
 	public Map<String, Web3jAccount> loadCredentials() throws IOException, CipherException {
 	    Map<String, Web3jAccount> accounts = new HashMap<>();
 	    for (String key : conf.keys()) {
-	        System.out.println(key + "," + (key.startsWith(PRE + "accounts.")));
             // web3j.accounts.wendal.password=123456
             // web3j.accounts.wendal.keystore.path=xxx/xxx/xxx
             // web3j.accounts.wendal.address=xxxxxxxxxx
