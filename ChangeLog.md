@@ -1,6 +1,14 @@
 # NB进化史
 
-# dev 迭代中
+# 2.1.3 "Never Enough"
+
+炒币有风险,上车请谨慎. 区块链 != 炒币
+
+人嘛, "Never Enough".
+
+* 时间: 2018-02-26
+* 事件: 新春来一发
+* 曲目: [Never Enough](https://y.qq.com/n/yqq/mv/v/n0025krp84f.html)
 
 * 变更:
 	* add: starter-web3j 区块链-"以太坊"客户端API 
