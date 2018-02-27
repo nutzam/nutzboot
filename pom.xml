@@ -12,7 +12,7 @@
 		<nutzboot.version>2.2-SNAPSHOT</nutzboot.version>
 		<nutzwx.version>1.r.65</nutzwx.version>
 		<slf4j.version>1.7.25</slf4j.version>
-		<dubbo.version>2.5.9</dubbo.version>
+		<dubbo.version>2.6.0</dubbo.version>
 		<jetty.version>9.4.8.v20171121</jetty.version>
 		<tomcat.version>8.5.28</tomcat.version>
 		<shiro.version>1.3.2</shiro.version>
@@ -20,11 +20,11 @@
 		<cxf.version>3.1.14</cxf.version>
 		<spring.version>4.3.14.RELEASE</spring.version>
 		<beetl.version>2.7.26</beetl.version>
-		<beetlsql.version>2.10.10</beetlsql.version>
+		<beetlsql.version>2.10.11</beetlsql.version>
 		<zbus.version>0.11.5</zbus.version>
 		<undertow.version>1.4.22.Final</undertow.version>
 		<velocity.version>1.7</velocity.version>
-		<caffeine.version>2.6.1</caffeine.version>
+		<caffeine.version>2.6.2</caffeine.version>
 		<feign.version>9.5.1</feign.version>
 		<hystrix.vesion>1.5.12</hystrix.vesion>
 		<web3j.vesion>3.2.0</web3j.vesion>
@@ -771,7 +771,7 @@
 			<dependency>
 				<groupId>com.netflix.eureka</groupId>
 				<artifactId>eureka-client</artifactId>
-				<version>1.8.6</version>
+				<version>1.8.7</version>
 				<exclusions>
 					<exclusion>
 						<groupId>javax.servlet</groupId>
