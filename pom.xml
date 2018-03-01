@@ -668,7 +668,7 @@
 			<dependency>
 				<groupId>javassist</groupId>
 				<artifactId>javassist</artifactId>
-				<version>3.12.1.GA</version>
+				<version>3.22.0-GA</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.ben-manes.caffeine</groupId>
