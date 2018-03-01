@@ -125,6 +125,7 @@ public class MainLauncher {
 * [NutzBoot简介](doc/overview.md)
 * [NutzBoot目录约定](doc/struct.md)
 * [NB与Nutz.Mvc对比](doc/diff_nb_mvc.md)
+* [转换为NB项目](doc/convert2nb.md)
 
 ## 开发进度
 
