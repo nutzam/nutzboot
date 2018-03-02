@@ -666,7 +666,7 @@
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>javassist</groupId>
+				<groupId>org.javassist</groupId>
 				<artifactId>javassist</artifactId>
 				<version>3.22.0-GA</version>
 			</dependency>

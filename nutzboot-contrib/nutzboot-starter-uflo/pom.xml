@@ -11,6 +11,12 @@
   		<groupId>com.bstek.uflo</groupId>
   		<artifactId>uflo-console</artifactId>
   		<version>2.1.0</version>
+  		<exclusions>
+  			<exclusion>
+  				<groupId>javassist</groupId>
+  				<artifactId>javassist</artifactId>
+  			</exclusion>
+  		</exclusions>
   	</dependency>
   	<dependency>
   		<groupId>org.nutz</groupId>
