@@ -181,14 +181,15 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         server.setDumpBeforeStop(false);
         server.setStopAtShutdown(true);
 
+
+        addNutzSupport();
+        
         ServerContainer sc = WebSocketServerContainerInitializer.configureContext(wac);
         for (Class<?> klass : Scans.me().scanPackage(appContext.getPackage())) {
             if (klass.getAnnotation(ServerEndpoint.class) != null) {
                 sc.addEndpoint(klass);
             }
         }
-
-        addNutzSupport();
     }
 
     private void addNutzSupport() {
