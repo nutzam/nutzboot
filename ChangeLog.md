@@ -5,6 +5,7 @@
 * 变更:
 	* update: javassist更新为3.22.0-GA,解决"invalid constant type: 15"
 	* add: 添加将普通web项目转换为NutzBoot项目的指南
+	* fix: jetty+shiro+websocket时,在onOpen阶段拿不到session对象
 
 # 2.1.3 "Never Enough"
 
