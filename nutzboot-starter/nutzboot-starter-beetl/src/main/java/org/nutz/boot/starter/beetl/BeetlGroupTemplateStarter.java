@@ -105,13 +105,14 @@ public class BeetlGroupTemplateStarter {
                 prop.put(key.substring("beetl.".length()), conf.get(key));
             }
         }
-        if (!prop.contains(Configuration.RESOURCE_LOADER)) {
+        System.out.println(prop);
+        if (!prop.containsKey(Configuration.RESOURCE_LOADER)) {
             prop.put(Configuration.RESOURCE_LOADER, ClasspathResourceLoader.class.getName());
         }
-        if (!prop.contains("RESOURCE.autoCheck")) {
+        if (!prop.containsKey("RESOURCE.autoCheck")) {
             prop.put("RESOURCE.autoCheck", "true");
         }
-        if (!prop.contains("RESOURCE.root")) {
+        if (!prop.containsKey("RESOURCE.root")) {
             prop.put("RESOURCE.root", prop.getProperty("root", "template/"));
         }
         if (!prop.containsKey(Configuration.DIRECT_BYTE_OUTPUT)) {
