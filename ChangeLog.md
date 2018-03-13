@@ -1,9 +1,16 @@
 # NB进化史
 
-# dev 迭代中
+# 2.1.4 "平凡之路"
+
+修正一些bug,提升与spring项目的互操作性,2.1.x可平稳更新
+
+* 时间: 2018-03-13
+* 事件: 就想发个版本
+* 曲目: [平凡之路](https://www.youtube.com/watch?v=NjTT5_RSkw4)
 
 * 变更:
 	* update: javassist更新为3.22.0-GA,解决"invalid constant type: 15"
+	* update: 让beetl使用antlr4-runtime 4.5,解决与urule的jar冲突 [csl_slchia](https://gitee.com/csl_slchia)
 	* add: 添加将普通web项目转换为NutzBoot项目的指南
 	* add: 添加@AsSpringBean注解,在集成spring相关库(例如urule/ureport/uflo)的时候,可以主动把对象放入spring ioc
 	* fix: jetty+shiro+websocket时,在onOpen阶段拿不到session对象

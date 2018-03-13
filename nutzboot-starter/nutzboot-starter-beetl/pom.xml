@@ -13,5 +13,10 @@
 			<groupId>com.ibeetl</groupId>
 			<artifactId>beetl</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4-runtime</artifactId>
+			<version>4.5</version>
+		</dependency>
 	</dependencies>
 </project>
