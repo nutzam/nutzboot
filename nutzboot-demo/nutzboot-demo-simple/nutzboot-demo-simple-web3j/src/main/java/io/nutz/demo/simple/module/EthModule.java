@@ -98,8 +98,8 @@ public class EthModule {
             re.put("msg", "起码转账 0.01 eth");
             return re;
         }
-        if (wei > 100) {
-            re.put("msg", "最多转账 100 eth");
+        if (wei > 10000) {
+            re.put("msg", "最多转账 10000 eth");
             return re;
         }
         Web3jAccount account = web3jCredentials.get(from);
