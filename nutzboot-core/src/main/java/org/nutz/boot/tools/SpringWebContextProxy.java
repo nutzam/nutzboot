@@ -60,6 +60,11 @@ public abstract class SpringWebContextProxy implements ServletContextListener, W
         applicationContext.refresh();
         appContext.getComboIocLoader().addLoader(new SpringIocLoader2(applicationContext, getSpringBeanNames().toArray(new String[0])));
         sce.getServletContext().setAttribute("spring." + selfName, applicationContext);
+        // 登记所有标注了@AsSpringBean的对象到spring ioc
+        Ioc ioc = appContext.getIoc();
+        for (String name : ioc.getNamesByAnnotation(AsSpringBean.class)) {
+            applicationContext.getBeanFactory().registerSingleton(name, ioc.get(null, name));
+        }
     }
 
     /**
