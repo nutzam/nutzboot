@@ -135,7 +135,8 @@ public class ShiroEnvStarter implements WebEventListenerFace {
             if (realms.size() > 0)
                 modularRealmAuthenticator.setRealms(realms);
             webSecurityManager.setAuthenticator(modularRealmAuthenticator);
-        }else if (realms.size() > 0)
+        }
+        if (realms.size() > 0)
             webSecurityManager.setRealms(realms);
         webSecurityManager.setRememberMeManager(ioc.get(RememberMeManager.class, "shiroRememberMeManager"));
         return webSecurityManager;
