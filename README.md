@@ -210,7 +210,7 @@ public class MainLauncher {
     - [ ] [阿里云](https://aliyun.com)
     - [ ] [腾讯云](https://qcloud.com)
 - 缓存相关
-    - [x] starter-wkcache 方法缓存  by [大鲨鱼](https://github.com/Wizzercn)
+    - [x] starter-[wkcache](https://github.com/nutzam/nutzmore/tree/master/nutz-plugins-wkcache) 方法缓存  by [大鲨鱼](https://github.com/Wizzercn)
     - [x] starter-[caffeine](https://github.com/ben-manes/caffeine) 方法缓存  by [幸福的旁边](https://github.com/happyday517)
     - [x] starter-j2cache 开源中国缓存框架 by [蛋蛋的忧伤](https://github.com/TopCoderMyDream)
 - API文档生成器
