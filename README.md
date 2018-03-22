@@ -102,7 +102,7 @@ public class MainLauncher {
 * [温泉](https://github.com/ywjno)(提交thymeleaf和eureka静态status页面)
 * [科技](https://github.com/Rekoe)(探路者,正在踩坑,正在做后台模板)
 * [潇潇](https://github.com/howe)(探路者,生产环境填坑中)
-* [道坤](https://github.com/albinhdk)(探路者,正在踩坑)
+* [道坤](https://github.com/albinhdk)(探路者,提交ssdb)
 * [HeTaro](https://gitee.com/HeTaro)(探路者,正在踩坑)
 * [zozoh](https://github.com/zozoh)(路过...)
 * [wendal](https://github.com)(到处挖坑)
@@ -167,8 +167,8 @@ public class MainLauncher {
     - 非关系型数据库
         - [x] starter-[redis](https://redis.io) 特点就是快,吃内存!
         - [x] starter-mongodb NoSQL的重要一支
+        - [x] starter-ssdb by [道坤](https://github.com/albinhdk
         - [ ] memcached
-        - [ ] ssdb
 - Mvc
     - [x] starter-nutz-mvc Nutz自带的Mvc框架
     - [x] starter-[tio-mvc](https://gitee.com/tywo45/t-io) 基于tio的Mvc框架

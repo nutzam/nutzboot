@@ -1,5 +1,11 @@
 # NB进化史
 
+# dev 迭代中
+
+* 变更:
+    * update: 完善shiro集成, by 大鲨鱼
+	* add: starter-ssdb by 道坤
+
 # 2.1.4 "平凡之路"
 
 修正一些bug,提升与spring项目的互操作性,2.1.x可平稳更新
