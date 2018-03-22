@@ -20,7 +20,9 @@ import org.nutz.boot.env.SystemPropertiesEnvHolder;
 import org.nutz.boot.ioc.IocLoaderProvider;
 import org.nutz.boot.resource.ResourceLoader;
 import org.nutz.boot.resource.impl.SimpleResourceLoader;
+import org.nutz.boot.tools.NbAppEventListener;
 import org.nutz.boot.tools.PropDocReader;
+import org.nutz.boot.tools.NbAppEventListener.EventType;
 import org.nutz.ioc.Ioc2;
 import org.nutz.ioc.IocLoader;
 import org.nutz.ioc.ObjectProxy;
@@ -85,6 +87,8 @@ public class NbApp extends Thread {
     protected boolean prepared;
 
     protected Object lock = new Object();
+    
+    protected NbAppEventListener listener = new NbAppEventListener() {};
 
     /**
      * 创建一个NbApp,把调用本构造方法的类作为mainClass
@@ -181,18 +185,26 @@ public class NbApp extends Thread {
         Stopwatch sw = Stopwatch.begin();
 
         // 各种预备操作
+        listener.whenPrepare(this, EventType.before);
         this.prepare();
+        listener.whenPrepare(this, EventType.after);
 
         // 依次启动
         try {
+            listener.whenInitAppContext(this, EventType.before);
             ctx.init();
+            listener.whenInitAppContext(this, EventType.after);
 
+            listener.whenStartServers(this, EventType.before);
             ctx.startServers();
+            listener.whenStartServers(this, EventType.after);
 
             if (ctx.getMainClass().getAnnotation(IocBean.class) != null)
                 ctx.getIoc().get(ctx.getMainClass());
 
             sw.stop();
+
+            listener.afterAppStated(this);
             log.infof("NB started : %sms", sw.du());
             synchronized (lock) {
                 lock.wait();
@@ -220,19 +232,28 @@ public class NbApp extends Thread {
         if (prepared)
             return;
         // 初始化上下文
+        listener.whenPrepareBasic(this, EventType.before);
         this.prepareBasic();
+        listener.whenPrepareBasic(this, EventType.after);
 
         // 打印Banner,暂时不可配置具体的类
         new SimpleBannerPrinter().printBanner(ctx);
 
         // 配置信息要准备好
+
+        listener.whenPrepareConfigureLoader(this, EventType.before);
         this.prepareConfigureLoader();
+        listener.whenPrepareConfigureLoader(this, EventType.before);
 
         // 创建IocLoader体系
+        listener.whenPrepareIocLoader(this, EventType.before);
         prepareIocLoader();
+        listener.whenPrepareIocLoader(this, EventType.after);
 
         // 加载各种starter
+        listener.whenPrepareStarterClassList(this, EventType.before);
         prepareStarterClassList();
+        listener.whenPrepareStarterClassList(this, EventType.before);
 
         // 打印配置文档
         if (printProcDoc) {
@@ -242,10 +263,14 @@ public class NbApp extends Thread {
         }
 
         // 创建Ioc容器
+        listener.whenPrepareIoc(this, EventType.before);
         prepareIoc();
+        listener.whenPrepareIoc(this, EventType.after);
 
         // 生成Starter实例
+        listener.whenPrepareStarterInstance(this, EventType.before);
         prepareStarterInstance();
+        listener.whenPrepareStarterInstance(this, EventType.before);
 
         prepared = true;
     }
@@ -425,4 +450,9 @@ public class NbApp extends Thread {
         }
     }
 
+    public void setListener(NbAppEventListener listener) {
+        if (listener == null)
+            throw new NullPointerException("NULL NbAppEventListener!!!");
+        this.listener = listener;
+    }
 }
