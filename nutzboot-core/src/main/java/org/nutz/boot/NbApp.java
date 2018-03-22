@@ -39,6 +39,7 @@ import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.LogAdapter;
 import org.nutz.log.Logs;
+import org.nutz.mvc.Mvcs;
 import org.nutz.mvc.annotation.IocBy;
 
 /**
@@ -408,6 +409,7 @@ public class NbApp extends Thread {
             ioc2.getIocContext().save("app", "conf", new ObjectProxy(ctx.getConf()));
             ioc2.getIocContext().save("app", "nbApp", new ObjectProxy(this));
         }
+        Mvcs.ctx().iocs.put("nutz", ctx.getIoc());
     }
 
     public void prepareStarterInstance() {
