@@ -47,11 +47,11 @@ pom.xml
 <dependencies>
     <dependency>
         <groupId>org.nutz</groupId>
-        <artifactId>nutzboot-starter-nutz-web</artifactId>
+        <artifactId>nutzboot-starter-jetty</artifactId>
     </dependency>
     <dependency>
         <groupId>org.nutz</groupId>
-        <artifactId>nutzboot-starter-jetty</artifactId>
+        <artifactId>nutzboot-starter-nutz-mvc</artifactId>
     </dependency>
 </dependencies>
 ```
@@ -92,6 +92,7 @@ public class MainLauncher {
 * [Todo-backend](https://github.com/nutzam/todo-backend-nutzboot),一个类就能通过TodoBackend的测试 by wendal
 * [urls](https://gitee.com/howe/urls) Java版短地址服务 by howe
 * [LuliChat](https://github.com/TopCoderMyDream/LuliChat/tree/nutzboot) 一个Nutz为后台支撑,T-io为通讯支持,LayIM为前台UI交互的纯国产框架开发的一个即时通讯项目 by 蛋蛋
+* [NutzWk-NB分支](https://github.com/Wizzercn/NutzWk) 企业级微服务开发平台 by 大鲨鱼
 
 ## Contributors
 

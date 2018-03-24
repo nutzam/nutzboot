@@ -172,26 +172,28 @@ public class NbApp extends Thread {
 
     public void run() {
         try {
-            _run();
+            if (execute()) {
+                synchronized (lock) {
+                    lock.wait();
+                }
+            }
+            // 收尾
+            _shutdown();
         }
         catch (Throwable e) {
             Logs.get().error("something happen", e);
         }
     }
-
-    /**
-     * 启动整个NbApp
-     */
-    public void _run() throws Exception {
+    
+    public boolean execute() {
         Stopwatch sw = Stopwatch.begin();
-
-        // 各种预备操作
-        listener.whenPrepare(this, EventType.before);
-        this.prepare();
-        listener.whenPrepare(this, EventType.after);
-
-        // 依次启动
         try {
+            // 各种预备操作
+            listener.whenPrepare(this, EventType.before);
+            this.prepare();
+            listener.whenPrepare(this, EventType.after);
+
+            // 依次启动
             listener.whenInitAppContext(this, EventType.before);
             ctx.init();
             listener.whenInitAppContext(this, EventType.after);
@@ -203,26 +205,37 @@ public class NbApp extends Thread {
             if (ctx.getMainClass().getAnnotation(IocBean.class) != null)
                 ctx.getIoc().get(ctx.getMainClass());
 
-            sw.stop();
-
             listener.afterAppStated(this);
-            log.infof("NB started : %sms", sw.du());
-            synchronized (lock) {
-                lock.wait();
-            }
+
+            sw.stop();
+            log.infof("%s started : %sms", ctx.getConf().get("nutz.application.name", "NB"),  sw.du());
+            return true;
         }
         catch (Throwable e) {
             log.error("something happen!!", e);
+            return false;
         }
-        // 收尾
-        ctx.stopServers();
-        ctx.depose();
+    }
+    
+    protected void _shutdown() {
+        try {
+            ctx.stopServers();
+            ctx.depose();
+        }
+        catch (Exception e) {
+            throw Lang.wrapThrow(e);
+        }
     }
 
     public void shutdown() {
         log.info("ok, shutting down ...");
-        synchronized (lock) {
-            lock.notify();
+        if (lock == null) {
+            _shutdown();
+        }
+        else {
+            synchronized (lock) {
+                lock.notify();
+            }
         }
     }
 

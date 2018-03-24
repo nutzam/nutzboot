@@ -7,6 +7,7 @@
     * update: 完善shiro集成, by 大鲨鱼
     * add: starter-ssdb by 道坤
     * add: 添加NbAppEventListener,可以拦截NbApp的各种事件
+    * add: 添加单元测试的支持
 
 # 2.1.4 "平凡之路"
 
