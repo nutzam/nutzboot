@@ -1,10 +1,10 @@
-package org.nutz.boot.test.simple;
+package org.nutz.boot.test.simple2;
 
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
 
-@IocBean(name="users")
-public class SimpleUserService {
+@IocBean(name = "users")
+public class Simple2UserService {
 
     public boolean login(String username, String password) {
         if (Strings.isBlank(username) || Strings.isBlank(password))
