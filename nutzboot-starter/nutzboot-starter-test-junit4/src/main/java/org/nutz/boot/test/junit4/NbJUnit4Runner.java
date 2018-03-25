@@ -1,4 +1,4 @@
-package org.nutz.boot.test;
+package org.nutz.boot.test.junit4;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

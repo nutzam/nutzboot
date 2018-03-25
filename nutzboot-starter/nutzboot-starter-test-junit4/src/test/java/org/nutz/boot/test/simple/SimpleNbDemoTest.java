@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.nutz.boot.NbApp;
-import org.nutz.boot.test.NbJUnit4Runner;
+import org.nutz.boot.test.junit4.NbJUnit4Runner;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
