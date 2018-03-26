@@ -10,6 +10,7 @@ import java.net.URLDecoder;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.lang.Encoding;
 import org.nutz.lang.Streams;
+import org.nutz.lang.Strings;
 import org.nutz.lang.util.Disks;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -105,12 +106,14 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
     }
 
     // 根据目录和文件名拼接绝对路径
-    protected String getPath(String... name) {
+    protected String getPath(String... names) {
         String path = getBasePath();
-        for(int i=0; i< name.length; i++) {
-            path = path + File.separator + name[i];
+        String tmp = Strings.join(File.separator, names);
+        if (new File(tmp).exists() && new File(tmp).getAbsolutePath().equals(tmp)) {
+            return tmp;
         }
-        return path;
+        else
+            return path + File.separator + tmp;
     }
     
     protected void readPropertiesPath(String path) throws IOException {
