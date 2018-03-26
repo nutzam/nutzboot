@@ -8,6 +8,7 @@
     * add: starter-ssdb by 道坤
     * add: 添加NbAppEventListener,可以拦截NbApp的各种事件
     * add: 添加单元测试的支持
+    * add: shiro主动搜索ioc容器内的SessionListener并添加到SessionManager
 
 # 2.1.4 "平凡之路"
 

@@ -5,7 +5,6 @@ import java.util.EventListener;
 import java.util.List;
 
 import org.apache.shiro.ShiroException;
-import org.apache.shiro.authc.Authenticator;
 import org.apache.shiro.authc.pam.AuthenticationStrategy;
 import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.cache.CacheManager;
@@ -15,6 +14,7 @@ import org.apache.shiro.mgt.RememberMeManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.subject.SubjectContext;
 import org.apache.shiro.web.env.DefaultWebEnvironment;
@@ -162,7 +162,7 @@ public class ShiroEnvStarter implements WebEventListenerFace {
         webSessionManager.setSessionIdCookieEnabled(true);
 
         webSessionManager.setCacheManager(ioc.get(CacheManager.class, "shiroCacheManager"));
-
+        webSessionManager.setSessionListeners(appContext.getBeans(SessionListener.class));
         return webSessionManager;
     }
 
