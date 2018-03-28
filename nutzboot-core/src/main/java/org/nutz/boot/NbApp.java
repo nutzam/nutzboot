@@ -90,6 +90,8 @@ public class NbApp extends Thread {
     protected Object lock = new Object();
     
     protected NbAppEventListener listener = new NbAppEventListener() {};
+    
+    protected boolean started;
 
     /**
      * 创建一个NbApp,把调用本构造方法的类作为mainClass
@@ -209,6 +211,7 @@ public class NbApp extends Thread {
 
             sw.stop();
             log.infof("%s started : %sms", ctx.getConf().get("nutz.application.name", "NB"),  sw.du());
+            started = true;
             return true;
         }
         catch (Throwable e) {
@@ -431,6 +434,20 @@ public class NbApp extends Thread {
             if (klass.getAnnotation(IocBean.class) == null) {
                 obj = Mirror.me(klass).born();
             } else {
+                continue;
+            }
+            aware(obj);
+            if (obj instanceof IocLoaderProvider) {
+                IocLoader loader = ((IocLoaderProvider) obj).getIocLoader();
+                ctx.getComboIocLoader().addLoader(loader);
+            }
+            ctx.addStarter(obj);
+        }
+        for (Class<?> klass : starterClasses) {
+            Object obj;
+            if (klass.getAnnotation(IocBean.class) == null) {
+                continue;
+            } else {
                 obj = ctx.getIoc().get(klass);
             }
             aware(obj);
@@ -469,5 +486,9 @@ public class NbApp extends Thread {
         if (listener == null)
             throw new NullPointerException("NULL NbAppEventListener!!!");
         this.listener = listener;
+    }
+    
+    public boolean isStarted() {
+        return started;
     }
 }
