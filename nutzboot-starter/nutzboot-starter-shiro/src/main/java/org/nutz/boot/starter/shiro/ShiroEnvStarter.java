@@ -11,6 +11,7 @@ import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.RememberMeManager;
+import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
@@ -75,6 +76,8 @@ public class ShiroEnvStarter implements WebEventListenerFace {
     public static final String PROP_URL_LOGOUT_REDIRECT = "shiro.url.logout_redirect";
     @PropDoc(value = "访问未授权页面后的重定向路径", defaultValue = "/user/login")
     public static final String PROP_URL_UNAUTH = "shiro.url.unauth";
+    @PropDoc(value = "realm是否缓存")
+    public static final String PROP_REALM_CACHE_ENABLE = "shiro.realm.cache.enable";
 
     @Inject
     protected AppContext appContext;
@@ -127,11 +130,15 @@ public class ShiroEnvStarter implements WebEventListenerFace {
         }
         List<Realm> realms = new ArrayList<>();
         for (String realmName : ioc.getNamesByType(Realm.class)) {
-            realms.add(ioc.get(Realm.class, realmName));
+            AuthorizingRealm realm = ioc.get(AuthorizingRealm.class, realmName);
+            if (conf.getBoolean(PROP_REALM_CACHE_ENABLE, false)) {
+                realm.setCacheManager(ioc.get(CacheManager.class, "shiroCacheManager"));
+            }
+            realms.add(realm);
         }
-        if (ioc.has("authenticationStrategy")){
-            ModularRealmAuthenticator modularRealmAuthenticator=new ModularRealmAuthenticator();
-            modularRealmAuthenticator.setAuthenticationStrategy(ioc.get(AuthenticationStrategy.class,"authenticationStrategy"));
+        if (ioc.has("authenticationStrategy")) {
+            ModularRealmAuthenticator modularRealmAuthenticator = new ModularRealmAuthenticator();
+            modularRealmAuthenticator.setAuthenticationStrategy(ioc.get(AuthenticationStrategy.class, "authenticationStrategy"));
             if (realms.size() > 0)
                 modularRealmAuthenticator.setRealms(realms);
             webSecurityManager.setAuthenticator(modularRealmAuthenticator);
