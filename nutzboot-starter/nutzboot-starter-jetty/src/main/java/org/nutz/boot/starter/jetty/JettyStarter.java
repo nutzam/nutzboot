@@ -77,6 +77,9 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
 
     @PropDoc(value = "Session空闲时间,单位分钟", defaultValue = "30", type = "int")
     public static final String PROP_SESSION_TIMEOUT = "web.session.timeout";
+    
+    @PropDoc(value = "静态文件所在的本地路径")
+    public static final String PROP_STATIC_PATH_LOCAL = "staticPathLocal";
 
     @Inject
     private PropertiesProxy conf;
@@ -153,6 +156,16 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
             Enumeration<URL> urls = appContext.getClassLoader().getResources(resourcePath);
             while (urls.hasMoreElements()) {
                 resources.add(Resource.newResource(urls.nextElement()));
+            }
+        }
+        if (conf.has(PROP_STATIC_PATH_LOCAL)) {
+            File f = new File(conf.get(PROP_STATIC_PATH_LOCAL));
+            if (f.exists()) {
+                log.debug("found static local path, add it : " + f.getAbsolutePath());
+                resources.add(Resource.newResource(f));
+            }
+            else {
+                log.debug("static local path not exist, skip it : " + f.getPath());
             }
         }
         wac.setBaseResource(new ResourceCollection(resources.toArray(new Resource[resources.size()])) {

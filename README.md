@@ -142,20 +142,24 @@ public class MainLauncher {
     - [x] starter-[tomcat](http://tomcat.apache.org/) by [@benjobs](https://github.com/wolfboys) 
 - 分布式组件
 	- RPC(Remote Procedure Call)
+	    - [x] literpc 简洁高效RPC,由NutzCloud提供
 		- [x] starter-[dubbo](http://dubbo.io/) 阿里出品的高性能RPC平台
 		- [x] starter-[zbus](http://zbus.io) 国产知名RPC平台
 		- [x] starter-[feign](https://github.com/OpenFeign/feign) makes writing java http clients easier, by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
 		- [x] [ribbon](https://github.com/Netflix/ribbon) ,集成在feign中,配合erueka-client实现负载均衡
     - [x] starter-zkclient zookeeper的封装
     - [x] starter-[hystrix](https://github.com/Netflix/Hystrix) 熔断器及其dashboard
-    - [x] starter-[eureka-server](https://github.com/Netflix/eureka) 服务治理的服务器端
-    - [x] starter-[eureka-client](https://github.com/Netflix/eureka) 服务治理的客户端
+    - 服务注册
+        - [x] loach-server '泥鳅'服务端,由NutzCloud提供
+        - [x] loach-client '泥鳅'客户端,由NutzCloud提供
+        - [x] starter-[eureka-server](https://github.com/Netflix/eureka) 服务治理的服务器端
+        - [x] starter-[eureka-client](https://github.com/Netflix/eureka) 服务治理的客户端
     - 配置中心
         - [ ] NB Config Server 配置中心的服务端
         - [x] starter-config-client NB Config Client 配置中心的客户端
         - [x] starter-[apollo-client](https://github.com/ctripcorp/apollo) 携程框架部门研发的分布式配置中心的客户端
     - API网关
-        - [ ] NB API网关服务器
+        - [x] gateway-server NB API网关服务器
         - [ ] zuul
 - 数据库类相关
     - 关系型数据库
