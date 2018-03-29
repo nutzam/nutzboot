@@ -10,6 +10,10 @@
     * add: 添加单元测试的支持
     * add: shiro主动搜索ioc容器内的SessionListener并添加到SessionManager
     * add: jetty添加staticPathLocal属性,解决idea用户开发期js/css文件不更新的问题
+    * add: loach-server NC的'泥鳅'服务端,服务注册与发现
+    * add: loach-client NC的'泥鳅'客户端,服务注册与发现
+    * add: literpc NC的简洁高效的RPC服务
+    * add: gateway-server NC的网关服务
 
 # 2.1.4 "平凡之路"
 
