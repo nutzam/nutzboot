@@ -20,7 +20,7 @@
 		<cxf.version>3.1.14</cxf.version>
 		<spring.version>4.3.14.RELEASE</spring.version>
 		<beetl.version>2.7.27</beetl.version>
-		<beetlsql.version>2.10.14</beetlsql.version>
+		<beetlsql.version>2.10.18</beetlsql.version>
 		<zbus.version>0.11.5</zbus.version>
 		<undertow.version>1.4.23.Final</undertow.version>
 		<velocity.version>1.7</velocity.version>
