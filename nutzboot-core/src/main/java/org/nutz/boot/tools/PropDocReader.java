@@ -64,7 +64,6 @@ public class PropDocReader {
                 doc.key = key;
                 doc.defaultValue = prop.defaultValue();
                 doc.value = prop.value();
-                System.out.println(doc.key);
                 doc.group = Strings.isBlank(prop.group()) ? doc.key.substring(0, doc.key.indexOf('.')) : prop.group();
                 doc.need = prop.need();
                 doc.possible = prop.possible();
