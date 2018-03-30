@@ -159,7 +159,7 @@ public class MainLauncher {
         - [x] starter-config-client NB Config Client 配置中心的客户端
         - [x] starter-[apollo-client](https://github.com/ctripcorp/apollo) 携程框架部门研发的分布式配置中心的客户端
     - API网关
-        - [x] gateway-server NB API网关服务器
+        - [x] gateway-server NC API网关服务器
         - [ ] zuul
 - 数据库类相关
     - 关系型数据库
