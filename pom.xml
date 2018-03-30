@@ -60,7 +60,8 @@
 		<module>nutzboot-starter</module>
 		<module>nutzboot-contrib</module>
 
-		<module>nutzboot-cloud</module>
+		
+		
 	</modules>
 	<profiles>
 		<profile>
