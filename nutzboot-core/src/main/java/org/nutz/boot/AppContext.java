@@ -333,7 +333,7 @@ public class AppContext implements LifeCycle {
         }
         int port = getConf().getInt("server.port", defaultValue);
         if (port == 0) {
-            port = new Random(System.currentTimeMillis()).nextInt(1000) + defaultValue;
+            port = new Random(System.currentTimeMillis()).nextInt(10000) + defaultValue;
             getConf().set("server.port", ""+port);
         }
         return port;
