@@ -79,7 +79,7 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     public static final String PROP_SESSION_TIMEOUT = "web.session.timeout";
     
     @PropDoc(value = "静态文件所在的本地路径")
-    public static final String PROP_STATIC_PATH_LOCAL = "staticPathLocal";
+    public static final String PROP_STATIC_PATH_LOCAL = PRE + "staticPathLocal";
 
     @Inject
     private PropertiesProxy conf;
