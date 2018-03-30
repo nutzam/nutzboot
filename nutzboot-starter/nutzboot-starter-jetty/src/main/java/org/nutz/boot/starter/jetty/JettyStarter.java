@@ -15,6 +15,8 @@ import javax.websocket.server.ServerContainer;
 import javax.websocket.server.ServerEndpoint;
 
 import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.FilterHolder;
@@ -80,6 +82,32 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     
     @PropDoc(value = "静态文件所在的本地路径")
     public static final String PROP_STATIC_PATH_LOCAL = PRE + "staticPathLocal";
+    
+    //------------------ HttpConfiguration
+    @PropDoc(value = "安全协议,例如https")
+    public static final String PROP_HTTP_CONFIG_secureScheme = PRE + ".httpConfig.secureScheme";
+    @PropDoc(value = "安全协议的端口,例如8443")
+    public static final String PROP_HTTP_CONFIG_securePort = PRE + ".httpConfig.securePort";
+    @PropDoc(value = "输出缓冲区大小", defaultValue="32768")
+    public static final String PROP_HTTP_CONFIG_outputBufferSize = PRE + ".httpConfig.outputBufferSize";
+    @PropDoc(value = "输出聚合大小", defaultValue="8192")
+    public static final String PROP_HTTP_CONFIG_outputAggregationSize = PRE + ".httpConfig.outputAggregationSize";
+    @PropDoc(value = "请求的头部最大值", defaultValue="8192")
+    public static final String PROP_HTTP_CONFIG_requestHeaderSize = PRE + ".httpConfig.requestHeaderSize";
+    @PropDoc(value = "响应的头部最大值", defaultValue="8192")
+    public static final String PROP_HTTP_CONFIG_responseHeaderSize = PRE + ".httpConfig.responseHeaderSize";
+    @PropDoc(value = "是否发送jetty版本号", defaultValue="true")
+    public static final String PROP_HTTP_CONFIG_sendServerVersion = PRE + ".httpConfig.sendServerVersion";
+    @PropDoc(value = "是否发送日期信息", defaultValue="true")
+    public static final String PROP_HTTP_CONFIG_sendDateHeader = PRE + ".httpConfig.sendDateHeader";
+    @PropDoc(value = "头部缓冲区大小", defaultValue="8192")
+    public static final String PROP_HTTP_CONFIG_headerCacheSize = PRE + ".httpConfig.headerCacheSize";
+    @PropDoc(value = "最大错误重定向次数", defaultValue="10")
+    public static final String PROP_HTTP_CONFIG_maxErrorDispatches = PRE + ".httpConfig.maxErrorDispatches";
+    @PropDoc(value = "阻塞超时", defaultValue="-1")
+    public static final String PROP_HTTP_CONFIG_blockingTimeout = PRE + ".httpConfig.blockingTimeout";
+    @PropDoc(value = "是否启用持久化连接", defaultValue="true")
+    public static final String PROP_HTTP_CONFIG_persistentConnectionsEnabled = PRE + ".httpConfig.persistentConnectionsEnabled";
 
     @Inject
     private PropertiesProxy conf;
@@ -118,6 +146,11 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     public void setAppContext(AppContext appContext) {
         this.appContext = appContext;
     }
+    
+    @IocBean(name="jettyServer")
+    public Server getJettyServer() {
+        return server;
+    }
 
     public void init() throws Exception {
 
@@ -127,7 +160,9 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         threadPool.setMinThreads(getMinThreads());
         threadPool.setMaxThreads(getMaxThreads());
         server = new Server(threadPool);
-        ServerConnector connector = new ServerConnector(server);
+        HttpConfiguration httpConfig = conf.make(HttpConfiguration.class, "jetty.httpConfig.");
+        HttpConnectionFactory httpFactory = new HttpConnectionFactory( httpConfig );
+        ServerConnector connector = new ServerConnector(server, httpFactory);
         connector.setHost(getHost());
         connector.setPort(getPort());
         connector.setIdleTimeout(getIdleTimeout());
