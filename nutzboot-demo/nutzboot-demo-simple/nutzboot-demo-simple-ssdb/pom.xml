@@ -4,7 +4,7 @@
 	<artifactId>nutzboot-demo-simple-ssdb</artifactId>
 	<packaging>jar</packaging>
 	<properties>
-		<nutzboot.version>2.2-SNAPSHOT</nutzboot.version>
+		<nutzboot.version>2.1.5</nutzboot.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencyManagement>
@@ -115,6 +115,6 @@
 	<parent>
 		<groupId>org.nutz</groupId>
 		<artifactId>nutzboot-demo-simple</artifactId>
-		<version>2.2-SNAPSHOT</version>
+		<version>2.1.5</version>
 	</parent>
 </project>
