@@ -1,15 +1,32 @@
 # NB进化史
 
-# dev 迭代中
+# 2.1.5 "Je m'appelle Hélène"
+
+原本是上周发新版的,但忙于[NutzCloud](https://gitee.com/nutz/nutzcloud)的开发,延期到本周发新版了.
+
+本次更新带来单元测试支持及"道坤"提供的ssdb支持,修复了几个不算严重的issue,建议更新
+
+* 时间: 2018-04-02
+* 事件: 某飞行器以"无控坠落"的方式再入大气层
+* 曲目: [Je m'appelle Hélène](https://www.youtube.com/watch?v=0feNVUwQA8U)
+* 兼容性: 与2.0.x和2.1.x完全兼容
 
 * 变更:
 
+    * fix: dubbo的service如果引用QuarteManager会抛异常
+    * fix: 修复wkcache在某些场景下失效的bug
     * update: 完善shiro集成, by 大鲨鱼
     * add: starter-ssdb by 道坤
     * add: 添加NbAppEventListener,可以拦截NbApp的各种事件
     * add: 添加单元测试的支持
     * add: shiro主动搜索ioc容器内的SessionListener并添加到SessionManager
     * add: jetty添加staticPathLocal属性,解决idea用户开发期js/css文件不更新的问题
+    * add: jetty添加httpConfig配置项,可以更进行更精细的配置
+    * change: 扩大server.port的随机范围
+    
+最后放个图片
+
+![Tiangong-1](http://www.aerospace.org/CORDSuploads/TiangongStoryboard.png)
 
 # 2.1.4 "平凡之路"
 
