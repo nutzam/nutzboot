@@ -34,6 +34,7 @@ public class DubboIocLoaderStarter implements IocLoaderProvider, AppContextAware
 		log.debug("using dubbo configure from PropertiesProxy");
 		if (Strings.isBlank(conf.get("dubbo.annotation.packages")))
 			conf.put("dubbo.scan.basePackages", appContext.getPackage());
+		conf.putIfAbsent("dubbo.protocol.port", ""+appContext.getServerPort("dubbo.protocol.port", 0));
 		return new DubboConfigIocLoader(ioc, conf);
 	}
 
