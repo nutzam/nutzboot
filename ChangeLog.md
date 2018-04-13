@@ -1,5 +1,12 @@
 # NB进化史
 
+# dev 迭代中
+
+* 变更:
+	
+	* add: 支持无dubbo.xml配置
+	* update: 更新部分依赖的版本号
+
 # 2.1.5 "Je m'appelle Hélène"
 
 原本是上周发新版的,但忙于[NutzCloud](https://gitee.com/nutz/nutzcloud)的开发,延期到本周发新版了.
