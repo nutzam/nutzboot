@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.nutz.boot.aware.AppContextAware;
@@ -88,7 +89,7 @@ public class NbApp extends Thread {
 
     protected Object lock = new Object();
     
-    protected NbAppEventListener listener = new NbAppEventListener() {};
+    protected List<NbAppEventListener> listeners = new LinkedList<>();
     
     protected boolean started;
 
@@ -190,23 +191,23 @@ public class NbApp extends Thread {
         Stopwatch sw = Stopwatch.begin();
         try {
             // 各种预备操作
-            listener.whenPrepare(this, EventType.before);
+        	listeners.forEach((listener)->listener.whenPrepare(this, EventType.before));
             this.prepare();
-            listener.whenPrepare(this, EventType.after);
+            listeners.forEach((listener)->listener.whenPrepare(this, EventType.after));
 
             // 依次启动
-            listener.whenInitAppContext(this, EventType.before);
+            listeners.forEach((listener)->listener.whenInitAppContext(this, EventType.before));
             ctx.init();
-            listener.whenInitAppContext(this, EventType.after);
+            listeners.forEach((listener)->listener.whenInitAppContext(this, EventType.after));
 
-            listener.whenStartServers(this, EventType.before);
+            listeners.forEach((listener)->listener.whenStartServers(this, EventType.before));
             ctx.startServers();
-            listener.whenStartServers(this, EventType.after);
+            listeners.forEach((listener)->listener.whenStartServers(this, EventType.after));
 
             if (ctx.getMainClass().getAnnotation(IocBean.class) != null)
                 ctx.getIoc().get(ctx.getMainClass());
 
-            listener.afterAppStated(this);
+            listeners.forEach((listener)->listener.afterAppStated(this));
 
             sw.stop();
             log.infof("%s started : %sms", ctx.getConf().get("nutz.application.name", "NB"),  sw.du());
@@ -248,28 +249,28 @@ public class NbApp extends Thread {
         if (prepared)
             return;
         // 初始化上下文
-        listener.whenPrepareBasic(this, EventType.before);
+        listeners.forEach((listener)->listener.whenPrepareBasic(this, EventType.before));
         this.prepareBasic();
-        listener.whenPrepareBasic(this, EventType.after);
+        listeners.forEach((listener)->listener.whenPrepareBasic(this, EventType.after));
 
         // 打印Banner,暂时不可配置具体的类
         new SimpleBannerPrinter().printBanner(ctx);
 
         // 配置信息要准备好
 
-        listener.whenPrepareConfigureLoader(this, EventType.before);
+        listeners.forEach((listener)->listener.whenPrepareConfigureLoader(this, EventType.before));
         this.prepareConfigureLoader();
-        listener.whenPrepareConfigureLoader(this, EventType.before);
+        listeners.forEach((listener)->listener.whenPrepareConfigureLoader(this, EventType.after));
 
         // 创建IocLoader体系
-        listener.whenPrepareIocLoader(this, EventType.before);
+        listeners.forEach((listener)->listener.whenPrepareIocLoader(this, EventType.before));
         prepareIocLoader();
-        listener.whenPrepareIocLoader(this, EventType.after);
+        listeners.forEach((listener)->listener.whenPrepareIocLoader(this, EventType.after));
 
         // 加载各种starter
-        listener.whenPrepareStarterClassList(this, EventType.before);
+        listeners.forEach((listener)->listener.whenPrepareStarterClassList(this, EventType.before));
         prepareStarterClassList();
-        listener.whenPrepareStarterClassList(this, EventType.before);
+        listeners.forEach((listener)->listener.whenPrepareStarterClassList(this, EventType.after));
 
         // 打印配置文档
         if (printProcDoc) {
@@ -279,15 +280,18 @@ public class NbApp extends Thread {
         }
 
         // 创建Ioc容器
-        listener.whenPrepareIoc(this, EventType.before);
+        listeners.forEach((listener)->listener.whenPrepareIoc(this, EventType.before));
         prepareIoc();
-        listener.whenPrepareIoc(this, EventType.after);
+        listeners.forEach((listener)->listener.whenPrepareIoc(this, EventType.after));
 
         // 生成Starter实例
-        listener.whenPrepareStarterInstance(this, EventType.before);
+        listeners.forEach((listener)->listener.whenPrepareStarterInstance(this, EventType.before));
         prepareStarterInstance();
-        listener.whenPrepareStarterInstance(this, EventType.before);
+        listeners.forEach((listener)->listener.whenPrepareStarterInstance(this, EventType.after));
 
+        // 从Ioc容器检索Listener
+        listeners.addAll(ctx.getBeans(NbAppEventListener.class));
+        
         prepared = true;
     }
 
@@ -483,9 +487,12 @@ public class NbApp extends Thread {
     }
 
     public void setListener(NbAppEventListener listener) {
-        if (listener == null)
-            throw new NullPointerException("NULL NbAppEventListener!!!");
-        this.listener = listener;
+        this.listeners.clear();
+        addListener(listener);
+    }
+    
+    public void addListener(NbAppEventListener listener) {
+    	this.listeners.add(listener);
     }
     
     public boolean isStarted() {
