@@ -1,12 +1,10 @@
 package io.nutz.demo.ssdb;
 
 import org.nutz.boot.NbApp;
-import org.nutz.ioc.impl.PropertiesProxy;
-import org.nutz.ioc.loader.annotation.*;
+import org.nutz.ioc.loader.annotation.Inject;
+import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
-import org.nutz.mvc.annotation.*;
-import org.nutz.ssdb4j.SSDBs;
 import org.nutz.ssdb4j.spi.Response;
 import org.nutz.ssdb4j.spi.SSDB;
 

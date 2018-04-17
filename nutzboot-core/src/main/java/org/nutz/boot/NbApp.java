@@ -18,14 +18,13 @@ import org.nutz.boot.config.ConfigureLoader;
 import org.nutz.boot.config.impl.PropertiesConfigureLoader;
 import org.nutz.boot.env.SystemPropertiesEnvHolder;
 import org.nutz.boot.ioc.IocLoaderProvider;
+import org.nutz.boot.metrics.impl.MemoryCounterService;
 import org.nutz.boot.resource.ResourceLoader;
 import org.nutz.boot.resource.impl.SimpleResourceLoader;
 import org.nutz.boot.tools.NbAppEventListener;
-import org.nutz.boot.tools.PropDocReader;
 import org.nutz.boot.tools.NbAppEventListener.EventType;
-import org.nutz.ioc.Ioc2;
+import org.nutz.boot.tools.PropDocReader;
 import org.nutz.ioc.IocLoader;
-import org.nutz.ioc.ObjectProxy;
 import org.nutz.ioc.impl.NutIoc;
 import org.nutz.ioc.loader.annotation.AnnotationIocLoader;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -420,10 +419,11 @@ public class NbApp extends Thread {
         }
         // 把核心对象放进ioc容器
         if (!ctx.ioc.has("appContext")) {
-            Ioc2 ioc2 = (Ioc2) ctx.getIoc();
-            ioc2.getIocContext().save("app", "appContext", new ObjectProxy(ctx));
-            ioc2.getIocContext().save("app", "conf", new ObjectProxy(ctx.getConf()));
-            ioc2.getIocContext().save("app", "nbApp", new ObjectProxy(this));
+        	ctx.ioc.addBean("appContext", ctx);
+        	ctx.ioc.addBean("conf", ctx.getConf());
+        	ctx.ioc.addBean("nbApp", this);
+            // 添加更多扩展bean
+        	ctx.ioc.addBean("counterService", new MemoryCounterService());
         }
         Mvcs.ctx().iocs.put("nutz", ctx.getIoc());
     }
