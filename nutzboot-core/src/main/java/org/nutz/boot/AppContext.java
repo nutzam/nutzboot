@@ -1,6 +1,7 @@
 package org.nutz.boot;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -289,20 +290,24 @@ public class AppContext implements LifeCycle {
         if (ioc != null)
             ioc.depose();
     }
+    
+    protected List<ServerFace> serverFaces = new LinkedList<>();
 
     /**
      * 循环调用ServerFace的start方法,通常是一个starter
      */
     public void startServers() throws Exception {
-        for (ServerFace face : getBeans(ServerFace.class))
+        for (ServerFace face : getBeans(ServerFace.class)) {
             face.start();
+            serverFaces.add(face);
+        }
     }
 
     /**
      * 循环调用ServerFace的start方法,通常是一个starter
      */
     public void stopServers() throws Exception {
-        for (ServerFace face : getBeans(ServerFace.class))
+        for (ServerFace face : serverFaces)
             face.stop();
     }
 
