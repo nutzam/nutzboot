@@ -298,8 +298,8 @@ public class AppContext implements LifeCycle {
      */
     public void startServers() throws Exception {
         for (ServerFace face : getBeans(ServerFace.class)) {
-            face.start();
             serverFaces.add(face);
+            face.start();
         }
     }
 
