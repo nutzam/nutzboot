@@ -23,12 +23,12 @@
 
 * 后面的内容纯粹蹭热点,wendal闲来无事在发牢骚,请无视:
 
-- 曾经,自主创新/自主可控/自主知识产权变成贬义词,现在的画风似乎变了
-- 因为,"中兴"给了大家N多的茶余饭后的谈资
-- 做过微信公众平台的同学应该知道"Illegal key size or default parameters"错误
-- JDK8需要自行解除限制,不过JDK10已经默认无限制
-- 只是补充了一句: You are advised to consult your export/import control counsel or attorney to determine the exact requirements of your location, and what policy settings should be used.
-- 哪天"特没谱"说要限制的时候,微信服务器统统不合法-_-
+	- 曾经,自主创新/自主可控/自主知识产权变成贬义词,现在的画风似乎变了
+	- 因为,"中兴"给了大家N多的茶余饭后的谈资
+	- 做过微信公众平台的同学应该知道"Illegal key size or default parameters"错误
+	- JDK8需要自行解除限制,不过JDK10已经默认无限制
+	- 只是补充了一句: You are advised to consult your export/import control counsel or attorney to determine the exact requirements of your location, and what policy settings should be used.
+	- 哪天"特没谱"说要限制的时候,微信服务器统统不合法-_-
 
 # 2.1.5 "Je m'appelle Hélène"
 
