@@ -1,11 +1,34 @@
 # NB进化史
 
-# dev 迭代中
+# 2.1.6 "A Million Dreams"
+
+增强对新版dubbo的集成,以协助nutzwk的nutzboot-dubbo分支的线上部署.
+
+* 时间: 2018-04-19/20,取决于你的经度
+* 事件: 贸易战不好玩,看热闹的都不怕事大
+* 曲目: [A Million Dreams](https://www.youtube.com/watch?v=g9r5PFZihC4) 歌曲从3:00开始
+* 兼容性: 与2.0.x和2.1.x完全兼容
 
 * 变更:
 	
 	* add: 支持无dubbo.xml配置
+	* add: 支持以随机端口启动dubbo
+	* add: 从ioc容器自动添加NbAppEventListener，并支持多个监听器
+	* add: 支持druid的DruidPasswordCallback
+	* add: 添加CounterService
 	* update: 更新部分依赖的版本号
+	* update: 测试与Oracle JDK 8/9/10的兼容性，无异常
+	* update: 测试与OpenJDK 8/9/10的兼容性,无异常
+	* fix: AppContext.stopServers的时候只应stop已经加载的ServerFace实例
+
+* 后面的内容纯粹蹭热点,wendal闲来无事在发牢骚,请无视:
+
+- 曾经,自主创新/自主可控/自主知识产权变成贬义词,现在的画风似乎变了
+- 因为,"中兴"给了大家N多的茶余饭后的谈资
+- 做过微信公众平台的同学应该知道"Illegal key size or default parameters"错误
+- JDK8需要自行解除限制,不过JDK10已经默认无限制
+- 只是补充了一句: You are advised to consult your export/import control counsel or attorney to determine the exact requirements of your location, and what policy settings should be used.
+- 哪天"特没谱"说要限制的时候,微信服务器统统不合法-_-
 
 # 2.1.5 "Je m'appelle Hélène"
 

@@ -25,6 +25,7 @@ import org.nutz.log.Logs;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
+import com.alibaba.druid.util.DruidPasswordCallback;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -94,7 +95,13 @@ public class DataSourceStarter {
             return simpleDataSource;
         case "druid":
         case "com.alibaba.druid.pool.DruidDataSource":
-            return ioc.get(DataSource.class, "druidDataSource");
+            DataSource ds = ioc.get(DataSource.class, "druidDataSource");
+            String[] tmp = ioc.getNamesByType(DruidPasswordCallback.class);
+            for (String beanName : tmp) {
+				if (!Strings.isBlank(beanName))
+					((DruidDataSource)ds).setPasswordCallback(ioc.get(DruidPasswordCallback.class, beanName));
+			}
+            return ds;
         case "hikari":
         case "com.zaxxer.hikari.HikariDataSource":
             return ioc.get(DataSource.class, "hikariDataSource");
@@ -135,6 +142,7 @@ public class DataSourceStarter {
         DruidDataSource dataSource = (DruidDataSource) DruidDataSourceFactory.createDataSource(map);
         if (!conf.has(prefix + "filters"))
             dataSource.setFilters("stat");
+        
         return dataSource;
     }
 
