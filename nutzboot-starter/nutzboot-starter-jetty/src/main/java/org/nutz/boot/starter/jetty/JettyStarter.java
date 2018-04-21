@@ -1,24 +1,7 @@
 package org.nutz.boot.starter.jetty;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.List;
-
-import javax.websocket.server.ServerContainer;
-import javax.websocket.server.ServerEndpoint;
-
-import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.HttpConfiguration;
-import org.eclipse.jetty.server.HttpConnectionFactory;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.*;
+import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
@@ -45,6 +28,14 @@ import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.resource.Scans;
+
+import javax.websocket.server.ServerContainer;
+import javax.websocket.server.ServerEndpoint;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 @IocBean
 public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, LifeCycle, AppContextAware {
@@ -108,6 +99,8 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     public static final String PROP_HTTP_CONFIG_blockingTimeout = PRE + "httpConfig.blockingTimeout";
     @PropDoc(value = "是否启用持久化连接", defaultValue="true")
     public static final String PROP_HTTP_CONFIG_persistentConnectionsEnabled = PRE + "httpConfig.persistentConnectionsEnabled";
+    @PropDoc(value = "自定义404页面")
+    public static final String PROP_PAGE_404 = PRE + "page.404";
 
     @Inject
     private PropertiesProxy conf;
@@ -223,15 +216,18 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         wac.getServletContext().setExtendedListenerTypes(true);
         wac.getSessionHandler().setMaxInactiveInterval(conf.getInt(PROP_SESSION_TIMEOUT, 30) * 60);
 
+        ErrorPageErrorHandler ep  = new ErrorPageErrorHandler();
+        ep.setErrorPages(getErrorPages());
+        wac.setErrorHandler(ep);
+
         // 设置一下额外的东西
         server.setAttribute("org.eclipse.jetty.server.Request.maxFormContentSize", getMaxFormContentSize());
         server.setDumpAfterStart(false);
         server.setDumpBeforeStop(false);
         server.setStopAtShutdown(true);
 
-
         addNutzSupport();
-        
+
         ServerContainer sc = WebSocketServerContainerInitializer.configureContext(wac);
         for (Class<?> klass : Scans.me().scanPackage(appContext.getPackage())) {
             if (klass.getAnnotation(ServerEndpoint.class) != null) {
@@ -260,6 +256,13 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         });
     }
 
+    public Map<String,String> getErrorPages(){
+        Map<String,String> pagers = new HashMap<>();
+        if(conf.has(PROP_PAGE_404)){
+            pagers.put("404",conf.get(PROP_PAGE_404));
+        }
+        return pagers;
+    }
     public void addFilter(WebFilterFace webFilter) {
         if (webFilter == null || webFilter.getFilter() == null) {
             return;
