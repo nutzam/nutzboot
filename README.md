@@ -25,7 +25,6 @@ NutzBoot,简称NB,是可靠的企业级微服务框架,提供自动配置,嵌入
 * 能满足80%以上常见需求的默认配置,无需过多的自定义
 * 以开放的心态与国内开源团体合作,优先集成国产项目
 * 活跃的社区及稳健的发布周期,推进项目一直前进
-* 默认使用eureka作为服务治理, ribbon提供负载均衡,feign封装http请求, hystrix提供熔断
 * 提供swagger api文件自动生成
 
 ## 快速预览一下NB的项目吧
@@ -237,11 +236,6 @@ public class MainLauncher {
 
 ## 公共服务
 
-* Eureka注册服务
-	* 供测试用,请勿进行压力测试
-	* 根地址 http://eureka.nutz.cn/eureka
-	* 状态地址 http://eureka.nutz.cn/eureka/status
-	* 客户端注册地址 http://eureka.nutz.cn/eureka/v2
 * Ngrok内网穿透服务: 
 	* 访问 https://nutz.cn 并登录, 看个人主页,获取token
 * 外网ip探查服务
