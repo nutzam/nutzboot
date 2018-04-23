@@ -102,6 +102,7 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     @PropDoc(value = "自定义404页面")
     public static final String PROP_PAGE_404 = PRE + "page.404";
 
+
     @Inject
     private PropertiesProxy conf;
 
@@ -190,7 +191,7 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
             File f = new File(conf.get(PROP_STATIC_PATH_LOCAL));
             if (f.exists()) {
                 log.debug("found static local path, add it : " + f.getAbsolutePath());
-                resources.add(Resource.newResource(f));
+                resources.add(0,Resource.newResource(f));
             }
             else {
                 log.debug("static local path not exist, skip it : " + f.getPath());
