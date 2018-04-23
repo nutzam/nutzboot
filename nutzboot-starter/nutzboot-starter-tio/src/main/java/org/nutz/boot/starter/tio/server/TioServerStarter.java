@@ -68,9 +68,9 @@ public class TioServerStarter implements ServerFace {
         if (serverAioHandler == null) {
             throw new RuntimeException("Require ServerAioHandler!!!");
         }
-        if (serverAioListener == null) {
-            throw new RuntimeException("Require ServerAioListener!!!");
-        }
+        //if (serverAioListener == null) {
+        //    throw new RuntimeException("Require ServerAioListener!!!");
+        //}
 
         serverGroupContext = new ServerGroupContext(serverAioHandler, serverAioListener);
         serverGroupContext.setName(conf.get(PROP_NAME, "NutzBoot GroupContext"));
