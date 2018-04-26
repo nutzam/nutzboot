@@ -35,17 +35,32 @@
                         <el-form-item label="NB版本">
                             <el-select v-model="nb.version" placeholder="请选择">
                                 <el-option
-                                        v-for="item in versionOptions"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
+                                    v-for="item in versionOptions"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
                                 </el-option>
                             </el-select>
                         </el-form-item>
 
                         <!--packageName-->
                         <el-form-item label="顶层包名">
-                            <el-input v-model="nb.packageName"></el-input>
+                            <el-input v-model="nb.packageName" @blur="packageNameBlur()"></el-input>
+                        </el-form-item>
+
+                        <!--groupId-->
+                        <el-form-item label="项目组织名">
+                            <el-input v-model="nb.groupId"></el-input>
+                        </el-form-item>
+
+                        <!--artifactId-->
+                        <el-form-item label="项目ID">
+                            <el-input v-model="nb.artifactId" @blur="artifactIdBlur()"></el-input>
+                        </el-form-item>
+
+                        <!--finalName-->
+                        <el-form-item label="发布文件名">
+                            <el-input v-model="nb.finalName"></el-input>
                         </el-form-item>
 
                         <!--Nutz.MVC-->
@@ -162,7 +177,7 @@
                         <el-form-item label="wkcache">
                             <el-switch v-model="nb.wkcache.enable"></el-switch>
                         </el-form-item>
-                        
+
                         <!--feign-->
                         <el-form-item label="feign">
                             <el-switch v-model="nb.feign.enable"></el-switch>
@@ -208,18 +223,18 @@
                 done: false,
                 nbTextArea: {minRows: 2, maxRows: 6},
                 versionOptions: [{
-                    label: "2.1.1",
-                    value: "2.1.1"
-                },{
-                    label: "2.1.0",
-                    value: "2.1.0"
-                },{
+                    label: "2.1.6",
+                    value: "2.1.6"
+                }, {
                     label: "2.2-SNAPSHOT",
                     value: "2.2-SNAPSHOT"
                 }
                 ],
                 nb: {
                     packageName: "io.nutz.demo",
+                    groupId: "io.nutz",
+                    artifactId: "demo",
+                    finalName: "demo",
                     version: "2.2-SNAPSHOT",
                     nutzmvc: {
                         enable: true
@@ -281,7 +296,7 @@
                         dbname: "nutzboot"
                     },
                     shiro: {
-                        enable: false,
+                        enable: false
                     },
                     beetl: {
                         enable: false
@@ -307,17 +322,17 @@
                     feign: {
                         enable: false
                     },
-                    tio : {
-                    	enable : false
+                    tio: {
+                        enable: false
                     },
-                    j2cache : {
-                    	enable : false
+                    j2cache: {
+                        enable: false
                     },
-                    apolloClient : {
-                    	enable : false
+                    apolloClient: {
+                        enable: false
                     },
-                    configClient : {
-                    	enable : false
+                    configClient: {
+                        enable: false
                     }
                 },
                 nbJson: "",
@@ -327,6 +342,20 @@
         methods: {
             menuChange(index) {
                 this.activeMenu = index;
+            },
+            packageNameBlur() {
+                var packageName = this.nb.packageName;
+                if (packageName) {
+                    var index = packageName.lastIndexOf(".");
+                    this.nb.groupId = packageName.slice(0, index);
+                    this.nb.artifactId = packageName.slice(index + 1);
+                    this.nb.finalName = packageName.slice(index + 1);
+                }
+            },
+            artifactIdBlur() {
+                if (this.nb.artifactId) {
+                    this.nb.finalName = this.nb.artifactId;
+                }
             },
             buildNB: function () {
                 var self = this;
@@ -355,6 +384,10 @@
                 this.makper = 0;
             },
             onSubmit() {
+                if (!this.nb.packageName) {
+                    alert("请输入顶层包名");
+                    return false;
+                }
                 this.nbJson = JSON.stringify(this.nb, null, 2);
                 this.making = true;
                 this.buildNB();
