@@ -6,7 +6,7 @@
 		<artifactId>nutzboot-demo-simple</artifactId>
 		<version>2.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>nutzboot-demo-simple-redis</artifactId>
+	<artifactId>nutzboot-demo-simple-mvc-wkcache</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.nutz</groupId>
@@ -15,6 +15,10 @@
 		<dependency>
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-jetty</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-wkcache</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.nutz</groupId>

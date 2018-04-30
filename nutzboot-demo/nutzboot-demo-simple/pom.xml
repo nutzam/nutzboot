@@ -54,4 +54,13 @@
 			<artifactId>nutzboot-core</artifactId>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.nutz.boot</groupId>
+				<artifactId>nutzboot-maven-plugin</artifactId>
+				<version>${nutzboot.version}</version>
+			</plugin>
+		</plugins>
+	</build>
 </project>
