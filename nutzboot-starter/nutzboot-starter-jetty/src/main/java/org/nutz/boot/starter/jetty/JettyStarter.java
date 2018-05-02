@@ -99,9 +99,10 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     public static final String PROP_HTTP_CONFIG_blockingTimeout = PRE + "httpConfig.blockingTimeout";
     @PropDoc(value = "是否启用持久化连接", defaultValue="true")
     public static final String PROP_HTTP_CONFIG_persistentConnectionsEnabled = PRE + "httpConfig.persistentConnectionsEnabled";
-    @PropDoc(value = "自定义404页面")
+    @PropDoc(value = "自定义404页面,同理,其他状态码也是支持的")
     public static final String PROP_PAGE_404 = PRE + "page.404";
-
+    @PropDoc(value = "自定义java.lang.Throwable页面,同理,其他异常也支持")
+    public static final String PROP_PAGE_THROWABLE = PRE + "page.java.lang.Throwable";
 
     @Inject
     private PropertiesProxy conf;
@@ -259,8 +260,10 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
 
     public Map<String,String> getErrorPages(){
         Map<String,String> pagers = new HashMap<>();
-        if(conf.has(PROP_PAGE_404)){
-            pagers.put("404",conf.get(PROP_PAGE_404));
+        for (String key : conf.keySet()) {
+            if (key.startsWith("jetty.page.")) {
+                pagers.put(key.substring("jetty.page.".length()), conf.get(key));
+            }
         }
         return pagers;
     }
