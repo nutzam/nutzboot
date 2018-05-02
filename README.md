@@ -127,6 +127,7 @@ public class MainLauncher {
 * [NutzBoot目录约定](doc/struct.md)
 * [NB与Nutz.Mvc对比](doc/diff_nb_mvc.md)
 * [转换为NB项目](doc/convert2nb.md)
+* [Maven Plugin](https://github.com/nutzam/nutzboot-maven-plugin)
 
 ## 开发进度
 
@@ -134,7 +135,7 @@ public class MainLauncher {
 
 - 基础框架
     - [x] 基础框架的文档
-    - [x] starter-core 核心框架的实现
+    - [x] nutzboot-core 核心框架的实现
 - 嵌入式web容器
     - [x] starter-[jetty](https://www.eclipse.org/jetty/)
     - [x] starter-[undertow](http://undertow.io/) by [@qinerg](https://github.com/qinerg)
@@ -210,6 +211,8 @@ public class MainLauncher {
     - 微信公众号开放平台
         - [x] starter-[nutzwx](https://github.com/nutzam/nutzwx) Weixin Api By Nutz
         - [ ] [weixin-java-tools](https://gitee.com/binary/weixin-java-tools)
+- 物联网(IoT)
+	- [x] starter-[mqtt-client](https://github.com/eclipse/paho.mqtt.java) 消息队列遥测传输, IoT 通信的标准
 - 云平台
     - [ ] [阿里云](https://aliyun.com)
     - [ ] [腾讯云](https://qcloud.com)

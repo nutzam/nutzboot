@@ -28,6 +28,7 @@
 		<feign.version>9.5.1</feign.version>
 		<hystrix.vesion>1.5.12</hystrix.vesion>
 		<web3j.vesion>3.2.0</web3j.vesion>
+		<mqtt.version>1.2.0</mqtt.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -484,6 +485,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-mqtt-client</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-tio</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
@@ -825,6 +831,11 @@
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-freemarker</artifactId>
 				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.paho</groupId>
+				<artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+				<version>${mqtt.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -60,6 +60,7 @@
 		<module>nutzboot-starter-tio-mvc</module>
 		<module>nutzboot-starter-web3j</module>
 		<module>nutzboot-starter-test-junit4</module>
+		<module>nutzboot-starter-mqtt-client</module>
 	</modules>
 	<dependencies>
 		<dependency>
