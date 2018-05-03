@@ -1,5 +1,11 @@
 # NB进化史
 
+# dev 迭代中
+
+* 变更:
+	* add: jetty支持任意状态码和任意异常类型的错误页面设置 by 蛋蛋 and wendal
+	* add: 添加starter-mqtt-client by wendal
+
 # 2.1.6 "A Million Dreams"
 
 增强对新版dubbo的集成,以协助nutzwk的nutzboot-dubbo分支的线上部署.
