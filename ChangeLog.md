@@ -1,10 +1,19 @@
 # NB进化史
 
-# dev 迭代中
+# 2.1.7 "Penguin's Game"
+
+新增maven插件和mqtt支持
+
+* 时间: 2018-05-04
+* 事件: 青年节
+* 曲目: [Penguin's Game](https://www.youtube.com/watch?v=WTJBB8r6lIE)
+* 兼容性: 与2.0.x和2.1.x完全兼容
 
 * 变更:
+	* fix: 修改jetty热加载无效问题 by 蛋蛋
 	* add: jetty支持任意状态码和任意异常类型的错误页面设置 by 蛋蛋 and wendal
 	* add: 添加starter-mqtt-client by wendal
+	* update: 更新所依赖的 jetx、cxf、spring、undertow 的版本 by 温泉
 
 # 2.1.6 "A Million Dreams"
 
