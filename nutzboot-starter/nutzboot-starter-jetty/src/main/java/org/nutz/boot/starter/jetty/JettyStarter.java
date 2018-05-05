@@ -24,6 +24,7 @@ import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
+import org.nutz.lang.Strings;
 import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -70,9 +71,11 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
 
     @PropDoc(value = "Session空闲时间,单位分钟", defaultValue = "30", type = "int")
     public static final String PROP_SESSION_TIMEOUT = "web.session.timeout";
-    
+
     @PropDoc(value = "静态文件所在的本地路径")
     public static final String PROP_STATIC_PATH_LOCAL = PRE + "staticPathLocal";
+    @PropDoc(value = "额外的静态文件路径")
+    public static final String PROP_STATIC_PATH = PRE + "staticPath";
     
     //------------------ HttpConfiguration
     @PropDoc(value = "安全协议,例如https")
@@ -178,7 +181,7 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         }
 
         List<Resource> resources = new ArrayList<>();
-        for (String resourcePath : Arrays.asList("static/", "webapp/")) {
+        for (String resourcePath : getResourcePaths()) {
             File f = new File(resourcePath);
             if (f.exists()) {
                 resources.add(Resource.newResource(f));
@@ -327,4 +330,11 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         return conf.getInt(PROP_THREADPOOL_TIMEOUT, 60 * 1000);
     }
 
+    public List<String> getResourcePaths() {
+        if (Strings.isBlank(conf.get(PROP_STATIC_PATH))
+                || "static".equals(conf.get(PROP_STATIC_PATH))
+                || "static/".equals(conf.get(PROP_STATIC_PATH)))
+            return Arrays.asList("static/", "webapp/");
+        return Arrays.asList(conf.get(PROP_STATIC_PATH), "static/", "webapp/");
+    }
 }
