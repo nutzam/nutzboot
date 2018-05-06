@@ -9,7 +9,7 @@
 	<artifactId>nutzboot-servlet3</artifactId>
 
 	<packaging>jar</packaging>
-	<name>nutzboot-starter-servlet3</name>
+	<name>nutzboot-servlet3</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
