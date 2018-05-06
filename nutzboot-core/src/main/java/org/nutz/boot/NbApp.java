@@ -220,7 +220,7 @@ public class NbApp extends Thread {
         }
     }
     
-    protected void _shutdown() {
+    public void _shutdown() {
         try {
             ctx.stopServers();
             ctx.depose();

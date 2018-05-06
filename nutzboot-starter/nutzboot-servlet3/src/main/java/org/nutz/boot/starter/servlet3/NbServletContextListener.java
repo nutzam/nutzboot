@@ -30,7 +30,7 @@ public class NbServletContextListener implements ServletContextListener {
     @Inject
     protected AppContext appContext;
 
-    protected NbApp _nbApp;
+    protected NbApp nbApp;
 
     protected List<ServletContextListener> listeners = new LinkedList<>();
 
@@ -44,6 +44,20 @@ public class NbServletContextListener implements ServletContextListener {
             _sc = (ServletContext) Mirror.me(_sc).getValue(_sc, "sc");
         }
         this.sc = _sc;
+        
+        // 检测是不是war打包模式
+        if (appContext == null && sc.getInitParameter("nutzboot.mainClass") != null) {
+            String mainClassName = sc.getInitParameter("nutzboot.mainClass");
+            try {
+                log.info("Running at war mode!!! mainClass=" + mainClassName);
+                nbApp = new NbApp(Class.forName(mainClassName));
+                appContext = nbApp.getAppContext();
+                nbApp.execute();
+            }
+            catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         // 注册Servlet
         appContext.getBeans(WebServletFace.class).forEach((face) -> {
@@ -89,6 +103,9 @@ public class NbServletContextListener implements ServletContextListener {
             catch (Throwable e) {
                 log.info("something happen when contextDestroyed", e);
             }
+        }
+        if (nbApp != null) {
+            nbApp._shutdown();
         }
     }
 }
