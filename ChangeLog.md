@@ -1,5 +1,10 @@
 # NB进化史
 
+# dev 迭代中
+
+* 变更:
+	* add: issue 36, Web服务类应共享一个超类
+
 # 2.1.7 "Penguin's Game"
 
 新增maven插件和mqtt支持

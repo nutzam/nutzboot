@@ -80,7 +80,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.nutz</groupId>
-			<artifactId>nutz-plugins-websocket</artifactId>
+			<artifactId>nutzboot-servlet3</artifactId>
 		</dependency>
 	</dependencies>
 </project>

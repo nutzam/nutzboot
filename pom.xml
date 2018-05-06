@@ -837,6 +837,11 @@
 				<artifactId>org.eclipse.paho.client.mqttv3</artifactId>
 				<version>${mqtt.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-servlet3</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<repositories>
