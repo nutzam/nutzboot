@@ -175,7 +175,6 @@
         </repository>
     </repositories>
     <build>
-        <finalName>[[${params.finalName}]]</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
