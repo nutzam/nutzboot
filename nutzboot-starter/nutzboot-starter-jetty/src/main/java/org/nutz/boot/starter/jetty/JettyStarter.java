@@ -1,49 +1,49 @@
 package org.nutz.boot.starter.jetty;
 
-import org.eclipse.jetty.server.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.websocket.server.ServerContainer;
+import javax.websocket.server.ServerEndpoint;
+
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer;
-import org.nutz.boot.AppContext;
 import org.nutz.boot.annotation.PropDoc;
-import org.nutz.boot.aware.AppContextAware;
-import org.nutz.boot.aware.ClassLoaderAware;
-import org.nutz.boot.aware.IocAware;
 import org.nutz.boot.starter.ServerFace;
-import org.nutz.boot.starter.WebEventListenerFace;
-import org.nutz.boot.starter.WebFilterFace;
-import org.nutz.boot.starter.WebServletFace;
-import org.nutz.ioc.Ioc;
-import org.nutz.ioc.impl.PropertiesProxy;
-import org.nutz.ioc.loader.annotation.Inject;
+import org.nutz.boot.starter.servlet3.AbstractServletContainerStarter;
+import org.nutz.boot.starter.servlet3.NbServletContextListener;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
-import org.nutz.lang.Strings;
-import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.resource.Scans;
 
-import javax.websocket.server.ServerContainer;
-import javax.websocket.server.ServerEndpoint;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.*;
-
 @IocBean
-public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, LifeCycle, AppContextAware {
+public class JettyStarter extends AbstractServletContainerStarter implements ServerFace {
 
     private static final Log log = Logs.get();
 
     protected static final String PRE = "jetty.";
+
+    @PropDoc(value = "监听的端口", defaultValue = "8080", type = "int")
+    public static final String PROP_PORT = PRE + "port";
 
     @PropDoc(value = "监听的ip地址", defaultValue = "0.0.0.0")
     public static final String PROP_HOST = PRE + "host";
@@ -56,9 +56,6 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
 
     @PropDoc(value = "线程池最大线程数maxThreads", defaultValue = "500", type = "int")
     public static final String PROP_THREADPOOL_MAXTHREADS = PRE + "threadpool.maxThreads";
-
-    @PropDoc(value = "监听的端口", defaultValue = "8080", type = "int")
-    public static final String PROP_PORT = PRE + "port";
 
     @PropDoc(value = "空闲时间,单位毫秒", defaultValue = "300000", type = "int")
     public static final String PROP_IDLE_TIMEOUT = PRE + "http.idleTimeout";
@@ -76,44 +73,38 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     public static final String PROP_STATIC_PATH_LOCAL = PRE + "staticPathLocal";
     @PropDoc(value = "额外的静态文件路径")
     public static final String PROP_STATIC_PATH = PRE + "staticPath";
-    
-    //------------------ HttpConfiguration
+
+    // ------------------ HttpConfiguration
     @PropDoc(value = "安全协议,例如https")
     public static final String PROP_HTTP_CONFIG_secureScheme = PRE + "httpConfig.secureScheme";
     @PropDoc(value = "安全协议的端口,例如8443")
     public static final String PROP_HTTP_CONFIG_securePort = PRE + "httpConfig.securePort";
-    @PropDoc(value = "输出缓冲区大小", defaultValue="32768")
+    @PropDoc(value = "输出缓冲区大小", defaultValue = "32768")
     public static final String PROP_HTTP_CONFIG_outputBufferSize = PRE + "httpConfig.outputBufferSize";
-    @PropDoc(value = "输出聚合大小", defaultValue="8192")
+    @PropDoc(value = "输出聚合大小", defaultValue = "8192")
     public static final String PROP_HTTP_CONFIG_outputAggregationSize = PRE + "httpConfig.outputAggregationSize";
-    @PropDoc(value = "请求的头部最大值", defaultValue="8192")
+    @PropDoc(value = "请求的头部最大值", defaultValue = "8192")
     public static final String PROP_HTTP_CONFIG_requestHeaderSize = PRE + "httpConfig.requestHeaderSize";
-    @PropDoc(value = "响应的头部最大值", defaultValue="8192")
+    @PropDoc(value = "响应的头部最大值", defaultValue = "8192")
     public static final String PROP_HTTP_CONFIG_responseHeaderSize = PRE + "httpConfig.responseHeaderSize";
-    @PropDoc(value = "是否发送jetty版本号", defaultValue="true")
+    @PropDoc(value = "是否发送jetty版本号", defaultValue = "true")
     public static final String PROP_HTTP_CONFIG_sendServerVersion = PRE + "httpConfig.sendServerVersion";
-    @PropDoc(value = "是否发送日期信息", defaultValue="true")
+    @PropDoc(value = "是否发送日期信息", defaultValue = "true")
     public static final String PROP_HTTP_CONFIG_sendDateHeader = PRE + "httpConfig.sendDateHeader";
-    @PropDoc(value = "头部缓冲区大小", defaultValue="8192")
+    @PropDoc(value = "头部缓冲区大小", defaultValue = "8192")
     public static final String PROP_HTTP_CONFIG_headerCacheSize = PRE + "httpConfig.headerCacheSize";
-    @PropDoc(value = "最大错误重定向次数", defaultValue="10")
+    @PropDoc(value = "最大错误重定向次数", defaultValue = "10")
     public static final String PROP_HTTP_CONFIG_maxErrorDispatches = PRE + "httpConfig.maxErrorDispatches";
-    @PropDoc(value = "阻塞超时", defaultValue="-1")
+    @PropDoc(value = "阻塞超时", defaultValue = "-1")
     public static final String PROP_HTTP_CONFIG_blockingTimeout = PRE + "httpConfig.blockingTimeout";
-    @PropDoc(value = "是否启用持久化连接", defaultValue="true")
+    @PropDoc(value = "是否启用持久化连接", defaultValue = "true")
     public static final String PROP_HTTP_CONFIG_persistentConnectionsEnabled = PRE + "httpConfig.persistentConnectionsEnabled";
     @PropDoc(value = "自定义404页面,同理,其他状态码也是支持的")
     public static final String PROP_PAGE_404 = PRE + "page.404";
     @PropDoc(value = "自定义java.lang.Throwable页面,同理,其他异常也支持")
     public static final String PROP_PAGE_THROWABLE = PRE + "page.java.lang.Throwable";
 
-    @Inject
-    private PropertiesProxy conf;
-
     protected Server server;
-    protected ClassLoader classLoader;
-    protected Ioc ioc;
-    protected AppContext appContext;
     protected WebAppContext wac;
 
     public void start() throws Exception {
@@ -128,24 +119,7 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         return server.isRunning();
     }
 
-    public boolean failsafe() {
-        return false;
-    }
-
-    public void setIoc(Ioc ioc) {
-        this.ioc = ioc;
-    }
-
-    public void setClassLoader(ClassLoader classLoader) {
-        this.classLoader = classLoader;
-    }
-
-    @Override
-    public void setAppContext(AppContext appContext) {
-        this.appContext = appContext;
-    }
-    
-    @IocBean(name="jettyServer")
+    @IocBean(name = "jettyServer")
     public Server getJettyServer() {
         return server;
     }
@@ -159,7 +133,7 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         threadPool.setMaxThreads(getMaxThreads());
         server = new Server(threadPool);
         HttpConfiguration httpConfig = conf.make(HttpConfiguration.class, "jetty.httpConfig.");
-        HttpConnectionFactory httpFactory = new HttpConnectionFactory( httpConfig );
+        HttpConnectionFactory httpFactory = new HttpConnectionFactory(httpConfig);
         ServerConnector connector = new ServerConnector(server, httpFactory);
         connector.setHost(getHost());
         connector.setPort(getPort());
@@ -195,9 +169,8 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
             File f = new File(conf.get(PROP_STATIC_PATH_LOCAL));
             if (f.exists()) {
                 log.debug("found static local path, add it : " + f.getAbsolutePath());
-                resources.add(0,Resource.newResource(f));
-            }
-            else {
+                resources.add(0, Resource.newResource(f));
+            } else {
                 log.debug("static local path not exist, skip it : " + f.getPath());
             }
         }
@@ -219,9 +192,9 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         list.add("org.eclipse.jetty.annotations.AnnotationConfiguration");
         wac.setConfigurationClasses(list);
         wac.getServletContext().setExtendedListenerTypes(true);
-        wac.getSessionHandler().setMaxInactiveInterval(conf.getInt(PROP_SESSION_TIMEOUT, 30) * 60);
+        wac.getSessionHandler().setMaxInactiveInterval(getSessionTimeout());
 
-        ErrorPageErrorHandler ep  = new ErrorPageErrorHandler();
+        ErrorPageErrorHandler ep = new ErrorPageErrorHandler();
         ep.setErrorPages(getErrorPages());
         wac.setErrorHandler(ep);
 
@@ -242,27 +215,11 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
     }
 
     private void addNutzSupport() {
-        List<WebFilterFace> filters = appContext.getBeans(WebFilterFace.class);
-        Collections.sort(filters, Comparator.comparing(WebFilterFace::getOrder));
-        filters.forEach((face) -> addFilter(face));
-        appContext.getBeans(WebServletFace.class).forEach((face) -> {
-            if (face.getServlet() == null) {
-                return;
-            }
-            ServletHolder holder = new ServletHolder(face.getServlet());
-            holder.setName(face.getName());
-            holder.setInitParameters(face.getInitParameters());
-            wac.addServlet(holder, face.getPathSpec());
-        });
-        appContext.getBeans(WebEventListenerFace.class).forEach((face) -> {
-            if (face.getEventListener() != null) {
-                wac.addEventListener(face.getEventListener());
-            }
-        });
+        wac.addEventListener(ioc.get(NbServletContextListener.class));
     }
 
-    public Map<String,String> getErrorPages(){
-        Map<String,String> pagers = new HashMap<>();
+    public Map<String, String> getErrorPages() {
+        Map<String, String> pagers = new HashMap<>();
         for (String key : conf.keySet()) {
             if (key.startsWith("jetty.page.")) {
                 pagers.put(key.substring("jetty.page.".length()), conf.get(key));
@@ -270,48 +227,9 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         }
         return pagers;
     }
-    public void addFilter(WebFilterFace webFilter) {
-        if (webFilter == null || webFilter.getFilter() == null) {
-            return;
-        }
-        log.debugf("add filter name=%s pathSpec=%s", webFilter.getName(), webFilter.getPathSpec());
-        FilterHolder holder = new FilterHolder(webFilter.getFilter());
-        holder.setName(webFilter.getName());
-        holder.setInitParameters(webFilter.getInitParameters());
-        wac.addFilter(holder, webFilter.getPathSpec(), webFilter.getDispatches());
-    }
-
-    public void fetch() throws Exception {}
-
-    public void depose() throws Exception {}
-
-    // --getConf---
-    public int getPort() {
-        try {
-            return appContext.getServerPort(PROP_PORT);
-        }
-        catch (NoSuchMethodError e) {
-            log.info("Please remove 'nutzboot-starter' dependency from pom.xml. https://github.com/nutzam/nutzboot/issues/93");
-            return conf.getInt(PROP_PORT, 8080);
-        }
-    }
-
-    public String getHost() {
-        try {
-            return appContext.getServerHost(PROP_HOST);
-        }
-        catch (NoSuchMethodError e) {
-            log.info("Please remove 'nutzboot-starter' dependency from pom.xml. https://github.com/nutzam/nutzboot/issues/93");
-            return conf.get(PROP_HOST, "0.0.0.0");
-        }
-    }
 
     public int getMaxFormContentSize() {
         return conf.getInt(PROP_MAX_FORM_CONTENT_SIZE, 1024 * 1024 * 1024);
-    }
-
-    public String getContextPath() {
-        return conf.get(PROP_CONTEXT_PATH, "/");
     }
 
     public int getIdleTimeout() {
@@ -330,11 +248,8 @@ public class JettyStarter implements ClassLoaderAware, IocAware, ServerFace, Lif
         return conf.getInt(PROP_THREADPOOL_TIMEOUT, 60 * 1000);
     }
 
-    public List<String> getResourcePaths() {
-        if (Strings.isBlank(conf.get(PROP_STATIC_PATH))
-                || "static".equals(conf.get(PROP_STATIC_PATH))
-                || "static/".equals(conf.get(PROP_STATIC_PATH)))
-            return Arrays.asList("static/", "webapp/");
-        return Arrays.asList(conf.get(PROP_STATIC_PATH), "static/", "webapp/");
+    @Override
+    protected String getConfigurePrefix() {
+        return PRE;
     }
 }

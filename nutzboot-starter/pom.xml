@@ -61,6 +61,7 @@
 		<module>nutzboot-starter-web3j</module>
 		<module>nutzboot-starter-test-junit4</module>
 		<module>nutzboot-starter-mqtt-client</module>
+		<module>nutzboot-servlet3</module>
 	</modules>
 	<dependencies>
 		<dependency>
