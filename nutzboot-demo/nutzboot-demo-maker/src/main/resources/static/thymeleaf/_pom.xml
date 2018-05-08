@@ -162,7 +162,7 @@
             <id>nutz</id>
             <url>http://jfrog.nutz.cn/artifactory/libs-release</url>
         </repository>
-        <repository>
+        <repository th:if="${#strings.endsWith(params.version, 'SNAPSHOT')}">
             <id>nutz-snapshots</id>
             <url>http://jfrog.nutz.cn/artifactory/snapshots</url>
             <snapshots>
@@ -174,19 +174,32 @@
             </releases>
         </repository>
     </repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>nutz-snapshots</id>
-			<url>http://jfrog.nutz.cn/artifactory/snapshots</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
+    <pluginRepositories th:if="${#strings.endsWith(params.version, 'SNAPSHOT')}">
+        <pluginRepository>
+            <id>nutz-snapshots</id>
+            <url>http://jfrog.nutz.cn/artifactory/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>nutz-snapshots</id>
+            <url>http://jfrog.nutz.cn/artifactory/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
     <build>
         <plugins>
             <plugin>
@@ -209,11 +222,11 @@
                     <additionalparam>-Xdoclint:none</additionalparam>
                 </configuration>
             </plugin>
-			<plugin>
-				<groupId>org.nutz.boot</groupId>
-				<artifactId>nutzboot-maven-plugin</artifactId>
-				<version>${nutzboot.version}</version>
-			</plugin>
+            <plugin>
+                <groupId>org.nutz.boot</groupId>
+                <artifactId>nutzboot-maven-plugin</artifactId>
+                <version>${nutzboot.version}</version>
+            </plugin>
         </plugins>
     </build>
 </project>
