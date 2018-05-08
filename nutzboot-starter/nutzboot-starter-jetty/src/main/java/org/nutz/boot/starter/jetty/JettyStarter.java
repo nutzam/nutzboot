@@ -194,7 +194,13 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         wac.getServletContext().setExtendedListenerTypes(true);
         wac.getSessionHandler().setMaxInactiveInterval(getSessionTimeout());
 
-        ErrorPageErrorHandler ep = new ErrorPageErrorHandler();
+        List<ErrorPageErrorHandler> errorHandlers = appContext.getBeans(ErrorPageErrorHandler.class);
+        ErrorPageErrorHandler ep;
+        if(errorHandlers.size() > 0){
+            ep = errorHandlers.get(0);
+        }else{
+            ep = new ErrorPageErrorHandler();
+        }
         ep.setErrorPages(getErrorPages());
         wac.setErrorHandler(ep);
 
