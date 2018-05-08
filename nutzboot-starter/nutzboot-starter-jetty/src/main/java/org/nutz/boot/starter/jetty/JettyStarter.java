@@ -18,6 +18,7 @@ import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
@@ -194,8 +195,12 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         wac.getServletContext().setExtendedListenerTypes(true);
         wac.getSessionHandler().setMaxInactiveInterval(getSessionTimeout());
 
-        ErrorPageErrorHandler ep = new ErrorPageErrorHandler();
-        ep.setErrorPages(getErrorPages());
+        ErrorHandler ep = Lang.first(appContext.getBeans(ErrorHandler.class));
+        if(ep == null){
+            ErrorPageErrorHandler handler = new ErrorPageErrorHandler();
+            handler.setErrorPages(getErrorPages());
+            ep = handler;
+        }
         wac.setErrorHandler(ep);
 
         // 设置一下额外的东西
