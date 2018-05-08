@@ -4,6 +4,14 @@
 
 * 变更:
 	* add: issue 36, Web服务类应共享一个超类
+	* add: issue 60, Tomcat也要支持多层资源加载
+	* add: 新增war打包方式
+	* fix: jetty缺了staticPath设置
+	* fix: 补充WhaleFilterStarter的@PropDoc 
+	* fix: 补充WeixinStarter的@PropDoc 
+	* fix: 补充JedisStarter的@PropDoc
+	* fix: tomcat端口被占用或者其他报错的时候,没有退出
+	* update: 更新jetty/tomcat/beetl/beetlsql的版本
 
 # 2.1.7 "Penguin's Game"
 

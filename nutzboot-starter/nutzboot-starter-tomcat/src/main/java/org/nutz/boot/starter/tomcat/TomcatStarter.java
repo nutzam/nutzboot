@@ -134,6 +134,9 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
             if (this.started) {
                 return;
             }
+            if (System.getProperty("org.apache.catalina.startup.EXIT_ON_INIT_FAILURE") == null) {
+                System.setProperty("org.apache.catalina.startup.EXIT_ON_INIT_FAILURE", "true");
+            }
             this.tomcat.start();
             tomcatAwaitThread = new Thread("container-" + (containerCounter.get())) {
                 @Override
@@ -142,7 +145,7 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
                 }
             };
             tomcatAwaitThread.setContextClassLoader(getClass().getClassLoader());
-            tomcatAwaitThread.setDaemon(false);
+            tomcatAwaitThread.setDaemon(true);
             tomcatAwaitThread.start();
             this.started = true;
         }
