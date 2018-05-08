@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @IocBean
-public class MyHandler extends ErrorHandler {
+public class MyHandler extends ErrorPageErrorHandler {
     @Override
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
         if(response.getStatus() == 404){
