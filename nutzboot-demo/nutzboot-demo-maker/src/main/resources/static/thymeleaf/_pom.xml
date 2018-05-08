@@ -56,7 +56,6 @@
         <dependency th:if="${params.weixin.enable}">
             <groupId>org.nutz</groupId>
             <artifactId>nutzboot-starter-weixin</artifactId>
-            <version>${nutzboot.version}</version>
         </dependency>
         <dependency th:if="${params.tomcat.enable}">
             <groupId>org.nutz</groupId>
@@ -162,7 +161,7 @@
             <id>nutz</id>
             <url>http://jfrog.nutz.cn/artifactory/libs-release</url>
         </repository>
-        <repository th:if="${#strings.endsWith(params.version, 'SNAPSHOT')}">
+        <repository>
             <id>nutz-snapshots</id>
             <url>http://jfrog.nutz.cn/artifactory/snapshots</url>
             <snapshots>
@@ -174,19 +173,6 @@
             </releases>
         </repository>
     </repositories>
-    <pluginRepositories th:if="${#strings.endsWith(params.version, 'SNAPSHOT')}">
-        <pluginRepository>
-            <id>nutz-snapshots</id>
-            <url>http://jfrog.nutz.cn/artifactory/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
     <pluginRepositories>
         <pluginRepository>
             <id>nutz-snapshots</id>
