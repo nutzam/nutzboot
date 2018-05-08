@@ -1,6 +1,7 @@
 package io.nutz.demo.simple.handler;
 
 import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
@@ -12,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @IocBean
-public class MyHandler extends ErrorPageErrorHandler {
+public class MyHandler extends ErrorHandler {
     @Override
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
         if(response.getStatus() == 404){
