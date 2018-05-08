@@ -4,10 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.JarURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.security.cert.Certificate;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 import javax.servlet.ServletContext;
 
@@ -23,8 +28,12 @@ import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.core.StandardThreadExecutor;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.webresources.AbstractResource;
+import org.apache.catalina.webresources.DirResourceSet;
 import org.apache.catalina.webresources.EmptyResourceSet;
+import org.apache.catalina.webresources.FileResource;
 import org.apache.catalina.webresources.StandardRoot;
+import org.apache.juli.logging.LogFactory;
 import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.starter.ServerFace;
 import org.nutz.boot.starter.servlet3.AbstractServletContainerStarter;
@@ -33,6 +42,8 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Encoding;
 import org.nutz.lang.Files;
 import org.nutz.lang.Lang;
+import org.nutz.lang.Streams;
+import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
@@ -52,20 +63,23 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
 
     protected static final String PRE = "tomcat.";
 
-    @PropDoc(group = "tomcat", value = "监听的ip地址", defaultValue = "0.0.0.0")
+    @PropDoc(value = "监听的ip地址", defaultValue = "0.0.0.0")
     public static final String PROP_HOST = PRE + "host";
 
-    @PropDoc(group = "tomcat", value = "监听的端口", defaultValue = "8080", type = "int")
+    @PropDoc(value = "监听的端口", defaultValue = "8080", type = "int")
     public static final String PROP_PORT = PRE + "port";
 
-    @PropDoc(group = "tomcat", value = "上下文路径")
+    @PropDoc(value = "上下文路径")
     public static final String PROP_CONTEXT_PATH = PRE + "contextPath";
 
     @PropDoc(value = "Session空闲时间,单位分钟", defaultValue = "30", type = "int")
     public static final String PROP_SESSION_TIMEOUT = "web.session.timeout";
 
-    @PropDoc(group = "tomcat", value = "静态文件路径", defaultValue = "static")
+    @PropDoc(value = "静态文件路径", defaultValue = "static")
     public static final String PROP_STATIC_PATH = PRE + "staticPath";
+
+    @PropDoc(value = "本地静态文件路径")
+    public static final String PROP_STATIC_PATH_LOCAL = PRE + "staticPathLocal";
 
     @PropDoc(value = "POST表单最大尺寸", defaultValue = "64 * 1024 * 1024")
     public static final String PROP_MAX_POST_SIZE = PRE + "maxPostSize";
@@ -170,7 +184,27 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
         this.tomcatContext.setSessionTimeout(getSessionTimeout() / 60);
         this.tomcatContext.addLifecycleListener(new StoreMergedWebXmlListener());
         StandardRoot sr = new StandardRoot(this.tomcatContext);
-        sr.addPreResources(new ClasspathResourceSet(sr, "static/"));
+        if (!Strings.isBlank(conf.get(PROP_STATIC_PATH_LOCAL))) {
+            File local = new File(conf.get(PROP_STATIC_PATH_LOCAL));
+            if (local.exists()) {
+                log.debug("add local path=" + local.getAbsolutePath());
+                sr.addPreResources(new DirResourceSet(sr, "/", local.getAbsolutePath(), "/"));
+            }
+            else {
+                log.debug("local path=" + local + " not exists, skip.");
+            }
+        }
+        for (String resourcePath : getResourcePaths()) {
+            if ("static".equals(resourcePath) || "static/".equals(resourcePath)) {
+                if (new File(resourcePath).exists()) {
+                    sr.addPreResources(new DirResourceSet(sr, "/", new File(resourcePath).getAbsolutePath(), "/"));
+                }
+                sr.addPreResources(new ClasspathResourceSet(sr, "static"));
+            }
+            else if ("webapp".equals(resourcePath) || "webapp/".equals(resourcePath)) {
+                sr.addPreResources(new ClasspathResourceSet(sr, "webapp"));
+            }
+        }
         this.tomcatContext.setResources(sr);
 
         try {
@@ -278,11 +312,16 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
 
     public class ClasspathResourceSet extends EmptyResourceSet {
 
+        protected org.apache.juli.logging.Log LOG = LogFactory.getLog(ClasspathResourceSet.class);
+
         protected String prefix;
+
+        private WebResourceRoot root;
 
         public ClasspathResourceSet(WebResourceRoot root, String prefix) {
             super(root);
             this.prefix = prefix;
+            this.root = root;
         }
 
         public boolean isReadOnly() {
@@ -294,12 +333,122 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
         }
 
         public WebResource getResource(String path) {
+            if (path.endsWith("/"))
+                return super.getResource(path);
+            URL url = appContext.getClassLoader().getResource(prefix + path);
+            if (url == null) {
+                return super.getResource(path);
+            }
+            String ext = url.toExternalForm();
+            log.debug("Resource " + ext);
+            if (ext.startsWith("file:")) {
+                return new FileResource(root, path, new File(url.getFile()), true, null);
+            }
+            if (ext.startsWith("jar:")) {
+                try {
+                    JarURLConnection jarConnection = (JarURLConnection) url.openConnection();
+                    JarEntry en = jarConnection.getJarEntry();
+                    JarFile jar = jarConnection.getJarFile();
+                    return new AbstractResource(root, prefix) {
+                        public boolean isVirtual() {
+                            return false;
+                        }
+
+                        public boolean isFile() {
+                            return !en.isDirectory();
+                        }
+
+                        public boolean isDirectory() {
+                            return en.isDirectory();
+                        }
+
+                        public URL getURL() {
+                            return url;
+                        }
+
+                        public String getName() {
+                            return en.getName();
+                        }
+
+                        public Manifest getManifest() {
+                            try {
+                                return jar.getManifest();
+                            }
+                            catch (IOException e) {
+                                return null;
+                            }
+                        }
+
+                        public long getLastModified() {
+                            return en.getTime();
+                        }
+
+                        public long getCreation() {
+                            return en.getCreationTime().toMillis();
+                        }
+
+                        public long getContentLength() {
+                            return en.getSize();
+                        }
+
+                        public byte[] getContent() {
+                            try {
+                                return Streams.readBytes(getInputStream());
+                            }
+                            catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+
+                        public URL getCodeBase() {
+                            return getBaseUrl();
+                        }
+
+                        public Certificate[] getCertificates() {
+                            return null;
+                        }
+
+                        public String getCanonicalPath() {
+                            return null;
+                        }
+
+                        public boolean exists() {
+                            return true;
+                        }
+
+                        public boolean delete() {
+                            return false;
+                        }
+
+                        public boolean canRead() {
+                            return isFile();
+                        }
+
+                        protected org.apache.juli.logging.Log getLog() {
+                            return LOG;
+
+                        }
+
+                        protected InputStream doGetInputStream() {
+                            try {
+                                return url.openStream();
+                            }
+                            catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    };
+                }
+                catch (IOException e) {
+                    log.debug("error when reading jar file?", e);
+                }
+            }
             return super.getResource(path);
         }
 
         @Override
         public boolean getStaticOnly() {
-            return true;
+            return "static".equals(prefix);
         }
     }
 
