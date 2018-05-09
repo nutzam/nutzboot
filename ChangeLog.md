@@ -5,7 +5,8 @@
 * 变更:
 	* add: issue 36, Web服务类应共享一个超类
 	* add: issue 60, Tomcat也要支持多层资源加载
-	* add: 新增war打包方式
+	* add: 新增war打包方式,通过nutzboot-maven-plugin
+	* add: jetty.port等端口统统支持随机设置,设置为0即可
 	* fix: jetty缺了staticPath设置
 	* fix: 补充WhaleFilterStarter的@PropDoc 
 	* fix: 补充WeixinStarter的@PropDoc 

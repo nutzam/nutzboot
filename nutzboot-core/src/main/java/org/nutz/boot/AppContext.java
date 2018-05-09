@@ -13,6 +13,8 @@ import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.combo.ComboIocLoader;
 import org.nutz.lang.util.LifeCycle;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 
 /**
  * 全局上下文
@@ -21,6 +23,8 @@ import org.nutz.lang.util.LifeCycle;
  *
  */
 public class AppContext implements LifeCycle {
+    
+    private static final Log log = Logs.get();
 
     protected static AppContext _default = new AppContext();
 
@@ -334,12 +338,19 @@ public class AppContext implements LifeCycle {
 
     public int getServerPort(String legacyKey, int defaultValue) {
         if (legacyKey != null && getConf().has(legacyKey)) {
-            return getConf().getInt(legacyKey);
+            int port = getConf().getInt(legacyKey);
+            if (port < 1) {
+                port = new Random(System.currentTimeMillis()).nextInt(10000) + defaultValue;
+                log.debugf("select random port=%d for %s", port, legacyKey);
+                getConf().put(legacyKey, ""+port);
+            }
+            return port;
         }
         int port = getConf().getInt("server.port", defaultValue);
         if (port == 0) {
             port = new Random(System.currentTimeMillis()).nextInt(10000) + defaultValue;
             getConf().set("server.port", ""+port);
+            log.debugf("select random port=%d for %s and server.port", port, legacyKey);
         }
         return port;
     }
