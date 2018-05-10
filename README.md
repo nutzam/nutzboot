@@ -128,6 +128,7 @@ public class MainLauncher {
 * [NB与Nutz.Mvc对比](doc/diff_nb_mvc.md)
 * [转换为NB项目](doc/convert2nb.md)
 * [Maven Plugin](https://github.com/nutzam/nutzboot-maven-plugin)
+* [配置信息总表](doc/configure.md) 不定期更新,可通过nutzboot:propdoc生成
 
 ## 开发进度
 
