@@ -105,7 +105,6 @@ public class BeetlGroupTemplateStarter {
                 prop.put(key.substring("beetl.".length()), conf.get(key));
             }
         }
-        System.out.println(prop);
         if (!prop.containsKey(Configuration.RESOURCE_LOADER)) {
             prop.put(Configuration.RESOURCE_LOADER, ClasspathResourceLoader.class.getName());
         }

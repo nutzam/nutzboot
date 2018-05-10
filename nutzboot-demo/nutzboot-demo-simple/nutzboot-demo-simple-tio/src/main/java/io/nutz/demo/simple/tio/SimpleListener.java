@@ -10,19 +10,6 @@ import org.tio.server.intf.ServerAioListener;
 @IocBean
 public class SimpleListener implements ServerAioListener {
     private Log log = Logs.get();
-    /**
-     * 连接关闭前后触发本方法
-     *
-     * @param channelContext the channelcontext
-     * @param throwable the throwable 有可能为空
-     * @param remark the remark 有可能为空
-     * @param isRemove 是否是删除
-     * @author tanyaowu
-     */
-    @Override
-    public void onAfterClose(ChannelContext channelContext, Throwable throwable, String remark, boolean isRemove) throws Exception {
-        log.debug("连接关闭onAfterClose");
-    }
 
     /**
      * 建链后触发本方法，注：建链不一定成功，需要关注参数isConnected
@@ -76,5 +63,23 @@ public class SimpleListener implements ServerAioListener {
     @Override
     public void onBeforeClose(ChannelContext channelContext, Throwable throwable, String remark, boolean isRemove) {
         log.debug("连接关闭前触发onBeforeClose");
+    }
+
+    @Override
+    public void onAfterDecoded(ChannelContext channelContext, Packet packet, int packetSize) throws Exception {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onAfterReceivedBytes(ChannelContext channelContext, int receivedBytes) throws Exception {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onAfterHandled(ChannelContext channelContext, Packet packet, long cost) throws Exception {
+        // TODO Auto-generated method stub
+        
     }
 }

@@ -23,9 +23,7 @@ public class SimpleHandler implements ServerAioHandler {
      * @return
      * @throws AioDecodeException
      */
-    public Packet decode(ByteBuffer buffer, ChannelContext channelContext) throws AioDecodeException {
-        int limit = buffer.limit();//实际存储大小
-        int position = buffer.position();//当前下标位置
+    public Packet decode(ByteBuffer buffer, int limit, int position, int readableLength, ChannelContext channelContext) throws AioDecodeException {
         int realableLength = limit - position;
         //收到的数据组不了业务包,则返回null以告诉框架数据不够
         if(realableLength < SimplePacket.HEADER_LENGTH){

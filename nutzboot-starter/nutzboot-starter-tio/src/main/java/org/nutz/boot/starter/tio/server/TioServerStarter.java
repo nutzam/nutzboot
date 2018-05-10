@@ -1,6 +1,6 @@
 package org.nutz.boot.starter.tio.server;
 
-import java.util.List;
+import java.nio.ByteBuffer;
 
 import org.nutz.boot.AppContext;
 import org.nutz.boot.annotation.PropDoc;
@@ -10,6 +10,10 @@ import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
+import org.tio.core.ChannelContext;
+import org.tio.core.GroupContext;
+import org.tio.core.exception.AioDecodeException;
+import org.tio.core.intf.Packet;
 import org.tio.server.AioServer;
 import org.tio.server.ServerGroupContext;
 import org.tio.server.intf.ServerAioHandler;
@@ -42,59 +46,71 @@ public class TioServerStarter implements ServerFace {
     public static final String PROP_HEARTBEATTIMEOUT = PRE + "heartbeatTimeout";
     @PropDoc(group = "tio", value = "上下文名称", defaultValue = "NutzBoot GroupContext")
     public static final String PROP_NAME = PRE + "name";
-
-    protected ServerAioHandler serverAioHandler;
-    protected ServerAioListener serverAioListener;
-
-    public ServerGroupContext serverGroupContext;
-
-    public AioServer server;
-
-    private String ip;
-
-    private int port;
-
-    public void init() throws Exception {
-        List<ServerAioHandler> hanlders = appContext.getBeans(ServerAioHandler.class);
-        List<ServerAioListener> listeners = appContext.getBeans(ServerAioListener.class);
-
-        if (hanlders.size() > 0) {
-            serverAioHandler = hanlders.get(0);
-        }
-
-        if (listeners.size() > 0) {
-            serverAioListener = listeners.get(0);
-        }
-        if (serverAioHandler == null) {
-            throw new RuntimeException("Require ServerAioHandler!!!");
-        }
-        //if (serverAioListener == null) {
-        //    throw new RuntimeException("Require ServerAioListener!!!");
-        //}
-
-        serverGroupContext = new ServerGroupContext(serverAioHandler, serverAioListener);
+    
+    protected AioServer aioServer;
+    
+    @IocBean(name="serverAioHandler")
+    public ServerAioHandler getServerAioHandler() {
+        return new NopServerAioXXX();
+    }
+    
+    @IocBean(name="serverAioListener")
+    public ServerAioListener getServerAioListener() {
+        return new NopServerAioXXX();
+    }
+    
+    @IocBean(name="serverGroupContext")
+    public ServerGroupContext getServerGroupContext(@Inject ServerAioHandler serverAioHandler,
+                                                    @Inject ServerAioListener serverAioListener) {
+        ServerGroupContext serverGroupContext = new ServerGroupContext(serverAioHandler, serverAioListener);
         serverGroupContext.setName(conf.get(PROP_NAME, "NutzBoot GroupContext"));
         serverGroupContext.setHeartbeatTimeout(0);
         if ("true".equals(conf.get(PROP_HEARTBEAT))) {
             serverGroupContext.setHeartbeatTimeout(conf.getLong(PROP_HEARTBEATTIMEOUT, 120000));
         }
-        ip = appContext.getServerHost(PROP_IP);
-        port = appContext.getServerPort(PROP_PORT, 9420);
-        server = new AioServer(serverGroupContext);
+        return serverGroupContext;
+    }
+    
+    @IocBean
+    public AioServer getAioServer(@Inject ServerGroupContext serverGroupContext ) {
+        
+        return new AioServer(serverGroupContext);
+    }
+
+    public void init() throws Exception {
     }
 
     public void start() throws Exception {
-        if (server != null)
-            server.start(ip, port);
-        else
-            log.error("tio server is null!");
+        log.debug("init AioServer ...");
+        aioServer = appContext.getIoc().getByType(AioServer.class);
+        String ip = appContext.getServerHost(PROP_IP);
+        int port = appContext.getServerPort(PROP_PORT, 9420);
+        aioServer.start(ip, port);
     }
 
     public void stop() throws Exception {
-        if (server != null)
-            server.stop();
-        else
-            log.error("tio server is null!");
+        if (aioServer != null)
+            aioServer.stop();
     }
 
+    protected static class NopServerAioXXX implements ServerAioListener, ServerAioHandler {
+        public void onBeforeClose(ChannelContext channelContext, Throwable throwable, String remark, boolean isRemove) {
+        }
+        public void onAfterSent(ChannelContext channelContext, Packet packet, boolean isSentSuccess) throws Exception {
+        }
+        public void onAfterReceived(ChannelContext channelContext, Packet packet, int packetSize) throws Exception {
+        }
+        public void onAfterConnected(ChannelContext channelContext, boolean isConnected, boolean isReconnect) throws Exception {
+        }
+        public void onAfterClose(ChannelContext channelContext, Throwable throwable, String remark, boolean isRemove) throws Exception {
+        }
+        public Packet decode(ByteBuffer buffer, ChannelContext channelContext) throws AioDecodeException {
+            return null;
+        }
+        public ByteBuffer encode(Packet packet, GroupContext groupContext, ChannelContext channelContext) {
+            return null;
+        }
+        public void handler(Packet packet, ChannelContext channelContext) throws Exception {
+        }
+    }
 }
