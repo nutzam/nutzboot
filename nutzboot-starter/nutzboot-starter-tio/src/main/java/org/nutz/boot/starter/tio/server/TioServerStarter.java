@@ -49,13 +49,13 @@ public class TioServerStarter implements ServerFace {
     
     protected AioServer aioServer;
     
-    @IocBean(name="serverAioHandler")
-    public ServerAioHandler getServerAioHandler() {
+    @IocBean(name="nopServerAioHandler")
+    public NopServerAioXXX getServerAioHandler() {
         return new NopServerAioXXX();
     }
     
-    @IocBean(name="serverAioListener")
-    public ServerAioListener getServerAioListener() {
+    @IocBean(name="nopServerAioListener")
+    public NopServerAioXXX getServerAioListener() {
         return new NopServerAioXXX();
     }
     
@@ -73,7 +73,6 @@ public class TioServerStarter implements ServerFace {
     
     @IocBean
     public AioServer getAioServer(@Inject ServerGroupContext serverGroupContext ) {
-        
         return new AioServer(serverGroupContext);
     }
 
@@ -98,19 +97,23 @@ public class TioServerStarter implements ServerFace {
         }
         public void onAfterSent(ChannelContext channelContext, Packet packet, boolean isSentSuccess) throws Exception {
         }
-        public void onAfterReceived(ChannelContext channelContext, Packet packet, int packetSize) throws Exception {
-        }
         public void onAfterConnected(ChannelContext channelContext, boolean isConnected, boolean isReconnect) throws Exception {
         }
         public void onAfterClose(ChannelContext channelContext, Throwable throwable, String remark, boolean isRemove) throws Exception {
-        }
-        public Packet decode(ByteBuffer buffer, ChannelContext channelContext) throws AioDecodeException {
-            return null;
         }
         public ByteBuffer encode(Packet packet, GroupContext groupContext, ChannelContext channelContext) {
             return null;
         }
         public void handler(Packet packet, ChannelContext channelContext) throws Exception {
+        }
+        public void onAfterDecoded(ChannelContext channelContext, Packet packet, int packetSize) throws Exception {
+        }
+        public void onAfterReceivedBytes(ChannelContext channelContext, int receivedBytes) throws Exception {
+        }
+        public void onAfterHandled(ChannelContext channelContext, Packet packet, long cost) throws Exception {
+        }
+        public Packet decode(ByteBuffer buffer, int limit, int position, int readableLength, ChannelContext channelContext) throws AioDecodeException {
+            return null;
         }
     }
 }
