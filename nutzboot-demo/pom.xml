@@ -9,7 +9,7 @@
 	<artifactId>nutzboot-demo</artifactId>
 	<packaging>pom</packaging>
 	<modules>
-		<module>nutzboot-demo-maker</module>
+		
 		<module>nutzboot-demo-simple</module>
 		<module>nutzboot-demo-zbus</module>
 		<module>nutzboot-demo-dubbo</module>
