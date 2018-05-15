@@ -1,19 +1,35 @@
 # NB进化史
 
-# dev 迭代中
+# 2.1.8 "这视频比歌好听"
+
+统一web容器的核心逻辑,并支持war打包(终于填了这个坑)
+
+* 时间: 2018-05-15
+* 事件: 某未命名航母开始海试了
+* 曲目: [这视频比歌好听](https://www.youtube.com/watch?v=ilmdOGbUuFk)
+* 兼容性: 与2.0.x和2.1.x完全兼容
 
 * 变更:
 	* add: issue 36, Web服务类应共享一个超类
 	* add: issue 60, Tomcat也要支持多层资源加载
 	* add: 新增war打包方式,通过nutzboot-maven-plugin
+	* add: 支持repo-upload和repo-download
 	* add: jetty.port等端口统统支持随机设置,设置为0即可
+	* add: tomcat线程池设置
+	* add: 配置手册总表
+	* add: 支持从ioc容器获取FilterChainResolver实例
 	* fix: jetty缺了staticPath设置
 	* fix: 补充WhaleFilterStarter的@PropDoc 
 	* fix: 补充WeixinStarter的@PropDoc 
 	* fix: 补充JedisStarter的@PropDoc
 	* fix: tomcat端口被占用或者其他报错的时候,没有退出
-	* update: 更新jetty/tomcat/beetl/beetlsql的版本
-	* change: nutzboot-demo-maker独立成[nutzboot-project-maker库](https://gitee.com/nutz/nutzboot-project-maker) 
+	* fix: nutzwx版本号没跟上
+	* update: 更新jetty/tomcat/beetl/beetlsql/tio的版本
+	* change: nutzboot-demo-maker独立成[nutzboot-project-maker库](https://gitee.com/nutz/nutzboot-project-maker)
+	
+图片镇楼
+
+![海试](http://5b0988e595225.cdn.sohucs.com/images/20180513/255815a8da954e6fa346adb388ed7dba.jpeg)
 
 # 2.1.7 "Penguin's Game"
 

@@ -73,12 +73,18 @@ public class NbResourceBasedWebEnvironment extends ResourceBasedWebEnvironment i
     }
 
     public FilterChainResolver createFilterChainResolver() {
-        String iniUrls = "[urls]\r\n" + conf.get(ShiroEnvStarter.PROP_INIT_URLS, "").trim();
-        log.debug("shiro ini urls  ---> \r\n" + iniUrls);
-        Ini ini = new Ini();
-        ini.load(iniUrls);
-        IniFilterChainResolverFactory resolverFactory = new IniFilterChainResolverFactory(ini, objects);
-        return resolverFactory.getInstance();
+        if (ioc.has("shiroFilterChainResolver")) {
+            return ioc.get(FilterChainResolver.class, "shiroFilterChainResolver");
+        }
+        else {
+            log.debug("ioc name=shiroFilterChainResolver not found, fallback to " + ShiroEnvStarter.PROP_INIT_URLS);
+            String iniUrls = "[urls]\r\n" + conf.get(ShiroEnvStarter.PROP_INIT_URLS, "").trim();
+            log.debug("shiro ini urls  ---> \r\n" + iniUrls);
+            Ini ini = new Ini();
+            ini.load(iniUrls);
+            IniFilterChainResolverFactory resolverFactory = new IniFilterChainResolverFactory(ini, objects);
+            return resolverFactory.getInstance();
+        }
     }
 
     protected WebSecurityManager createWebSecurityManager() {
