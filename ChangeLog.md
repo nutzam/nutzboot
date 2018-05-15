@@ -13,7 +13,7 @@
 	* fix: 补充JedisStarter的@PropDoc
 	* fix: tomcat端口被占用或者其他报错的时候,没有退出
 	* update: 更新jetty/tomcat/beetl/beetlsql的版本
-	* change: nutzboot-demo-maker独立成nutzboot-project-maker库
+	* change: nutzboot-demo-maker独立成[nutzboot-project-maker库](https://gitee.com/nutz/nutzboot-project-maker) 
 
 # 2.1.7 "Penguin's Game"
 

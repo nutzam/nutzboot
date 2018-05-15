@@ -83,6 +83,9 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
 
     @PropDoc(value = "POST表单最大尺寸", defaultValue = "64 * 1024 * 1024")
     public static final String PROP_MAX_POST_SIZE = PRE + "maxPostSize";
+    
+    @PropDoc(value = "最大线程数", defaultValue = "256")
+    public static final String PROP_EXECUTOR_MAX_THREADS = PRE + "executor.maxThreads";
 
     private static final String PROP_PROTOCOL = "org.apache.coyote.http11.Http11NioProtocol";
 
@@ -310,7 +313,7 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
     }
 
     public int getMaxThread() {
-        return Lang.isAndroid ? 50 : 500;
+        return Lang.isAndroid ? 50 : conf.getInt(PROP_EXECUTOR_MAX_THREADS, 256);
     }
 
     public class ClasspathResourceSet extends EmptyResourceSet {
