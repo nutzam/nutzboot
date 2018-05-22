@@ -4,6 +4,7 @@
 
 * 变更:
 	* add: undertow支持启用gzip, issue #138@github
+	* add: starter-tio支持ssl配置
 
 # 2.1.8 "这视频比歌好听"
 
