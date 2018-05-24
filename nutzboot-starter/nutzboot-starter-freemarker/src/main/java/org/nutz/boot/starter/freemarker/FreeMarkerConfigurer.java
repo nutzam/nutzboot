@@ -128,7 +128,10 @@ public class FreeMarkerConfigurer {
             configuration.setSettings(p);
         }
         File f = Files.findFile(prefix);
-        configuration.setDirectoryForTemplateLoading(f);
+        if (f == null)
+            configuration.setClassForTemplateLoading(getClass(), prefix);
+        else
+            configuration.setDirectoryForTemplateLoading(f);
     }
 
     public void setTags(Map<String, Object> map) {
