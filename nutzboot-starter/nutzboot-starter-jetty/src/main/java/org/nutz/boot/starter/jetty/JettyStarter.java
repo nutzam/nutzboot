@@ -9,6 +9,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.Deflater;
 
 import javax.websocket.server.ServerContainer;
 import javax.websocket.server.ServerEndpoint;
@@ -19,6 +20,7 @@ import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.ErrorHandler;
+import org.eclipse.jetty.server.handler.gzip.GzipHandler;
 import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
@@ -104,6 +106,16 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     public static final String PROP_PAGE_404 = PRE + "page.404";
     @PropDoc(value = "自定义java.lang.Throwable页面,同理,其他异常也支持")
     public static final String PROP_PAGE_THROWABLE = PRE + "page.java.lang.Throwable";
+    
+    // Gzip
+    @PropDoc(value = "是否启用gzip", defaultValue = "false")
+    public static final String PROP_GZIP_ENABLE = PRE + "gzip.enable";
+
+    @PropDoc(value = "gzip压缩级别", defaultValue = "-1")
+    public static final String PROP_GZIP_LEVEL = PRE + "gzip.level";
+
+    @PropDoc(value = "gzip压缩最小触发大小", defaultValue = "512")
+    public static final String PROP_GZIP_MIN_CONTENT_SIZE = PRE + "gzip.minContentSize";
 
     protected Server server;
     protected WebAppContext wac;
@@ -188,7 +200,16 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
                 return resource;
             }
         });
-        server.setHandler(wac);
+        if (conf.getBoolean(PROP_GZIP_ENABLE, false)) {
+            GzipHandler gzip = new GzipHandler();
+            gzip.setHandler(wac);
+            gzip.setMinGzipSize(conf.getInt(PROP_GZIP_MIN_CONTENT_SIZE, 512));
+            gzip.setCompressionLevel(conf.getInt(PROP_GZIP_LEVEL, Deflater.DEFAULT_COMPRESSION));
+            server.setHandler(gzip);
+        }
+        else {
+            server.setHandler(wac);
+        }
         List<String> list = Configuration.ClassList.serverDefault(server);
         list.add("org.eclipse.jetty.annotations.AnnotationConfiguration");
         wac.setConfigurationClasses(list);

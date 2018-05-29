@@ -5,6 +5,7 @@
 * 变更:
 	* fix: 打包成jar之后,[freemaker启动失败](https://nutz.cn/yvr/t/qcnfndh6tajknqqkgt5c5e186t)
 	* add: undertow支持启用gzip, issue #138@github
+	* add: jetty支持启用gzip
 	* add: starter-tio支持ssl配置
 
 # 2.1.8 "这视频比歌好听"
