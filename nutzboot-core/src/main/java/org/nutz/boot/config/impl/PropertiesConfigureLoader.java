@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 import org.nutz.ioc.impl.PropertiesProxy;
@@ -91,18 +90,17 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
 
     // 获取应用程序绝对路径
     protected String getBasePath() {
-        String basePath = "";
-        basePath = appContext.getMainClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-        int lastIndex = basePath.lastIndexOf('/');
-        if (lastIndex < 0) {
-            lastIndex = basePath.lastIndexOf('\\');
-        }
-        basePath = basePath.substring(0, lastIndex);
         try {
+            String basePath = appContext.getMainClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+            int lastIndex = basePath.lastIndexOf('/');
+            if (lastIndex < 0) {
+                lastIndex = basePath.lastIndexOf('\\');
+            }
+            basePath = basePath.substring(0, lastIndex);
             basePath = URLDecoder.decode(basePath, Encoding.UTF8);
-        } catch (UnsupportedEncodingException e) {
+        } catch (Throwable e) {
         }
-        return basePath;
+        return ".";
     }
 
     // 根据目录和文件名拼接绝对路径
