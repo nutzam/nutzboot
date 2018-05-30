@@ -32,6 +32,10 @@
 		<tio.version>2.4.0.v20180508-RELEASE</tio.version>
 		<j2cache.version>2.3.16-release</j2cache.version>
 		<asm.version>6.1.1</asm.version>
+		<druid.version>1.1.10</druid.version>
+		<HikariCP.version>3.1.0</HikariCP.version>
+		<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
+		<quartz.version>2.3.0</quartz.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -156,12 +160,12 @@
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid</artifactId>
-				<version>1.1.9</version>
+				<version>${druid.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.zaxxer</groupId>
 				<artifactId>HikariCP</artifactId>
-				<version>3.1.0</version>
+				<version>${HikariCP.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
@@ -236,7 +240,7 @@
 			<dependency>
 				<groupId>org.thymeleaf</groupId>
 				<artifactId>thymeleaf</artifactId>
-				<version>3.0.9.RELEASE</version>
+				<version>${thymeleaf.version}</version>
 			</dependency>
 
 			<dependency>
@@ -355,7 +359,7 @@
 			<dependency>
 				<groupId>org.quartz-scheduler</groupId>
 				<artifactId>quartz</artifactId>
-				<version>2.3.0</version>
+				<version>${quartz.version}</version>
 			</dependency>
 
 			<dependency>
