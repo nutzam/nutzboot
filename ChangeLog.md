@@ -1,12 +1,21 @@
 # NB进化史
 
-# 2.1.9 迭代中
+# 2.1.9 "隐形的翅膀"
+
+原生支持gzip压缩
+
+* 时间: 2018-06-01
+* 事件: 六月儿童节
+* 曲目: [隐形的翅膀](https://www.youtube.com/watch?v=U9wOPpX0ZLo)
+* 兼容性: 与2.0.x和2.1.x完全兼容
 
 * 变更:
-	* fix: 打包成jar之后,[freemaker启动失败](https://nutz.cn/yvr/t/qcnfndh6tajknqqkgt5c5e186t)
+	* fix: 打包成war之后,[freemaker启动失败](https://nutz.cn/yvr/t/qcnfndh6tajknqqkgt5c5e186t)
 	* add: undertow支持启用gzip, issue #138@github
 	* add: jetty支持启用gzip
 	* add: starter-tio支持ssl配置
+	* update: asm升级到6.1.1,解决jdk10上可能报错的问题
+	* update: 更新druid等依赖的版本 by howe
 
 # 2.1.8 "这视频比歌好听"
 
