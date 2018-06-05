@@ -3,12 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.nutz</groupId>
-		<artifactId>nutzboot-parent</artifactId>
+		<artifactId>nutzboot-starter</artifactId>
 		<version>2.2-SNAPSHOT</version>
 	</parent>
-	<artifactId>nutzboot-core</artifactId>
+	<artifactId>nutzboot-spring4</artifactId>
+
 	<packaging>jar</packaging>
-	<name>nutzboot-core</name>
+	<name>nutzboot-spring4</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -38,30 +39,6 @@
 		<developerConnection>scm:git:git://github.com/nutzam/nutzboot.git</developerConnection>
 		<url>git://github.com/nutzam/nutzboot.git</url>
 	</scm>
-	<dependencies>
-		<dependency>
-			<groupId>org.nutz</groupId>
-			<artifactId>nutz</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>nutzcn-snapshots</id>
@@ -75,8 +52,22 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
 	</distributionManagement>
-	<dependencyManagement>
-		<dependencies>
-		</dependencies>
-	</dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutz-integration-spring</artifactId>
+			<version>${nutz.version}</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
 </project>

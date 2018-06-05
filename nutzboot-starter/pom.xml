@@ -62,6 +62,7 @@
 		<module>nutzboot-starter-test-junit4</module>
 		<module>nutzboot-starter-mqtt-client</module>
 		<module>nutzboot-servlet3</module>
+		<module>nutzboot-spring4</module>
 	</modules>
 	<dependencies>
 		<dependency>

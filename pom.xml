@@ -869,6 +869,11 @@
 				<artifactId>nutzboot-servlet3</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-spring4</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<repositories>
