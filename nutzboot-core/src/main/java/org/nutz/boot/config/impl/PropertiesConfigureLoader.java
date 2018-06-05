@@ -117,7 +117,13 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
     protected void readPropertiesPath(String path) throws IOException {
         try (InputStream ins = resourceLoader.get(path)) {
             if (ins != null) {
+                if (log.isDebugEnabled())
+                    log.debug("Loading Properties  - " + path);
                 conf.load(Streams.utf8r(ins), false);
+            }
+            else {
+                if (log.isInfoEnabled())
+                    log.info("Properties NotFound - " + path);
             }
         }
     }
