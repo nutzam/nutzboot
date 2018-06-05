@@ -29,8 +29,8 @@
 		<hystrix.vesion>1.5.12</hystrix.vesion>
 		<web3j.vesion>3.2.0</web3j.vesion>
 		<mqtt.version>1.2.0</mqtt.version>
-		<tio.version>2.4.0.v20180508-RELEASE</tio.version>
-		<j2cache.version>2.3.16-release</j2cache.version>
+		<tio.version>3.0.1.v20180601-RELEASE</tio.version>
+		<j2cache.version>2.3.21-release</j2cache.version>
 		<asm.version>6.1.1</asm.version>
 		<druid.version>1.1.10</druid.version>
 		<HikariCP.version>3.1.0</HikariCP.version>

@@ -17,7 +17,7 @@ import org.tio.core.GroupContext;
 import org.tio.core.exception.AioDecodeException;
 import org.tio.core.intf.Packet;
 import org.tio.core.ssl.SslConfig;
-import org.tio.server.AioServer;
+import org.tio.server.TioServer;
 import org.tio.server.ServerGroupContext;
 import org.tio.server.intf.ServerAioHandler;
 import org.tio.server.intf.ServerAioListener;
@@ -61,7 +61,7 @@ public class TioServerStarter implements ServerFace {
     @PropDoc(group = "tio", value = "ssl keyStore密钥")
     public static final String PROP_SSL_KEYSTORE_PASSWORD = PRE + "ssl.keyStore.password";
 
-    protected AioServer aioServer;
+    protected TioServer tioServer;
 
     @IocBean(name = "nopServerAioHandler")
     public NopServerAioXXX getServerAioHandler() {
@@ -90,23 +90,23 @@ public class TioServerStarter implements ServerFace {
     }
 
     @IocBean
-    public AioServer getAioServer(@Inject ServerGroupContext serverGroupContext) {
-        return new AioServer(serverGroupContext);
+    public TioServer getAioServer(@Inject ServerGroupContext serverGroupContext) {
+        return new TioServer(serverGroupContext);
     }
 
     public void init() throws Exception {}
 
     public void start() throws Exception {
         log.debug("init AioServer ...");
-        aioServer = appContext.getIoc().getByType(AioServer.class);
+        tioServer = appContext.getIoc().getByType(TioServer.class);
         String ip = appContext.getServerHost(PROP_IP);
         int port = appContext.getServerPort(PROP_PORT, 9420);
-        aioServer.start(ip, port);
+        tioServer.start(ip, port);
     }
 
     public void stop() throws Exception {
-        if (aioServer != null)
-            aioServer.stop();
+        if (tioServer != null)
+            tioServer.stop();
     }
 
     protected static class NopServerAioXXX implements ServerAioListener, ServerAioHandler {

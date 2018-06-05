@@ -3,7 +3,7 @@ package io.nutz.demo.simple.tio;
 import java.nio.ByteBuffer;
 
 import org.nutz.ioc.loader.annotation.IocBean;
-import org.tio.core.Aio;
+import org.tio.core.Tio;
 import org.tio.core.ChannelContext;
 import org.tio.core.GroupContext;
 import org.tio.core.exception.AioDecodeException;
@@ -95,7 +95,7 @@ public class SimpleHandler implements ServerAioHandler {
             System.out.println("接受到客户端消息:"+s);
             SimplePacket resp = new SimplePacket();
             resp.setBody(("我收到了您的消息:"+s).getBytes());
-            Aio.send(channelContext,resp);
+            Tio.send(channelContext,resp);
         }
     }
 }
