@@ -1,5 +1,14 @@
 # NB进化史
 
+# 2.2.0 迭代中
+
+* 变更:
+	* add: tomcat也需要支持404和500页面等页面 https://gitee.com/nutz/nutzboot/issues/IKC3B
+	* add: undertow也需要支持404和500页面等页面
+	* add: 为jetty/undertow/tomcat添加welcome file配置
+	* add: 支持获取undertow底层实例
+	* change: 将spring支持单独为nutzboot-spring
+
 # 2.1.9 "隐形的翅膀"
 
 原生支持gzip压缩

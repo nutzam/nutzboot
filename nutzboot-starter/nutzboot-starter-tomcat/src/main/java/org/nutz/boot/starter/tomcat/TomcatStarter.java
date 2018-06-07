@@ -8,8 +8,6 @@ import java.net.JarURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.security.cert.Certificate;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.jar.JarEntry;
@@ -95,6 +93,9 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
     
     @PropDoc(value = "自定义java.lang.Throwable页面,同理,其他异常也支持")
     public static final String PROP_PAGE_THROWABLE = PRE + "page.java.lang.Throwable";
+
+    @PropDoc(value = "WelcomeFile列表", defaultValue="index.html,index.htm,index.do")
+    public static final String PROP_WELCOME_FILES = PRE + "welcome_files";
 
     private static final String PROP_PROTOCOL = "org.apache.coyote.http11.Http11NioProtocol";
 
@@ -229,7 +230,7 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
             // Tomcat is < 8.0.30. Continue
         }
 
-        for (String welcomeFile : Arrays.asList("index.html", "index.htm", "index.jsp", "index.do")) {
+        for (String welcomeFile : getWelcomeFiles()) {
             this.tomcatContext.addWelcomeFile(welcomeFile);
         }
 
@@ -490,14 +491,8 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
     protected String getConfigurePrefix() {
         return PRE;
     }
-
-    public Map<String, String> getErrorPages() {
-        Map<String, String> pagers = new HashMap<>();
-        for (String key : conf.keySet()) {
-            if (key.startsWith("tomcat.page.")) {
-                pagers.put(key.substring("tomcat.page.".length()), conf.get(key));
-            }
-        }
-        return pagers;
+    
+    public Tomcat getServer() {
+        return tomcat;
     }
 }

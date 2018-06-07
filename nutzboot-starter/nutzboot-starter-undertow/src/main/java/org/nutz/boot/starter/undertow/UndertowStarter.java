@@ -2,6 +2,7 @@ package org.nutz.boot.starter.undertow;
 
 import java.io.File;
 import java.util.EventListener;
+import java.util.Map;
 import java.util.zip.Deflater;
 
 import org.nutz.boot.annotation.PropDoc;
@@ -9,6 +10,7 @@ import org.nutz.boot.starter.ServerFace;
 import org.nutz.boot.starter.servlet3.AbstractServletContainerStarter;
 import org.nutz.boot.starter.servlet3.NbServletContextListener;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
@@ -26,6 +28,7 @@ import io.undertow.server.handlers.resource.FileResourceManager;
 import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
+import io.undertow.servlet.api.ErrorPage;
 import io.undertow.servlet.api.ListenerInfo;
 import io.undertow.servlet.util.ImmediateInstanceFactory;
 
@@ -65,6 +68,9 @@ public class UndertowStarter extends AbstractServletContainerStarter implements 
     @PropDoc(value = "gzip压缩最小触发大小", defaultValue = "512")
     public static final String PROP_GZIP_MIN_CONTENT_SIZE = PRE + "gzip.minContentSize";
 
+    @PropDoc(value = "WelcomeFile列表", defaultValue="index.html,index.htm,index.do")
+    public static final String PROP_WELCOME_FILES = PRE + "welcome_files";
+
     protected Undertow server;
     protected Builder builder = Undertow.builder();
     protected DeploymentInfo deployment;
@@ -81,6 +87,7 @@ public class UndertowStarter extends AbstractServletContainerStarter implements 
         return !server.getWorker().isShutdown();
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public void init() throws Exception {
         String contextPath = getContextPath();
 
@@ -103,7 +110,19 @@ public class UndertowStarter extends AbstractServletContainerStarter implements 
         addNutzSupport();
         addWebSocketSupport();
 
-        deployment.addWelcomePages("index.html", "index.htm", "index.do");
+        deployment.addWelcomePages(getWelcomeFiles());
+        for (Map.Entry<String, String> en : getErrorPages().entrySet()) {
+            String key = en.getKey();
+            if (Strings.isNumber(key)) {
+                log.debugf("add error page code=%s location=%s", key, en.getValue());
+                deployment.addErrorPage(new ErrorPage(en.getValue(), Integer.parseInt(key)));
+            }
+            else {
+                log.debugf("add error page Exception=%s location=%s", key, en.getValue());
+                Class klass = appContext.getClassLoader().loadClass(en.getValue());
+                deployment.addErrorPage(new ErrorPage(en.getValue(), klass));
+            }
+        }
 
         DeploymentManager manager = Servlets.defaultContainer().addDeployment(deployment);
         manager.deploy();
@@ -147,6 +166,10 @@ public class UndertowStarter extends AbstractServletContainerStarter implements 
         catch (Error e) {
             log.info("Not find undertow-websockets-jsr, websocket disable.");
         }
+    }
+    
+    public Undertow getServer() {
+        return server;
     }
 
     protected String getConfigurePrefix() {

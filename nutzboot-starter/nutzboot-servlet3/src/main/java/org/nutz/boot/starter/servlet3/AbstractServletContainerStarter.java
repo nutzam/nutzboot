@@ -1,7 +1,10 @@
 package org.nutz.boot.starter.servlet3;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.nutz.boot.AppContext;
 import org.nutz.boot.aware.AppContextAware;
@@ -79,5 +82,33 @@ public abstract class AbstractServletContainerStarter implements ClassLoaderAwar
 
     public int getSessionTimeout() {
         return conf.getInt(getConfigurePrefix() + "session", conf.getInt("web.session.timeout", 30)) * 60;
+    }
+
+    public Map<String, String> getErrorPages() {
+        Map<String, String> pagers = new HashMap<>();
+        String prefix = getConfigurePrefix() + "page.";
+        for (String key : conf.keySet()) {
+            if (key.startsWith(prefix)) {
+                pagers.put(key.substring(prefix.length()), conf.get(key));
+            }
+        }
+        return pagers;
+    }
+    
+    public String[] getWelcomeFiles() {
+        String[] defaults = new String[] {"index.html", "index.htm", "index.do"};
+        ArrayList<String> files = new ArrayList<>();
+        if (conf.has(getConfigurePrefix() + ".welcome_files")) {
+            for (String file : Strings.splitIgnoreBlank(conf.get(getConfigurePrefix() + ".welcome_files"))) {
+                files.add(file);
+            }
+        }
+        if (files.isEmpty())
+            return defaults;
+        for (String file : defaults) {
+            if (!files.contains(file))
+                files.add(file);
+        }
+        return files.toArray(new String[files.size()]);
     }
 }

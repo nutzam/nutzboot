@@ -6,9 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.zip.Deflater;
 
 import javax.websocket.server.ServerContainer;
@@ -117,6 +115,9 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     @PropDoc(value = "gzip压缩最小触发大小", defaultValue = "512")
     public static final String PROP_GZIP_MIN_CONTENT_SIZE = PRE + "gzip.minContentSize";
 
+    @PropDoc(value = "WelcomeFile列表", defaultValue="index.html,index.htm,index.do")
+    public static final String PROP_WELCOME_FILES = PRE + "welcome_files";
+
     protected Server server;
     protected WebAppContext wac;
 
@@ -223,6 +224,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
             ep = handler;
         }
         wac.setErrorHandler(ep);
+        wac.setWelcomeFiles(getWelcomeFiles());
 
         // 设置一下额外的东西
         server.setAttribute("org.eclipse.jetty.server.Request.maxFormContentSize", getMaxFormContentSize());
@@ -242,16 +244,6 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
 
     private void addNutzSupport() {
         wac.addEventListener(ioc.get(NbServletContextListener.class));
-    }
-
-    public Map<String, String> getErrorPages() {
-        Map<String, String> pagers = new HashMap<>();
-        for (String key : conf.keySet()) {
-            if (key.startsWith("jetty.page.")) {
-                pagers.put(key.substring("jetty.page.".length()), conf.get(key));
-            }
-        }
-        return pagers;
     }
 
     public int getMaxFormContentSize() {
