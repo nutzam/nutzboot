@@ -9,6 +9,8 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.security.cert.Certificate;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -34,6 +36,7 @@ import org.apache.catalina.webresources.EmptyResourceSet;
 import org.apache.catalina.webresources.FileResource;
 import org.apache.catalina.webresources.StandardRoot;
 import org.apache.juli.logging.LogFactory;
+import org.apache.tomcat.util.descriptor.web.ErrorPage;
 import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.starter.ServerFace;
 import org.nutz.boot.starter.servlet3.AbstractServletContainerStarter;
@@ -86,6 +89,12 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
     
     @PropDoc(value = "最大线程数", defaultValue = "256")
     public static final String PROP_EXECUTOR_MAX_THREADS = PRE + "executor.maxThreads";
+
+    @PropDoc(value = "自定义404页面,同理,其他状态码也是支持的")
+    public static final String PROP_PAGE_404 = PRE + "page.404";
+    
+    @PropDoc(value = "自定义java.lang.Throwable页面,同理,其他异常也支持")
+    public static final String PROP_PAGE_THROWABLE = PRE + "page.java.lang.Throwable";
 
     private static final String PROP_PROTOCOL = "org.apache.coyote.http11.Http11NioProtocol";
 
@@ -222,6 +231,21 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
 
         for (String welcomeFile : Arrays.asList("index.html", "index.htm", "index.jsp", "index.do")) {
             this.tomcatContext.addWelcomeFile(welcomeFile);
+        }
+
+        for (Map.Entry<String, String> en : getErrorPages().entrySet()) {
+            ErrorPage page = new ErrorPage();
+            page.setLocation(en.getValue());
+            String key = en.getKey();
+            if (Strings.isNumber(key)) {
+                log.debugf("add error page code=%s location=%s", key, en.getValue());
+                page.setErrorCode(key);
+            }
+            else {
+                log.debugf("add error page Exception=%s location=%s", key, en.getValue());
+                page.setExceptionType(key);
+            }
+            this.tomcatContext.addErrorPage(page);
         }
 
         // 注册defaultServlet
@@ -465,5 +489,15 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
 
     protected String getConfigurePrefix() {
         return PRE;
+    }
+
+    public Map<String, String> getErrorPages() {
+        Map<String, String> pagers = new HashMap<>();
+        for (String key : conf.keySet()) {
+            if (key.startsWith("tomcat.page.")) {
+                pagers.put(key.substring("tomcat.page.".length()), conf.get(key));
+            }
+        }
+        return pagers;
     }
 }
