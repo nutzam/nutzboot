@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.Servlet;
+import javax.servlet.ServletContext;
 
 public interface WebServletFace {
 
@@ -19,5 +20,9 @@ public interface WebServletFace {
 
     default Map<String, String> getInitParameters() {
         return new HashMap<>();
+    }
+
+    default void setServletContext(ServletContext sc) {
+
     }
 }

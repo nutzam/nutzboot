@@ -6,6 +6,7 @@ import java.util.EventListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -61,11 +62,18 @@ public class NbServletContextListener implements ServletContextListener {
 
         // 注册Servlet
         appContext.getBeans(WebServletFace.class).forEach((face) -> {
-            if (face.getServlet() == null) {
+            face.setServletContext(sc);
+            Servlet servlet = face.getServlet();
+            if (servlet == null) {
                 return;
             }
-            Dynamic dyna = sc.addServlet(face.getName(), face.getServlet());
+            Dynamic dyna = sc.addServlet(face.getName(), servlet);
+            if (dyna == null) {
+                log.infof("addServlet return null?! maybe define in web.xml as same name=%s", face.getName());
+                return;
+            }
             for (String pathSpec : face.getPathSpecs()) {
+                log.debugf("add Servlet name=%s pathSpec=%s", face.getName(), pathSpec);
                 dyna.addMapping(pathSpec);
             }
             dyna.setInitParameters(face.getInitParameters());
@@ -86,11 +94,16 @@ public class NbServletContextListener implements ServletContextListener {
         List<WebFilterFace> filters = appContext.getBeans(WebFilterFace.class);
         Collections.sort(filters, Comparator.comparing(WebFilterFace::getOrder));
         filters.forEach((face) -> {
+            face.setServletContext(sc);
             if (face.getFilter() == null) {
                 return;
             }
-            log.debugf("add filter name=%s pathSpec=%s", face.getName(), face.getPathSpec());
             javax.servlet.FilterRegistration.Dynamic dyna = sc.addFilter(face.getName(), face.getFilter());
+            if (dyna == null) {
+                log.infof("addFilter return null?! maybe define in web.xml as same name=%s", face.getName());
+                return;
+            }
+            log.debugf("add filter name=%s pathSpec=%s", face.getName(), face.getPathSpec());
             dyna.setInitParameters(face.getInitParameters());
             dyna.addMappingForUrlPatterns(face.getDispatches(), true, face.getPathSpec());
         });

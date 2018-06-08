@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
+import javax.servlet.ServletContext;
 
 /**
  * 提供一个Filter
@@ -53,6 +54,10 @@ public interface WebFilterFace {
      * @return
      */
     int getOrder();
+
+    default void setServletContext(ServletContext sc) {
+
+    }
 
     /**
      * 内置的默认顺序

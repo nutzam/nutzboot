@@ -8,6 +8,7 @@
 	* add: 为jetty/undertow/tomcat添加welcome file配置
 	* add: 支持获取undertow底层实例
 	* add: WebServletFace添加getPathSpecs方法,可映射多个路径
+	* add: WebServletFace和WebFilterFace添加setServletContext方法
 	* change: 将spring支持单独为nutzboot-spring
 
 # 2.1.9 "隐形的翅膀"
