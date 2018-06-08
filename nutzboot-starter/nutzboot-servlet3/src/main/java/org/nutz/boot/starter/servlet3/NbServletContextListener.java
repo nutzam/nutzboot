@@ -65,7 +65,9 @@ public class NbServletContextListener implements ServletContextListener {
                 return;
             }
             Dynamic dyna = sc.addServlet(face.getName(), face.getServlet());
-            dyna.addMapping(face.getPathSpec());
+            for (String pathSpec : face.getPathSpecs()) {
+                dyna.addMapping(pathSpec);
+            }
             dyna.setInitParameters(face.getInitParameters());
         });
         // 注册监听器

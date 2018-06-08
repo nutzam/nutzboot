@@ -10,6 +10,10 @@ public interface WebServletFace {
     String getName();
 
     String getPathSpec();
+    
+    default String[] getPathSpecs() {
+        return new String[] {getPathSpec()};
+    }
 
     Servlet getServlet();
 

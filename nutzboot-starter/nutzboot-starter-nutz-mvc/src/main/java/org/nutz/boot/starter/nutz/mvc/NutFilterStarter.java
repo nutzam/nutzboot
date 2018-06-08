@@ -58,7 +58,9 @@ public class NutFilterStarter implements WebFilterFace {
         }
         StringBuilder sb = new StringBuilder();
         for (WebServletFace face : appContext.getBeans(WebServletFace.class)) {
-            sb.append(',').append(face.getPathSpec());
+            for (String pathSpec : face.getPathSpecs()) {
+                sb.append(',').append(pathSpec);
+            }
         }
         params.put("exclusions", conf.get("nutz.mvc.exclusions", "") + sb);
         return params;
