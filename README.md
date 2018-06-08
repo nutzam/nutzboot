@@ -91,7 +91,10 @@ public class MainLauncher {
 * [Todo-backend](https://github.com/nutzam/todo-backend-nutzboot),一个类就能通过TodoBackend的测试 by wendal
 * [urls](https://gitee.com/howe/urls) Java版短地址服务 by howe
 * [LuliChat](https://github.com/TopCoderMyDream/LuliChat/tree/nutzboot) 一个Nutz为后台支撑,T-io为通讯支持,LayIM为前台UI交互的纯国产框架开发的一个即时通讯项目 by 蛋蛋
-* [NutzWk-NB分支](https://github.com/Wizzercn/NutzWk) 企业级微服务开发平台 by 大鲨鱼
+* [NutzWk-NB分支](https://github.com/Wizzercn/NutzWk) 企业级微服务开发平台,非常靠谱 by 大鲨鱼
+* [NutzBoot项目生成器](https://gitee.com/nutz/nutzboot-project-maker) https://get.nutz.cn 的源码 by wendal
+* [NutzBoot集成PageOffice](https://gitee.com/nutz/nutzboot-demo-pageoffice) PageOffice是私有云Office解决方案 by wendal
+* [IP地址查询服务](https://gitee.com/nutz/ipd4nutzboot) http://ip.nutz.cn 的源码 by wendal
 
 ## Contributors
 
