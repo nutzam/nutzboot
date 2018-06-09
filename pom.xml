@@ -869,6 +869,11 @@
 				<artifactId>nutzboot-spring4</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.ow2.asm</groupId>
+				<artifactId>asm</artifactId>
+				<version>${asm.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<repositories>
@@ -941,7 +946,7 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
 	</distributionManagement>
-	
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>nutz-snapshots</id>
