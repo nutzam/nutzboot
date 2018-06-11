@@ -1,5 +1,25 @@
 # 配置总表
 
+## 在部署时使用不同的配置文件
+
+```
+java -Dnutz.profiles.active=prod -jar xxx.jar
+```
+
+## 部署时修改特定的参数
+
+```
+java -Dserver.port=8081 -Djetty.staticPath=/opt/www/nutzcn -jar xxx.jar
+```
+
+## 控制内存消耗
+
+```
+java -Xmx2G -jar XXX.jar
+```
+
+## 配置手册
+
 更新时间: 2018.05.10
 
 |id  |key                                     |required  |Possible Values     |Default   |Description         |                                starters|
