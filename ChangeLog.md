@@ -1,15 +1,24 @@
 # NB进化史
 
-# 2.2.0 迭代中
+# 2.2.0 "荷塘月色"
+
+完善serlvet容器(jetty/undertow/tomcat)对web.xml的替代性配置
+
+* 时间: 2018-06-11
+* 曲目: [荷塘月色](https://www.youtube.com/watch?v=nbWJv5KAIGY)
+* 兼容性: 与2.0.x/2.1.x完全兼容
 
 * 变更:
-	* add: tomcat也需要支持404和500页面等页面 https://gitee.com/nutz/nutzboot/issues/IKC3B
+	* add: tomcat也需要支持404和500页面等页面 https://gitee.com/nutz/nutzboot/issues/IKC3B by [mm](https://gitee.com/aaabbbsdfasdfasdfasdfasf)
 	* add: undertow也需要支持404和500页面等页面
 	* add: 为jetty/undertow/tomcat添加welcome file配置
 	* add: 支持获取undertow底层实例
 	* add: WebServletFace添加getPathSpecs方法,可映射多个路径
 	* add: WebServletFace和WebFilterFace添加setServletContext方法
+	* add: [集成pageoffice的demo](https://gitee.com/nutz/nutzboot-demo-pageoffice)
 	* change: 将spring支持单独为nutzboot-spring
+	* update: dubbo更新到2.6.2 by 大鲨鱼
+	* update: jetty更新到9.4.11.v20180605 by howe
 
 # 2.1.9 "隐形的翅膀"
 
