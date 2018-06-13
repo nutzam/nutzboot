@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.nutz.boot.AppContext;
+import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.starter.WebServletFace;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
@@ -29,6 +30,11 @@ import io.swagger.util.Json;
 public class SwaggerServletStarter extends HttpServlet implements WebServletFace {
     
 	private static final long serialVersionUID = 988318972932805253L;
+	
+	protected static final String PRE = "swagger.";
+	
+	@PropDoc(value = "是否启用swagger", defaultValue = "true", type = "boolean")
+    public static final String PROP_ENABLE = PRE + "enable";
 
 	@Inject
     protected PropertiesProxy conf;
@@ -45,6 +51,8 @@ public class SwaggerServletStarter extends HttpServlet implements WebServletFace
     }
 
     public Servlet getServlet() {
+        if (!conf.getBoolean(PROP_ENABLE, true))
+            return null;
         return this;
     }
 
