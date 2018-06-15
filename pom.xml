@@ -36,6 +36,7 @@
 		<HikariCP.version>3.1.0</HikariCP.version>
 		<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
 		<quartz.version>2.3.0</quartz.version>
+		<elasticsearch.version>6.3.0</elasticsearch.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
