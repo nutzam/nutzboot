@@ -1,6 +1,13 @@
 # NB进化史
 
-# 2.2.1 ""
+# 2.2.1 "Live It Up"
+
+使用nutz 1.r.66正式版
+
+* 时间: 2018-06-15
+* 事件: 世界杯第二天
+* 曲目: [Live It Up](https://www.youtube.com/watch?v=V15BYnSr0P8)
+* 兼容性: 与2.0.x/2.1.x完全兼容
 
 * 变更:
 	* update: 使用nutz 1.r.66正式版本
