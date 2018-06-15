@@ -1,5 +1,11 @@
 # NB进化史
 
+# 2.2.1 ""
+
+* 变更:
+	* update: 使用nutz 1.r.66正式版本
+	* add: 添加配置项,支持禁用swagger
+
 # 2.2.0 "荷塘月色"
 
 完善serlvet容器(jetty/undertow/tomcat)对web.xml的替代性配置
