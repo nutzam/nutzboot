@@ -138,14 +138,14 @@ public class UserService {
                 Map<String, Object> source = searchHit.getSourceAsMap();
                 Map<String, HighlightField> highlightFields = searchHit.getHighlightFields();
                 //name高亮
-                HighlightField nameField = highlightFields.get("user");
+                HighlightField nameField = highlightFields.get("name");
                 if (nameField != null) {
                     Text[] fragments = nameField.fragments();
                     String tmp = "";
                     for (Text text : fragments) {
                         tmp += text;
                     }
-                    source.put("user", tmp);
+                    source.put("name", tmp);
                 }
                 list.add(source);
             });
