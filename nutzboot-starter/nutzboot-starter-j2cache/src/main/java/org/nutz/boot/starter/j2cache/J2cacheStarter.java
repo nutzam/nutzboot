@@ -105,14 +105,19 @@ public class J2cacheStarter {
         String nb_l1CacheName = Strings.trim(conf.get(PRE+"L1.provider_class"));
         String nb_l2CacheName = Strings.trim(conf.get(PRE+"L2.provider_class"));
 
+        String nb_syncTtlToRedis = Strings.trim(conf.get(PRE+"sync_ttl_to_redis","true"));
+
         conf.keys().forEach((k) -> {
             if(k.startsWith(PRE+nb_broadcast + ".")) {
                 nb_broadcastProperties.setProperty(k.substring(PRE.length()+((nb_broadcast + ".").length())), conf.get(k));
             }
-            if(k.startsWith(PRE+nb_l1CacheName + "."))
+            else if(k.startsWith(PRE+nb_l1CacheName + ".")) {
                 nb_l1CacheProperties.setProperty(k.substring(PRE.length()+((nb_l1CacheName + ".").length())),conf.get(k));
-            if(k.startsWith(PRE+nb_l2CacheName + "."))
+            }
+            //也许 nb_l2CacheName==nb_broadcast=="redis"
+            if(k.startsWith(PRE+nb_l2CacheName + ".")) {
                 nb_l2CacheProperties.setProperty(k.substring(PRE.length()+((nb_l2CacheName + ".").length())), conf.get(k));
+            }
         });
 
         J2CacheConfig j2CacheConfig = new J2CacheConfig();
@@ -123,6 +128,7 @@ public class J2cacheStarter {
         j2CacheConfig.setSerialization(nb_serialization);
         j2CacheConfig.setL2CacheName(nb_l2CacheName);
         j2CacheConfig.setL2CacheProperties(nb_l2CacheProperties);
+		j2CacheConfig.setSyncTtlToRedis(Boolean.parseBoolean(nb_syncTtlToRedis));
 
         return J2CacheBuilder.init(j2CacheConfig).getChannel();
     }
