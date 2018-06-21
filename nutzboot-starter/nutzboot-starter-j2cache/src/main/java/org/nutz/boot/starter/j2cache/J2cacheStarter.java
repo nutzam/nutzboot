@@ -49,6 +49,8 @@ public class J2cacheStarter {
     public static final String PROP_CAFFEINE_REGION_DEFAULT= PRE + "caffeine.region.default";
     @PropDoc(group = "j2cache", value = "Redis的mode,可以有:single(single redis server),sentinel(master-slaves servers),cluster(cluster servers),sharded(sharded servers)", defaultValue = "")
     public static final String PROP_REDIS_MODE= PRE + "redis.mode";
+	@PropDoc(group = "j2cache", value = "Redis的syncTtlToRedis,控制缓存有效期,可以有:true(同步一级缓存ttl),false(永不过期)", defaultValue = "true")
+	public static final String PROP_REDIS_SYNCTTLTOREDIS= PRE + "redis.syncTtlToRedis";
     @PropDoc(group = "j2cache", value = "Redis的存储mode,可以有:generic,hash", defaultValue = "")
     public static final String PROP_REDIS_STORAGE= PRE + "redis.storage";
     @PropDoc(group = "j2cache", value = "Redis的Channel的名字", defaultValue = "")
@@ -105,7 +107,7 @@ public class J2cacheStarter {
         String nb_l1CacheName = Strings.trim(conf.get(PRE+"L1.provider_class"));
         String nb_l2CacheName = Strings.trim(conf.get(PRE+"L2.provider_class"));
 
-        String nb_syncTtlToRedis = Strings.trim(conf.get(PRE+"sync_ttl_to_redis","true"));
+        String nb_syncTtlToRedis = Strings.trim(conf.get(PROP_REDIS_SYNCTTLTOREDIS,"true"));
 
         conf.keys().forEach((k) -> {
             if(k.startsWith(PRE+nb_broadcast + ".")) {
