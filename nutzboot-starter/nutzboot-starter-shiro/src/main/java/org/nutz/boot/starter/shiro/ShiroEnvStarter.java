@@ -79,6 +79,13 @@ public class ShiroEnvStarter implements WebEventListenerFace {
     @PropDoc(value = "realm是否缓存")
     public static final String PROP_REALM_CACHE_ENABLE = "shiro.realm.cache.enable";
 
+    @PropDoc(value = "全局session过期时间", defaultValue="180000")
+    public static final String PROP_SESSION_MANAGER_GLOBALSESSIONTIMEOUT = "session.manager.globalSessionTimeout";
+    @PropDoc(value = "是否定期检查session过期", defaultValue="true")
+    public static final String PROP_SESSION_MANAGER_SVSE = "session.manager.sessionValidationSchedulerEnabled";
+    @PropDoc(value = "定期检查session过期的周期", defaultValue="3600000")
+    public static final String PROP_SESSION_MANAGER_SVI = "session.manager.sessionValidationInterval";
+
     @Inject
     protected AppContext appContext;
 
