@@ -1,5 +1,11 @@
 # NB进化史
 
+# 2.2.2 迭代中
+
+* 变更:
+	* add: starter-elasticsearch
+	* add: jst模板引擎,自带nutzboot支持
+
 # 2.2.1 "Live It Up"
 
 使用nutz 1.r.66正式版

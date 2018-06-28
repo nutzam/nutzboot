@@ -186,7 +186,8 @@ public class MainLauncher {
     - 非关系型数据库
         - [x] starter-[redis](https://redis.io) 特点就是快,吃内存!
         - [x] starter-mongodb NoSQL的重要一支
-        - [x] starter-ssdb by [道坤](https://github.com/albinhdk
+        - [x] starter-ssdb by [道坤](https://github.com/albinhdk)
+        - [x] starter-elasticsearch by 大鲨鱼
         - [ ] memcached
 - Mvc
     - [x] starter-nutz-mvc Nutz自带的Mvc框架
@@ -202,7 +203,8 @@ public class MainLauncher {
     - [x] starter-[quartz](http://www.quartz-scheduler.org)
     - [x] starter-xxl-job [国产分布式任务调度平台](https://github.com/xuxueli/xxl-job/pull/253)
 - 模板引擎
-    - [x] starter-[beetl](http://ibeetl.com/) 
+    - [x] [jst](https://gitee.com/nutz/jst) Nutz出品的模板引擎
+    - [x] starter-[beetl](http://ibeetl.com/) 高效模板引擎
     - [x] starter-jetx [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
     - [x] starter-velocity by [haoqoo](https://github.com/haoqoo)
     - [x] starter-thymeleaf by [温泉](https://github.com/ywjno)
