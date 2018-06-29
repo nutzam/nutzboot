@@ -498,4 +498,8 @@ public class NbApp extends Thread {
     public boolean isStarted() {
         return started;
     }
+    
+    public void setMainPackage(String mainPackage) {
+        getAppContext().setMainPackage(mainPackage);
+    }
 }
