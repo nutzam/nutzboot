@@ -1,10 +1,16 @@
 # NB进化史
 
-# 2.2.2 迭代中
+# 2.2.2 "If You"
 
+添加elasticsearch支持
+
+* 时间: 2018-07-03
+* 事件: "亚洲球队全部出局了"
+* 曲目: [If You](https://www.youtube.com/watch?v=vUIHVpikGpI)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
 * 变更:
-	* add: starter-elasticsearch
-	* add: jst模板引擎,自带nutzboot支持
+	* add: starter-elasticsearch by 大鲨鱼
+	* add: jst模板引擎,自带nutzboot支持 by wendal
 
 # 2.2.1 "Live It Up"
 
