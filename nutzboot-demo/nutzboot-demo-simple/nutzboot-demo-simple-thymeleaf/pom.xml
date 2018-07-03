@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.nutz</groupId>
 		<artifactId>nutzboot-demo-simple</artifactId>
-		<version>2.2.2</version>
+		<version>2.3-SNAPSHOT</version>
 	</parent>
 	<artifactId>nutzboot-demo-simple-thymeleaf</artifactId>
 	<dependencies>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 			<artifactId>thymeleaf-layout-dialect</artifactId>
-			<version>2.2.2</version>
+			<version>2.3-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
