@@ -79,12 +79,12 @@ public class ShiroEnvStarter implements WebEventListenerFace {
     @PropDoc(value = "realm是否缓存")
     public static final String PROP_REALM_CACHE_ENABLE = "shiro.realm.cache.enable";
 
-    @PropDoc(value = "全局session过期时间", defaultValue="180000")
-    public static final String PROP_SESSION_MANAGER_GLOBALSESSIONTIMEOUT = "session.manager.globalSessionTimeout";
-    @PropDoc(value = "是否定期检查session过期", defaultValue="true")
-    public static final String PROP_SESSION_MANAGER_SVSE = "session.manager.sessionValidationSchedulerEnabled";
-    @PropDoc(value = "定期检查session过期的周期", defaultValue="3600000")
-    public static final String PROP_SESSION_MANAGER_SVI = "session.manager.sessionValidationInterval";
+    @PropDoc(value = "全局session过期时间", type = "long", defaultValue = "180000")
+    public static final String PROP_SESSION_MANAGER_GLOBALSESSIONTIMEOUT = "shiro.session.manager.globalSessionTimeout";
+    @PropDoc(value = "是否定期检查session过期", type = "boolean", defaultValue = "true")
+    public static final String PROP_SESSION_MANAGER_SVSE = "shiro.session.manager.sessionValidationSchedulerEnabled";
+    @PropDoc(value = "定期检查session过期的周期", type = "long", defaultValue = "3600000")
+    public static final String PROP_SESSION_MANAGER_SVI = "shiro.session.manager.sessionValidationInterval";
 
     @Inject
     protected AppContext appContext;
@@ -165,7 +165,10 @@ public class ShiroEnvStarter implements WebEventListenerFace {
         EnterpriseCacheSessionDAO sessionDAO = new EnterpriseCacheSessionDAO();
         sessionDAO.setSessionIdGenerator(new UU32SessionIdGenerator());
         webSessionManager.setSessionDAO(sessionDAO);
-
+        //设置session会话超时时间
+        webSessionManager.setGlobalSessionTimeout(conf.getLong(PROP_SESSION_MANAGER_GLOBALSESSIONTIMEOUT, 180000));
+        webSessionManager.setSessionValidationSchedulerEnabled(conf.getBoolean(PROP_SESSION_MANAGER_SVSE, true));
+        webSessionManager.setSessionValidationInterval(conf.getLong(PROP_SESSION_MANAGER_SVI, 3600000));
         // cookie
         conf.putIfAbsent(PROP_SESSION_COOKIE_NAME, "sid");
         conf.putIfAbsent(PROP_SESSION_COOKIE_MAXAGE, "946080000");
