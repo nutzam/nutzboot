@@ -308,7 +308,7 @@ public class AppContext implements LifeCycle {
     }
 
     /**
-     * 循环调用ServerFace的start方法,通常是一个starter
+     * 循环调用ServerFace的stop方法,通常是一个starter
      */
     public void stopServers() throws Exception {
         for (ServerFace face : serverFaces)
