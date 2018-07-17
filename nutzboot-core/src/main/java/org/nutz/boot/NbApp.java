@@ -41,6 +41,7 @@ import org.nutz.log.LogAdapter;
 import org.nutz.log.Logs;
 import org.nutz.mvc.Mvcs;
 import org.nutz.mvc.annotation.IocBy;
+import org.nutz.resource.Scans;
 
 /**
  * NutzBoot的主体
@@ -276,6 +277,15 @@ public class NbApp extends Thread {
         if (printProcDoc) {
             PropDocReader docReader = new PropDocReader();
             docReader.load(starterClasses);
+            if (getAppContext().getConf().get("nutz.propdoc.packages") != null) {
+                for (String pkg : Strings.splitIgnoreBlank(getAppContext().getConf().get("nutz.propdoc.packages"))) {
+                    for (Class<?> klass : Scans.me().scanPackage(pkg)) {
+                        if (klass.isInterface())
+                            continue;
+                        docReader.addClass(klass);
+                    }
+                }
+            }
             Logs.get().info("Configure Manual:\r\n" + docReader.toMarkdown());
         }
 
