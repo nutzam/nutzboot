@@ -1,5 +1,18 @@
 # NB进化史
 
+# 2.2.3 ""
+
+修复shiro session默认过期时间,增强@PropDoc的可配置性
+
+* 时间: 2018-07-17
+* 事件: "世界杯结束啦"
+* 曲目: [If You](https://www.youtube.com/watch?v=vUIHVpikGpI)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+* 变更:
+	* add: 添加配置项nutz.propdoc.packages可自定义扫描@PropDoc的路径
+	* fix: shiro的默认session超时设置错误
+	* update: 更新tio版本号
+
 # 2.2.2 "If You"
 
 添加elasticsearch支持

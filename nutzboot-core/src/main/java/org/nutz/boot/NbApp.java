@@ -509,7 +509,8 @@ public class NbApp extends Thread {
         return started;
     }
     
-    public void setMainPackage(String mainPackage) {
+    public NbApp setMainPackage(String mainPackage) {
         getAppContext().setMainPackage(mainPackage);
+        return this;
     }
 }
