@@ -87,7 +87,7 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
         if (tmp.size() > 0) {
         	conf.putAll(tmp.toMap());
         }
-        if (Strings.isBlank("app.build.version")) {
+        if (Strings.isBlank(conf.get("app.build.version"))) {
             InputStream ins = resourceLoader.get("build.version");
             if (ins != null) {
                 conf.load(new InputStreamReader(ins), false);
