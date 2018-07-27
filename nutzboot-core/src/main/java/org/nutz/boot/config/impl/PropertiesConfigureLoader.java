@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URLDecoder;
 
 import org.nutz.ioc.impl.PropertiesProxy;
@@ -85,6 +86,12 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
         // 把命令行参数放进去
         if (tmp.size() > 0) {
         	conf.putAll(tmp.toMap());
+        }
+        if (Strings.isBlank("app.build.version")) {
+            InputStream ins = resourceLoader.get("build.version");
+            if (ins != null) {
+                conf.load(new InputStreamReader(ins), false);
+            }
         }
     }
 
