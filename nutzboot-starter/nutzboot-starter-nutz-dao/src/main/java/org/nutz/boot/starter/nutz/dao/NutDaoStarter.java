@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.starter.jdbc.DataSourceStarter;
 import org.nutz.dao.SqlManager;
@@ -182,7 +183,27 @@ public class NutDaoStarter {
                 dao.setRunner(runner);
             }
         }
+        injectManyDao();
         return dao;
+    }
+
+    private void injectManyDao() {
+        if(conf.containsKey("jdbc.many.names")) {
+            String names = conf.get("jdbc.many.names");
+            for(String name : names.split(",")) {
+                String prefix_name = "jdbc.many." + name + ".";
+                DataSource manyDataSource = conf.make(DruidDataSource.class, prefix_name);
+                NutDao nutDao = new NutDao();
+                nutDao.setDataSource(manyDataSource);
+
+                String slave_prefix = prefix_name + "slave.";
+                DataSource slaveDataSource = DataSourceStarter.getSlaveDataSource(ioc, conf, slave_prefix);
+                NutDaoRunner runner = new NutDaoRunner();
+                runner.setSlaveDataSource(slaveDataSource);
+                nutDao.setRunner(runner);
+                ioc.addBean(name+"Dao", nutDao);
+            }
+        }
     }
 
     /**
