@@ -1,5 +1,10 @@
 # NB进化史
 
+# 2.2.4 "迭代中"
+
+* 变更:
+	* add: [starter-nutz-dao支持多个不同的数据源](https://gitee.com/nutz/nutzboot/pulls/9) by [文涛](https://gitee.com/wentao0291)
+
 # 2.2.3 "This Is Me"
 
 修复shiro session默认过期时间,增强@PropDoc的可配置性
