@@ -206,9 +206,11 @@ public class NutDaoStarter {
                 // 处理对应的从库
                 String slave_prefix = prefix_name + "slave.";
                 DataSource slaveDataSource = DataSourceStarter.getSlaveDataSource(ioc, conf, slave_prefix);
-                NutDaoRunner runner = new NutDaoRunner();
-                runner.setSlaveDataSource(slaveDataSource);
-                nutDao.setRunner(runner);
+                if(slaveDataSource != null) {
+                    NutDaoRunner runner = new NutDaoRunner();
+                    runner.setSlaveDataSource(slaveDataSource);
+                    nutDao.setRunner(runner);
+                }
                 // 加入到ioc对象
                 ioc.addBean(name + "Dao", nutDao);
             }
