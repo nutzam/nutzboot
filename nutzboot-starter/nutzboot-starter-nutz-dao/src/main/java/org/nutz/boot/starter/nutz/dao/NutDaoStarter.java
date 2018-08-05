@@ -2,6 +2,8 @@ package org.nutz.boot.starter.nutz.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.sql.DataSource;
 
@@ -18,6 +20,7 @@ import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
+import org.nutz.lang.util.Regex;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.plugins.cache.dao.DaoCacheInterceptor;
@@ -188,20 +191,26 @@ public class NutDaoStarter {
     }
 
     private void injectManyDao() {
-        if(conf.containsKey("jdbc.many.names")) {
-            String names = conf.get("jdbc.many.names");
-            for(String name : names.split(",")) {
+        // 正则匹配多数据库url
+        String regex = "jdbc\\.many\\.(\\w*)\\.url";
+        for (String key : conf.getKeys()) {
+            Pattern pattern = Regex.getPattern(regex);
+            Matcher match = pattern.matcher(key);
+            if(match.find()) {
+                // 获取数据库名称
+                String name = match.group(1);
                 String prefix_name = "jdbc.many." + name + ".";
                 DataSource manyDataSource = conf.make(DruidDataSource.class, prefix_name);
                 NutDao nutDao = new NutDao();
                 nutDao.setDataSource(manyDataSource);
-
+                // 处理对应的从库
                 String slave_prefix = prefix_name + "slave.";
                 DataSource slaveDataSource = DataSourceStarter.getSlaveDataSource(ioc, conf, slave_prefix);
                 NutDaoRunner runner = new NutDaoRunner();
                 runner.setSlaveDataSource(slaveDataSource);
                 nutDao.setRunner(runner);
-                ioc.addBean(name+"Dao", nutDao);
+                // 加入到ioc对象
+                ioc.addBean(name + "Dao", nutDao);
             }
         }
     }
