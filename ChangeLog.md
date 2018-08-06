@@ -1,6 +1,13 @@
 # NB进化史
 
-# 2.2.4 "迭代中"
+# 2.2.4 "BD7OEC"
+
+CQ CQ CQ, this is BD7OEC, BRAVO DELTA 7 OSCAR ECHO CHARLIE, BD7OEC, calling CQ and standby.
+
+* 时间: 2018-08-06
+* 事件: "拿证了"
+* 曲目: [业余无线电](https://www.bilibili.com/video/av21992170)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
 
 * 变更:
 	* add: [starter-nutz-dao支持多个不同的数据源](https://gitee.com/nutz/nutzboot/pulls/9) by [文涛](https://gitee.com/wentao0291)
