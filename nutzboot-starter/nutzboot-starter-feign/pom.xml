@@ -60,17 +60,17 @@
         <dependency>
         	<groupId>com.netflix.ribbon</groupId>
         	<artifactId>ribbon-loadbalancer</artifactId>
-        	<version>2.3-SNAPSHOT</version>
+        	<version>2.2.4</version>
         </dependency>
         <dependency>
         	<groupId>com.netflix.ribbon</groupId>
         	<artifactId>ribbon-core</artifactId>
-        	<version>2.3-SNAPSHOT</version>
+        	<version>2.2.4</version>
         </dependency>
         <dependency>
         	<groupId>com.netflix.ribbon</groupId>
         	<artifactId>ribbon-eureka</artifactId>
-        	<version>2.3-SNAPSHOT</version>
+        	<version>2.2.4</version>
         	<scope>provided</scope>
         </dependency>
     </dependencies>
