@@ -69,7 +69,6 @@
 		<module>nutzboot-core</module>
 		<module>nutzboot-starter</module>
 		<module>nutzboot-contrib</module>
-		<module>nutzboot-demo</module>
 
 
 	</modules>
