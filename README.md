@@ -213,6 +213,8 @@ public class MainLauncher {
     - [x] starter-rabbitmq
     - [ ] rocketmq
     - [ ] activemq
+- 邮件发送
+    - [x] starter-mail 基于commons-email by [threefish](https://github.com/threefish)
 - 工作流
     - [x] starter-[uflo](https://github.com/youseries/uflo) 中式工作流引擎
     - [x] starter-[activiti](https://www.activiti.org/)
