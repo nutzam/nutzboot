@@ -23,7 +23,8 @@ public class MainLauncher {
         try {
             //注意垃圾收件箱
             email.setSubject("NutzBootEmainStarter");
-            email.addTo("306955302@qq.com");
+            //请使用自己的邮箱
+            email.addTo("自己的邮箱");
             email.setHtmlMsg("此邮件是Nutz Boot Email Starter发送给您的测试邮件！");
             log.debug("开始邮件发送");
             email.send();
