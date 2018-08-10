@@ -3,6 +3,7 @@ package org.nutz.boot.starter.email;
 import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.ioc.IocLoaderProvider;
 import org.nutz.ioc.IocLoader;
+import org.nutz.ioc.loader.json.JsonLoader;
 
 public class EmailIocLoaderStarter implements IocLoaderProvider {
 
@@ -31,6 +32,6 @@ public class EmailIocLoaderStarter implements IocLoaderProvider {
 
     @Override
     public IocLoader getIocLoader() {
-        return new EmailIocLoader();
+        return new JsonLoader("org/nutz/boot/starter/email/email.js");
     }
 }
