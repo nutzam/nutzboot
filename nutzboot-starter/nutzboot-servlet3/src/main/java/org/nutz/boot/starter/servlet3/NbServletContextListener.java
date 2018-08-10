@@ -21,6 +21,7 @@ import org.nutz.boot.starter.WebServletFace;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Mirror;
+import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
@@ -69,6 +70,9 @@ public class NbServletContextListener implements ServletContextListener {
                 }
                 else {
                     nbApp = new NbApp(klass);
+                    String mainPackage = sc.getInitParameter("nutzboot.mainPackage");
+                    if (Strings.isNotBlank(mainPackage))
+                        nbApp.setMainPackage(mainPackage);
                 }
                 appContext = nbApp.getAppContext();
                 nbApp.execute();

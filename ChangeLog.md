@@ -1,5 +1,10 @@
 # NB进化史
 
+# 2.2.5 "迭代中"
+
+* 变更:
+	* add: 在war打包模式下,支持warMain入口,解决自定义NbApp实例的需求
+
 # 2.2.4 "BD7OEC"
 
 CQ CQ CQ, this is BD7OEC, BRAVO DELTA 7 OSCAR ECHO CHARLIE, BD7OEC, calling CQ and standby.

@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 
 import javax.sql.DataSource;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.starter.jdbc.DataSourceStarter;
 import org.nutz.dao.SqlManager;
