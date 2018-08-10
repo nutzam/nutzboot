@@ -1,5 +1,6 @@
 package org.nutz.boot.starter.servlet3;
 
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EventListener;
@@ -51,7 +52,24 @@ public class NbServletContextListener implements ServletContextListener {
             String mainClassName = sc.getInitParameter("nutzboot.mainClass");
             try {
                 log.info("Running at war mode!!! mainClass=" + mainClassName);
-                nbApp = new NbApp(Class.forName(mainClassName));
+                Class<?> klass = Class.forName(mainClassName);
+                Method method = null;
+                try {
+                    method = klass.getMethod("warMain", ServletContext.class);
+                }
+                catch (NoSuchMethodException e) {
+                }
+                if (method != null) {
+                    try {
+                        nbApp = (NbApp) method.invoke(null, this.sc);
+                    }
+                    catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                else {
+                    nbApp = new NbApp(klass);
+                }
                 appContext = nbApp.getAppContext();
                 nbApp.execute();
             }
