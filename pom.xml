@@ -37,6 +37,7 @@
 		<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
 		<quartz.version>2.3.0</quartz.version>
 		<elasticsearch.version>6.3.0</elasticsearch.version>
+		<commons.email.version>1.4</commons.email.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -68,6 +69,7 @@
 		<module>nutzboot-core</module>
 		<module>nutzboot-starter</module>
 		<module>nutzboot-contrib</module>
+		<module>nutzboot-demo</module>
 
 
 	</modules>
