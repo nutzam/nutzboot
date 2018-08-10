@@ -19,6 +19,7 @@
 		<dependency>
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-email</artifactId>
+			<version>${project.version}</version>
 		</dependency>
     </dependencies>
 </project>
