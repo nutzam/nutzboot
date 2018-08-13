@@ -212,7 +212,7 @@ public class ShiroEnvStarter implements WebEventListenerFace {
     }
 
     @IocBean(name = "shiroEhcacheCacheManager")
-    public CacheManager getShiroLcacheCacheManager() {
+    public CacheManager getShiroEhcacheCacheManager() {
         EhCacheManager cacheManager = new EhCacheManager();
         if (ioc.has("ehcacheCacheManager")) {
             cacheManager.setCacheManager(ioc.get(net.sf.ehcache.CacheManager.class, "ehcacheCacheManager"));
