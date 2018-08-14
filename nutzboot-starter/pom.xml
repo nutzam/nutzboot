@@ -63,6 +63,7 @@
 		<module>nutzboot-servlet3</module>
 		<module>nutzboot-spring4</module>
         <module>nutzboot-starter-elasticsearch</module>
+        <module>nutzboot-starter-email</module>
     </modules>
 	<dependencies>
 		<dependency>
