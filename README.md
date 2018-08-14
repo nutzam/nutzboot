@@ -250,6 +250,7 @@ public class MainLauncher {
     - [x] starter-test-junit4 基于Junit4的单元测试支持库
 - 其他
     - [x] starter-ngrok-client 内网穿透,轻松获取外网地址
+    - [x] nutzboot-starter-prevent-duplicate-submit 一个可以防止表单重复提交的解决方案 by [threefish](https://github.com/threefish)
 ## 第三方starter或项目
 
 期待您的到来,报个issue告知一下吧 ^_^
