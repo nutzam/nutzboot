@@ -10,6 +10,6 @@ var chain = {
             "org.nutz.mvc.impl.processor.MethodInvokeProcessor",
             "org.nutz.mvc.impl.processor.ViewProcessor"
         ],
-        "error" : 'io.nutz.demo.simple.FailProcessor'
+        "error" : 'io.nutz.demo.simple.CustomizFailProcessor'
     }
 };

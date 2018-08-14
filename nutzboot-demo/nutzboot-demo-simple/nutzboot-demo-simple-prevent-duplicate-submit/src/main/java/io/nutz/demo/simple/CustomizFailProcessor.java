@@ -7,6 +7,7 @@ import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.mvc.ActionContext;
 import org.nutz.mvc.Mvcs;
+import org.nutz.mvc.impl.processor.FailProcessor;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date: 2018/8/14
  * 描述此类：
  */
-public class FailProcessor extends org.nutz.mvc.impl.processor.FailProcessor {
+public class CustomizFailProcessor extends FailProcessor {
 
     private static final Log log = Logs.get();
 
