@@ -4,7 +4,6 @@ import org.nutz.boot.starter.prevent.duplicate.submit.annotation.Token;
 import org.nutz.boot.starter.prevent.duplicate.submit.annotation.Type;
 import org.nutz.boot.starter.prevent.duplicate.submit.error.PreventDuplicateSubmitError;
 import org.nutz.integration.jedis.RedisService;
-import org.nutz.ioc.Ioc;
 import org.nutz.lang.Strings;
 import org.nutz.mvc.ActionContext;
 import org.nutz.mvc.impl.processor.AbstractProcessor;
@@ -31,17 +30,6 @@ public class PreventDuplicateSubmitProcessor extends AbstractProcessor {
      */
     public static long TIMELINESS = 30 * 60;
 
-    private boolean init(Ioc ioc) {
-        if (redisService == null) {
-            try {
-                redisService = ioc.getByType(RedisService.class);
-            } catch (Exception e) {
-                //如果没有开启Redis就采用session存储，忽略错误
-            }
-        }
-        return redisService == null;
-    }
-
 
     @Override
     public void process(ActionContext ac) throws Throwable {
@@ -50,7 +38,7 @@ public class PreventDuplicateSubmitProcessor extends AbstractProcessor {
             String key = PREVENT_DUPLICATE_SUBMIT_KEY
                     .concat(ac.getRequest().getSession().getId()).concat(".")
                     .concat(Strings.isEmpty(token.path()) ? ac.getPath() : token.path());
-            boolean isSessionModel = init(ac.getIoc());
+            boolean isSessionModel = redisService == null;
             if (token.type() == Type.CREATE && isSessionModel) {
                 createSessionToken(ac, key);
             } else if (token.type() == Type.CREATE && !isSessionModel) {

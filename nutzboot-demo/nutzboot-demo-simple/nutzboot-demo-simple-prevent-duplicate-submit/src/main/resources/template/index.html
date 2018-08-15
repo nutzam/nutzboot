@@ -11,10 +11,10 @@
 <div>
 	<h2>From Action name=${obj.name}, age=${obj.age}</h2>
 </div>
-<form action="${base}/index" method="post">
+<form action="${base}/index?a=1" method="post">
 	<input type="submit" value="提交">
 </form>
-<form action="${base}/index2" method="post">
+<form action="${base}/index2?b=2" method="post">
 	<input type="submit" value="提交错误并恢复token">
 </form>
 </body>
