@@ -19,8 +19,8 @@
 		<jetx.version>2.1.6</jetx.version>
 		<cxf.version>3.1.15</cxf.version>
 		<spring.version>4.3.18.RELEASE</spring.version>
-		<beetl.version>2.8.5</beetl.version>
-		<beetlsql.version>2.10.29</beetlsql.version>
+		<beetl.version>2.8.7</beetl.version>
+		<beetlsql.version>2.10.32</beetlsql.version>
 		<zbus.version>0.11.5</zbus.version>
 		<undertow.version>1.4.24.Final</undertow.version>
 		<velocity.version>1.7</velocity.version>
