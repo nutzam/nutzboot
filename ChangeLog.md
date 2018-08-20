@@ -1,8 +1,16 @@
 # NB进化史
 
-# 2.2.5 "迭代中"
+# 2.2.5 "心要野"
+
+本版本主要是新增两个功能, 邮件客户端和防重复提交,均由[threefish](https://github.com/threefish) 提供^_^
+
+* 时间: 2018-08-20
+* 曲目: [心要野](https://music.163.com/#/song?id=406072138)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
 
 * 变更:
+	* add: starter-email 邮件客户端 by threefish
+	* add: starter-prevent-duplicate-submit 防重复提交 by threefish
 	* add: 在war打包模式下,支持warMain入口,解决自定义NbApp实例的需求
 
 # 2.2.4 "BD7OEC"
