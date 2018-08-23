@@ -98,6 +98,7 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
             }
             basePath = basePath.substring(0, lastIndex);
             basePath = URLDecoder.decode(basePath, Encoding.UTF8);
+            return basePath;
         } catch (Throwable e) {
         }
         return ".";
