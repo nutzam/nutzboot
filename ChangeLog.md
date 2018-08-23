@@ -1,5 +1,43 @@
 # NB进化史
 
+# 2.2.5 "心要野"
+
+本版本主要是新增两个功能, 邮件客户端和防重复提交,均由[threefish](https://github.com/threefish) 提供^_^
+
+* 时间: 2018-08-20
+* 曲目: [心要野](https://music.163.com/#/song?id=406072138)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+
+* 变更:
+	* add: starter-email 邮件客户端 by threefish
+	* add: starter-prevent-duplicate-submit 防重复提交 by threefish
+	* add: 在war打包模式下,支持warMain入口,解决自定义NbApp实例的需求
+
+# 2.2.4 "BD7OEC"
+
+CQ CQ CQ, this is BD7OEC, BRAVO DELTA 7 OSCAR ECHO CHARLIE, BD7OEC, calling CQ and standby.
+
+* 时间: 2018-08-06
+* 事件: "拿证了"
+* 曲目: [业余无线电](https://www.bilibili.com/video/av21992170)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+
+* 变更:
+	* add: [starter-nutz-dao支持多个不同的数据源](https://gitee.com/nutz/nutzboot/pulls/9) by [文涛](https://gitee.com/wentao0291)
+
+# 2.2.3 "This Is Me"
+
+修复shiro session默认过期时间,增强@PropDoc的可配置性
+
+* 时间: 2018-07-25
+* 曲目: [This Is Me](https://www.youtube.com/watch?v=CjxugyZCfuw)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+* 变更:
+	* add: 添加配置项nutz.propdoc.packages可自定义扫描@PropDoc的路径
+	* fix: shiro的默认session超时设置错误
+	* update: 更新tio版本号
+	* add: NbApp添加setMainPackage方法
+
 # 2.2.2 "If You"
 
 添加elasticsearch支持

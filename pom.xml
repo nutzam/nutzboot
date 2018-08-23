@@ -19,8 +19,8 @@
 		<jetx.version>2.1.6</jetx.version>
 		<cxf.version>3.1.15</cxf.version>
 		<spring.version>4.3.18.RELEASE</spring.version>
-		<beetl.version>2.8.5</beetl.version>
-		<beetlsql.version>2.10.29</beetlsql.version>
+		<beetl.version>2.8.7</beetl.version>
+		<beetlsql.version>2.10.32</beetlsql.version>
 		<zbus.version>0.11.5</zbus.version>
 		<undertow.version>1.4.24.Final</undertow.version>
 		<velocity.version>1.7</velocity.version>
@@ -29,7 +29,7 @@
 		<hystrix.vesion>1.5.12</hystrix.vesion>
 		<web3j.vesion>3.2.0</web3j.vesion>
 		<mqtt.version>1.2.0</mqtt.version>
-		<tio.version>3.1.2.v20180712-RELEASE</tio.version>
+		<tio.version>3.1.8.v20180818-RELEASE</tio.version>
 		<j2cache.version>2.3.21-release</j2cache.version>
 		<asm.version>6.1.1</asm.version>
 		<druid.version>1.1.10</druid.version>
@@ -37,6 +37,7 @@
 		<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
 		<quartz.version>2.3.0</quartz.version>
 		<elasticsearch.version>6.3.0</elasticsearch.version>
+		<commons.email.version>1.4</commons.email.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 

@@ -48,6 +48,8 @@
         <module>nutzboot-demo-simple-web3j</module>
         <module>nutzboot-demo-simple-mqtt-client</module>
 		<module>nutzboot-demo-simple-elasticsearch</module>
+		<module>nutzboot-demo-simple-email</module>
+		<module>nutzboot-demo-simple-prevent-duplicate-submit</module>
 	</modules>
 
 	<dependencies>
