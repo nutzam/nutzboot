@@ -65,7 +65,7 @@ public class CloudConfig {
                 host = "http://" + host;
             }
             if (!host.contains("/"))
-                host += "/api/v1";
+                host += "/api/v1/config";
             String url = String.format("%s/%s/%s/version", host, props.group, props.app);
             Response resp = Http.get(url, 5000);
             if (resp.isOK()) {
