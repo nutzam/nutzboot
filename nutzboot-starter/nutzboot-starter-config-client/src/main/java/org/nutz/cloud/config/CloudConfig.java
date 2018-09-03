@@ -72,7 +72,7 @@ public class CloudConfig {
                 int version = Integer.parseInt(resp.getContent());
                 // 版本号ok, 获取文件
                 if (version > 0) {
-                    url = String.format("http://%s/api/v1/%s/%s/%s/%s", host, props.group, props.app, version, fileName);
+                    url = String.format("%s/%s/%s/%s/%s", host, props.group, props.app, version, fileName);
                     resp = Http.get(url, 5000);
                     if (resp.isOK()) {
                         conf.load(resp.getReader(), false);
