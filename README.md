@@ -198,6 +198,8 @@ public class MainLauncher {
     - [x] [Shiro](http://shiro.apache.org)
 - 分布式Session
     - [x] [Shiro+LCache](https://github.com/nutzam/nutzmore/tree/master/nutz-plugins-cache)基于shiro/jedis/插件的分布式可持久化的session缓存
+- 分布式事务
+    - [x] [tcc-transaction](https://github.com/changmingxie/tcc-transaction/tree/dev-1.2.x)基于tcc-transaction的nutz容器支持
 - 计划任务
     - [x] starter-[quartz](http://www.quartz-scheduler.org)
     - [x] starter-xxl-job [国产分布式任务调度平台](https://github.com/xuxueli/xxl-job/pull/253)
