@@ -64,12 +64,13 @@ public class CloudConfig {
             else {
                 host = "http://" + host;
             }
-            if (!host.contains("/"))
+            if (!host.contains("/api/v1/config"))
                 host += "/api/v1/config";
             String url = String.format("%s/%s/%s/version", host, props.group, props.app);
             Response resp = Http.get(url, 5000);
             if (resp.isOK()) {
                 int version = Integer.parseInt(resp.getContent());
+                log.info("Remote Configure Version=" + version);
                 // 版本号ok, 获取文件
                 if (version > 0) {
                     url = String.format("%s/%s/%s/%s/%s", host, props.group, props.app, version, fileName);
