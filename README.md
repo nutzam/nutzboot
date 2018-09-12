@@ -124,7 +124,7 @@ public class MainLauncher {
 * [haoqoo](https://github.com/haoqoo)(提交velocity)
 * [鱼夫](https://gitee.com/yustory)(正在踩NB+U家三剑客的坑)
 * [幸福的旁边](https://github.com/happyday517)(提交caffeine方法缓存)
-* [文涛](https://github.com/swtseaman) (新增支持加载外部配置文件)
+* [文涛](https://gitee.com/wentao0291) (新增支持加载外部配置文件，新增多数据库连接支持)
 * [zjSniper](https://gitee.com/zjSniper) (优化starter-tio的逻辑)
 * [tasdingoo](https://github.com/tasdingoo)(issue@github 122)
 * [csl_slchia](https://gitee.com/csl_slchia)(issue@gitee II92L)
