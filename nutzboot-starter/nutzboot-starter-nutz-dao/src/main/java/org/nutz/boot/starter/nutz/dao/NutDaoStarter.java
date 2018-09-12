@@ -34,7 +34,7 @@ import org.nutz.plugins.cache.dao.impl.provider.RedisDaoCacheProvider;
 import net.sf.ehcache.CacheManager;
 import redis.clients.jedis.JedisPool;
 
-@IocBean
+@IocBean(create="init")
 public class NutDaoStarter {
 
     private static final Log log = Logs.get();
@@ -81,6 +81,10 @@ public class NutDaoStarter {
 
     @Inject("refer:$ioc")
     protected Ioc ioc;
+
+    public void init() {
+        injectManyDao();
+    }
 
     @IocBean
     public SqlManager getSqlManager() {
@@ -185,7 +189,6 @@ public class NutDaoStarter {
                 dao.setRunner(runner);
             }
         }
-        injectManyDao();
         return dao;
     }
 
