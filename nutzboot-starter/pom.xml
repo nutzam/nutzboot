@@ -65,7 +65,8 @@
         <module>nutzboot-starter-elasticsearch</module>
         <module>nutzboot-starter-email</module>
         <module>nutzboot-starter-prevent-duplicate-submit</module>
-    </modules>
+        <module>nutzboot-starter-actuator</module>
+	</modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.nutz</groupId>

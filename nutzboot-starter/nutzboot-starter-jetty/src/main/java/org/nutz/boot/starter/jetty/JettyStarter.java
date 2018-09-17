@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.Deflater;
@@ -27,6 +29,7 @@ import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer;
 import org.nutz.boot.annotation.PropDoc;
+import org.nutz.boot.starter.MonitorObject;
 import org.nutz.boot.starter.ServerFace;
 import org.nutz.boot.starter.servlet3.AbstractServletContainerStarter;
 import org.nutz.boot.starter.servlet3.NbServletContextListener;
@@ -37,7 +40,7 @@ import org.nutz.log.Logs;
 import org.nutz.resource.Scans;
 
 @IocBean
-public class JettyStarter extends AbstractServletContainerStarter implements ServerFace {
+public class JettyStarter extends AbstractServletContainerStarter implements ServerFace, MonitorObject {
 
     private static final Log log = Logs.get();
 
@@ -120,6 +123,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
 
     protected Server server;
     protected WebAppContext wac;
+    protected ServerConnector connector;
 
     public void start() throws Exception {
         server.start();
@@ -148,7 +152,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         server = new Server(threadPool);
         HttpConfiguration httpConfig = conf.make(HttpConfiguration.class, "jetty.httpConfig.");
         HttpConnectionFactory httpFactory = new HttpConnectionFactory(httpConfig);
-        ServerConnector connector = new ServerConnector(server, httpFactory);
+        connector = new ServerConnector(server, httpFactory);
         connector.setHost(getHost());
         connector.setPort(getPort());
         connector.setIdleTimeout(getIdleTimeout());
@@ -266,8 +270,31 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         return conf.getInt(PROP_THREADPOOL_TIMEOUT, 60 * 1000);
     }
 
-    @Override
     protected String getConfigurePrefix() {
         return PRE;
+    }
+
+    public boolean isMonitorEnable() {
+        return true;
+    }
+
+    public String getMonitorName() {
+        return "jetty";
+    }
+    
+    public Collection<String> getMonitorKeys() {
+        return Arrays.asList("port", "contextPath", "host");
+    }
+
+    public Object getMonitorValue(String key) {
+        switch (key) {
+        case "port":
+            return connector.getPort();
+        case "host":
+            return connector.getHost();
+        case "contextPath":
+            return getContextPath();
+        }
+        return null;
     }
 }
