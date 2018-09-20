@@ -2,10 +2,10 @@ package org.nutz.boot.starter.redis.lettuce;
 
 import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.ioc.IocLoaderProvider;
-import org.nutz.integration.jedis.JedisIocLoader;
+import org.nutz.integration.lettuce.LettuceIocLoader;
 import org.nutz.ioc.IocLoader;
 
-public class JedisStarter implements IocLoaderProvider {
+public class LettuceStarter implements IocLoaderProvider {
 
     protected static String PRE = "redis.";
     @PropDoc(value="redis服务器链接URL", defaultValue="redis://127.0.0.1:6379/0")
