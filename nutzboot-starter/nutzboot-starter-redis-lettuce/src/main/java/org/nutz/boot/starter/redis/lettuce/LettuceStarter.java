@@ -28,6 +28,6 @@ public class LettuceStarter implements IocLoaderProvider {
     public static final String PROP_MAX_REDIR = PRE + "max_redir";*/
     
     public IocLoader getIocLoader() {
-    	return new JedisIocLoader();
+    	return new LettuceIocLoader();
     }
 }
