@@ -10,6 +10,7 @@ import javax.servlet.Filter;
 import org.nutz.boot.AppContext;
 import org.nutz.boot.starter.WebFilterFace;
 import org.nutz.boot.starter.WebServletFace;
+import org.nutz.conf.NutConf;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -43,6 +44,7 @@ public class NutFilterStarter implements WebFilterFace {
 
     @IocBean(name="nutFilter")
     public NutFilter createNutFilter() {
+        NutConf.set("nutz.mvc.whale.defaultpath", conf.get("nutz.mvc.whale.defaultpath", "./tmp/whale_upload/"));
     	return new NutFilter();
     }
     
