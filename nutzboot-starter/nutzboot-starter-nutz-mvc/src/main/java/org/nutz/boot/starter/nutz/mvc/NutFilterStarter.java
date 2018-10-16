@@ -64,7 +64,7 @@ public class NutFilterStarter implements WebFilterFace {
         Map<String, String> params = new HashMap<>();
         params.put("modules", NbMainModule.class.getName());
         if (conf.has(PROP_IGNORE)) {
-        	params.put("ignore", PROP_IGNORE);
+        	params.put("ignore", conf.get(PROP_IGNORE));
         }
         StringBuilder sb = new StringBuilder();
         for (WebServletFace face : appContext.getBeans(WebServletFace.class)) {
