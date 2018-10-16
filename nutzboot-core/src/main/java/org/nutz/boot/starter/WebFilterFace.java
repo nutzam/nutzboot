@@ -65,7 +65,7 @@ public interface WebFilterFace {
      * @author wendal(wendal1985@gmail.com)
      *
      */
-    public static interface FilterOrder {
+    interface FilterOrder {
         // hystrix,whale,druid,shiro,nutz
         int HystrixRequestFilter = 5;
         int WhaleFilter = 10;

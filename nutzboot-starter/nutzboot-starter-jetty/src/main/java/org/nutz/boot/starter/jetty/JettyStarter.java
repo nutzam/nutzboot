@@ -80,29 +80,29 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
 
     // ------------------ HttpConfiguration
     @PropDoc(value = "安全协议,例如https")
-    public static final String PROP_HTTP_CONFIG_secureScheme = PRE + "httpConfig.secureScheme";
+    public static final String PROP_HTTP_CONFIG_SECURESCHEME = PRE + "httpConfig.secureScheme";
     @PropDoc(value = "安全协议的端口,例如8443")
-    public static final String PROP_HTTP_CONFIG_securePort = PRE + "httpConfig.securePort";
+    public static final String PROP_HTTP_CONFIG_SECUREPORT = PRE + "httpConfig.securePort";
     @PropDoc(value = "输出缓冲区大小", defaultValue = "32768")
-    public static final String PROP_HTTP_CONFIG_outputBufferSize = PRE + "httpConfig.outputBufferSize";
+    public static final String PROP_HTTP_CONFIG_OUTPUTBUFFERSIZE = PRE + "httpConfig.outputBufferSize";
     @PropDoc(value = "输出聚合大小", defaultValue = "8192")
-    public static final String PROP_HTTP_CONFIG_outputAggregationSize = PRE + "httpConfig.outputAggregationSize";
+    public static final String PROP_HTTP_CONFIG_OUTPUTAGGREGATIONSIZE = PRE + "httpConfig.outputAggregationSize";
     @PropDoc(value = "请求的头部最大值", defaultValue = "8192")
-    public static final String PROP_HTTP_CONFIG_requestHeaderSize = PRE + "httpConfig.requestHeaderSize";
+    public static final String PROP_HTTP_CONFIG_REQUESTHEADERSIZE = PRE + "httpConfig.requestHeaderSize";
     @PropDoc(value = "响应的头部最大值", defaultValue = "8192")
-    public static final String PROP_HTTP_CONFIG_responseHeaderSize = PRE + "httpConfig.responseHeaderSize";
+    public static final String PROP_HTTP_CONFIG_RESPONSEHEADERSIZE = PRE + "httpConfig.responseHeaderSize";
     @PropDoc(value = "是否发送jetty版本号", defaultValue = "true")
-    public static final String PROP_HTTP_CONFIG_sendServerVersion = PRE + "httpConfig.sendServerVersion";
+    public static final String PROP_HTTP_CONFIG_SENDSERVERVERSION = PRE + "httpConfig.sendServerVersion";
     @PropDoc(value = "是否发送日期信息", defaultValue = "true")
-    public static final String PROP_HTTP_CONFIG_sendDateHeader = PRE + "httpConfig.sendDateHeader";
+    public static final String PROP_HTTP_CONFIG_SENDDATEHEADER = PRE + "httpConfig.sendDateHeader";
     @PropDoc(value = "头部缓冲区大小", defaultValue = "8192")
-    public static final String PROP_HTTP_CONFIG_headerCacheSize = PRE + "httpConfig.headerCacheSize";
+    public static final String PROP_HTTP_CONFIG_HEADERCACHESIZE = PRE + "httpConfig.headerCacheSize";
     @PropDoc(value = "最大错误重定向次数", defaultValue = "10")
-    public static final String PROP_HTTP_CONFIG_maxErrorDispatches = PRE + "httpConfig.maxErrorDispatches";
+    public static final String PROP_HTTP_CONFIG_MAXERRORDISPATCHES = PRE + "httpConfig.maxErrorDispatches";
     @PropDoc(value = "阻塞超时", defaultValue = "-1")
-    public static final String PROP_HTTP_CONFIG_blockingTimeout = PRE + "httpConfig.blockingTimeout";
+    public static final String PROP_HTTP_CONFIG_BLOCKINGTIMEOUT = PRE + "httpConfig.blockingTimeout";
     @PropDoc(value = "是否启用持久化连接", defaultValue = "true")
-    public static final String PROP_HTTP_CONFIG_persistentConnectionsEnabled = PRE + "httpConfig.persistentConnectionsEnabled";
+    public static final String PROP_HTTP_CONFIG_PERSISTENTCONNECTIONSENABLED = PRE + "httpConfig.persistentConnectionsEnabled";
     @PropDoc(value = "自定义404页面,同理,其他状态码也是支持的")
     public static final String PROP_PAGE_404 = PRE + "page.404";
     @PropDoc(value = "自定义java.lang.Throwable页面,同理,其他异常也支持")
