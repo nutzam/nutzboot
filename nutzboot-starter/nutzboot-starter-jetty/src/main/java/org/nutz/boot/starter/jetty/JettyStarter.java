@@ -229,6 +229,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         }
         wac.setErrorHandler(ep);
         wac.setWelcomeFiles(getWelcomeFiles());
+        wac.setInitParameter("org.eclipse.jetty.servlet.Default.dirAllowed", "false");
 
         // 设置一下额外的东西
         server.setAttribute("org.eclipse.jetty.server.Request.maxFormContentSize", getMaxFormContentSize());
