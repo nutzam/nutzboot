@@ -94,7 +94,7 @@ public class J2cacheStarter {
     @PropDoc(group = "j2cache", value = "逐出扫描的时间间隔(毫秒)", defaultValue = "")
     public static final String PROP_REDIS_TIMEBETWEENEVICTIONRUNSMILLIS= PRE + "redis.timeBetweenEvictionRunsMillis";
     @PropDoc(group = "j2cache", value = "连接耗尽时是否阻塞,如false则报异常,如ture则阻塞直到超时", defaultValue = "")
-    public static final String PROP_REDIS_blockWhenExhausted= PRE + "redis.blockWhenExhausted";
+    public static final String PROP_REDIS_BLOCKWHENEXHAUSTED= PRE + "redis.blockWhenExhausted";
 
     @IocBean
     public CacheChannel getCacheChannel() throws IOException {

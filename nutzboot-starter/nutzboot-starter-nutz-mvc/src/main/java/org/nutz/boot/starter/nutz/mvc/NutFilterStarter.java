@@ -8,6 +8,7 @@ import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 
 import org.nutz.boot.AppContext;
+import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.starter.WebFilterFace;
 import org.nutz.boot.starter.WebServletFace;
 import org.nutz.conf.NutConf;
@@ -19,11 +20,18 @@ import org.nutz.mvc.NutFilter;
 
 @IocBean
 public class NutFilterStarter implements WebFilterFace {
-	
-	
+
 	@Inject("refer:$ioc")
 	protected Ioc ioc;
-	
+
+    @PropDoc(value="过滤指定请求路径的正则表达式", defaultValue="")
+    public static final String PROP_IGNORE = "nutz.mvc.ignore";
+    @PropDoc(value="排除指定请求路径的正则表达式", defaultValue="")
+    public static final String PROP_EXCLUSIONS = "nutz.mvc.exclusions";
+    @PropDoc(value="指定NutFilter执行顺序", defaultValue="")
+    public static final String PROP_WEB_FILTER_ORDER_NUTZ = "web.filter.order.nutz";
+
+
 	@Inject
 	protected PropertiesProxy conf;
 	
@@ -55,8 +63,8 @@ public class NutFilterStarter implements WebFilterFace {
     public Map<String, String> getInitParameters() {
         Map<String, String> params = new HashMap<>();
         params.put("modules", NbMainModule.class.getName());
-        if (conf.has("nutz.mvc.ignore")) {
-        	params.put("ignore", conf.get("nutz.mvc.ignore"));
+        if (conf.has(PROP_IGNORE)) {
+        	params.put("ignore", conf.get(PROP_IGNORE));
         }
         StringBuilder sb = new StringBuilder();
         for (WebServletFace face : appContext.getBeans(WebServletFace.class)) {
@@ -64,11 +72,11 @@ public class NutFilterStarter implements WebFilterFace {
                 sb.append(',').append(pathSpec);
             }
         }
-        params.put("exclusions", conf.get("nutz.mvc.exclusions", "") + sb);
+        params.put("exclusions", conf.get(PROP_EXCLUSIONS, "") + sb);
         return params;
     }
 
     public int getOrder() {
-        return conf.getInt("web.filter.order.nutz", FilterOrder.NutFilter);
+        return conf.getInt(PROP_WEB_FILTER_ORDER_NUTZ, FilterOrder.NutFilter);
     }
 }
