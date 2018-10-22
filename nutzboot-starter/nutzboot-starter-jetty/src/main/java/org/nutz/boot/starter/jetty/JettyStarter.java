@@ -14,16 +14,17 @@ import java.util.zip.Deflater;
 import javax.websocket.server.ServerContainer;
 import javax.websocket.server.ServerEndpoint;
 
-import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.server.handler.gzip.GzipHandler;
 import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -120,6 +121,14 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
 
     @PropDoc(value = "WelcomeFile列表", defaultValue="index.html,index.htm,index.do")
     public static final String PROP_WELCOME_FILES = PRE + "welcome_files";
+    
+    // HTTPS相关
+    @PropDoc(value = "Https端口号")
+    public static final String PROP_HTTPS_PORT = PRE + "https.port";
+    @PropDoc(value = "Https的KeyStore路径")
+    public static final String PROP_HTTPS_KEYSTORE_PATH = PRE + "https.keystore.path";
+    @PropDoc(value = "Https的KeyStore的密码")
+    public static final String PROP_HTTPS_KEYSTORE_PASSWORD = PRE + "https.keystore.password";
 
     protected Server server;
     protected WebAppContext wac;
@@ -150,13 +159,40 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         threadPool.setMinThreads(getMinThreads());
         threadPool.setMaxThreads(getMaxThreads());
         server = new Server(threadPool);
+        // HTTP端口设置
         HttpConfiguration httpConfig = conf.make(HttpConfiguration.class, "jetty.httpConfig.");
         HttpConnectionFactory httpFactory = new HttpConnectionFactory(httpConfig);
         connector = new ServerConnector(server, httpFactory);
         connector.setHost(getHost());
         connector.setPort(getPort());
         connector.setIdleTimeout(getIdleTimeout());
-        server.setConnectors(new Connector[]{connector});
+        server.addConnector(connector);
+
+        // 看看Https设置
+        int httpsPort = conf.getInt(PROP_HTTPS_PORT);
+        if (httpsPort > 0) {
+            log.info("found https port " + httpsPort);
+            HttpConfiguration https_config = conf.make(HttpConfiguration.class, "jetty.httpsConfig.");;
+            https_config.setSecureScheme("https");
+
+            SslContextFactory sslContextFactory = new SslContextFactory();
+            sslContextFactory.setKeyStorePath(conf.get(PROP_HTTPS_KEYSTORE_PATH));
+            // 私钥
+            sslContextFactory.setKeyStorePassword(conf.get(PROP_HTTPS_KEYSTORE_PASSWORD));
+            // 公钥
+            sslContextFactory.setKeyManagerPassword(conf.get("jetty.https.keymanager.password"));
+
+            ServerConnector httpsConnector = new ServerConnector(server,
+                    new SslConnectionFactory(sslContextFactory,"http/1.1"),
+                    new HttpConnectionFactory(https_config));
+                    // 设置访问端口
+            httpsConnector.setPort(httpsPort);
+            httpsConnector.setHost(getHost());
+            httpsConnector.setIdleTimeout(getIdleTimeout());
+            server.addConnector(httpsConnector);
+        }
+        
+        
 
         // 设置应用上下文
         wac = new WebAppContext();
