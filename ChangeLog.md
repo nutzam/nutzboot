@@ -1,5 +1,19 @@
 # NB进化史
 
+# 2.2.7 "beautiful in white" 例行更新
+
+本版本添加jetty的https支持
+
+* 时间: 2018-11-08
+* 曲目: [beautiful in white](https://www.youtube.com/watch?v=XRuDQ6aYeD0)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+
+* 变更:
+	* add: jetty支持监听https端口
+	* add: starter-lettuce by howe
+	* fix: jetty禁用目录展示 
+
+
 # 2.2.6 "nothing gonna change my love for you"
 
 本版本强化多数据源支持,增加tcc支持
