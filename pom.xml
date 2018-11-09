@@ -39,6 +39,7 @@
 		<quartz.version>2.3.0</quartz.version>
 		<elasticsearch.version>6.3.0</elasticsearch.version>
 		<commons.email.version>1.4</commons.email.version>
+		<javassist.version>3.24.0-GA</javassist.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -711,7 +712,7 @@
 			<dependency>
 				<groupId>org.javassist</groupId>
 				<artifactId>javassist</artifactId>
-				<version>3.22.0-GA</version>
+				<version>${javassist.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.ben-manes.caffeine</groupId>
