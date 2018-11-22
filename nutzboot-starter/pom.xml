@@ -30,6 +30,7 @@
 		<module>nutzboot-starter-quartz</module>
 		<module>nutzboot-starter-wkcache</module>
 		<module>nutzboot-starter-redis</module>
+		<module>nutzboot-starter-redis-lettuce</module>
 		<module>nutzboot-starter-ssdb</module>
 		<module>nutzboot-starter-disque</module>
 		<module>nutzboot-starter-beetl</module>
@@ -65,7 +66,8 @@
         <module>nutzboot-starter-elasticsearch</module>
         <module>nutzboot-starter-email</module>
         <module>nutzboot-starter-prevent-duplicate-submit</module>
-    </modules>
+        <module>nutzboot-starter-actuator</module>
+	</modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.nutz</groupId>

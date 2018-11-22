@@ -40,7 +40,7 @@
         	<groupId>com.netflix.ribbon</groupId>
         	<artifactId>ribbon-eureka</artifactId>
         	<version>2.2.4</version>
-        	<scope>provided</scope>
+        	<scope>runtime</scope>
         </dependency>
 	</dependencies>
 	<build>

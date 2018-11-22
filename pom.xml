@@ -13,16 +13,17 @@
 		<nutzwx.version>1.r.67-SNAPSHOT</nutzwx.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<dubbo.version>2.6.2</dubbo.version>
-		<jetty.version>9.4.11.v20180605</jetty.version>
-		<tomcat.version>8.5.31</tomcat.version>
+		<jetty.version>9.4.14.v20181114</jetty.version>
+		<tomcat.version>8.5.35</tomcat.version>
 		<shiro.version>1.3.2</shiro.version>
-		<jetx.version>2.1.6</jetx.version>
+		<jetx.version>2.1.8</jetx.version>
 		<cxf.version>3.1.15</cxf.version>
-		<spring.version>4.3.18.RELEASE</spring.version>
-		<beetl.version>2.8.7</beetl.version>
-		<beetlsql.version>2.10.32</beetlsql.version>
+		<spring.version>4.3.20.RELEASE</spring.version>
+		<lettuce.version>5.0.5.RELEASE</lettuce.version>
+		<beetl.version>2.9.3</beetl.version>
+		<beetlsql.version>2.10.40</beetlsql.version>
 		<zbus.version>0.11.5</zbus.version>
-		<undertow.version>1.4.24.Final</undertow.version>
+		<undertow.version>1.4.26.Final</undertow.version>
 		<velocity.version>1.7</velocity.version>
 		<caffeine.version>2.6.2</caffeine.version>
 		<feign.version>9.5.1</feign.version>
@@ -30,14 +31,15 @@
 		<web3j.vesion>3.2.0</web3j.vesion>
 		<mqtt.version>1.2.0</mqtt.version>
 		<tio.version>3.1.8.v20180818-RELEASE</tio.version>
-		<j2cache.version>2.3.21-release</j2cache.version>
+		<j2cache.version>2.3.22-release</j2cache.version>
 		<asm.version>6.1.1</asm.version>
-		<druid.version>1.1.10</druid.version>
+		<druid.version>1.1.12</druid.version>
 		<HikariCP.version>3.2.0</HikariCP.version>
-		<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
+		<thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
 		<quartz.version>2.3.0</quartz.version>
-		<elasticsearch.version>6.3.0</elasticsearch.version>
+		<elasticsearch.version>6.3.2</elasticsearch.version>
 		<commons.email.version>1.4</commons.email.version>
+		<javassist.version>3.24.0-GA</javassist.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -344,9 +346,19 @@
 				<version>${nutz.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutz-integration-lettuce</artifactId>
+				<version>${nutz.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>redis.clients</groupId>
 				<artifactId>jedis</artifactId>
 				<version>2.9.0</version>
+			</dependency>
+			<dependency>
+				<groupId>io.lettuce</groupId>
+				<artifactId>lettuce-core</artifactId>
+				<version>${lettuce.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
@@ -524,6 +536,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-redis-lettuce</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-quartz</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
@@ -550,6 +567,11 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-ssdb</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-email</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
@@ -690,7 +712,7 @@
 			<dependency>
 				<groupId>org.javassist</groupId>
 				<artifactId>javassist</artifactId>
-				<version>3.22.0-GA</version>
+				<version>${javassist.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.ben-manes.caffeine</groupId>
@@ -869,6 +891,16 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-spring4</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-prevent-duplicate-submit</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-actuator</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
 		</dependencies>

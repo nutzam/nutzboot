@@ -104,6 +104,7 @@ public class MainLauncher {
 * [NutzBoot项目生成器](https://gitee.com/nutz/nutzboot-project-maker) https://get.nutz.cn 的源码 by wendal
 * [NutzBoot集成PageOffice](https://gitee.com/nutz/nutzboot-demo-pageoffice) PageOffice是私有云Office解决方案 by wendal
 * [IP地址查询服务](https://gitee.com/nutz/ipd4nutzboot) http://ip.nutz.cn 的源码 by wendal
+* [NutzCN-Nutzboot](https://github.com/wendal/nutz-book-project/tree/v5.x) NutzCN社区的源码,9月下旬改为NutzBoot版
 
 ## Contributors
 
@@ -123,7 +124,7 @@ public class MainLauncher {
 * [haoqoo](https://github.com/haoqoo)(提交velocity)
 * [鱼夫](https://gitee.com/yustory)(正在踩NB+U家三剑客的坑)
 * [幸福的旁边](https://github.com/happyday517)(提交caffeine方法缓存)
-* [文涛](https://github.com/swtseaman) (新增支持加载外部配置文件)
+* [文涛](https://gitee.com/wentao0291) (新增支持加载外部配置文件，新增多数据库连接支持)
 * [zjSniper](https://gitee.com/zjSniper) (优化starter-tio的逻辑)
 * [tasdingoo](https://github.com/tasdingoo)(issue@github 122)
 * [csl_slchia](https://gitee.com/csl_slchia)(issue@gitee II92L)
@@ -168,7 +169,7 @@ public class MainLauncher {
         - [x] starter-[eureka-server](https://github.com/Netflix/eureka) 服务治理的服务器端
         - [x] starter-[eureka-client](https://github.com/Netflix/eureka) 服务治理的客户端
     - 配置中心
-        - [ ] NB Config Server 配置中心的服务端
+        - [x] [NB Config Server](https://gitee.com/nutz/nutzcloud-config-server) 配置中心的服务端
         - [x] starter-config-client NB Config Client 配置中心的客户端
         - [x] starter-[apollo-client](https://github.com/ctripcorp/apollo) 携程框架部门研发的分布式配置中心的客户端
     - API网关
@@ -198,6 +199,8 @@ public class MainLauncher {
     - [x] [Shiro](http://shiro.apache.org)
 - 分布式Session
     - [x] [Shiro+LCache](https://github.com/nutzam/nutzmore/tree/master/nutz-plugins-cache)基于shiro/jedis/插件的分布式可持久化的session缓存
+- 分布式事务
+    - [x] [tcc-transaction](https://github.com/changmingxie/tcc-transaction/tree/dev-1.2.x)基于tcc-transaction的nutz容器支持
 - 计划任务
     - [x] starter-[quartz](http://www.quartz-scheduler.org)
     - [x] starter-xxl-job [国产分布式任务调度平台](https://github.com/xuxueli/xxl-job/pull/253)

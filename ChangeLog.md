@@ -1,5 +1,38 @@
 # NB进化史
 
+# 2.2.7 "beautiful in white" 例行更新
+
+本版本添加jetty的https支持
+
+* 时间: 2018-11-08
+* 曲目: [beautiful in white](https://www.youtube.com/watch?v=XRuDQ6aYeD0)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+
+* 变更:
+	* add: jetty支持监听https端口
+	* add: starter-lettuce by howe
+	* fix: jetty禁用目录展示 
+
+
+# 2.2.6 "nothing gonna change my love for you"
+
+本版本强化多数据源支持,增加tcc支持
+
+由于核心已稳定,所以更新速度稍有下降,引起部分基友的[疑惑](https://nutz.cn/yvr/t/7ef8uiffluh68qgqa1r9aceju9) ^_^,在此表示感谢
+
+* 时间: 2018-09-19
+* 曲目: [nothing gonna change my love for you](https://www.youtube.com/watch?v=dMIGKOxLZH8)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+
+* 变更:
+	* update: tio升级到3.1.8.v20180818-RELEASE,减少依赖项
+	* update: 更新jetty/tomcat/beetl by howe
+	* add: tcc-transaction nutz 插件支持
+	* update: 配置中心客户端逻辑更新 by wendal
+	* update: 强化多数据源支持 by wentao
+	* add: 添加actuator基础代码
+	* add: 配置中心服务器端 https://gitee.com/nutz/nutzcloud-config-server
+
 # 2.2.5 "心要野"
 
 本版本主要是新增两个功能, 邮件客户端和防重复提交,均由[threefish](https://github.com/threefish) 提供^_^
