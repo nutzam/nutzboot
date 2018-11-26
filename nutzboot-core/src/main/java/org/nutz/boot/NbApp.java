@@ -88,7 +88,7 @@ public class NbApp extends Thread {
 
     protected boolean prepared;
 
-    protected Object lock = new Object();
+    protected Object lock;
     
     protected List<NbAppEventListener> listeners = new LinkedList<>();
     
@@ -176,6 +176,7 @@ public class NbApp extends Thread {
     public void run() {
         try {
             if (execute()) {
+                lock = new Object();
                 synchronized (lock) {
                     lock.wait();
                 }
