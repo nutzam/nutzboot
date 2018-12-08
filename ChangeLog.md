@@ -1,5 +1,12 @@
 # NB进化史
 
+# 2.2.8 "..."
+
+本版本添加servicecomb支持
+
+* 变更:
+	* add: 添加servicecomb支持
+
 # 2.2.7 "beautiful in white" 例行更新
 
 本版本添加jetty的https支持
