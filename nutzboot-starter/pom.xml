@@ -67,6 +67,7 @@
         <module>nutzboot-starter-email</module>
         <module>nutzboot-starter-prevent-duplicate-submit</module>
         <module>nutzboot-starter-actuator</module>
+        <module>nutzboot-starter-servicecomb</module>
 	</modules>
 	<dependencies>
 		<dependency>

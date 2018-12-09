@@ -903,6 +903,11 @@
 				<artifactId>nutzboot-starter-actuator</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-servicecomb</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<repositories>

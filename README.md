@@ -161,6 +161,7 @@ public class MainLauncher {
 		- [x] starter-[zbus](http://zbus.io) 国产知名RPC平台
 		- [x] starter-[feign](https://github.com/OpenFeign/feign) makes writing java http clients easier, by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
 		- [x] [ribbon](https://github.com/Netflix/ribbon) ,集成在feign中,配合erueka-client实现负载均衡
+		- [x] [servicecomb](http://servicecomb.apache.org) Apache ServiceComb
     - [x] starter-zkclient zookeeper的封装
     - [x] starter-[hystrix](https://github.com/Netflix/Hystrix) 熔断器及其dashboard
     - 服务注册
