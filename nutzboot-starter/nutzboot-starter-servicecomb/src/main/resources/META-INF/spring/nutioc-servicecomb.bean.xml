@@ -4,5 +4,5 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
         http://www.nutzam.com/schema/iocbridge http://www.nutzam.com/schema/iocbridge.xsd">  
    
- 	<nutioc:bridge/>  
+ 	<nutioc:bridge annotated="org.apache.servicecomb.provider.pojo.RpcSchema"/>  
 </beans>
