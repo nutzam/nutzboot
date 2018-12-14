@@ -1,11 +1,15 @@
 # NB进化史
 
-# 2.2.8 "..."
+# 2.2.8 "菊次郎的夏天"
 
-本版本添加servicecomb支持
+本版本添加servicecomb支持,修正了几个bug
 
 * 变更:
 	* add: 添加servicecomb支持
+	* update: 更新jetty/spring/jetx/beetl/undertow/druid版本 by howe
+	* update: 更新javassist版本,解决jdk11兼容性问题 by [大鲨鱼](https://github.com/Wizzercn)
+	* fix: fix:druid监控配置手册与实际过滤前缀不一致 by [realoldroot](https://github.com/realoldroot)
+	* fix: ngrok client不能设置服务器地址 by wendal
 
 # 2.2.7 "beautiful in white" 例行更新
 
