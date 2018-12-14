@@ -4,6 +4,11 @@
 
 本版本添加servicecomb支持,修正了几个bug
 
+北半球的冬季, 南半球的夏天, ^_^
+
+* 时间: 2018-12-14
+* 曲目: [菊次郎的夏天](https://www.youtube.com/watch?v=4vQc8WC7clI)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
 * 变更:
 	* add: 添加servicecomb支持
 	* update: 更新jetty/spring/jetx/beetl/undertow/druid版本 by howe
