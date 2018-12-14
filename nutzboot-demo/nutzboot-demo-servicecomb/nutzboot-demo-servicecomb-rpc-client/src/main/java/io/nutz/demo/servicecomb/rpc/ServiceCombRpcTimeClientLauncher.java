@@ -8,7 +8,7 @@ import org.nutz.mvc.annotation.Ok;
 
 import io.nutz.demo.servicecomb.rpc.service.TimeService;
 
-@IocBean
+@IocBean(create="now") // 调用一次,当测试
 public class ServiceCombRpcTimeClientLauncher {
 	
     @RpcReference(microserviceName = "rpcDemo", schemaId = "time")
