@@ -50,6 +50,7 @@
 		<module>nutzboot-demo-simple-elasticsearch</module>
 		<module>nutzboot-demo-simple-email</module>
 		<module>nutzboot-demo-simple-prevent-duplicate-submit</module>
+		<module>nutzboot-demo-simple-jetty-with-jsp</module>
 	</modules>
 
 	<dependencies>

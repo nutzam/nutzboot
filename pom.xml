@@ -273,6 +273,16 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>apache-jsp</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>apache-jstl</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
 
 			<!--tomcat start -->
 			<dependency>

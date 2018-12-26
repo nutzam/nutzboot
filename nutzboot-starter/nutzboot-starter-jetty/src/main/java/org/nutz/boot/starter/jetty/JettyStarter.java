@@ -197,6 +197,9 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         // 设置应用上下文
         wac = new WebAppContext();
         wac.setContextPath(getContextPath());
+        
+        //wac.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern", ".*/[^/]*servlet-api-[^/]*\\.jar$|.*/javax.servlet.jsp.jstl-.*\\.jar$|.*/[^/]*taglibs.*\\.jar$");
+        //wac.setAttribute("WebAppContext", value);
         // wac.setExtractWAR(false);
         // wac.setCopyWebInf(true);
         // wac.setProtectedTargets(new String[]{"/java", "/javax", "/org",
@@ -253,6 +256,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         }
         List<String> list = Configuration.ClassList.serverDefault(server);
         list.add("org.eclipse.jetty.annotations.AnnotationConfiguration");
+        list.add("org.eclipse.jetty.webapp.MetaInfConfiguration");
         wac.setConfigurationClasses(list);
         wac.getServletContext().setExtendedListenerTypes(true);
         wac.getSessionHandler().setMaxInactiveInterval(getSessionTimeout());
