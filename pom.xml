@@ -14,14 +14,14 @@
 		<slf4j.version>1.7.25</slf4j.version>
 		<dubbo.version>2.6.2</dubbo.version>
 		<jetty.version>9.4.14.v20181114</jetty.version>
-		<tomcat.version>8.5.35</tomcat.version>
+		<tomcat.version>8.5.37</tomcat.version>
 		<shiro.version>1.3.2</shiro.version>
 		<jetx.version>2.1.8</jetx.version>
 		<cxf.version>3.1.15</cxf.version>
-		<spring.version>4.3.20.RELEASE</spring.version>
+		<spring.version>4.3.21.RELEASE</spring.version>
 		<lettuce.version>5.0.5.RELEASE</lettuce.version>
-		<beetl.version>2.9.3</beetl.version>
-		<beetlsql.version>2.10.40</beetlsql.version>
+		<beetl.version>2.9.7</beetl.version>
+		<beetlsql.version>2.10.43</beetlsql.version>
 		<zbus.version>0.11.5</zbus.version>
 		<undertow.version>1.4.26.Final</undertow.version>
 		<velocity.version>1.7</velocity.version>
