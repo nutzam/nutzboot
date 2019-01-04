@@ -12,7 +12,7 @@
 		<nutzboot.version>2.3-SNAPSHOT</nutzboot.version>
 		<nutzwx.version>1.r.67-SNAPSHOT</nutzwx.version>
 		<slf4j.version>1.7.25</slf4j.version>
-		<dubbo.version>2.6.2</dubbo.version>
+		<dubbo.version>2.6.5</dubbo.version>
 		<jetty.version>9.4.14.v20181114</jetty.version>
 		<tomcat.version>8.5.37</tomcat.version>
 		<shiro.version>1.3.2</shiro.version>
