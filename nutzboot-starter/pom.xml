@@ -68,6 +68,7 @@
         <module>nutzboot-starter-prevent-duplicate-submit</module>
         <module>nutzboot-starter-actuator</module>
         <module>nutzboot-starter-servicecomb</module>
+        <module>nutzboot-starter-sentinel-dubbo</module>
 	</modules>
 	<dependencies>
 		<dependency>
