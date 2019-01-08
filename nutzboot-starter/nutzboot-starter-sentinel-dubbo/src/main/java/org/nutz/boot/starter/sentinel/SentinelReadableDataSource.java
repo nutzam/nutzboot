@@ -9,15 +9,15 @@ import org.nutz.integration.jedis.pubsub.PubSubService;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
-public class SentinelRedisDataSource<T> extends AbstractDataSource<String, T> implements PubSub {
+public class SentinelReadableDataSource<T> extends AbstractDataSource<String, T> implements PubSub {
     private static final Log log = Logs.get();
 
     private PubSubService pubSubService;
     private RedisService redisService;
     private String ruleKey;
 
-    public SentinelRedisDataSource(RedisService redisService, PubSubService pubSubService, String ruleKey, String channel,
-                                   Converter<String, T> parser) {
+    public SentinelReadableDataSource(RedisService redisService, PubSubService pubSubService, String ruleKey, String channel,
+                                      Converter<String, T> parser) {
         super(parser);
         AssertUtil.notEmpty(ruleKey, "Redis ruleKey can not be empty");
         AssertUtil.notEmpty(channel, "Redis subscribe channel can not be empty");
@@ -29,13 +29,13 @@ public class SentinelRedisDataSource<T> extends AbstractDataSource<String, T> im
     }
 
     private void subscribeFromChannel(String channel) {
-        log.debugf("subscribeFromChannel channel:::%s", channel);
+        log.debugf("[SentinelRedisDataSource] subscribeFromChannel:::%s", channel);
         pubSubService.reg(channel, this);
     }
 
     @Override
     public void onMessage(String channel, String message) {
-        log.debugf("SentinelRedisDataSource onMessage:::%s,%s", channel, message);
+        log.debugf("[SentinelRedisDataSource] onMessage:::%s,%s", channel, message);
         getProperty().updateValue(parser.convert(message));
     }
 

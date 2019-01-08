@@ -61,6 +61,11 @@
             <version>${sentinel.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-cluster-client-default</artifactId>
+            <version>${sentinel.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.nutz</groupId>
             <artifactId>nutzboot-starter-redis</artifactId>
             <version>${nutzboot.version}</version>

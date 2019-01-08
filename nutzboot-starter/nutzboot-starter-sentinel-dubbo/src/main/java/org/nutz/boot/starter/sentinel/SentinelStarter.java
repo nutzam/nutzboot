@@ -1,7 +1,9 @@
 package org.nutz.boot.starter.sentinel;
 
+import com.alibaba.csp.sentinel.datasource.WritableDataSource;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
+import com.alibaba.csp.sentinel.transport.util.WritableDataSourceRegistry;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import org.nutz.boot.annotation.PropDoc;
@@ -57,6 +59,7 @@ public class SentinelStarter implements ServerFace {
     @PropDoc(value = "Sentinel规则存储channel值", defaultValue = "sentinel", type = "string")
     public static final String PROP_CHANNEL = PRE + "channel";
 
+    @Override
     public void start() throws Exception {
         if (conf.getBoolean(PROP_SERVER_PORT, false)) {
             redisService = ioc.get(RedisService.class);
@@ -67,8 +70,8 @@ public class SentinelStarter implements ServerFace {
             System.setProperty(CONSOLE_SERVER, conf.get(PROP_CONSOLE_SERVER, "localhost:9090"));
             System.setProperty(HEARTBEAT_INTERVAL_MS, conf.get(PROP_HEARTBEAT_INTERVAL_MS, "3000"));
             System.setProperty(HEARTBEAT_CLIENT_IP, conf.get(PROP_HEARTBEAT_CLIENT_IP, ""));
-            SentinelRedisDataSource<List<FlowRule>> redisDataSource =
-                    new SentinelRedisDataSource<List<FlowRule>>(
+            SentinelReadableDataSource<List<FlowRule>> redisDataSource =
+                    new SentinelReadableDataSource<List<FlowRule>>(
                             redisService,
                             pubSubService,
                             conf.get(PROP_RULEKEY, "nutzboot"),
@@ -76,13 +79,23 @@ public class SentinelStarter implements ServerFace {
                             source -> JSON.parseObject(source, new TypeReference<List<FlowRule>>() {
                             }));
             FlowRuleManager.register2Property(redisDataSource.getProperty());
+            WritableDataSource<List<FlowRule>> wds = new SentinelWritableDataSource<>(redisService, this::encodeJson, conf.get(PROP_RULEKEY, "nutzboot"));
+            // Register to writable data source registry so that rules can be updated to redis
+            // when there are rules pushed from the Sentinel Dashboard.
+            WritableDataSourceRegistry.registerFlowDataSource(wds);
         }
     }
 
+    private <T> String encodeJson(T t) {
+        return JSON.toJSONString(t);
+    }
+
+    @Override
     public void stop() throws Exception {
 
     }
 
+    @Override
     public boolean isRunning() {
         return conf.getBoolean(PROP_SERVER_PORT, false);
     }
