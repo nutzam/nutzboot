@@ -96,6 +96,9 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
 
     @PropDoc(value = "WelcomeFile列表", defaultValue="index.html,index.htm,index.do")
     public static final String PROP_WELCOME_FILES = PRE + "welcome_files";
+    
+    @PropDoc(value = "自定义Connector配置群")
+    public static final String PROP_CONNECTOR_CONFS = PRE + "connector.*";
 
     private static final String PROP_PROTOCOL = "org.apache.coyote.http11.Http11NioProtocol";
 
@@ -126,6 +129,14 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
         connector.setPort(getPort());
         connector.setURIEncoding(DEFAULT_CHARSET.name());
         connector.setMaxPostSize(conf.getInt(PROP_MAX_POST_SIZE, 64 * 1024 * 1024));
+        String connectorKey = PRE + "connector.";
+        for (String key : conf.keys()) {
+            if (key.startsWith(connectorKey)) {
+                String k = key.substring(connectorKey.length());
+                String v = conf.get(key);
+                connector.setProperty(k, v);
+            }
+        }
 
         // 设置一下最大线程数
         this.tomcat.getService().addConnector(connector);
