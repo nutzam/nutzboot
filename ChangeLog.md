@@ -1,5 +1,18 @@
 # NB进化史
 
+# 2.2.9 "魔女の宅急便"
+
+* 添加start-sentinel-dubbo 流量防卫 by 大鲨鱼
+* 使用nutz正式版1.r.67,不引用快照版
+
+* 时间: 2019-01-09
+* 曲目: [魔女の宅急便](https://www.youtube.com/watch?v=jJJHH_v9JMg)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+* 变更:
+	* add: start-sentinel-dubbo 流量防卫 by 大鲨鱼,已应用在nutzwk
+	* update: 更新jetty/spring/jetx/beetl/undertow/druid版本 by howe
+	* 使用nutz正式版1.r.67
+
 # 2.2.8 "菊次郎的夏天"
 
 本版本添加servicecomb支持,修正了几个bug
