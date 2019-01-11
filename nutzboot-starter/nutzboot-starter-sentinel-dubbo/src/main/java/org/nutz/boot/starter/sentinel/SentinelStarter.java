@@ -3,6 +3,7 @@ package org.nutz.boot.starter.sentinel;
 import com.alibaba.csp.sentinel.datasource.WritableDataSource;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
+import com.alibaba.csp.sentinel.transport.config.TransportConfig;
 import com.alibaba.csp.sentinel.transport.util.WritableDataSourceRegistry;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -17,6 +18,11 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.List;
 import java.util.Random;
 
@@ -69,11 +75,12 @@ public class SentinelStarter implements ServerFace {
             System.setProperty("project.name", conf.get(PROP_PROJECR_NAME, conf.get("nutz.application.name", conf.get("dubbo.application.name", ""))));
             System.setProperty(CONSOLE_SERVER, conf.get(PROP_CONSOLE_SERVER, "localhost:9090"));
             System.setProperty(HEARTBEAT_INTERVAL_MS, conf.get(PROP_HEARTBEAT_INTERVAL_MS, "3000"));
-            System.setProperty(HEARTBEAT_CLIENT_IP, conf.get(PROP_HEARTBEAT_CLIENT_IP, ""));
+            String host = conf.get(PROP_HEARTBEAT_CLIENT_IP, "");
             int port = conf.getInt(PROP_SERVER_PORT, 0);
             if (port == 0) {
-                port = new Random(System.currentTimeMillis()).nextInt(20000);
+                port = getRandPort(host);
             }
+            System.setProperty(HEARTBEAT_CLIENT_IP, host);
             System.setProperty(SERVER_PORT, "" + port);
             SentinelReadableDataSource<List<FlowRule>> redisDataSource =
                     new SentinelReadableDataSource<List<FlowRule>>(
@@ -88,11 +95,38 @@ public class SentinelStarter implements ServerFace {
             // Register to writable data source registry so that rules can be updated to redis
             // when there are rules pushed from the Sentinel Dashboard.
             WritableDataSourceRegistry.registerFlowDataSource(wds);
+            log.infof("sentinel start in %s:%s", TransportConfig.getHeartbeatClientIp(), TransportConfig.getPort());
         }
     }
 
     private <T> String encodeJson(T t) {
         return JSON.toJSONString(t);
+    }
+
+    private int getRandPort(String host) {
+        int port = 20000 + new Random(System.currentTimeMillis()).nextInt(2000);
+        if (isPortUsing(host, port)) {
+            return getRandPort(host);
+        }
+        return port;
+    }
+
+    private boolean isPortUsing(String host, int port) {
+        boolean flag = false;
+        try {
+            InetAddress inetAddress = InetAddress.getByName(host);
+            Socket socket = new Socket();
+            socket.setReceiveBufferSize(8192);
+            socket.setSoTimeout(1000);
+            SocketAddress address = new InetSocketAddress(inetAddress.getHostAddress(), port);
+            socket.connect(address, 1000);// 判断ip、端口是否可连接
+            flag = true;
+            if (socket.isConnected())
+                socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return flag;
     }
 
     @Override
@@ -102,6 +136,6 @@ public class SentinelStarter implements ServerFace {
 
     @Override
     public boolean isRunning() {
-        return conf.getBoolean(PROP_SERVER_PORT, false);
+        return conf.getBoolean(PROP_ENABLED, false);
     }
 }
