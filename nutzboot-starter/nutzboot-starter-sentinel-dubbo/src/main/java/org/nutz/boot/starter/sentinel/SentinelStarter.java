@@ -120,9 +120,10 @@ public class SentinelStarter implements ServerFace {
             socket.setSoTimeout(1000);
             SocketAddress address = new InetSocketAddress(inetAddress.getHostAddress(), port);
             socket.connect(address, 1000);// 判断ip、端口是否可连接
-            flag = true;
-            if (socket.isConnected())
+            if (socket.isConnected()) {
+                flag = true;
                 socket.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
