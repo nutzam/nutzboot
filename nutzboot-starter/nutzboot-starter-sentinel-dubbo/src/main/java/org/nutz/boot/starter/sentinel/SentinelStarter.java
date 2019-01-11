@@ -75,12 +75,12 @@ public class SentinelStarter implements ServerFace {
             System.setProperty("project.name", conf.get(PROP_PROJECR_NAME, conf.get("nutz.application.name", conf.get("dubbo.application.name", ""))));
             System.setProperty(CONSOLE_SERVER, conf.get(PROP_CONSOLE_SERVER, "localhost:9090"));
             System.setProperty(HEARTBEAT_INTERVAL_MS, conf.get(PROP_HEARTBEAT_INTERVAL_MS, "3000"));
-            String host = conf.get(PROP_HEARTBEAT_CLIENT_IP, "");
+            String ip = conf.get(PROP_HEARTBEAT_CLIENT_IP, "");
             int port = conf.getInt(PROP_SERVER_PORT, 0);
             if (port == 0) {
-                port = getRandPort(host);
+                port = getRandPort(ip);
             }
-            System.setProperty(HEARTBEAT_CLIENT_IP, host);
+            System.setProperty(HEARTBEAT_CLIENT_IP, ip);
             System.setProperty(SERVER_PORT, "" + port);
             SentinelReadableDataSource<List<FlowRule>> redisDataSource =
                     new SentinelReadableDataSource<List<FlowRule>>(
@@ -111,14 +111,13 @@ public class SentinelStarter implements ServerFace {
         return port;
     }
 
-    private boolean isPortUsing(String host, int port) {
+    private boolean isPortUsing(String ip, int port) {
         boolean flag = false;
         try {
-            InetAddress inetAddress = InetAddress.getByName(host);
             Socket socket = new Socket();
             socket.setReceiveBufferSize(8192);
             socket.setSoTimeout(1000);
-            SocketAddress address = new InetSocketAddress(inetAddress.getHostAddress(), port);
+            SocketAddress address = new InetSocketAddress(ip, port);
             socket.connect(address, 1000);// 判断ip、端口是否可连接
             if (socket.isConnected()) {
                 flag = true;
