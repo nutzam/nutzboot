@@ -18,6 +18,7 @@ import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
 import java.util.List;
+import java.util.Random;
 
 @IocBean
 public class SentinelStarter implements ServerFace {
@@ -61,15 +62,19 @@ public class SentinelStarter implements ServerFace {
 
     @Override
     public void start() throws Exception {
-        if (conf.getBoolean(PROP_SERVER_PORT, false)) {
+        if (conf.getBoolean(PROP_ENABLED, false)) {
             redisService = ioc.get(RedisService.class);
             pubSubService = ioc.get(PubSubService.class);
             System.setProperty("java.net.preferIPv4Stack", "true");
             System.setProperty("project.name", conf.get(PROP_PROJECR_NAME, conf.get("nutz.application.name", conf.get("dubbo.application.name", ""))));
-            System.setProperty(SERVER_PORT, conf.get(PROP_SERVER_PORT, "8721"));
             System.setProperty(CONSOLE_SERVER, conf.get(PROP_CONSOLE_SERVER, "localhost:9090"));
             System.setProperty(HEARTBEAT_INTERVAL_MS, conf.get(PROP_HEARTBEAT_INTERVAL_MS, "3000"));
             System.setProperty(HEARTBEAT_CLIENT_IP, conf.get(PROP_HEARTBEAT_CLIENT_IP, ""));
+            int port = conf.getInt(PROP_SERVER_PORT, 0);
+            if (port == 0) {
+                port = new Random(System.currentTimeMillis()).nextInt(20000);
+            }
+            System.setProperty(SERVER_PORT, "" + port);
             SentinelReadableDataSource<List<FlowRule>> redisDataSource =
                     new SentinelReadableDataSource<List<FlowRule>>(
                             redisService,
