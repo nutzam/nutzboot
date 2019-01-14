@@ -1,8 +1,19 @@
 package org.nutz.boot.starter.sentinel;
 
+import com.alibaba.csp.sentinel.cluster.flow.rule.ClusterFlowRuleManager;
+import com.alibaba.csp.sentinel.cluster.flow.rule.ClusterParamFlowRuleManager;
+import com.alibaba.csp.sentinel.cluster.server.config.ClusterServerConfigManager;
+import com.alibaba.csp.sentinel.cluster.server.config.ServerTransportConfig;
 import com.alibaba.csp.sentinel.datasource.WritableDataSource;
+import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
+import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRuleManager;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
+import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowRule;
+import com.alibaba.csp.sentinel.slots.system.SystemRule;
+import com.alibaba.csp.sentinel.slots.system.SystemRuleManager;
 import com.alibaba.csp.sentinel.transport.config.TransportConfig;
 import com.alibaba.csp.sentinel.transport.util.WritableDataSourceRegistry;
 import com.alibaba.fastjson.JSON;
@@ -19,12 +30,12 @@ import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @IocBean
 public class SentinelStarter implements ServerFace {
@@ -82,21 +93,118 @@ public class SentinelStarter implements ServerFace {
             }
             System.setProperty(HEARTBEAT_CLIENT_IP, ip);
             System.setProperty(SERVER_PORT, "" + port);
-            SentinelReadableDataSource<List<FlowRule>> redisDataSource =
-                    new SentinelReadableDataSource<List<FlowRule>>(
-                            redisService,
-                            pubSubService,
-                            conf.get(PROP_RULEKEY, "nutzboot"),
-                            conf.get(PROP_CHANNEL, "sentinel"),
-                            source -> JSON.parseObject(source, new TypeReference<List<FlowRule>>() {
-                            }));
-            FlowRuleManager.register2Property(redisDataSource.getProperty());
-            WritableDataSource<List<FlowRule>> wds = new SentinelWritableDataSource<>(redisService, this::encodeJson, conf.get(PROP_RULEKEY, "nutzboot"));
-            // Register to writable data source registry so that rules can be updated to redis
-            // when there are rules pushed from the Sentinel Dashboard.
-            WritableDataSourceRegistry.registerFlowDataSource(wds);
-            log.infof("sentinel start in %s:%s", TransportConfig.getHeartbeatClientIp(), TransportConfig.getPort());
+            registerFlowRuleSupplier();
+            registerSystemRuleSupplier();
+            registerAuthorityRuleSupplier();
+            registerDegradeRuleSupplier();
+            registerClusterRuleSupplier();
+            log.infof("sentinel started in %s:%s", TransportConfig.getHeartbeatClientIp(), TransportConfig.getPort());
         }
+    }
+
+    private void registerFlowRuleSupplier() {
+        SentinelReadableDataSource<List<FlowRule>> redisDataSource =
+                new SentinelReadableDataSource<>(
+                        redisService,
+                        pubSubService,
+                        conf.get(PROP_RULEKEY, "nutzboot") + "-flow-rule",
+                        conf.get(PROP_CHANNEL, "sentinel") + "-flow-rule",
+                        source -> JSON.parseObject(source, new TypeReference<List<FlowRule>>() {
+                        }));
+        FlowRuleManager.register2Property(redisDataSource.getProperty());
+        WritableDataSource<List<FlowRule>> wds = new SentinelWritableDataSource<>(redisService, this::encodeJson, conf.get(PROP_RULEKEY, "nutzboot") + "-flow-rule");
+        // Register to writable data source registry so that rules can be updated to redis
+        // when there are rules pushed from the Sentinel Dashboard.
+        WritableDataSourceRegistry.registerFlowDataSource(wds);
+    }
+
+    private void registerSystemRuleSupplier() {
+        SentinelReadableDataSource<List<SystemRule>> redisDataSource =
+                new SentinelReadableDataSource<>(
+                        redisService,
+                        pubSubService,
+                        conf.get(PROP_RULEKEY, "nutzboot") + "-system-rule",
+                        conf.get(PROP_CHANNEL, "sentinel") + "-system-rule",
+                        source -> JSON.parseObject(source, new TypeReference<List<SystemRule>>() {
+                        }));
+        SystemRuleManager.register2Property(redisDataSource.getProperty());
+        WritableDataSource<List<SystemRule>> wds = new SentinelWritableDataSource<>(redisService, this::encodeJson, conf.get(PROP_RULEKEY, "nutzboot") + "-system-rule");
+        // Register to writable data source registry so that rules can be updated to redis
+        // when there are rules pushed from the Sentinel Dashboard.
+        WritableDataSourceRegistry.registerSystemDataSource(wds);
+    }
+
+    private void registerAuthorityRuleSupplier() {
+        SentinelReadableDataSource<List<AuthorityRule>> redisDataSource =
+                new SentinelReadableDataSource<>(
+                        redisService,
+                        pubSubService,
+                        conf.get(PROP_RULEKEY, "nutzboot") + "-authority-rule",
+                        conf.get(PROP_CHANNEL, "sentinel") + "-authority-rule",
+                        source -> JSON.parseObject(source, new TypeReference<List<AuthorityRule>>() {
+                        }));
+        AuthorityRuleManager.register2Property(redisDataSource.getProperty());
+        WritableDataSource<List<AuthorityRule>> wds = new SentinelWritableDataSource<>(redisService, this::encodeJson, conf.get(PROP_RULEKEY, "nutzboot") + "-authority-rule");
+        // Register to writable data source registry so that rules can be updated to redis
+        // when there are rules pushed from the Sentinel Dashboard.
+        WritableDataSourceRegistry.registerAuthorityDataSource(wds);
+    }
+
+    private void registerDegradeRuleSupplier() {
+        SentinelReadableDataSource<List<DegradeRule>> redisDataSource =
+                new SentinelReadableDataSource<>(
+                        redisService,
+                        pubSubService,
+                        conf.get(PROP_RULEKEY, "nutzboot") + "-degrade-rule",
+                        conf.get(PROP_CHANNEL, "sentinel") + "-degrade-rule",
+                        source -> JSON.parseObject(source, new TypeReference<List<DegradeRule>>() {
+                        }));
+        DegradeRuleManager.register2Property(redisDataSource.getProperty());
+        WritableDataSource<List<DegradeRule>> wds = new SentinelWritableDataSource<>(redisService, this::encodeJson, conf.get(PROP_RULEKEY, "nutzboot") + "-degrade-rule");
+        // Register to writable data source registry so that rules can be updated to redis
+        // when there are rules pushed from the Sentinel Dashboard.
+        WritableDataSourceRegistry.registerDegradeDataSource(wds);
+    }
+
+    private void registerClusterRuleSupplier() {
+        // Register cluster flow rule property supplier which creates data source by namespace.
+        ClusterFlowRuleManager.setPropertySupplier(namespace -> {
+            SentinelReadableDataSource<List<FlowRule>> ds = new SentinelReadableDataSource<>(
+                    redisService,
+                    pubSubService,
+                    conf.get(PROP_RULEKEY, "nutzboot") + namespace + "-cluster-flow-rule",
+                    conf.get(PROP_CHANNEL, "sentinel") + namespace + "-cluster-flow-rule",
+                    source -> JSON.parseObject(source, new TypeReference<List<FlowRule>>() {
+                    }));
+            return ds.getProperty();
+        });
+        // Register cluster parameter flow rule property supplier.
+        ClusterParamFlowRuleManager.setPropertySupplier(namespace -> {
+            SentinelReadableDataSource<List<ParamFlowRule>> ds = new SentinelReadableDataSource<>(
+                    redisService,
+                    pubSubService,
+                    conf.get(PROP_RULEKEY, "nutzboot") + namespace + "-param-flow-rule",
+                    conf.get(PROP_CHANNEL, "sentinel") + namespace + "-param-flow-rule",
+                    source -> JSON.parseObject(source, new TypeReference<List<ParamFlowRule>>() {
+                    }));
+            return ds.getProperty();
+        });
+        // Server namespace set (scope) data source.
+        SentinelReadableDataSource<Set<String>> namespaceDs = new SentinelReadableDataSource<>(redisService,
+                pubSubService,
+                conf.get(PROP_RULEKEY, "nutzboot") + "-namespace",
+                conf.get(PROP_CHANNEL, "sentinel") + "-namespace",
+                source -> JSON.parseObject(source, new TypeReference<Set<String>>() {
+                }));
+        ClusterServerConfigManager.registerNamespaceSetProperty(namespaceDs.getProperty());
+        // Server transport configuration data source.
+        SentinelReadableDataSource<ServerTransportConfig> transportConfigDs = new SentinelReadableDataSource<>(redisService,
+                pubSubService,
+                conf.get(PROP_RULEKEY, "nutzboot") + "-transport",
+                conf.get(PROP_CHANNEL, "sentinel") + "-transport",
+                source -> JSON.parseObject(source, new TypeReference<ServerTransportConfig>() {
+                }));
+        ClusterServerConfigManager.registerServerTransportProperty(transportConfigDs.getProperty());
     }
 
     private <T> String encodeJson(T t) {
@@ -124,7 +232,6 @@ public class SentinelStarter implements ServerFace {
                 socket.close();
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
         return flag;
     }
