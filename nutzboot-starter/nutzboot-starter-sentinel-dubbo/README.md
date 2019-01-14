@@ -16,7 +16,8 @@ java -Dserver.port=9090 -Dcsp.sentinel.dashboard.server=localhost:9090 -Dproject
     sentinel.enabled=true
     #控制台地址
     sentinel.csp.sentinel.dashboard.server=localhost:9090
-    #sentinel客户端端口
+    #sentinel客户端端口,设置0时为随机端口
+    #注意:使用集群流控功能时,重启jar后因端口变动导致规则失效,建议使用固定端口号
     sentinel.csp.sentinel.api.port=8721
     #sentinel客户端通信间隔毫秒数
     sentinel.csp.sentinel.heartbeat.interval.ms=3000
