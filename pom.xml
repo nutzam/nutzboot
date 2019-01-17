@@ -21,7 +21,7 @@
 		<cxf.version>3.1.15</cxf.version>
 		<spring.version>4.3.21.RELEASE</spring.version>
 		<lettuce.version>5.0.5.RELEASE</lettuce.version>
-		<beetl.version>2.9.7</beetl.version>
+		<beetl.version>2.9.8</beetl.version>
 		<beetlsql.version>2.10.43</beetlsql.version>
 		<zbus.version>0.11.5</zbus.version>
 		<undertow.version>1.4.26.Final</undertow.version>
@@ -958,7 +958,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
+				<version>2.10.4</version>
 				<configuration>
 					<additionalparam>-Xdoclint:none</additionalparam>
 				</configuration>
