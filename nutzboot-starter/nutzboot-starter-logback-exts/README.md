@@ -15,6 +15,17 @@
 logback.exts.loglevel.enabled=true
 #心跳间隔(单位:秒)
 logback.exts.loglevel.heartbeat=5
+
+redis.host=127.0.0.1
+redis.port=6379
+redis.timeout=2000
+redis.max_redir=10
+redis.database=0
+redis.maxTotal=100
+#redis.password=test123
+#redis集群模式设置 redis.mode=cluster
+redis.mode=normal
+#redis.nodes=
 ```
 
 ### 服务端发送命令
@@ -29,16 +40,6 @@ loglevelCommand.setName("wk-nb-dubbo-sys");//action=name 时不为空
 //loglevelCommand.setProcessId("1234");//action=processId 时不为空
 loglevelService.changeLoglevel(loglevelCommand);
 
-redis.host=127.0.0.1
-redis.port=6379
-redis.timeout=2000
-redis.max_redir=10
-redis.database=0
-redis.maxTotal=100
-#redis.password=test123
-#redis集群模式设置 redis.mode=cluster
-redis.mode=normal
-#redis.nodes=
 ```
 
 ### pom.xml
