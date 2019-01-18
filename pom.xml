@@ -12,6 +12,8 @@
 		<nutzboot.version>2.3.0-SNAPSHOT</nutzboot.version>
 		<nutzwx.version>1.r.68-SNAPSHOT</nutzwx.version>
 		<slf4j.version>1.7.25</slf4j.version>
+		<slf4j-api.version>1.7.25</slf4j-api.version>
+		<logback.version>1.2.3</logback.version>
 		<dubbo.version>2.6.5</dubbo.version>
 		<sentinel.version>1.4.1</sentinel.version>
 		<jetty.version>9.4.14.v20181114</jetty.version>
