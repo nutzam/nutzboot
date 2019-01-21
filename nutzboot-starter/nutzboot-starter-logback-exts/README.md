@@ -1,5 +1,7 @@
 # logback扩展功能
 
+Demo 请参考 NutzWk
+
 ## loglevel -- 动态修改NB项目日志等级
 
 
@@ -69,4 +71,22 @@ loglevelService.changeLoglevel(loglevelCommand);
             <artifactId>nutzboot-starter-logback-exts</artifactId>
             <version>${nutzboot.version}</version>
         </dependency>
+```
+
+## logfile -- 日志文件名带上进程ID
+
+* 为了解决启动多个NB实例后，日志文件IO冲突问题
+
+* logback.xml 示例，日志文件名为 `sys-2019-01-21-1234.log`
+
+```xml
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="org.nutz.boot.starter.logback.exts.logfile.LogfileTimeBasedRollingPolicy">
+            <fileNamePattern>~/logs/sys-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%-5level] %d{HH:mm:ss.SSS} %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
 ```
