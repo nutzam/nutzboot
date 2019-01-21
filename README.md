@@ -128,6 +128,7 @@ public class MainLauncher {
 * [zjSniper](https://gitee.com/zjSniper) (优化starter-tio的逻辑)
 * [tasdingoo](https://github.com/tasdingoo)(issue@github 122)
 * [csl_slchia](https://gitee.com/csl_slchia)(issue@gitee II92L)
+* [大鲨鱼](https://github.com/Wizzercn)(提交starter-wkcache/elasticsearch/sentinel等,扩展NB功能)
 * 还有您的名字哦,告知我们吧
 
 ## 采用NutzBoot的公司
@@ -189,7 +190,7 @@ public class MainLauncher {
         - [x] starter-[redis](https://redis.io) 特点就是快,吃内存!
         - [x] starter-mongodb NoSQL的重要一支
         - [x] starter-ssdb by [道坤](https://github.com/albinhdk)
-        - [x] starter-elasticsearch by 大鲨鱼
+        - [x] starter-elasticsearch by [大鲨鱼](https://github.com/Wizzercn)
         - [ ] memcached
 - Mvc
     - [x] starter-nutz-mvc Nutz自带的Mvc框架
@@ -229,6 +230,8 @@ public class MainLauncher {
 - 报表系统
     - [x] starter-ureport 中式报表
     - [ ] jreport
+- 日志系统
+    - [x] starter-logback-exts by [大鲨鱼](https://github.com/Wizzercn)
 - 开放平台
     - 微信公众号开放平台
         - [x] starter-[nutzwx](https://github.com/nutzam/nutzwx) Weixin Api By Nutz
