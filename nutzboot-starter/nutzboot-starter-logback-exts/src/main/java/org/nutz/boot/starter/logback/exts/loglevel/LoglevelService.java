@@ -28,13 +28,17 @@ public class LoglevelService implements PubSub {
 
     public void init() {
         pubSubService.reg(LoglevelProperty.REDIS_KEY_PREFIX + "pubsub", this);
-        redisService.set(LoglevelProperty.REDIS_KEY_PREFIX + "list:" + loglevelProperty.getName() + ":" + loglevelProperty.getProcessId(), Json.toJson(loglevelProperty));
-        redisService.expire(LoglevelProperty.REDIS_KEY_PREFIX + "list:" + loglevelProperty.getName() + ":" + loglevelProperty.getProcessId(), loglevelProperty.getKeepalive());
+        saveToRedis();
         doHeartbeat();
     }
 
+    private void saveToRedis() {
+        loglevelProperty.setLoglevel(getLevel());
+        redisService.set(LoglevelProperty.REDIS_KEY_PREFIX + "list:" + loglevelProperty.getName() + ":" + loglevelProperty.getProcessId(), Json.toJson(loglevelProperty));
+        redisService.expire(LoglevelProperty.REDIS_KEY_PREFIX + "list:" + loglevelProperty.getName() + ":" + loglevelProperty.getProcessId(), loglevelProperty.getKeepalive());
+    }
+
     private void doHeartbeat() {
-        int heartbeat = loglevelProperty.getHeartbeat();
         loglevelHeartbeatThread.start();
     }
 
@@ -53,17 +57,35 @@ public class LoglevelService implements PubSub {
             System.out.println("logback loglevel change start.");
             testLevel();
             if (Strings.isNotBlank(loglevelCommand.getLevel())) {
-                try {
-                    LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-                    loggerContext.getLogger("root").setLevel(Level.valueOf(loglevelCommand.getLevel()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                setLevel(loglevelCommand.getLevel());
+                saveToRedis();
             }
             System.out.println("----------------------------");
             //更改之后
             testLevel();
             System.out.println("logback loglevel change end.");
+        }
+    }
+
+    public boolean setLevel(String level) {
+        boolean isSucceed = true;
+        try {
+            LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+            loggerContext.getLogger("root").setLevel(Level.valueOf(level));
+        } catch (Exception e) {
+            e.printStackTrace();
+            isSucceed = false;
+        }
+        return isSucceed;
+    }
+
+    public String getLevel() {
+        try {
+            LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+            return loggerContext.getLogger("root").getLevel().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
         }
     }
 
