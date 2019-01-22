@@ -10,9 +10,12 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
 import org.nutz.json.JsonFormat;
 import org.nutz.lang.Strings;
+import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.slf4j.LoggerFactory;
+
+import java.util.Set;
 
 @IocBean(create = "init")
 public class LoglevelService implements PubSub {
@@ -26,6 +29,9 @@ public class LoglevelService implements PubSub {
     @Inject
     protected LoglevelHeartbeatThread loglevelHeartbeatThread;
 
+    /**
+     * 初始化数据到redis并订阅主题
+     */
     public void init() {
         pubSubService.reg(LoglevelProperty.REDIS_KEY_PREFIX + "pubsub", this);
         saveToRedis();
@@ -38,14 +44,28 @@ public class LoglevelService implements PubSub {
         redisService.expire(LoglevelProperty.REDIS_KEY_PREFIX + "list:" + loglevelProperty.getName() + ":" + loglevelProperty.getProcessId(), loglevelProperty.getKeepalive());
     }
 
+    /**
+     * 启动心跳线程
+     */
     private void doHeartbeat() {
         loglevelHeartbeatThread.start();
     }
 
+    /**
+     * 发送消息
+     *
+     * @param loglevelCommand
+     */
     public void changeLoglevel(LoglevelCommand loglevelCommand) {
         pubSubService.fire(LoglevelProperty.REDIS_KEY_PREFIX + "pubsub", Json.toJson(loglevelCommand, JsonFormat.compact()));
     }
 
+    /**
+     * 消息处理
+     *
+     * @param channel
+     * @param message
+     */
     @Override
     public void onMessage(String channel, String message) {
         LoglevelCommand loglevelCommand = Json.fromJson(LoglevelCommand.class, message);
@@ -67,6 +87,12 @@ public class LoglevelService implements PubSub {
         }
     }
 
+    /**
+     * 设置当前进程日志等级
+     *
+     * @param level
+     * @return
+     */
     public boolean setLevel(String level) {
         boolean isSucceed = true;
         try {
@@ -79,6 +105,11 @@ public class LoglevelService implements PubSub {
         return isSucceed;
     }
 
+    /**
+     * 获取当前进程日志等级
+     *
+     * @return
+     */
     public String getLevel() {
         try {
             LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
@@ -89,11 +120,31 @@ public class LoglevelService implements PubSub {
         }
     }
 
+    /**
+     * 测试日志等级
+     */
     private void testLevel() {
         log.info("info -- hello");
         log.warn("warn -- hello");
         log.error("error -- hello");
         log.debug("debug -- hello");
+    }
+
+    /**
+     * 获取客户端列表
+     *
+     * @return
+     */
+    public NutMap getData() {
+        Set<String> set = redisService.keys("logback:loglevel:list:*");
+        NutMap map = NutMap.NEW();
+        for (String key : set) {
+            String[] keys = key.split(":");
+            String name = keys[3];
+            LoglevelProperty loglevelProperty = Json.fromJson(LoglevelProperty.class, redisService.get(key));
+            map.addv2(name, loglevelProperty);
+        }
+        return map;
     }
 
 }
