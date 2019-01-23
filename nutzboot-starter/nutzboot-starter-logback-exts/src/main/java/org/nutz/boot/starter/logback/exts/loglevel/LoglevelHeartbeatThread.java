@@ -1,6 +1,5 @@
 package org.nutz.boot.starter.logback.exts.loglevel;
 
-import org.nutz.integration.jedis.RedisService;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
@@ -14,7 +13,7 @@ public class LoglevelHeartbeatThread extends Thread {
     @Inject
     private LoglevelProperty loglevelProperty;
     @Inject
-    private RedisService redisService;
+    private LoglevelService loglevelService;
 
     public LoglevelHeartbeatThread() throws Exception {
         setDaemon(true);
@@ -25,7 +24,7 @@ public class LoglevelHeartbeatThread extends Thread {
         try {
             while (keepRun) {
                 Lang.quiteSleep(loglevelProperty.getHeartbeat() * 1000);
-                redisService.expire(LoglevelProperty.REDIS_KEY_PREFIX + "list:" + loglevelProperty.getName() + ":" + loglevelProperty.getProcessId(), loglevelProperty.getKeepalive());
+                loglevelService.saveToRedis();
             }
         } catch (Throwable e) {
             log.debug("something happen!!!", e);

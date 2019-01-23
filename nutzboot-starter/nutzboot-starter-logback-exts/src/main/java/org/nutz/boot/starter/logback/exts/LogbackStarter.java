@@ -10,6 +10,7 @@ import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
+import org.nutz.lang.Times;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
@@ -46,6 +47,7 @@ public class LogbackStarter implements ServerFace {
         loglevelProperty.setProcessId(Lang.JdkTool.getProcessId("0"));
         loglevelProperty.setHeartbeat(conf.getInt(PROP_LOGLEVEL_HEARTBEAT, 5));
         loglevelProperty.setKeepalive(conf.getInt(PROP_LOGLEVEL_KEEPALIVE, 30));
+        loglevelProperty.setUptime(Times.getTS());
     }
 
     @Override

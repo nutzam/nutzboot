@@ -30,6 +30,16 @@ public class LoglevelProperty {
      */
     private String loglevel;
 
+    private long uptime;
+
+    private long vmFree;
+
+    private long vmUse;
+
+    private long vmTotal;
+
+    private long vmMax;
+
     public boolean isEnabled() {
         return enabled;
     }
@@ -76,5 +86,45 @@ public class LoglevelProperty {
 
     public void setLoglevel(String loglevel) {
         this.loglevel = loglevel;
+    }
+
+    public long getUptime() {
+        return uptime;
+    }
+
+    public void setUptime(long uptime) {
+        this.uptime = uptime;
+    }
+
+    public long getVmFree() {
+        return vmFree;
+    }
+
+    public void setVmFree(long vmFree) {
+        this.vmFree = vmFree;
+    }
+
+    public long getVmUse() {
+        return vmUse;
+    }
+
+    public void setVmUse(long vmUse) {
+        this.vmUse = vmUse;
+    }
+
+    public long getVmTotal() {
+        return vmTotal;
+    }
+
+    public void setVmTotal(long vmTotal) {
+        this.vmTotal = vmTotal;
+    }
+
+    public long getVmMax() {
+        return vmMax;
+    }
+
+    public void setVmMax(long vmMax) {
+        this.vmMax = vmMax;
     }
 }
