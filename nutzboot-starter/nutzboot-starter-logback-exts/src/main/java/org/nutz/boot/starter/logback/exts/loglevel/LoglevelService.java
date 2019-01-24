@@ -54,8 +54,8 @@ public class LoglevelService implements PubSub {
         loglevelProperty.setVmMax(vmMax);
         loglevelProperty.setVmUse(vmUse);
         loglevelProperty.setLoglevel(getLevel());
-        redisService.set(LoglevelProperty.REDIS_KEY_PREFIX + "list:" + loglevelProperty.getName() + ":" + loglevelProperty.getProcessId(), Json.toJson(loglevelProperty, JsonFormat.compact()));
-        redisService.expire(LoglevelProperty.REDIS_KEY_PREFIX + "list:" + loglevelProperty.getName() + ":" + loglevelProperty.getProcessId(), loglevelProperty.getKeepalive());
+        //log.debug("LoglevelService saveToRedis::"+Json.toJson(loglevelProperty));
+        redisService.setex(LoglevelProperty.REDIS_KEY_PREFIX + "list:" + loglevelProperty.getName() + ":" + loglevelProperty.getProcessId(), loglevelProperty.getKeepalive(), Json.toJson(loglevelProperty, JsonFormat.compact()));
     }
 
     /**
