@@ -51,6 +51,7 @@
 		<module>nutzboot-demo-simple-email</module>
 		<module>nutzboot-demo-simple-prevent-duplicate-submit</module>
 		<module>nutzboot-demo-simple-jetty-with-jsp</module>
+		<module>nutzboot-demo-simple-zbus</module>
 	</modules>
 
 	<dependencies>
