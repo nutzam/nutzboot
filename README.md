@@ -159,12 +159,13 @@ public class MainLauncher {
 	- RPC(Remote Procedure Call)
 	    - [x] literpc 简洁高效RPC,由NutzCloud提供
 		- [x] starter-[dubbo](http://dubbo.apache.org) 阿里出品的高性能RPC平台
-		- [x] starter-[sentinel-dubbo](https://github.com/alibaba/Sentinel) 阿里出品的分布式系统的流量防卫兵 by [大鲨鱼](https://github.com/Wizzercn)
 		- [x] starter-[zbus](http://zbus.io) 国产知名RPC平台
 		- [x] starter-[feign](https://github.com/OpenFeign/feign) makes writing java http clients easier, by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
 		- [x] [ribbon](https://github.com/Netflix/ribbon) ,集成在feign中,配合erueka-client实现负载均衡
 		- [x] [servicecomb](http://servicecomb.apache.org) Apache ServiceComb
     - [x] starter-zkclient zookeeper的封装
+    - [x] starter-[sentinel-dubbo](https://github.com/alibaba/Sentinel) 阿里出品的分布式系统的流量防卫兵,集成dubbo by [大鲨鱼](https://github.com/Wizzercn)
+    - [x] starter-[sentinel-annotation](https://github.com/alibaba/Sentinel) 阿里出品的分布式系统的流量防卫兵,基于原生注解
     - [x] starter-[hystrix](https://github.com/Netflix/Hystrix) 熔断器及其dashboard
     - 服务注册
         - [x] loach-server '泥鳅'服务端,由NutzCloud提供

@@ -70,6 +70,7 @@
         <module>nutzboot-starter-servicecomb</module>
         <module>nutzboot-starter-sentinel-dubbo</module>
 		<module>nutzboot-starter-logback-exts</module>
+		<module>nutzboot-starter-sentinel-annotation</module>
 	</modules>
 	<dependencies>
 		<dependency>
