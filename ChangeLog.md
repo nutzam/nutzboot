@@ -1,12 +1,14 @@
 # NB进化史
 
-# 2.3.0.v20190220 ""
+# 2.3.0.v20190220 "不可说"
+
+地球在流浪,我们继续发新版^_^
 
 * 添加start-sentinel-annotation 流量防卫原生注释版
 * 使用nutz正式版1.r.67,不引用快照版
 
 * 时间: 2019-02-20
-* 曲目: [魔女の宅急便](https://www.youtube.com/watch?v=jJJHH_v9JMg)
+* 曲目: [不可说](https://www.youtube.com/watch?v=gRd4iQhx9S8)
 * 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
 * 变更:
 	* add: starter-logback-exts logback日志扩展 by 大鲨鱼
