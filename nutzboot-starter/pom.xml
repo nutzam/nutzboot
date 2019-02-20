@@ -71,6 +71,7 @@
         <module>nutzboot-starter-sentinel-dubbo</module>
 		<module>nutzboot-starter-logback-exts</module>
 		<module>nutzboot-starter-sentinel-annotation</module>
+		<module>nutzboot-starter-tio-websocket</module>
 	</modules>
 	<dependencies>
 		<dependency>
