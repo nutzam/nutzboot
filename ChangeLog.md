@@ -5,7 +5,6 @@
 地球在流浪,我们继续发新版^_^
 
 * 添加start-sentinel-annotation 流量防卫原生注释版
-* 使用nutz正式版1.r.67,不引用快照版
 
 * 时间: 2019-02-20
 * 曲目: [不可说](https://www.youtube.com/watch?v=gRd4iQhx9S8)
