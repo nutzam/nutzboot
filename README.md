@@ -199,6 +199,7 @@ public class MainLauncher {
     - [ ] [jersey](https://jersey.github.io/)
 - 非servlet容器
 	- [x] starter-[tio](https://gitee.com/tywo45/t-io) 国产高性能网络开发包 by [蛋蛋](https://github.com/TopCoderMyDream)
+	- [x] starter-[tio-websocket](https://gitee.com/tywo45/t-io) 国产高性能网络开发包 by [科技](https://github.com/Rekoe)
 - 安全鉴权
     - [x] [Shiro](http://shiro.apache.org)
 - 分布式Session
