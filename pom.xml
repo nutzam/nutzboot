@@ -534,6 +534,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-tio-websocket</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-nutz-dao</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>

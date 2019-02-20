@@ -38,6 +38,7 @@
         <module>nutzboot-demo-simple-xxl-job-executor</module>
         <module>nutzboot-demo-simple-activiti</module>
         <module>nutzboot-demo-simple-tio</module>
+        <module>nutzboot-demo-simple-tio-websocket</module>
         <module>nutzboot-demo-simple-apollo-client</module>
         <module>nutzboot-demo-simple-config-client</module>
         <module>nutzboot-demo-simple-quartz</module>
