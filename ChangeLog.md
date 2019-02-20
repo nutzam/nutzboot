@@ -1,5 +1,20 @@
 # NB进化史
 
+# 2.3.0.v20190220 ""
+
+* 添加start-sentinel-annotation 流量防卫原生注释版
+* 使用nutz正式版1.r.67,不引用快照版
+
+* 时间: 2019-02-20
+* 曲目: [魔女の宅急便](https://www.youtube.com/watch?v=jJJHH_v9JMg)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+* 变更:
+	* add: starter-logback-exts logback日志扩展 by 大鲨鱼
+	* update: 使用nutz 1.r.68.v20190220 例行更新
+	* update: 使用nutzwx 1.r.68.v20190220 卡包API
+	* update: 使用nutz插件集 1.r.68.v20190220 zbus/dubbo相关增强
+	* update: 使用jetty最新版
+
 # 2.2.9 "魔女の宅急便"
 
 * 添加start-sentinel-dubbo 流量防卫 by 大鲨鱼
