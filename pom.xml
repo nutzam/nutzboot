@@ -8,9 +8,9 @@
 	<name>nutzboot-parent</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<nutz.version>1.r.68.v20190220</nutz.version>
+		<nutz.version>1.r.68-SNAPSHOT</nutz.version>
 		<nutzboot.version>2.3.1-SNAPSHOT</nutzboot.version>
-		<nutzwx.version>1.r.68.v20190220</nutzwx.version>
+		<nutzwx.version>1.r.68-SNAPSHOT</nutzwx.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<slf4j-api.version>1.7.25</slf4j-api.version>
 		<logback.version>1.2.3</logback.version>
