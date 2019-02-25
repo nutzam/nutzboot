@@ -53,6 +53,7 @@
 		<module>nutzboot-demo-simple-prevent-duplicate-submit</module>
 		<module>nutzboot-demo-simple-jetty-with-jsp</module>
 		<module>nutzboot-demo-simple-zbus</module>
+		<module>nutzboot-demo-simple-mvc-wkcache</module>
 	</modules>
 
 	<dependencies>

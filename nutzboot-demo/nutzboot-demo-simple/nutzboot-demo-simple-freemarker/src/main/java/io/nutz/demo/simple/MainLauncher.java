@@ -7,9 +7,10 @@ import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 
 @IocBean
+@At("")
 public class MainLauncher {
 
-    @At
+    @At("/")
     @Ok("fm:/index")
     public Object index(){
         return NutMap.NEW().setv("name","wendal").setv("age",18);
