@@ -6,7 +6,7 @@
 		<artifactId>nutzboot-demo-simple</artifactId>
 		<version>2.3.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>nutzboot-demo-simple-dao</artifactId>
+	<artifactId>nutzboot-demo-simple-dao-with-many</artifactId>
 	<properties>
 		<docker.image.prefix>nutzboot</docker.image.prefix>
 	</properties>
