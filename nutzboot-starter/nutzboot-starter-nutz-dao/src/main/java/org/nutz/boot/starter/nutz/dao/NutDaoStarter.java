@@ -200,9 +200,9 @@ public class NutDaoStarter {
             Matcher match = pattern.matcher(key);
             if(match.find()) {
                 // 获取数据库名称
+                String name = match.group(1);
+                String prefix_name = "jdbc.many." + name + ".";
                 try {
-                    String name = match.group(1);
-                    String prefix_name = "jdbc.many." + name + ".";
                     DataSource manyDataSource = DataSourceStarter.createSlaveDataSource(ioc, conf, prefix_name);
                     NutDao nutDao = new NutDao();
                     nutDao.setDataSource(manyDataSource);
