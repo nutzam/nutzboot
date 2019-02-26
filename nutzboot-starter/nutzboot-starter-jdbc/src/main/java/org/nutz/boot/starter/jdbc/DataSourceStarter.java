@@ -113,17 +113,9 @@ public class DataSourceStarter {
 
     public static DataSource createManyDataSource(Ioc ioc, PropertiesProxy conf, String prefix) {
         try {
-            String key = prefix + "type";
-            if (!conf.has(key)) {
-                throw new RuntimeException(key + " is null");
-            }
-            String type = conf.get(key);
-            if (!type.equals("druid")) {
-                throw new RuntimeException(key + "is not druid");
-            }
-            return createDruidDataSource(conf, prefix);
+            return createDataSource(ioc, conf, prefix);
         } catch (Exception e) {
-            throw new RuntimeException("datasource init error");
+            throw new RuntimeException("datasource init error", e);
         }
     }
 

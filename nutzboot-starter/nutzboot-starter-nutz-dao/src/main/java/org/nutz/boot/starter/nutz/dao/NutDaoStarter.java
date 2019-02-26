@@ -202,7 +202,7 @@ public class NutDaoStarter {
                 // 获取数据库名称
                 String name = match.group(1);
                 String prefix_name = "jdbc.many." + name + ".";
-                DataSource manyDataSource = DataSourceStarter.createManyDataSource(ioc, conf, prefix_name);
+                DataSource manyDataSource = DataSourceStarter.createDataSource(ioc, conf, prefix_name);
                 NutDao nutDao = new NutDao();
                 nutDao.setDataSource(manyDataSource);
                 // 处理对应的从库

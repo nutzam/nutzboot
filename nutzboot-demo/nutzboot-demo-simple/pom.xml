@@ -54,6 +54,7 @@
 		<module>nutzboot-demo-simple-jetty-with-jsp</module>
 		<module>nutzboot-demo-simple-zbus</module>
 		<module>nutzboot-demo-simple-mvc-wkcache</module>
+		<module>nutzboot-demo-simple-dao-with-many</module>
 	</modules>
 
 	<dependencies>
