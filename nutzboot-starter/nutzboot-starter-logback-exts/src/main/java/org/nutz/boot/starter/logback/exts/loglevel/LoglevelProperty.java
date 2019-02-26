@@ -40,6 +40,26 @@ public class LoglevelProperty {
 
     private long vmMax;
 
+    /**
+     * 主机地址
+     */
+    private String hostAddress;
+
+    /**
+     * 主机名称
+     */
+    private String hostName;
+
+    /**
+     * 启动的jar包版本号
+     */
+    private String appVersion;
+
+    /**
+     * 加载的配置文件版本号
+     */
+    private String confVersion;
+
     public boolean isEnabled() {
         return enabled;
     }
@@ -126,5 +146,37 @@ public class LoglevelProperty {
 
     public void setVmMax(long vmMax) {
         this.vmMax = vmMax;
+    }
+
+    public String getHostAddress() {
+        return hostAddress;
+    }
+
+    public void setHostAddress(String hostAddress) {
+        this.hostAddress = hostAddress;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
+    }
+
+    public String getConfVersion() {
+        return confVersion;
+    }
+
+    public void setConfVersion(String confVersion) {
+        this.confVersion = confVersion;
     }
 }
