@@ -113,7 +113,7 @@ public class DataSourceStarter {
 
     public static DataSource createManyDataSource(Ioc ioc, PropertiesProxy conf, String prefix) {
         try {
-            return createDataSource(ioc, conf, prefix);
+            return createSlaveDataSource(ioc, conf, prefix);
         } catch (Exception e) {
             throw new RuntimeException("datasource init error", e);
         }

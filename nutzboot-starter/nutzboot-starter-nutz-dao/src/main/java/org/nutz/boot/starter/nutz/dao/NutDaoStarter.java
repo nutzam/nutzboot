@@ -203,7 +203,7 @@ public class NutDaoStarter {
                 String name = match.group(1);
                 String prefix_name = "jdbc.many." + name + ".";
                 try {
-                    DataSource manyDataSource = DataSourceStarter.createSlaveDataSource(ioc, conf, prefix_name);
+                    DataSource manyDataSource = DataSourceStarter.createManyDataSource(ioc, conf, prefix_name);
                     NutDao nutDao = new NutDao();
                     nutDao.setDataSource(manyDataSource);
                     // 处理对应的从库
