@@ -14,6 +14,7 @@
 
 * 主页: [NB的官网](https://nutz.io)
 * 项目生成器: [NB Maker](https://get.nutz.io)
+* 推荐项目: [NutzWk](https://github.com/Wizzercn/NutzWk)
 * 版本历史: [NB进化史](ChangeLog.md)
 * 文档: [NB的文档](https://gitee.com/nutz/nutzboot/tree/dev/doc)
 * 文档2: [NB的文档2](http://nutzam.com/core/boot/overview.html)
@@ -96,8 +97,8 @@ public class MainLauncher {
 ### Demo
 
 * [内置demo](https://github.com/nutzam/nutzboot/tree/dev/nutzboot-demo),每个starter均配套一个demo
+* **[NutzWk-NB分支](https://github.com/Wizzercn/NutzWk) 企业级微服务开发平台,非常靠谱 by 大鲨鱼**
 * [MqttWk](https://github.com/Wizzercn/MqttWk) 每秒处理10w+消息的全开源Mqtt服务端 by 大鲨鱼
-* [NutzWk-NB分支](https://github.com/Wizzercn/NutzWk) 企业级微服务开发平台,非常靠谱 by 大鲨鱼
 * [Todo-backend](https://github.com/nutzam/todo-backend-nutzboot),一个类就能通过TodoBackend的测试 by wendal
 * [urls](https://gitee.com/howe/urls) Java版短地址服务 by howe
 * [LuliChat](https://github.com/TopCoderMyDream/LuliChat/tree/nutzboot) 一个Nutz为后台支撑,T-io为通讯支持,LayIM为前台UI交互的纯国产框架开发的一个即时通讯项目 by 蛋蛋
@@ -152,19 +153,19 @@ public class MainLauncher {
     - [x] 基础框架的文档
     - [x] nutzboot-core 核心框架的实现
 - 嵌入式web容器
-    - [x] starter-[jetty](https://www.eclipse.org/jetty/)
+    - [x] **starter-[jetty](https://www.eclipse.org/jetty/)**
     - [x] starter-[undertow](http://undertow.io/) by [@qinerg](https://github.com/qinerg)
     - [x] starter-[tomcat](http://tomcat.apache.org/) by [@benjobs](https://github.com/wolfboys) 
 - 分布式组件
 	- RPC(Remote Procedure Call)
 	    - [x] literpc 简洁高效RPC,由NutzCloud提供
-		- [x] starter-[dubbo](http://dubbo.apache.org) 阿里出品的高性能RPC平台
+		- [x] **starter-[dubbo](http://dubbo.apache.org) 阿里出品的高性能RPC平台**
 		- [x] starter-[zbus](http://zbus.io) 国产知名RPC平台
 		- [x] starter-[feign](https://github.com/OpenFeign/feign) makes writing java http clients easier, by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
 		- [x] [ribbon](https://github.com/Netflix/ribbon) ,集成在feign中,配合erueka-client实现负载均衡
 		- [x] [servicecomb](http://servicecomb.apache.org) Apache ServiceComb
     - [x] starter-zkclient zookeeper的封装
-    - [x] starter-[sentinel-dubbo](https://github.com/alibaba/Sentinel) 阿里出品的分布式系统的流量防卫兵,集成dubbo by [大鲨鱼](https://github.com/Wizzercn)
+    - [x] **starter-[sentinel-dubbo](https://github.com/alibaba/Sentinel)** 阿里出品的分布式系统的流量防卫兵,集成dubbo by [大鲨鱼](https://github.com/Wizzercn)
     - [x] starter-[sentinel-annotation](https://github.com/alibaba/Sentinel) 阿里出品的分布式系统的流量防卫兵,基于原生注解
     - [x] starter-[hystrix](https://github.com/Netflix/Hystrix) 熔断器及其dashboard
     - 服务注册
@@ -176,49 +177,51 @@ public class MainLauncher {
         - [x] [NB Config Server](https://gitee.com/nutz/nutzcloud-config-server) 配置中心的服务端
         - [x] starter-config-client NB Config Client 配置中心的客户端
         - [x] starter-[apollo-client](https://github.com/ctripcorp/apollo) 携程框架部门研发的分布式配置中心的客户端
+        - [x] starter-[nacos-config](https://github.com/alibaba/nacos) 阿里出品的配置服务
     - API网关
         - [x] gateway-server NC API网关服务器
         - [ ] zuul
 - 数据库类相关
     - 关系型数据库
         - 数据源
-            - [x] starter-jdbc, 普通连接池,默认使用druid,带监控功能
+            - [x] **starter-jdbc, 普通连接池,默认使用druid,带监控功能**
             - [x] starter-[sharding-jdbc](https://github.com/shardingjdbc/sharding-jdbc) 分库分表
         - ORM
-            - [x] starter-[nutz-dao](https://github.com/nutzam/nutz)
+            - [x] **starter-[nutz-dao](https://github.com/nutzam/nutz) Nutz官方Dao**
             - [x] starter-[beetlsql](http://ibeetl.com/guide/#beetlsql) 基于Beetl的SQL框架
     - 非关系型数据库
-        - [x] starter-[redis](https://redis.io) 特点就是快,吃内存!
+        - [x] **starter-[redis](https://redis.io) 特点就是快,吃内存!**
         - [x] starter-mongodb NoSQL的重要一支
         - [x] starter-ssdb by [道坤](https://github.com/albinhdk)
         - [x] starter-elasticsearch by [大鲨鱼](https://github.com/Wizzercn)
         - [ ] memcached
 - Mvc
-    - [x] starter-nutz-mvc Nutz自带的Mvc框架
+    - [x] **starter-nutz-mvc Nutz自带的Mvc框架**
     - [x] starter-[tio-mvc](https://gitee.com/tywo45/t-io) 基于tio的Mvc框架
     - [ ] [jersey](https://jersey.github.io/)
 - 非servlet容器
 	- [x] starter-[tio](https://gitee.com/tywo45/t-io) 国产高性能网络开发包 by [蛋蛋](https://github.com/TopCoderMyDream)
 	- [x] starter-[tio-websocket](https://gitee.com/tywo45/t-io) 国产高性能网络开发包 by [科技](https://github.com/Rekoe)
 - 安全鉴权
-    - [x] [Shiro](http://shiro.apache.org)
+    - [x] **[Shiro](http://shiro.apache.org) 应用权限的标配**
 - 分布式Session
     - [x] [Shiro+LCache](https://github.com/nutzam/nutzmore/tree/master/nutz-plugins-cache)基于shiro/jedis/插件的分布式可持久化的session缓存
 - 分布式事务
     - [x] [tcc-transaction](https://github.com/changmingxie/tcc-transaction/tree/dev-1.2.x)基于tcc-transaction的nutz容器支持
 - 计划任务
-    - [x] starter-[quartz](http://www.quartz-scheduler.org)
+    - [x] **starter-[quartz](http://www.quartz-scheduler.org)**
     - [x] starter-xxl-job [国产分布式任务调度平台](https://github.com/xuxueli/xxl-job/pull/253)
+    - [ ] starter-scheduledx 阿里云分布式任务
 - 模板引擎
     - [x] [jst](https://gitee.com/nutz/jst) Nutz出品的模板引擎
-    - [x] starter-[beetl](http://ibeetl.com/) 高效模板引擎
+    - [x] **starter-[beetl](http://ibeetl.com/) 闲大赋出品的高效模板引擎**
     - [x] starter-jetx [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
     - [x] starter-velocity by [haoqoo](https://github.com/haoqoo)
     - [x] starter-thymeleaf by [温泉](https://github.com/ywjno)
     - [x] starter-freemarker by [蛋蛋](https://github.com/TopCoderMyDream)
 - 消息队列
     - [x] starter-disque redis作者的另一作品
-    - [x] starter-rabbitmq
+    - [x] **starter-rabbitmq 好用的队列服务**
     - [ ] rocketmq
     - [ ] activemq
 - 邮件发送
