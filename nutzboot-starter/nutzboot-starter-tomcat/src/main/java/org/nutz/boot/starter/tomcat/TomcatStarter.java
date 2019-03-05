@@ -36,6 +36,7 @@ import org.apache.catalina.webresources.StandardRoot;
 import org.apache.juli.logging.LogFactory;
 import org.apache.tomcat.util.descriptor.web.ErrorPage;
 import org.nutz.boot.annotation.PropDoc;
+import org.nutz.boot.starter.MonitorObject;
 import org.nutz.boot.starter.ServerFace;
 import org.nutz.boot.starter.servlet3.AbstractServletContainerStarter;
 import org.nutz.boot.starter.servlet3.NbServletContextListener;
@@ -58,7 +59,7 @@ import org.nutz.log.Logs;
  * @author wendal (wendal1985@gmail.com)
  */
 @IocBean
-public class TomcatStarter extends AbstractServletContainerStarter implements ServerFace {
+public class TomcatStarter extends AbstractServletContainerStarter implements ServerFace, MonitorObject {
 
     private static final Log log = Logs.get();
 
@@ -120,6 +121,9 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
     @Override
     public void init() throws LifecycleException {
 
+        updateMonitorValue("http.port", getPort());
+        updateMonitorValue("http.host", getHost());
+        
         this.tomcat = new Tomcat();
 
         File baseDir = createTempDir("tomcat");
@@ -143,6 +147,7 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
         StandardThreadExecutor executor = new StandardThreadExecutor();
         executor.setMaxThreads(getMaxThread());
         connector.getService().addExecutor(executor);
+        updateMonitorValue("maxThread", executor.getMaxThreads());
 
         this.tomcat.setConnector(connector);
 
@@ -173,6 +178,8 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
             tomcatAwaitThread.start();
             this.started = true;
         }
+        if (log.isDebugEnabled())
+            log.debug("Tomcat monitor props:\r\n"+getMonitorForPrint());
     }
 
     public void stop() throws LifecycleException {
@@ -196,7 +203,7 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
         }
     }
 
-    private void prepareContext() {
+    protected void prepareContext() {
         File docBase = Files.findFile("static/");
 
         docBase = (docBase != null && docBase.isDirectory()) ? docBase : createTempDir("tomcat-docbase");
@@ -210,6 +217,10 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
         this.tomcatContext.setParentClassLoader(classLoader);
         this.tomcatContext.setSessionTimeout(getSessionTimeout() / 60);
         this.tomcatContext.addLifecycleListener(new StoreMergedWebXmlListener());
+        
+        updateMonitorValue("contextPath", super.getContextPath());
+        updateMonitorValue("sessionTimeout", getSessionTimeout());
+        
         StandardRoot sr = new StandardRoot(this.tomcatContext);
         if (!Strings.isBlank(conf.get(PROP_STATIC_PATH_LOCAL))) {
             File local = new File(conf.get(PROP_STATIC_PATH_LOCAL));
@@ -505,5 +516,9 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
     
     public Tomcat getServer() {
         return tomcat;
+    }
+    
+    public String getMonitorName() {
+        return "tomcat";
     }
 }

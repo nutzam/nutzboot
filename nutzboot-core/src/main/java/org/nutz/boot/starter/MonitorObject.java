@@ -28,4 +28,15 @@ public interface MonitorObject {
         }
         return re;
     }
+    
+    default StringBuilder getMonitorForPrint() {
+        String LR = "\r\n";
+        StringBuilder sb = new StringBuilder();
+        sb.append("----------------------------------------------").append(LR);
+        for (String key : getMonitorKeys()) {
+            sb.append(String.format("%-40s : %s", key, getMonitorValue(key))).append(LR);
+        }
+        sb.append("----------------------------------------------");
+        return sb;
+    }
 }
