@@ -35,28 +35,28 @@ public class NacosConfigureStarter implements ServerFace {
     /**
      * Nacos配置项前缀
      */
-    private static final String NACOS_PRE = "nacos.config.";
+    protected static final String NACOS_PRE = "nacos.config.";
     /**
      * Nacos远程地址配置项
      */
     @PropDoc(value = "Nacos远程地址")
-    private static final String NACOS_ADDR = NACOS_PRE + "addr";
+    public static final String NACOS_ADDR = NACOS_PRE + "addr";
     /**
      * Nacos Data ID 配置项
      */
     @PropDoc(value = "Nacos Data ID")
-    private static final String NACOS_DATA_ID = NACOS_PRE + "data_id";
+    public static final String NACOS_DATA_ID = NACOS_PRE + "data_id";
     /**
      * Nacos分组配置项
      */
     @PropDoc(value = "Nacos分组")
-    private static final String NACOS_GROUP = NACOS_PRE + "group";
+    public static final String NACOS_GROUP = NACOS_PRE + "group";
     /**
      * Nacos数据类型配置项（用于识别使用哪种方式解析配置项）
      * 支持配置： json, properties, xml
      */
     @PropDoc(value = "Nacos数据类型")
-    private static final String NACOS_DATA_TYPE = NACOS_PRE + "data_type";
+    public static final String NACOS_DATA_TYPE = NACOS_PRE + "data_type";
 
     @Inject
     protected AppContext appContext;
