@@ -72,28 +72,32 @@ public class NacosConfigureStarter implements ServerFace {
         String group = conf.get(NACOS_GROUP);
         String dataType = conf.get(NACOS_DATA_TYPE);
 
-        Properties properties = new Properties();
-        properties.put("serverAddr", serverAddr);
-        ConfigService configService = NacosFactory.createConfigService(properties);
-        String configInfo = configService.getConfig(dataId, group, 5000);
-        log.debugf("get nacos config：%s", configInfo);
-        if (Strings.isNotBlank(configInfo)) {
-            setConfig(configInfo, dataType);
-        }
-        configService.addListener(dataId, group, new Listener() {
-            @Override
-            public void receiveConfigInfo(String configInfo) {
-                log.debugf("receive nacos server config：%s", configInfo);
-                if (Strings.isNotBlank(configInfo)) {
-                    setConfig(configInfo, dataType);
+        if(Strings.isBlank(serverAddr) || Strings.isBlank(dataId) || Strings.isBlank(group) || Strings.isBlank(dataType)) {
+            log.debugf("nacos server config is not found or incomplete, skip...");
+        } else {
+            Properties properties = new Properties();
+            properties.put("serverAddr", serverAddr);
+            ConfigService configService = NacosFactory.createConfigService(properties);
+            String configInfo = configService.getConfig(dataId, group, 5000);
+            log.debugf("get nacos config：%s", configInfo);
+            if (Strings.isNotBlank(configInfo)) {
+                setConfig(configInfo, dataType);
+            }
+            configService.addListener(dataId, group, new Listener() {
+                @Override
+                public void receiveConfigInfo(String configInfo) {
+                    log.debugf("receive nacos server config：%s", configInfo);
+                    if (Strings.isNotBlank(configInfo)) {
+                        setConfig(configInfo, dataType);
+                    }
                 }
-            }
 
-            @Override
-            public Executor getExecutor() {
-                return null;
-            }
-        });
+                @Override
+                public Executor getExecutor() {
+                    return null;
+                }
+            });
+        }
     }
 
     private void setConfig(String content, String contentType) {
