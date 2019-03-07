@@ -4,11 +4,13 @@ import com.alibaba.nacos.api.NacosFactory;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import org.nutz.boot.AppContext;
+import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.starter.ServerFace;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
+import org.nutz.lang.Strings;
 import org.nutz.lang.stream.StringInputStream;
 import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
@@ -31,22 +33,30 @@ public class NacosConfigureStarter implements ServerFace {
      */
     private static final Log log = Logs.get();
     /**
+     * Nacos配置项前缀
+     */
+    private static final String NACOS_PRE = "nacos.config.";
+    /**
      * Nacos远程地址配置项
      */
-    private static final String NACOS_ADDR = "nacos_addr";
+    @PropDoc(value = "Nacos远程地址")
+    private static final String NACOS_ADDR = NACOS_PRE + "addr";
     /**
      * Nacos Data ID 配置项
      */
-    private static final String NACOS_DATA_ID = "nacos_data_id";
+    @PropDoc(value = "Nacos Data ID")
+    private static final String NACOS_DATA_ID = NACOS_PRE + "data_id";
     /**
      * Nacos分组配置项
      */
-    private static final String NACOS_GROUP = "nacos_group";
+    @PropDoc(value = "Nacos分组")
+    private static final String NACOS_GROUP = NACOS_PRE + "group";
     /**
      * Nacos数据类型配置项（用于识别使用哪种方式解析配置项）
      * 支持配置： json, properties, xml
      */
-    private static final String NACOS_DATA_TYPE = "nacos_data_type";
+    @PropDoc(value = "Nacos数据类型")
+    private static final String NACOS_DATA_TYPE = NACOS_PRE + "data_type";
 
     @Inject
     protected AppContext appContext;
@@ -66,14 +76,17 @@ public class NacosConfigureStarter implements ServerFace {
         properties.put("serverAddr", serverAddr);
         ConfigService configService = NacosFactory.createConfigService(properties);
         String configInfo = configService.getConfig(dataId, group, 5000);
-        log.debugf("获取的config信息：%s", configInfo);
-        setConfig(configInfo, dataType);
-
+        log.debugf("get nacos config：%s", configInfo);
+        if (Strings.isNotBlank(configInfo)) {
+            setConfig(configInfo, dataType);
+        }
         configService.addListener(dataId, group, new Listener() {
             @Override
             public void receiveConfigInfo(String configInfo) {
-                log.debugf("获取到服务端推送的信息：%s", configInfo);
-                setConfig(configInfo, dataType);
+                log.debugf("receive nacos server config：%s", configInfo);
+                if (Strings.isNotBlank(configInfo)) {
+                    setConfig(configInfo, dataType);
+                }
             }
 
             @Override
@@ -85,10 +98,10 @@ public class NacosConfigureStarter implements ServerFace {
 
     private void setConfig(String content, String contentType) {
         PropertiesProxy conf = appContext.getConf();
-        if (contentType.equals("json")) {
+        if ("json".equals(contentType)) {
             NutMap configMap = new NutMap(content);
             conf.putAll(configMap);
-        } else if (contentType.equals("xml")) {
+        } else if ("xml".equals(contentType)) {
             Properties properties = new Properties();
             try {
                 properties.loadFromXML(new StringInputStream(content));
@@ -96,13 +109,13 @@ public class NacosConfigureStarter implements ServerFace {
                     conf.put(key.toString(), properties.get(key).toString());
                 }
             } catch (IOException e) {
-                throw Lang.makeThrow("NACOS XML解析失败");
+                throw Lang.makeThrow("nacos config xml parse error!");
             }
-        } else if (contentType.equals("properties")) {
+        } else if ("properties".equals(contentType)) {
             PropertiesProxy propertiesProxy = new PropertiesProxy(new StringInputStream(content));
             conf.putAll(propertiesProxy);
         } else {
-            throw Lang.makeThrow("NACOS_DATA_TYPE未配置或不规范，目前仅支持json xml properties");
+            throw Lang.makeThrow("nacos.config.data_type is not found or not recognize，only json,xml and properties are support!");
         }
     }
 }
