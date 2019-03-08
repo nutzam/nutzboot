@@ -42,10 +42,9 @@ public class SentinelReadableDataSource<T> extends AbstractDataSource<String, T>
     private void loadInitialConfig() {
         try {
             T newValue = loadConfig();
-            if (newValue == null) {
-                log.warn("[SentinelRedisDataSource] WARN: initial config is null, you may have to check your data source");
+            if (newValue != null) {
+                getProperty().updateValue(newValue);
             }
-            getProperty().updateValue(newValue);
         } catch (Exception ex) {
             log.warn("[SentinelRedisDataSource] Error when loading initial config", ex);
         }
