@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>nutzboot-starter</artifactId>
+        <groupId>org.nutz</groupId>
+        <version>2.3.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>jar</packaging>
+    <artifactId>nutzboot-starter-ftp</artifactId>
+    <description>NutzBoot, micoservice base on Nutz</description>
+    <url>https://nutzam.com</url>
+    <issueManagement>
+        <system>Github Issue</system>
+        <url>https://github.com/nutzam/nutzboot/issues</url>
+    </issueManagement>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>https://apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>wizzercn</id>
+            <name>Wizzer</name>
+            <email>wizzer.cn@gmail.com</email>
+            <url>https://wizzer.cn</url>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git://github.com/nutzam/nutzboot.git</connection>
+        <developerConnection>scm:git:git://github.com/nutzam/nutzboot.git</developerConnection>
+        <url>git://github.com/nutzam/nutzboot.git</url>
+    </scm>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nutzcn-snapshots</id>
+            <name>NutzCN snapshot repository</name>
+            <url>https://jfrog.nutz.cn/artifactory/snapshots</url>
+        </snapshotRepository>
+
+        <repository>
+            <id>sonatype-release-staging</id>
+            <name>Sonatype Nexus release repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
+    <dependencies>
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>${commons.net.version}</version>
+        </dependency>
+    </dependencies>
+</project>

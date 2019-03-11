@@ -72,7 +72,8 @@
 		<module>nutzboot-starter-logback-exts</module>
 		<module>nutzboot-starter-sentinel-annotation</module>
 		<module>nutzboot-starter-tio-websocket</module>
-        <module>nutzboot-starter-nacos-config-client</module>
+		<module>nutzboot-starter-nacos-config-client</module>
+		<module>nutzboot-starter-ftp</module>
     </modules>
 	<dependencies>
 		<dependency>
