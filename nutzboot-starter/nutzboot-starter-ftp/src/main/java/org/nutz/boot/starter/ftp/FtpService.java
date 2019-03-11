@@ -12,11 +12,11 @@ import java.io.InputStream;
 @IocBean
 public class FtpService {
     private static final Log log = Logs.get();
-    private static String host;
-    private static int port;
-    private static String username;
-    private static String password;
-    private static int timeout;
+    private String host;
+    private int port;
+    private String username;
+    private String password;
+    private int timeout;
     private static String LOCAL_CHARSET = "UTF-8";
     // FTP协议里面，规定文件名编码为iso-8859-1
     private static String SERVER_CHARSET = "ISO-8859-1";
@@ -196,11 +196,11 @@ public class FtpService {
         this.password = password;
     }
 
-    public static int getTimeout() {
+    public int getTimeout() {
         return timeout;
     }
 
-    public static void setTimeout(int timeout) {
-        FtpService.timeout = timeout;
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
 }

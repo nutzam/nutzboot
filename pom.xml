@@ -42,7 +42,7 @@
 		<quartz.version>2.3.0</quartz.version>
 		<elasticsearch.version>6.3.2</elasticsearch.version>
 		<commons.email.version>1.4</commons.email.version>
-		<commons.net.version>3.3</commons.net.version>
+		<commons.net.version>3.6</commons.net.version>
 		<javassist.version>3.24.0-GA</javassist.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
