@@ -49,7 +49,7 @@ public class FtpService {
             ftpClient.sendCommand("OPTS UTF8", "ON");
             ftpClient.setControlEncoding(LOCAL_CHARSET);
         } catch (IOException e) {
-            log.error("[FtpService] FTP配置错误,请检查配置");
+            log.error("[FtpService] FTP配置错误,请检查配置", e);
         }
         return ftpClient;
     }
@@ -87,7 +87,7 @@ public class FtpService {
             }
             result = true;
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("error when ftp upload file", e);
         } finally {
             if (null != input) {
                 try {
@@ -109,7 +109,7 @@ public class FtpService {
         return result;
     }
 
-    public boolean delete(String filePath, String fileName) {
+    public boolean delete(String fileNameHasPath) {
         boolean result = false;
         FTPClient ftpClient = null;
         try {
@@ -117,12 +117,11 @@ public class FtpService {
             if (ftpClient == null) {
                 return false;
             }
-            fileName = new String(fileName.getBytes(LOCAL_CHARSET), SERVER_CHARSET);
-            ftpClient.changeWorkingDirectory(filePath);
-            ftpClient.dele(fileName);
+            fileNameHasPath = new String(fileNameHasPath.getBytes(LOCAL_CHARSET), SERVER_CHARSET);
+            ftpClient.dele(fileNameHasPath);
             result = true;
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("error when ftp delete file", e);
         } finally {
             if (ftpClient.isConnected()) {
                 try {
@@ -149,7 +148,7 @@ public class FtpService {
             ftpClient.completePendingCommand();
             return inputStream;
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("error when ftp download file", e);
         } finally {
             if (ftpClient.isConnected()) {
                 try {
