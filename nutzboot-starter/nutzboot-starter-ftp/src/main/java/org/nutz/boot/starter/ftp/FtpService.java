@@ -3,11 +3,13 @@ package org.nutz.boot.starter.ftp;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Streams;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 @IocBean
 public class FtpService {
@@ -18,7 +20,7 @@ public class FtpService {
     private String password;
     private int timeout;
     private static String LOCAL_CHARSET = "UTF-8";
-    // FTP协议里面，规定文件名编码为iso-8859-1
+    // FTP协议里面,规定文件名编码为iso-8859-1
     private static String SERVER_CHARSET = "ISO-8859-1";
 
     public FTPClient connect() {
@@ -26,30 +28,22 @@ public class FtpService {
         try {
             ftpClient = new FTPClient();
             ftpClient.connect(host, port);
-            //登录服务器
             ftpClient.login(username, password);
-            //判断返回码是否合法
             if (!FTPReply.isPositiveCompletion(ftpClient.getReplyCode())) {
-                //不合法时断开连接
                 ftpClient.disconnect();
-                log.info("[FtpService] FTP用户名或密码错误");
+                log.info("[FtpService] FTP logon denied");
                 return null;
             } else {
-                log.info("[FtpService] FTP连接成功");
+                log.info("[FtpService] FTP logon success");
             }
-            //设置被动模式
             ftpClient.enterLocalPassiveMode();
-            //设置文件类型
             ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
-            //设置超时时间
             ftpClient.setDefaultTimeout(timeout * 1000);
-            //设置缓冲区大小
             ftpClient.setBufferSize(3072);
-            //设置字符编码
             ftpClient.sendCommand("OPTS UTF8", "ON");
             ftpClient.setControlEncoding(LOCAL_CHARSET);
         } catch (IOException e) {
-            log.error("[FtpService] FTP配置错误,请检查配置", e);
+            log.error("[FtpService] FTP config error", e);
         }
         return ftpClient;
     }
@@ -62,9 +56,8 @@ public class FtpService {
             if (ftpClient == null) {
                 return false;
             }
-            // 切换到上传目录
             if (!ftpClient.changeWorkingDirectory(filePath)) {
-                // 如果目录不存在创建目录
+                //如果目录不存在创建目录
                 String[] dirs = filePath.split("/");
                 String tempPath = "";
                 for (String dir : dirs) {
@@ -80,7 +73,6 @@ public class FtpService {
                     }
                 }
             }
-            // 上传文件
             fileName = new String(fileName.getBytes(LOCAL_CHARSET), SERVER_CHARSET);
             if (!ftpClient.storeFile(fileName, input)) {
                 return result;
@@ -91,16 +83,13 @@ public class FtpService {
         } finally {
             if (null != input) {
                 try {
-                    // 关闭输入流
                     input.close();
                 } catch (IOException e) {
                 }
             }
             if (ftpClient.isConnected()) {
                 try {
-                    //退出登录
                     ftpClient.logout();
-                    //关闭连接
                     ftpClient.disconnect();
                 } catch (IOException e) {
                 }
@@ -125,9 +114,7 @@ public class FtpService {
         } finally {
             if (ftpClient.isConnected()) {
                 try {
-                    //退出登录
                     ftpClient.logout();
-                    //关闭连接
                     ftpClient.disconnect();
                 } catch (IOException e) {
                 }
@@ -136,31 +123,26 @@ public class FtpService {
         return result;
     }
 
-    public InputStream download(String fileNameHasPath) {
+    public void download(String fileNameHasPath, OutputStream outputStream) {
         FTPClient ftpClient = null;
         try {
             ftpClient = connect();
             if (ftpClient == null) {
-                return null;
+                return;
             }
             fileNameHasPath = new String(fileNameHasPath.getBytes(LOCAL_CHARSET), SERVER_CHARSET);
-            InputStream inputStream = ftpClient.retrieveFileStream(fileNameHasPath);
-            ftpClient.completePendingCommand();
-            return inputStream;
+            Streams.writeAndClose(outputStream, ftpClient.retrieveFileStream(fileNameHasPath));
         } catch (IOException e) {
             log.error("error when ftp download file", e);
         } finally {
             if (ftpClient.isConnected()) {
                 try {
-                    //退出登录
                     ftpClient.logout();
-                    //关闭连接
                     ftpClient.disconnect();
                 } catch (IOException e) {
                 }
             }
         }
-        return null;
     }
 
     public String getHost() {
