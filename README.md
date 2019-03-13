@@ -19,6 +19,7 @@
 * 文档: [NB的文档](https://gitee.com/nutz/nutzboot/tree/dev/doc)
 * 文档2: [NB的文档2](http://nutzam.com/core/boot/overview.html)
 * 社区: [NutzCN](https://nutz.cn) 推荐
+* Idea插件 [NutzCodeInsight](https://github.com/threefish/NutzCodeInsight) 开发利器
 * QQ群: 68428921
 
 [![Build Status](https://travis-ci.org/nutzam/nutzboot.png?branch=dev)](https://travis-ci.org/nutzam/nutzboot)
