@@ -5,10 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URLDecoder;
 
 import org.nutz.ioc.impl.PropertiesProxy;
-import org.nutz.lang.Encoding;
 import org.nutz.lang.Streams;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.Disks;
@@ -95,31 +93,19 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
         }
     }
 
-    // 获取应用程序绝对路径
-    protected String getBasePath() {
-        try {
-            String basePath = appContext.getMainClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-            int lastIndex = basePath.lastIndexOf('/');
-            if (lastIndex < 0) {
-                lastIndex = basePath.lastIndexOf('\\');
-            }
-            basePath = basePath.substring(0, lastIndex);
-            basePath = URLDecoder.decode(basePath, Encoding.UTF8);
-            return basePath;
-        } catch (Throwable e) {
-        }
-        return ".";
-    }
-
     // 根据目录和文件名拼接绝对路径
     protected String getPath(String... names) {
-        String path = getBasePath();
         String tmp = Strings.join(File.separator, names);
-        if (new File(tmp).exists() && new File(tmp).getAbsolutePath().equals(tmp)) {
-            return tmp;
+        if (tmp.endsWith("/"))
+            tmp = tmp.substring(0, tmp.length() - 1);
+        File f = new File(tmp);
+        if (f.exists()) {
+            String path = Disks.getCanonicalPath(tmp);
+            String path2 = Disks.getCanonicalPath(f.getAbsolutePath());
+            if (path.equals(path2))
+                return tmp;
         }
-        else
-            return path + File.separator + tmp;
+        return appContext.getBasePath() + File.separator + tmp;
     }
     
     protected void readPropertiesPath(String path) throws IOException {
