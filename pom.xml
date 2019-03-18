@@ -14,7 +14,7 @@
 		<slf4j.version>1.7.25</slf4j.version>
 		<slf4j-api.version>1.7.25</slf4j-api.version>
 		<logback.version>1.2.3</logback.version>
-		<dubbo.version>2.6.5</dubbo.version>
+		<dubbo.version>2.6.6</dubbo.version>
 		<sentinel.version>1.5.0</sentinel.version>
 		<jetty.version>9.4.15.v20190215</jetty.version>
 		<tomcat.version>8.5.37</tomcat.version>
