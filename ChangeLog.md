@@ -1,5 +1,32 @@
 # NB进化史
 
+# 2.3.1.v20190318 "帕卡贝尔的卡农变奏曲"
+
+支持nacos作为配置服务,添加ftp客户端支持
+
+* 时间: 2019-03-18
+* 曲目: [帕卡贝尔的卡农变奏曲](https://www.youtube.com/watch?v=X0SxCZF1ebc)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+* 变更:
+	* add: 新增Nacos配置中心支持 by [文涛](https://github.com/wentao)
+	* add: 新增多数据源的使用Demo by [文涛](https://github.com/wentao)
+	* add: nutzboot-starter-ftp FTP客户端
+	* add: idea插件的链接
+	* update: starter-logback-exts 增加主机名等信息的记录 by 大鲨鱼
+	* update: 改进多数据源的生成和管理 by wendal
+	* update: 为web容器添加monitor日志
+	* update: starter-sentinel-dubbo 去掉容易误解的提示
+	* update: sentinel版本升级为1.4.2
+	* update: 提高nutz.boot.configure.properties.dir的路径兼容性
+	* fix: readme里面的eureka状态地址错误
+上游更新:
+	* update: nutz更新至1.r.68.v20190318
+	* update: nutzwx更新至1.r.68.v20190318
+	* update: nutzmore集合更新至1.r.68.v20190318
+下游更新:
+	* update: nutzboot-maven-plugin 更新 2.3.1.v20190318
+	* update: NutzWk 5.2.0
+
 # 2.3.0.v20190220 "不可说"
 
 地球在流浪,我们继续发新版^_^
