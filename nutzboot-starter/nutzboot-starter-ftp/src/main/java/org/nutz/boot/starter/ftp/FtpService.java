@@ -79,7 +79,7 @@ public class FtpService {
             }
             result = true;
         } catch (IOException e) {
-            log.error("error when ftp upload file", e);
+            log.error("[FtpService] error when ftp upload file", e);
         } finally {
             if (null != input) {
                 try {
@@ -110,7 +110,7 @@ public class FtpService {
             ftpClient.dele(fileNameHasPath);
             result = true;
         } catch (IOException e) {
-            log.error("error when ftp delete file", e);
+            log.error("[FtpService] error when ftp delete file", e);
         } finally {
             if (ftpClient.isConnected()) {
                 try {
@@ -133,7 +133,7 @@ public class FtpService {
             fileNameHasPath = new String(fileNameHasPath.getBytes(LOCAL_CHARSET), SERVER_CHARSET);
             Streams.writeAndClose(outputStream, ftpClient.retrieveFileStream(fileNameHasPath));
         } catch (IOException e) {
-            log.error("error when ftp download file", e);
+            log.error("[FtpService] error when ftp download file", e);
         } finally {
             if (ftpClient.isConnected()) {
                 try {
