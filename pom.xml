@@ -36,7 +36,7 @@
 		<tio.version>3.1.8.v20180818-RELEASE</tio.version>
 		<j2cache.version>2.3.22-release</j2cache.version>
 		<asm.version>6.1.1</asm.version>
-		<druid.version>1.1.13</druid.version>
+		<druid.version>1.1.14</druid.version>
 		<HikariCP.version>3.2.0</HikariCP.version>
 		<thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
 		<quartz.version>2.3.0</quartz.version>
