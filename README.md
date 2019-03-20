@@ -238,6 +238,9 @@ public class MainLauncher {
     - [ ] jreport
 - 日志系统
     - [x] starter-logback-exts by [大鲨鱼](https://github.com/Wizzercn)
+- 文件系统
+    - [x] starter-ftp by [大鲨鱼](https://github.com/Wizzercn)
+    - [x] starter-fastdfs by [大鲨鱼](https://github.com/Wizzercn)
 - 开放平台
     - 微信公众号开放平台
         - [x] starter-[nutzwx](https://github.com/nutzam/nutzwx) Weixin Api By Nutz
