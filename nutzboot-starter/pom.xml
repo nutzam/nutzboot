@@ -74,6 +74,7 @@
 		<module>nutzboot-starter-tio-websocket</module>
 		<module>nutzboot-starter-nacos-config-client</module>
 		<module>nutzboot-starter-ftp</module>
+        <module>nutzboot-starter-fastdfs</module>
     </modules>
 	<dependencies>
 		<dependency>
