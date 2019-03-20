@@ -44,7 +44,7 @@ public class FastdfsService {
         Properties prop = new Properties();
         for (String key : conf.keySet()) {
             if (key.startsWith(PRE)) {
-                prop.put(key.substring(PRE.length()), conf.get(key));
+                prop.put(key, conf.get(key));
             }
         }
         IMAGE_WATERMARK_SUFFIX = conf.get(PRE + "image.waterMarkSuffix", "-wmark");
