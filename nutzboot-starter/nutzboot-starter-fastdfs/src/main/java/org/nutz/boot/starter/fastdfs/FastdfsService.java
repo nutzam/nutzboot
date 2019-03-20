@@ -85,7 +85,7 @@ public class FastdfsService {
             String tokenFilename = filename.substring(pos + 1);
             tokenFilename = getFileName(type, tokenFilename);
             filename = getFileName(type, filename);
-            int ts = (int) Times.getTS();
+            long ts = Times.getTS();
             StringBuilder sb = new StringBuilder();
             sb.append(baseUrl);
             if (!baseUrl.endsWith(SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR))
@@ -106,19 +106,19 @@ public class FastdfsService {
      * 获取Token
      *
      * @param filename   文件名
-     * @param seconds    有效期
+     * @param timestamp  时间戳
      * @param secret_key 密钥
      * @return
      * @throws Exception
      */
-    private String getToken(String filename, int seconds, String secret_key) throws Exception {
+    private String getToken(String filename, long timestamp, String secret_key) throws Exception {
         byte[] bsFilename = filename.getBytes(conf.get(PRE + "charset", "UTF-8"));
         byte[] bsKey = secret_key.getBytes(conf.get(PRE + "charset", "UTF-8"));
-        byte[] bsSeconds = (new Integer(seconds)).toString().getBytes(conf.get(PRE + "charset", "UTF-8"));
-        byte[] buff = new byte[bsFilename.length + bsKey.length + bsSeconds.length];
+        byte[] bsTimestamp = (new Long(timestamp)).toString().getBytes(conf.get(PRE + "charset", "UTF-8"));
+        byte[] buff = new byte[bsFilename.length + bsKey.length + bsTimestamp.length];
         System.arraycopy(bsFilename, 0, buff, 0, bsFilename.length);
         System.arraycopy(bsKey, 0, buff, bsFilename.length, bsKey.length);
-        System.arraycopy(bsSeconds, 0, buff, bsFilename.length + bsKey.length, bsSeconds.length);
+        System.arraycopy(bsTimestamp, 0, buff, bsFilename.length + bsKey.length, bsTimestamp.length);
         return Lang.digest("MD5", buff, null, 1);
     }
 
@@ -146,6 +146,14 @@ public class FastdfsService {
         return sb.toString();
     }
 
+    /**
+     * 上传文件
+     *
+     * @param file     文件字节
+     * @param ext      后缀名
+     * @param metaInfo 元信息
+     * @return
+     */
     public String uploadFile(byte[] file, String ext, Map<String, String> metaInfo) {
         String path = "";
         TrackerServer trackerServer = null;
@@ -174,7 +182,7 @@ public class FastdfsService {
     }
 
     /**
-     * 长传从文件
+     * 上传从文件
      *
      * @param file         从文件
      * @param originalPath 源文件路径（含groupId）
@@ -211,6 +219,12 @@ public class FastdfsService {
         return path;
     }
 
+    /**
+     * 下载文件
+     *
+     * @param fullFilename 文件路径
+     * @return
+     */
     public byte[] downLoadFile(String fullFilename) {
         byte[] data = null;
         TrackerServer trackerServer = null;
@@ -229,6 +243,12 @@ public class FastdfsService {
         return data;
     }
 
+    /**
+     * 删除文件
+     *
+     * @param fullFilename 文件路径
+     * @return
+     */
     public int deleteFile(String fullFilename) {
         int result = 1;
         TrackerServer trackerServer = null;
@@ -247,10 +267,31 @@ public class FastdfsService {
         return result;
     }
 
+    /**
+     * 上传图片并生成缩略图、水印图
+     *
+     * @param image     原图
+     * @param watermark 水印图
+     * @param ext       后缀名
+     * @param metaInfo  元信息
+     * @return
+     */
     public String uploadImage(byte[] image, byte[] watermark, String ext, Map<String, String> metaInfo) {
         return uploadImage(image, watermark, ext, metaInfo, DEFAULT_OPACITY, DEFAULT_LOCATION, DEFAULT_MARGIN);
     }
 
+    /**
+     * 上传图片并生成缩略图、水印图
+     *
+     * @param image     原图
+     * @param watermark 水印图
+     * @param ext       后缀名
+     * @param metaInfo  元信息
+     * @param opacity   透明度
+     * @param pos       位置
+     * @param margin    水印距离四周的边距 默认为0
+     * @return
+     */
     public String uploadImage(byte[] image, byte[] watermark, String ext, Map<String, String> metaInfo, float opacity, int pos, int margin) {
         String path = "";
         TrackerServer trackerServer = null;
