@@ -84,7 +84,7 @@ public class NbApp extends Thread {
     /**
      * Starter类列表
      */
-    protected List<Class<?>> starterClasses;
+    protected List<Class<?>> starterClasses = new LinkedList<>();
 
     protected boolean prepared;
 
@@ -403,7 +403,6 @@ public class NbApp extends Thread {
     }
 
     public void prepareStarterClassList() throws Exception {
-        starterClasses = new ArrayList<>();
         HashSet<String> classNames = new HashSet<>();
         Enumeration<URL> _en = ctx.getClassLoader().getResources("META-INF/nutz/org.nutz.boot.starter.NbStarter");
         while (_en.hasMoreElements()) {
@@ -512,6 +511,16 @@ public class NbApp extends Thread {
     
     public NbApp setMainPackage(String mainPackage) {
         getAppContext().setMainPackage(mainPackage);
+        return this;
+    }
+    
+    public List<Class<?>> getStarterClasses() {
+        return starterClasses;
+    }
+    
+    public NbApp addStarterClass(Class<?> klass) {
+        if (klass != null)
+            starterClasses.add(klass);
         return this;
     }
 }

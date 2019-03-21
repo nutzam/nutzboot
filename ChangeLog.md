@@ -3,6 +3,7 @@
 
 * 变更:
 	* fix: 如果不存在任何静态文件目录,jetty启动报错 by howe
+	* add: NbApp添加addStarterClass方法,方便扩展
 
 # 2.3.1.v20190318 "帕卡贝尔的卡农变奏曲"
 
