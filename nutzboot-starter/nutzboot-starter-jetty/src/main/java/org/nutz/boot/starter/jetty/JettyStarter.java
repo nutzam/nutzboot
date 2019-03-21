@@ -235,6 +235,9 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
                 resources.add(Resource.newResource(urls.nextElement()));
             }
         }
+        if (resources.isEmpty()) {
+            resources.add(Resource.newClassPathResource("META-INF/jetty_resources"));
+        }
         if (conf.has(PROP_STATIC_PATH_LOCAL)) {
             File f = new File(conf.get(PROP_STATIC_PATH_LOCAL));
             if (f.exists()) {
