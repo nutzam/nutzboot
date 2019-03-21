@@ -336,7 +336,7 @@ public class FastdfsService {
         ByteArrayOutputStream thumbOs = new ByteArrayOutputStream();
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         try {
-            BufferedImage bufferedImage = Images.addWatermark(image, watermark, opacity, pos, margin);
+            BufferedImage bufferedImage = Images.addWatermark(is, waterIs, opacity, pos, margin);
             Images.write(bufferedImage, ext, os);
             byte[] waterFile = os.toByteArray();
             trackerServer = fastDfsClientPool.borrowObject();
