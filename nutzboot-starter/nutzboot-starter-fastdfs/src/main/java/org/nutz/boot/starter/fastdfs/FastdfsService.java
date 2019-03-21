@@ -16,7 +16,6 @@ import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Map;
 import java.util.Properties;
@@ -331,14 +330,9 @@ public class FastdfsService {
         String path = "";
         TrackerServer trackerServer = null;
         StorageClient1 storageClient1 = null;
-        ByteArrayInputStream is = new ByteArrayInputStream(image);
-        ByteArrayInputStream waterIs = new ByteArrayInputStream(watermark);
         ByteArrayOutputStream thumbOs = new ByteArrayOutputStream();
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         try {
-            BufferedImage bufferedImage = Images.addWatermark(is, waterIs, opacity, pos, margin);
-            Images.write(bufferedImage, ext, os);
-            byte[] waterFile = os.toByteArray();
             trackerServer = fastDfsClientPool.borrowObject();
             storageClient1 = new StorageClient1(trackerServer, null);
             NameValuePair data[] = null;
@@ -353,10 +347,11 @@ public class FastdfsService {
             //保存原图
             path = storageClient1.uploadFile1(image, ext, data);
             //保存水印图 作为原图的salve file
-            storageClient1.uploadFile1(path, IMAGE_WATERMARK_SUFFIX, waterFile, ext, data);
+            BufferedImage bufferedImage = Images.addWatermark(image, watermark, opacity, pos, margin);
+            Images.write(bufferedImage, ext, os);
+            storageClient1.uploadFile1(path, IMAGE_WATERMARK_SUFFIX, os.toByteArray(), ext, data);
             //保存缩略图
-            is.reset();
-            BufferedImage read = Images.read(is);
+            BufferedImage read = Images.read(image);
             BufferedImage bufferedImageThumb = Images.zoomScale(read, IMAGE_THUMB_WIDTH, IMAGE_THUMB_HEIGHT);
             Images.write(bufferedImageThumb, ext, thumbOs);
             storageClient1.uploadFile1(path, IMAGE_THUMB_SUFFIX, thumbOs.toByteArray(), ext, data);
@@ -364,8 +359,6 @@ public class FastdfsService {
         } catch (Exception e) {
             throw Lang.makeThrow("[FastdfsService] upload images error : %s", e.getMessage());
         } finally {
-            Streams.safeClose(is);
-            Streams.safeClose(waterIs);
             Streams.safeClose(os);
             Streams.safeClose(thumbOs);
             try {
