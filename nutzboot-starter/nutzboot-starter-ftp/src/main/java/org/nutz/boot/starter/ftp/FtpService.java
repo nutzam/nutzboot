@@ -2,6 +2,8 @@ package org.nutz.boot.starter.ftp;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
+import org.nutz.ioc.impl.PropertiesProxy;
+import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Streams;
 import org.nutz.log.Log;
@@ -11,7 +13,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-@IocBean
+import static org.nutz.boot.starter.ftp.FtpStarter.*;
+
+@IocBean(create = "init")
 public class FtpService {
     private static final Log log = Logs.get();
     private String host;
@@ -22,6 +26,31 @@ public class FtpService {
     private static String LOCAL_CHARSET = "UTF-8";
     // FTP协议里面,规定文件名编码为iso-8859-1
     private static String SERVER_CHARSET = "ISO-8859-1";
+    @Inject
+    protected PropertiesProxy conf;
+
+    public void init() {
+        if (conf.getBoolean(PROP_ENABLED, false)) {
+            host = conf.get(PROP_SERVER_HOST, "");
+            port = conf.getInt(PROP_SERVER_PORT, 21);
+            username = conf.get(PROP_SERVER_USERNAME, "");
+            password = conf.get(PROP_SERVER_PASSWORD, "");
+            timeout = conf.getInt(PROP_SERVER_TIMEOUT, 30);
+            //连接一下测试是否配置正确
+            FTPClient ftpClient = connect();
+            if (ftpClient != null) {
+                if (ftpClient.isConnected()) {
+                    try {
+                        //退出登录
+                        ftpClient.logout();
+                        //关闭连接
+                        ftpClient.disconnect();
+                    } catch (IOException e) {
+                    }
+                }
+            }
+        }
+    }
 
     public FTPClient connect() {
         FTPClient ftpClient = null;
@@ -143,45 +172,5 @@ public class FtpService {
                 }
             }
         }
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getTimeout() {
-        return timeout;
-    }
-
-    public void setTimeout(int timeout) {
-        this.timeout = timeout;
     }
 }

@@ -21,6 +21,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.Map;
 import java.util.Properties;
 
+import static org.nutz.boot.starter.fastdfs.FastdfsStarter.*;
+
 @IocBean(create = "init", depose = "close")
 public class FastdfsService {
     private static final Log log = Logs.get();
@@ -32,7 +34,7 @@ public class FastdfsService {
     private static final int DEFAULT_LOCATION = Images.WATERMARK_CENTER;
     private static final float DEFAULT_OPACITY = 0.5F;
     private static final int DEFAULT_MARGIN = 0;
-    private static final String SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR = "/";
+    private static final String FILENAME_SEPERATOR = "/";
     private static final String EXT_SEPERATOR = ".";
 
     @Inject
@@ -47,15 +49,15 @@ public class FastdfsService {
                 prop.put(key, conf.get(key));
             }
         }
-        IMAGE_WATERMARK_SUFFIX = conf.get(PRE + "image.waterMarkSuffix", "-wmark");
-        IMAGE_THUMB_SUFFIX = conf.get(PRE + "image.thumbSuffix", "-thumb");
-        IMAGE_THUMB_WIDTH = conf.getInt(PRE + "image.thumbWidth", 150);
-        IMAGE_THUMB_HEIGHT = conf.getInt(PRE + "image.thumbHeight", 150);
+        IMAGE_WATERMARK_SUFFIX = conf.get(PROP_IMAGE_WATERMARKSUFFIX, "-wmark");
+        IMAGE_THUMB_SUFFIX = conf.get(PROP_IMAGE_THUMBSUFFIX, "-thumb");
+        IMAGE_THUMB_WIDTH = conf.getInt(PROP_IMAGE_THUMBWIDTH, 150);
+        IMAGE_THUMB_HEIGHT = conf.getInt(PROP_IMAGE_THUMBHEIGHT, 150);
         GenericObjectPoolConfig cfg = new GenericObjectPoolConfig();
-        cfg.setMaxIdle(conf.getInt(PRE + "pool.maxIdle", 10));
-        cfg.setMinIdle(conf.getInt(PRE + "pool.minIdle", 1));
-        cfg.setMaxTotal(conf.getInt(PRE + "pool.maxTotal", 20));
-        cfg.setMaxWaitMillis(conf.getInt(PRE + "pool.maxWaitMillis", 6000));
+        cfg.setMaxIdle(conf.getInt(PROP_POOL_MAXIDLE, 10));
+        cfg.setMinIdle(conf.getInt(PROP_POOL_MINIDLE, 1));
+        cfg.setMaxTotal(conf.getInt(PROP_POOL_MAXTOTAL, 20));
+        cfg.setMaxWaitMillis(conf.getInt(PROP_POOL_MAXWAITMILLIS, 6000));
         fastDfsClientFactory = new FastDfsClientFactory(prop);
         fastDfsClientPool = new FastDfsClientPool(fastDfsClientFactory, cfg);
     }
@@ -70,26 +72,59 @@ public class FastdfsService {
      * 生成带Token的文件访问路径
      *
      * @param filename 文件名
-     * @param type     0-原图 1水印图 2缩略图
      * @return
      */
-    public String generateTokenUrl(String filename, int type) {
+    public String getFileTokenUrl(String filename) {
         try {
-            String baseUrl = conf.get(PRE + "http_token_base_url");
-            String secretKey = conf.get(PRE + "http_secret_key");
+            String baseUrl = conf.get(PROP_HTTP_TOKEN_BASE_URL, "");
+            String secretKey = conf.get(PROP_HTTP_SECRET_KEY, "");
             if (Strings.isBlank(filename) || Strings.isBlank(secretKey) || Strings.isBlank(baseUrl)) {
                 log.info("[FastdfsService] filename & http_token_base_url & http_secret_key must not empty");
                 return "";
             }
-            int pos = filename.indexOf(SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR);
+            int pos = filename.indexOf(FILENAME_SEPERATOR);
+            String tokenFilename = filename.substring(pos + 1);
+            long ts = Times.getTS();
+            StringBuilder sb = new StringBuilder();
+            sb.append(baseUrl);
+            if (!baseUrl.endsWith(FILENAME_SEPERATOR))
+                sb.append(FILENAME_SEPERATOR);
+            sb.append(filename);
+            sb.append("?token=");
+            sb.append(getToken(tokenFilename, ts, secretKey));
+            sb.append("&ts=");
+            sb.append(ts);
+            return sb.toString();
+        } catch (Exception e) {
+            log.error(e);
+        }
+        return "";
+    }
+
+    /**
+     * 生成带Token的图片访问路径
+     *
+     * @param filename 文件名
+     * @param type     0-原图 1水印图 2缩略图
+     * @return
+     */
+    public String getImageTokenUrl(String filename, int type) {
+        try {
+            String baseUrl = conf.get(PROP_HTTP_TOKEN_BASE_URL, "");
+            String secretKey = conf.get(PROP_HTTP_SECRET_KEY, "");
+            if (Strings.isBlank(filename) || Strings.isBlank(secretKey) || Strings.isBlank(baseUrl)) {
+                log.info("[FastdfsService] filename & http_token_base_url & http_secret_key must not empty");
+                return "";
+            }
+            int pos = filename.indexOf(FILENAME_SEPERATOR);
             String tokenFilename = filename.substring(pos + 1);
             tokenFilename = getFileName(type, tokenFilename);
             filename = getFileName(type, filename);
             long ts = Times.getTS();
             StringBuilder sb = new StringBuilder();
             sb.append(baseUrl);
-            if (!baseUrl.endsWith(SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR))
-                sb.append(SPLIT_GROUP_NAME_AND_FILENAME_SEPERATOR);
+            if (!baseUrl.endsWith(FILENAME_SEPERATOR))
+                sb.append(FILENAME_SEPERATOR);
             sb.append(filename);
             sb.append("?token=");
             sb.append(getToken(tokenFilename, ts, secretKey));
@@ -112,9 +147,9 @@ public class FastdfsService {
      * @throws Exception
      */
     private String getToken(String filename, long timestamp, String secret_key) throws Exception {
-        byte[] bsFilename = filename.getBytes(conf.get(PRE + "charset", "UTF-8"));
-        byte[] bsKey = secret_key.getBytes(conf.get(PRE + "charset", "UTF-8"));
-        byte[] bsTimestamp = (new Long(timestamp)).toString().getBytes(conf.get(PRE + "charset", "UTF-8"));
+        byte[] bsFilename = filename.getBytes(conf.get(PROP_CHARSET, "UTF-8"));
+        byte[] bsKey = secret_key.getBytes(conf.get(PROP_CHARSET, "UTF-8"));
+        byte[] bsTimestamp = (new Long(timestamp)).toString().getBytes(conf.get(PROP_CHARSET, "UTF-8"));
         byte[] buff = new byte[bsFilename.length + bsKey.length + bsTimestamp.length];
         System.arraycopy(bsFilename, 0, buff, 0, bsFilename.length);
         System.arraycopy(bsKey, 0, buff, bsFilename.length, bsKey.length);

@@ -1,18 +1,11 @@
 package org.nutz.boot.starter.fastdfs;
 
 import org.nutz.boot.annotation.PropDoc;
-import org.nutz.ioc.impl.PropertiesProxy;
-import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
-import org.nutz.log.Log;
-import org.nutz.log.Logs;
 
 @IocBean
 public class FastdfsStarter {
-    private static final Log log = Logs.get();
     private static final String PRE = "fastdfs.";
-    @Inject
-    protected PropertiesProxy conf;
 
     @PropDoc(value = "连接超时", defaultValue = "", type = "int")
     public static final String PROP_CONNECT_TIMEOUT_IN_SECONDS = PRE + "connect_timeout_in_seconds";

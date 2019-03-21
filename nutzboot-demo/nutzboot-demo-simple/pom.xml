@@ -55,7 +55,9 @@
 		<module>nutzboot-demo-simple-zbus</module>
 		<module>nutzboot-demo-simple-mvc-wkcache</module>
 		<module>nutzboot-demo-simple-dao-with-many</module>
-	</modules>
+        <module>nutzboot-demo-simple-ftp</module>
+        <module>nutzboot-demo-simple-fastdfs</module>
+    </modules>
 
 	<dependencies>
 		<dependency>
