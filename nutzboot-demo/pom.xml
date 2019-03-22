@@ -18,6 +18,7 @@
 		<module>nutzboot-demo-feign</module>
 		<module>nutzboot-demo-cloud</module>
 		<module>nutzboot-demo-servicecomb</module>
+		<module>nutzboot-demo-custom</module>
 	</modules>
 	<properties>
 		<docker.image.prefix>nutzboot</docker.image.prefix>
