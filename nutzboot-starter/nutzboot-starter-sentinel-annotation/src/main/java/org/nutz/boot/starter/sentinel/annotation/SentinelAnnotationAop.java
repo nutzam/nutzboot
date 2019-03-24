@@ -11,7 +11,7 @@ import org.nutz.lang.Lang;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 
-@IocBean
+@IocBean(name="$aop_sentinel_resource")
 public class SentinelAnnotationAop extends SimpleAopMaker<SentinelResource> {
 
     public List<? extends MethodInterceptor> makeIt(SentinelResource t, Method method, Ioc ioc) {
