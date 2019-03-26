@@ -4,6 +4,8 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.csource.common.NameValuePair;
 import org.csource.fastdfs.StorageClient1;
 import org.csource.fastdfs.TrackerServer;
+import org.nutz.filepool.FilePool;
+import org.nutz.filepool.NutFilePool;
 import org.nutz.img.Images;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -17,6 +19,9 @@ import org.nutz.log.Logs;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.util.Map;
 import java.util.Properties;
 
@@ -35,6 +40,7 @@ public class FastdfsService {
     private static final int DEFAULT_MARGIN = 0;
     private static final String FILENAME_SEPERATOR = "/";
     private static final String EXT_SEPERATOR = ".";
+    private static FilePool filePool;
 
     @Inject
     private PropertiesProxy conf;
@@ -59,6 +65,7 @@ public class FastdfsService {
         cfg.setMaxWaitMillis(conf.getInt(PROP_POOL_MAXWAITMILLIS, 6000));
         fastDfsClientFactory = new FastDfsClientFactory(prop);
         fastDfsClientPool = new FastDfsClientPool(fastDfsClientFactory, cfg);
+        filePool = NutFilePool.getOrCreatePool(conf.get(PROP_FILEPOOL_PATH, "/fastdfs_tmp"), conf.getInt(PROP_FILEPOOL_SIZE, 200));
     }
 
     public void close() {
@@ -181,7 +188,7 @@ public class FastdfsService {
     }
 
     /**
-     * 上传文件
+     * 上传文件(一次性读取全部字节,尽量不要使用,比较耗内存)
      *
      * @param file     文件字节
      * @param ext      后缀名
@@ -216,9 +223,82 @@ public class FastdfsService {
     }
 
     /**
+     * 上传文件
+     *
+     * @param local_filename 文件路径
+     * @param ext            后缀名
+     * @param metaInfo       元信息
+     * @return
+     */
+    public String uploadFile(String local_filename, String ext, Map<String, String> metaInfo) {
+        String path = "";
+        TrackerServer trackerServer = null;
+        StorageClient1 storageClient1 = null;
+        try {
+            trackerServer = fastDfsClientPool.borrowObject();
+            storageClient1 = new StorageClient1(trackerServer, null);
+            NameValuePair data[] = null;
+            if (Lang.isNotEmpty(metaInfo)) {
+                data = new NameValuePair[metaInfo.size()];
+                int index = 0;
+                for (Map.Entry<String, String> entry : metaInfo.entrySet()) {
+                    data[index] = new NameValuePair(entry.getKey(), entry.getValue());
+                    index++;
+                }
+            }
+            path = storageClient1.uploadFile1(local_filename, ext, data);
+        } catch (Exception e) {
+            throw Lang.makeThrow("[FastdfsService] upload file error : %s", e.getMessage());
+        } finally {
+            if (trackerServer != null)
+                fastDfsClientPool.returnObject(trackerServer);
+            storageClient1 = null;
+        }
+        return path;
+    }
+
+    /**
      * 上传从文件
      *
-     * @param file         从文件
+     * @param local_filename 文件路径
+     * @param originalPath   源文件路径（含groupId）
+     * @param prefixName     从文件名后缀
+     * @param ext            从文件类型
+     * @param metaInfo       元信息
+     */
+    public String uploadSalveFile(String local_filename, String originalPath, String prefixName, String ext, Map<String, String> metaInfo) {
+        String path = "";
+        TrackerServer trackerServer = null;
+        StorageClient1 storageClient1 = null;
+        try {
+            trackerServer = fastDfsClientPool.borrowObject();
+            storageClient1 = new StorageClient1(trackerServer, null);
+            //StorageClient storageClient=new StorageClient(trackerServer,null);
+            NameValuePair data[] = null;
+            if (Lang.isNotEmpty(metaInfo)) {
+                data = new NameValuePair[metaInfo.size()];
+                int index = 0;
+                for (Map.Entry<String, String> entry : metaInfo.entrySet()) {
+                    data[index] = new NameValuePair(entry.getKey(), entry.getValue());
+                    index++;
+                }
+
+            }
+            path = storageClient1.uploadFile1(originalPath, prefixName, local_filename, ext, data);
+        } catch (Exception e) {
+            throw Lang.makeThrow("[FastdfsService] upload file error : %s", e.getMessage());
+        } finally {
+            if (trackerServer != null)
+                fastDfsClientPool.returnObject(trackerServer);
+            storageClient1 = null;
+        }
+        return path;
+    }
+
+    /**
+     * 上传从文件(一次性读取全部字节,尽量不要使用,比较耗内存)
+     *
+     * @param file         从文件字节
      * @param originalPath 源文件路径（含groupId）
      * @param prefixName   从文件名后缀
      * @param ext          从文件类型
@@ -275,6 +355,32 @@ public class FastdfsService {
             storageClient1 = null;
         }
         return data;
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param fullFilename 文件路径
+     * @param outputStream 输出流
+     * @return
+     */
+    public void downLoadFile(String fullFilename, OutputStream outputStream) {
+        TrackerServer trackerServer = null;
+        StorageClient1 storageClient1 = null;
+        try {
+            trackerServer = fastDfsClientPool.borrowObject();
+            String suffx = fullFilename.substring(fullFilename.lastIndexOf(EXT_SEPERATOR));
+            File file = filePool.createFile(suffx);
+            storageClient1 = new StorageClient1(trackerServer, null);
+            storageClient1.downloadFile1(fullFilename, file.getAbsolutePath());
+            Streams.writeAndClose(outputStream, new FileInputStream(file));
+        } catch (Exception e) {
+            throw Lang.makeThrow("[FastdfsService] download file error : %s", e.getMessage());
+        } finally {
+            if (trackerServer != null)
+                fastDfsClientPool.returnObject(trackerServer);
+            storageClient1 = null;
+        }
     }
 
     /**
@@ -371,4 +477,5 @@ public class FastdfsService {
         }
         return path;
     }
+
 }
