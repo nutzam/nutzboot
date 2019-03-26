@@ -14,6 +14,7 @@ import org.nutz.lang.Lang;
 import org.nutz.lang.Streams;
 import org.nutz.lang.Strings;
 import org.nutz.lang.Times;
+import org.nutz.lang.util.Disks;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
@@ -65,7 +66,7 @@ public class FastdfsService {
         cfg.setMaxWaitMillis(conf.getInt(PROP_POOL_MAXWAITMILLIS, 6000));
         fastDfsClientFactory = new FastDfsClientFactory(prop);
         fastDfsClientPool = new FastDfsClientPool(fastDfsClientFactory, cfg);
-        filePool = NutFilePool.getOrCreatePool(conf.get(PROP_FILEPOOL_PATH, "/fastdfs_tmp"), conf.getInt(PROP_FILEPOOL_SIZE, 200));
+        filePool = NutFilePool.getOrCreatePool(conf.get(PROP_FILEPOOL_PATH, Disks.home() + "/fastdfs_tmp"), conf.getInt(PROP_FILEPOOL_SIZE, 200));
     }
 
     public void close() {
