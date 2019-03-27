@@ -55,4 +55,10 @@ public class FastdfsStarter {
     @PropDoc(value = "缩略图高度", defaultValue = "150", type = "int")
     public static final String PROP_IMAGE_THUMBHEIGHT = PRE + "image.thumbHeight";
 
+    @PropDoc(value = "文件池路径", defaultValue = "/fastdfs_temp", type = "string")
+    public static final String PROP_FILEPOOL_PATH = PRE + "filepool.path";
+
+    @PropDoc(value = "文件池大小", defaultValue = "200", type = "int")
+    public static final String PROP_FILEPOOL_SIZE = PRE + "filepool.size";
+
 }
