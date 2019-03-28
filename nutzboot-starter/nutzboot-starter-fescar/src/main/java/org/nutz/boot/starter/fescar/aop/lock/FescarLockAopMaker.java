@@ -12,7 +12,7 @@ import org.nutz.ioc.loader.annotation.IocBean;
 
 import com.alibaba.fescar.spring.annotation.GlobalLock;
 
-@IocBean
+@IocBean(name = "$aop_fescar_GlobalLock")
 public class FescarLockAopMaker extends SimpleAopMaker<GlobalLock> {
 
     public List<? extends MethodInterceptor> makeIt(GlobalLock t, Method method, Ioc ioc) {
@@ -24,7 +24,7 @@ public class FescarLockAopMaker extends SimpleAopMaker<GlobalLock> {
     public String[] getName() {
         return new String[0];
     }
-    
+
     public boolean has(String name) {
         return false;
     }

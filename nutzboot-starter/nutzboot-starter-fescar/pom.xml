@@ -11,15 +11,15 @@
 	<artifactId>nutzboot-starter-fescar</artifactId>
 	<name>nutzboot-starter-fescar</name>
 	<dependencies>
-        <dependency>
-            <groupId>com.alibaba.fescar</groupId>
-            <artifactId>fescar-rm-datasource</artifactId>
-            <version>${fescar.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.fescar</groupId>
-            <artifactId>fescar-spring</artifactId>
-            <version>${fescar.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>com.alibaba.fescar</groupId>
+			<artifactId>fescar-rm-datasource</artifactId>
+			<version>${fescar.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba.fescar</groupId>
+			<artifactId>fescar-spring</artifactId>
+			<version>${fescar.version}</version>
+		</dependency>
 	</dependencies>
 </project>

@@ -14,7 +14,7 @@ import com.alibaba.fescar.spring.annotation.GlobalTransactional;
 import com.alibaba.fescar.tm.api.DefaultFailureHandlerImpl;
 import com.alibaba.fescar.tm.api.FailureHandler;
 
-@IocBean
+@IocBean(name="$aop_fescar_GlobalTransactional")
 public class FescarTransAopMaker extends SimpleAopMaker<GlobalTransactional> {
     
     private static FailureHandler DFT = new DefaultFailureHandlerImpl();
