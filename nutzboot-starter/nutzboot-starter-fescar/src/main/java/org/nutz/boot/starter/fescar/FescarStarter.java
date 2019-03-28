@@ -20,6 +20,9 @@ public class FescarStarter implements ServerFace {
 
     protected static final String PRE = "fescar.";
 
+    @PropDoc(value = "fescar是否启用", defaultValue = "false", type = "boolean")
+    public static String PROP_ENABLED = PRE + "enabled";
+
     @PropDoc(value = "fescar应用id", need = true)
     public static String PROP_APPID = PRE + "applicationId";
 
@@ -46,7 +49,7 @@ public class FescarStarter implements ServerFace {
             }
             return;
         }
-        if (!conf.getBoolean("fescar.enable", true)) {
+        if (!conf.getBoolean(PROP_ENABLED, false)) {
             log.info("Global transaction is disabled.");
             return;
         }
