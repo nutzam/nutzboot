@@ -13,6 +13,7 @@
   	<module>nutzboot-demo-dubbo-rpc-service</module>
   </modules>
   <properties>
+  	<zkclient.version>0.11</zkclient.version>
   </properties>
 
   <dependencies>
