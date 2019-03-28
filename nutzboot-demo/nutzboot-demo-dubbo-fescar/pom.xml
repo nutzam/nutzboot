@@ -13,7 +13,6 @@
   	<module>nutzboot-demo-dubbo-fescar-order</module>
   	<module>nutzboot-demo-dubbo-fescar-account</module>
   	<module>nutzboot-demo-dubbo-fescar-storage</module>
-  	<module>nutzboot-demo-dubbo-fescar-business</module>
   </modules>
   <properties>
   </properties>
