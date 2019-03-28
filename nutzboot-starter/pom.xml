@@ -75,6 +75,7 @@
 		<module>nutzboot-starter-nacos-config-client</module>
 		<module>nutzboot-starter-ftp</module>
         <module>nutzboot-starter-fastdfs</module>
+        <module>nutzboot-starter-fescar</module>
     </modules>
 	<dependencies>
 		<dependency>

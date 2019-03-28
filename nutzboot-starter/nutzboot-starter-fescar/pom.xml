@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.nutz</groupId>
+		<artifactId>nutzboot-starter</artifactId>
+		<version>2.3.3-SNAPSHOT</version>
+	</parent>
+	<artifactId>nutzboot-starter-fescar</artifactId>
+	<name>nutzboot-starter-fescar</name>
+	<dependencies>
+        <dependency>
+            <groupId>com.alibaba.fescar</groupId>
+            <artifactId>fescar-rm-datasource</artifactId>
+            <version>${fescar.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.fescar</groupId>
+            <artifactId>fescar-spring</artifactId>
+            <version>${fescar.version}</version>
+        </dependency>
+	</dependencies>
+</project>
