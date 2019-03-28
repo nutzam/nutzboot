@@ -19,6 +19,7 @@
 		<module>nutzboot-demo-cloud</module>
 		<module>nutzboot-demo-servicecomb</module>
 		<module>nutzboot-demo-custom</module>
+		<module>nutzboot-demo-dubbo-fescar</module>
 	</modules>
 	<properties>
 		<docker.image.prefix>nutzboot</docker.image.prefix>
