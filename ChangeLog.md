@@ -1,5 +1,18 @@
 # NB进化史
 
+# 2.3.3.v20190329 "雪落下的声音"
+
+强势支持fescar分布式事务, 完全实现其AT模式,而且不止限于NutDao操作哦
+
+至此, 阿里系nacos(配置与注册)/sentinel(流控)/fescar(分布式事务)均完成适配
+
+* 时间: 2019-03-29
+* 曲目: [雪落下的声音](https://www.youtube.com/watch?v=dp2NzW3NQpk)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+
+* 变更:
+	* add: 支持fescar分布式事务,对应fescar 0.4版
+	* update: starter-fastdfs 支持通过文件路径上传
 
 
 # 2.3.2.v20190323 "--"
