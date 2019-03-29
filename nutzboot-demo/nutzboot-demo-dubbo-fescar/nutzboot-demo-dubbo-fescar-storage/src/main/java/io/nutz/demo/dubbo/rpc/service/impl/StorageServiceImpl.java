@@ -1,5 +1,7 @@
 package io.nutz.demo.dubbo.rpc.service.impl;
 
+import javax.sql.DataSource;
+
 import org.nutz.dao.Chain;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
@@ -22,6 +24,9 @@ public class StorageServiceImpl implements StorageService {
 
     @Inject
     private Dao dao;
+    
+    @Inject
+    private DataSource dataSource;
 
     @Override
     public void deduct(String commodityCode, int count) {

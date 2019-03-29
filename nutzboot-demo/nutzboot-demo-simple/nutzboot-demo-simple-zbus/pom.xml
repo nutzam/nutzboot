@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.nutz</groupId>
     <artifactId>nutzboot-demo-simple</artifactId>
-    <version>2.3.3-SNAPSHOT</version>
+    <version>2.3.3.v20190329</version>
   </parent>
   <artifactId>nutzboot-demo-simple-zbus</artifactId>
   	<dependencies>
