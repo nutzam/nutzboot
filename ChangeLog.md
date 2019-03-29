@@ -11,7 +11,7 @@
 * 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
 
 * 变更:
-	* add: 支持fescar分布式事务,对应fescar 0.4版
+	* add: 支持fescar分布式事务,对应fescar 0.4.1版
 	* update: starter-fastdfs 支持通过文件路径上传
 
 
