@@ -274,7 +274,7 @@ public class NbApp extends Thread {
             log.debugf("has scansPaths...");
             String scansPathsValue = propertiesProxy.get(scansPaths);
             // 适配多路径
-            for (String path : scansPathsValue.split(";")) {
+            for (String path : scansPathsValue.split(",")) {
                 path = AppContext.getDefault().getBasePath() + File.separator + path;
                 log.debugf("scan path %s", path);
                 for (File jar : Files.ls(path, ".jar$", null)) {
