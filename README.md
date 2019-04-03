@@ -13,6 +13,7 @@
 ```
 
 * 主页: [NB的官网](https://nutz.io)
+* 关于Nutz: [Nutz](https://github.com/nutzam/nutz)
 * 项目生成器: [NB Maker](https://get.nutz.io)
 * 推荐项目: [NutzWk](https://github.com/Wizzercn/NutzWk)
 * 版本历史: [NB进化史](ChangeLog.md)
