@@ -2,6 +2,7 @@ package org.nutz.boot.starter.servlet3;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.LifeCycle;
+import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
@@ -28,6 +30,7 @@ public abstract class AbstractServletContainerStarter implements ClassLoaderAwar
     protected ClassLoader classLoader;
     protected Ioc ioc;
     protected AppContext appContext;
+    protected NutMap monitorProps = new NutMap();
 
     protected abstract String getConfigurePrefix();
 
@@ -110,5 +113,17 @@ public abstract class AbstractServletContainerStarter implements ClassLoaderAwar
                 files.add(file);
         }
         return files.toArray(new String[files.size()]);
+    }
+    
+    public Collection<String> getMonitorKeys() {
+        return monitorProps.keySet();
+    }
+
+    public Object getMonitorValue(String key) {
+        return monitorProps.get(key);
+    }
+    
+    public void updateMonitorValue(String key, Object value) {
+        monitorProps.put(key, value);
     }
 }

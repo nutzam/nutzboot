@@ -111,6 +111,14 @@ public class DataSourceStarter {
         throw new RuntimeException("not supported jdbc.type=" + conf.get("jdbc.type"));
     }
 
+    public static DataSource createManyDataSource(Ioc ioc, PropertiesProxy conf, String prefix) {
+        try {
+            return createSlaveDataSource(ioc, conf, prefix);
+        } catch (Exception e) {
+            throw new RuntimeException("datasource init error", e);
+        }
+    }
+
     public static DataSource createSlaveDataSource(Ioc ioc, PropertiesProxy conf, String prefix) throws Exception {
         switch (conf.get(prefix + "type", "druid")) {
         case "simple":
@@ -165,32 +173,44 @@ public class DataSourceStarter {
         if (ioc.has("slaveDataSource")) {
             return ioc.get(DataSource.class, "slaveDataSource");
         } else {
-            // 看看有多少从数据库被定义了
-            List<DataSource> slaveDataSources = new ArrayList<>();
-            for (String key : conf.keys()) {
-                if (key.startsWith(prefix) && key.endsWith(".url")) {
-                    String slaveName = key.substring(prefix.length(), key.length() - ".url".length());
-                    log.debug("found Slave DataSource name=" + slaveName);
-                    try {
-                        DataSource slaveDataSource = DataSourceStarter.createSlaveDataSource(ioc, conf, prefix + slaveName + ".");
-                        slaveDataSources.add(slaveDataSource);
-                        slaves.add(slaveDataSource);
-                    }
-                    catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+            return _getSlaveDataSource(ioc, conf, prefix);
+        }
+    }
+
+    public static DataSource getManySlaveDataSource(Ioc ioc, PropertiesProxy conf, String prefix) {
+        if (ioc.has(prefix + "slaveDataSource")) {
+            return ioc.get(DataSource.class, prefix + "slaveDataSource");
+        } else {
+            return _getSlaveDataSource(ioc, conf, prefix);
+        }
+    }
+
+    private static DataSource _getSlaveDataSource(Ioc ioc, PropertiesProxy conf, String prefix) {
+        // 看看有多少从数据库被定义了
+        List<DataSource> slaveDataSources = new ArrayList<>();
+        for (String key : conf.keys()) {
+            if (key.startsWith(prefix) && key.endsWith(".url")) {
+                String slaveName = key.substring(prefix.length(), key.length() - ".url".length());
+                log.debug("found Slave DataSource name=" + slaveName);
+                try {
+                    DataSource slaveDataSource = DataSourceStarter.createSlaveDataSource(ioc, conf, prefix + slaveName + ".");
+                    slaveDataSources.add(slaveDataSource);
+                    slaves.add(slaveDataSource);
+                }
+                catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             }
-            // 如果的确定义了从数据库集合
-            if (slaveDataSources.size() > 0) {
-                if (slaveDataSources.size() == 1) {
-                    // 单个? 那就直接set吧
-                    return slaveDataSources.get(0);
-                } else {
-                    // 多个从数据源,使用DynaDataSource进行随机挑选
-                    // TODO 更多更精细的挑选策略(轮训/随机/可用性...)
-                    return new DynaDataSource(new DynaDataSourceSeletor(slaveDataSources));
-                }
+        }
+        // 如果的确定义了从数据库集合
+        if (slaveDataSources.size() > 0) {
+            if (slaveDataSources.size() == 1) {
+                // 单个? 那就直接set吧
+                return slaveDataSources.get(0);
+            } else {
+                // 多个从数据源,使用DynaDataSource进行随机挑选
+                // TODO 更多更精细的挑选策略(轮训/随机/可用性...)
+                return new DynaDataSource(new DynaDataSourceSeletor(slaveDataSources));
             }
         }
         return null;
@@ -213,7 +233,7 @@ public class DataSourceStarter {
         }
 
         public void close() throws IOException {
-            for (DataSource dataSource : slaves) {
+            for (DataSource dataSource : ds) {
                 try {
                     if (dataSource instanceof Closeable)
                         ((Closeable) dataSource).close();

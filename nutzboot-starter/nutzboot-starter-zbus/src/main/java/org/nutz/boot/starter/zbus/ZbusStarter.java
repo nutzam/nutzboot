@@ -34,6 +34,8 @@ public class ZbusStarter implements ServerFace {
 			}
 			ioc.get(ZbusClientBean.class);
 		}
+		if (!conf.has("zbus.mq.packageNames"))
+		    conf.put("zbus.mq.packageNames", appContext.getPackage());
 	}
 
 	public void stop() throws Exception {

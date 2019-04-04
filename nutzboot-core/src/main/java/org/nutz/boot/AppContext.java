@@ -1,5 +1,6 @@
 package org.nutz.boot;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.nutz.boot.starter.ServerFace;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.combo.ComboIocLoader;
+import org.nutz.lang.Encoding;
 import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -66,6 +68,8 @@ public class AppContext implements LifeCycle {
      * 一个Starter列表
      */
     protected List<Object> starters = new ArrayList<>();
+    
+    protected String basePath;
 
     /**
      * 获取Ioc容器
@@ -360,5 +364,27 @@ public class AppContext implements LifeCycle {
             return getConf().get(legacyKey);
         }
         return getConf().get("server.host", "0.0.0.0");
+    }
+    
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
+    }
+
+    // 获取应用程序绝对路径
+    public String getBasePath() {
+        if (basePath == null) {
+            try {
+                basePath = getMainClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+                int lastIndex = basePath.lastIndexOf('/');
+                if (lastIndex < 0) {
+                    lastIndex = basePath.lastIndexOf('\\');
+                }
+                basePath = basePath.substring(0, lastIndex);
+                basePath = URLDecoder.decode(basePath, Encoding.UTF8);
+            } catch (Throwable e) {
+                basePath = ".";
+            }
+        }
+        return basePath;
     }
 }

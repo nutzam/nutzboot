@@ -1,8 +1,148 @@
 # NB进化史
 
-# 2.2.5 "迭代中"
+# 2.3.3.v20190329 "雪落下的声音"
+
+强势支持fescar分布式事务, 完全实现其AT模式,而且不止限于NutDao操作哦
+
+至此, 阿里系nacos(配置与注册)/sentinel(流控)/fescar(分布式事务)均完成适配
+
+* 时间: 2019-03-29
+* 曲目: [雪落下的声音](https://www.youtube.com/watch?v=dp2NzW3NQpk)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
 
 * 变更:
+	* add: 支持fescar分布式事务,对应fescar 0.4.1版
+	* update: starter-fastdfs 支持通过文件路径上传
+
+
+# 2.3.2.v20190323 "--"
+
+紧急发版本,修正jetty升级后,没有static目录时报错的问题
+
+* 时间: 2019-03-23
+* 已知问题: 由于操作失误, 该版本引用的nutz版本是快照版,-_-
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+
+* 变更:
+	* fix: 如果不存在任何静态文件目录,jetty启动报错 by howe
+	* add: NbApp添加addStarterClass方法,方便扩展
+
+# 2.3.1.v20190318 "帕卡贝尔的卡农变奏曲"
+
+支持nacos作为配置服务,添加ftp客户端支持
+
+* 时间: 2019-03-18
+* 曲目: [帕卡贝尔的卡农变奏曲](https://www.youtube.com/watch?v=X0SxCZF1ebc)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+* 变更:
+	* add: 新增Nacos配置中心支持 by [文涛](https://github.com/wentao)
+	* add: 新增多数据源的使用Demo by [文涛](https://github.com/wentao)
+	* add: nutzboot-starter-ftp FTP客户端
+	* add: idea插件的链接
+	* update: starter-logback-exts 增加主机名等信息的记录 by 大鲨鱼
+	* update: 改进多数据源的生成和管理 by wendal
+	* update: 为web容器添加monitor日志
+	* update: starter-sentinel-dubbo 去掉容易误解的提示
+	* update: sentinel版本升级为1.4.2
+	* update: 提高nutz.boot.configure.properties.dir的路径兼容性
+	* fix: readme里面的eureka状态地址错误
+上游更新:
+	* update: nutz更新至1.r.68.v20190318
+	* update: nutzwx更新至1.r.68.v20190318
+	* update: nutzmore集合更新至1.r.68.v20190318
+下游更新:
+	* update: nutzboot-maven-plugin 更新 2.3.1.v20190318
+	* update: NutzWk 5.2.0
+
+# 2.3.0.v20190220 "不可说"
+
+地球在流浪,我们继续发新版^_^
+
+* 添加start-sentinel-annotation 流量防卫原生注释版
+
+* 时间: 2019-02-20
+* 曲目: [不可说](https://www.youtube.com/watch?v=gRd4iQhx9S8)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+* 变更:
+	* add: starter-logback-exts logback日志扩展 by 大鲨鱼
+	* update: 使用nutz 1.r.68.v20190220 例行更新
+	* update: 使用nutzwx 1.r.68.v20190220 卡包API
+	* update: 使用nutz插件集 1.r.68.v20190220 zbus/dubbo相关增强
+	* update: 使用jetty最新版
+
+# 2.2.9 "魔女の宅急便"
+
+* 添加start-sentinel-dubbo 流量防卫 by 大鲨鱼
+* 使用nutz正式版1.r.67,不引用快照版
+
+* 时间: 2019-01-09
+* 曲目: [魔女の宅急便](https://www.youtube.com/watch?v=jJJHH_v9JMg)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+* 变更:
+	* add: start-sentinel-dubbo 流量防卫 by 大鲨鱼,已应用在nutzwk
+	* update: 更新jetty/spring/jetx/beetl/undertow/druid版本 by howe
+	* 使用nutz正式版1.r.67
+
+# 2.2.8 "菊次郎的夏天"
+
+本版本添加servicecomb支持,修正了几个bug
+
+北半球的冬季, 南半球的夏天, ^_^
+
+* 时间: 2018-12-14
+* 曲目: [菊次郎的夏天](https://www.youtube.com/watch?v=4vQc8WC7clI)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+* 变更:
+	* add: 添加servicecomb支持
+	* update: 更新jetty/spring/jetx/beetl/undertow/druid版本 by howe
+	* update: 更新javassist版本,解决jdk11兼容性问题 by [大鲨鱼](https://github.com/Wizzercn)
+	* fix: fix:druid监控配置手册与实际过滤前缀不一致 by [realoldroot](https://github.com/realoldroot)
+	* fix: ngrok client不能设置服务器地址 by wendal
+
+# 2.2.7 "beautiful in white" 例行更新
+
+本版本添加jetty的https支持
+
+* 时间: 2018-11-08
+* 曲目: [beautiful in white](https://www.youtube.com/watch?v=XRuDQ6aYeD0)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+
+* 变更:
+	* add: jetty支持监听https端口
+	* add: starter-lettuce by howe
+	* fix: jetty禁用目录展示 
+
+
+# 2.2.6 "nothing gonna change my love for you"
+
+本版本强化多数据源支持,增加tcc支持
+
+由于核心已稳定,所以更新速度稍有下降,引起部分基友的[疑惑](https://nutz.cn/yvr/t/7ef8uiffluh68qgqa1r9aceju9) ^_^,在此表示感谢
+
+* 时间: 2018-09-19
+* 曲目: [nothing gonna change my love for you](https://www.youtube.com/watch?v=dMIGKOxLZH8)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+
+* 变更:
+	* update: tio升级到3.1.8.v20180818-RELEASE,减少依赖项
+	* update: 更新jetty/tomcat/beetl by howe
+	* add: tcc-transaction nutz 插件支持
+	* update: 配置中心客户端逻辑更新 by wendal
+	* update: 强化多数据源支持 by wentao
+	* add: 添加actuator基础代码
+	* add: 配置中心服务器端 https://gitee.com/nutz/nutzcloud-config-server
+
+# 2.2.5 "心要野"
+
+本版本主要是新增两个功能, 邮件客户端和防重复提交,均由[threefish](https://github.com/threefish) 提供^_^
+
+* 时间: 2018-08-20
+* 曲目: [心要野](https://music.163.com/#/song?id=406072138)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+
+* 变更:
+	* add: starter-email 邮件客户端 by threefish
+	* add: starter-prevent-duplicate-submit 防重复提交 by threefish
 	* add: 在war打包模式下,支持warMain入口,解决自定义NbApp实例的需求
 
 # 2.2.4 "BD7OEC"

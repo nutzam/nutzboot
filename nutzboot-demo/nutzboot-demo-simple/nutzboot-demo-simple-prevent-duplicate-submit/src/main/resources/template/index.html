@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>NB demo for Beetl</title>
+</head>
+<body>
+<div>
+	<h2>Context Path = '${base}'</h2>
+</div>
+<div>
+	<h2>From Action name=${obj.name}, age=${obj.age}</h2>
+</div>
+<form action="${base}/index?a=1" method="post">
+	<input type="submit" value="提交">
+</form>
+<form action="${base}/index2?b=2" method="post">
+	<input type="submit" value="提交错误并恢复token">
+</form>
+</body>
+</html>

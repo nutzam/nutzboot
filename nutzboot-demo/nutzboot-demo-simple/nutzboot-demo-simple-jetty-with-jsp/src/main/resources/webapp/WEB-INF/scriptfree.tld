@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+    <description>
+        Validates JSP pages to prohibit use of scripting elements.
+    </description>
+    <tlib-version>1.1</tlib-version>
+    <short-name>scriptfree</short-name>
+    <uri>http://jakarta.apache.org/taglibs/standard/scriptfree</uri>
+
+    <validator>
+        <description>
+            Validates prohibitions against scripting elements.
+        </description>
+        <validator-class>
+            javax.servlet.jsp.jstl.tlv.ScriptFreeTLV
+        </validator-class>
+        <init-param>
+            <description>
+                Controls whether or not declarations are considered valid.
+            </description>
+            <param-name>allowDeclarations</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
+            <description>
+                Controls whether or not scriptlets are considered valid.
+            </description>
+            <param-name>allowScriptlets</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
+            <description>
+                Controls whether or not top-level expressions are considered valid.
+            </description>
+            <param-name>allowExpressions</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
+            <description>
+                Controls whether or not expressions used to supply request-time
+                attribute values are considered valid.
+            </description>
+            <param-name>allowRTExpressions</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </validator>
+</taglib>

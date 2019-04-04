@@ -36,6 +36,7 @@ import org.apache.catalina.webresources.StandardRoot;
 import org.apache.juli.logging.LogFactory;
 import org.apache.tomcat.util.descriptor.web.ErrorPage;
 import org.nutz.boot.annotation.PropDoc;
+import org.nutz.boot.starter.MonitorObject;
 import org.nutz.boot.starter.ServerFace;
 import org.nutz.boot.starter.servlet3.AbstractServletContainerStarter;
 import org.nutz.boot.starter.servlet3.NbServletContextListener;
@@ -58,7 +59,7 @@ import org.nutz.log.Logs;
  * @author wendal (wendal1985@gmail.com)
  */
 @IocBean
-public class TomcatStarter extends AbstractServletContainerStarter implements ServerFace {
+public class TomcatStarter extends AbstractServletContainerStarter implements ServerFace, MonitorObject {
 
     private static final Log log = Logs.get();
 
@@ -96,6 +97,9 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
 
     @PropDoc(value = "WelcomeFile列表", defaultValue="index.html,index.htm,index.do")
     public static final String PROP_WELCOME_FILES = PRE + "welcome_files";
+    
+    @PropDoc(value = "自定义Connector配置群")
+    public static final String PROP_CONNECTOR_CONFS = PRE + "connector.*";
 
     private static final String PROP_PROTOCOL = "org.apache.coyote.http11.Http11NioProtocol";
 
@@ -117,6 +121,9 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
     @Override
     public void init() throws LifecycleException {
 
+        updateMonitorValue("http.port", getPort());
+        updateMonitorValue("http.host", getHost());
+        
         this.tomcat = new Tomcat();
 
         File baseDir = createTempDir("tomcat");
@@ -126,12 +133,21 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
         connector.setPort(getPort());
         connector.setURIEncoding(DEFAULT_CHARSET.name());
         connector.setMaxPostSize(conf.getInt(PROP_MAX_POST_SIZE, 64 * 1024 * 1024));
+        String connectorKey = PRE + "connector.";
+        for (String key : conf.keys()) {
+            if (key.startsWith(connectorKey)) {
+                String k = key.substring(connectorKey.length());
+                String v = conf.get(key);
+                connector.setProperty(k, v);
+            }
+        }
 
         // 设置一下最大线程数
         this.tomcat.getService().addConnector(connector);
         StandardThreadExecutor executor = new StandardThreadExecutor();
         executor.setMaxThreads(getMaxThread());
         connector.getService().addExecutor(executor);
+        updateMonitorValue("maxThread", executor.getMaxThreads());
 
         this.tomcat.setConnector(connector);
 
@@ -162,6 +178,8 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
             tomcatAwaitThread.start();
             this.started = true;
         }
+        if (log.isDebugEnabled())
+            log.debug("Tomcat monitor props:\r\n"+getMonitorForPrint());
     }
 
     public void stop() throws LifecycleException {
@@ -185,7 +203,7 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
         }
     }
 
-    private void prepareContext() {
+    protected void prepareContext() {
         File docBase = Files.findFile("static/");
 
         docBase = (docBase != null && docBase.isDirectory()) ? docBase : createTempDir("tomcat-docbase");
@@ -199,6 +217,10 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
         this.tomcatContext.setParentClassLoader(classLoader);
         this.tomcatContext.setSessionTimeout(getSessionTimeout() / 60);
         this.tomcatContext.addLifecycleListener(new StoreMergedWebXmlListener());
+        
+        updateMonitorValue("contextPath", super.getContextPath());
+        updateMonitorValue("sessionTimeout", getSessionTimeout());
+        
         StandardRoot sr = new StandardRoot(this.tomcatContext);
         if (!Strings.isBlank(conf.get(PROP_STATIC_PATH_LOCAL))) {
             File local = new File(conf.get(PROP_STATIC_PATH_LOCAL));
@@ -494,5 +516,9 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
     
     public Tomcat getServer() {
         return tomcat;
+    }
+    
+    public String getMonitorName() {
+        return "tomcat";
     }
 }

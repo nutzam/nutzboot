@@ -34,7 +34,7 @@ import org.nutz.plugins.cache.dao.impl.provider.RedisDaoCacheProvider;
 import net.sf.ehcache.CacheManager;
 import redis.clients.jedis.JedisPool;
 
-@IocBean
+@IocBean(create="init")
 public class NutDaoStarter {
 
     private static final Log log = Logs.get();
@@ -81,6 +81,10 @@ public class NutDaoStarter {
 
     @Inject("refer:$ioc")
     protected Ioc ioc;
+
+    public void init() {
+        injectManyDao();
+    }
 
     @IocBean
     public SqlManager getSqlManager() {
@@ -185,7 +189,6 @@ public class NutDaoStarter {
                 dao.setRunner(runner);
             }
         }
-        injectManyDao();
         return dao;
     }
 
@@ -199,19 +202,24 @@ public class NutDaoStarter {
                 // 获取数据库名称
                 String name = match.group(1);
                 String prefix_name = "jdbc.many." + name + ".";
-                DataSource manyDataSource = DataSourceStarter.createDataSource(ioc, conf, prefix_name);
-                NutDao nutDao = new NutDao();
-                nutDao.setDataSource(manyDataSource);
-                // 处理对应的从库
-                String slave_prefix = prefix_name + "slave.";
-                DataSource slaveDataSource = DataSourceStarter.getSlaveDataSource(ioc, conf, slave_prefix);
-                if(slaveDataSource != null) {
-                    NutDaoRunner runner = new NutDaoRunner();
-                    runner.setSlaveDataSource(slaveDataSource);
-                    nutDao.setRunner(runner);
+                try {
+                    DataSource manyDataSource = DataSourceStarter.createManyDataSource(ioc, conf, prefix_name);
+                    NutDao nutDao = new NutDao();
+                    nutDao.setDataSource(manyDataSource);
+                    // 处理对应的从库
+                    String slave_prefix = prefix_name + "slave.";
+                    DataSource slaveDataSource = DataSourceStarter.getManySlaveDataSource(ioc, conf, slave_prefix);
+                    if(slaveDataSource != null) {
+                        NutDaoRunner runner = new NutDaoRunner();
+                        runner.setSlaveDataSource(slaveDataSource);
+                        nutDao.setRunner(runner);
+                    }
+                    // 加入到ioc对象
+                    ioc.addBean(name + "Dao", nutDao);
                 }
-                // 加入到ioc对象
-                ioc.addBean(name + "Dao", nutDao);
+                catch (Exception e) {
+                    throw new RuntimeException("datasource init error "+prefix_name, e);
+                }
             }
         }
     }

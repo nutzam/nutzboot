@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.zip.Deflater;
 
 import org.nutz.boot.annotation.PropDoc;
+import org.nutz.boot.starter.MonitorObject;
 import org.nutz.boot.starter.ServerFace;
 import org.nutz.boot.starter.servlet3.AbstractServletContainerStarter;
 import org.nutz.boot.starter.servlet3.NbServletContextListener;
@@ -38,7 +39,7 @@ import io.undertow.servlet.util.ImmediateInstanceFactory;
  * @author qinerg(qinerg@gmail.com)
  */
 @IocBean
-public class UndertowStarter extends AbstractServletContainerStarter implements ServerFace {
+public class UndertowStarter extends AbstractServletContainerStarter implements ServerFace, MonitorObject {
 
     private static final Log log = Logs.get();
 
@@ -77,6 +78,8 @@ public class UndertowStarter extends AbstractServletContainerStarter implements 
 
     public void start() throws Exception {
         server.start();
+        if (log.isDebugEnabled())
+            log.debug("Undertow monitor props:\r\n"+getMonitorForPrint());
     }
 
     public void stop() throws Exception {
@@ -89,10 +92,15 @@ public class UndertowStarter extends AbstractServletContainerStarter implements 
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public void init() throws Exception {
+        updateMonitorValue("http.port", getPort());
+        updateMonitorValue("http.host", getHost());
+        
         String contextPath = getContextPath();
 
         deployment = Servlets.deployment().setDeploymentName("nb").setClassLoader(classLoader).setEagerFilterInit(true).setSecurityDisabled(true);
         deployment.setContextPath(contextPath).setDefaultSessionTimeout(getSessionTimeout());
+        updateMonitorValue("contextPath", contextPath);
+        updateMonitorValue("sessionTimeout", deployment.getDefaultSessionTimeout());
 
         ComboResourceManager resourceManager = new ComboResourceManager();
         for (String path : getResourcePaths()) {
@@ -174,6 +182,10 @@ public class UndertowStarter extends AbstractServletContainerStarter implements 
 
     protected String getConfigurePrefix() {
         return PRE;
+    }
+
+    public String getMonitorName() {
+        return "undertow";
     }
 
 }
