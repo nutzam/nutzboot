@@ -43,7 +43,7 @@
 		<module>nutzboot-starter-feign</module>
 		<module>nutzboot-starter-caffeine</module>
 		<module>nutzboot-starter-hystrix</module>
-		
+
 		<module>nutzboot-starter-nutz-mvc</module>
 		<module>nutzboot-starter-shiro</module>
 		<module>nutzboot-starter-dubbo</module>
@@ -76,7 +76,9 @@
 		<module>nutzboot-starter-ftp</module>
         <module>nutzboot-starter-fastdfs</module>
         <module>nutzboot-starter-fescar</module>
-    </modules>
+		<module>nutzboot-starter-sqlxmltpl</module>
+
+	</modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.nutz</groupId>

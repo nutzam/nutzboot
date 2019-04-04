@@ -30,7 +30,7 @@
 		<module>nutzboot-demo-simple-zkclient</module>
 		<module>nutzboot-demo-simple-velocity</module>
 		<module>nutzboot-demo-simple-jetty</module>
-        
+
         <module>nutzboot-demo-simple-caffeine</module>
         <module>nutzboot-demo-simple-hystrix</module>
         <module>nutzboot-demo-simple-eureka-client</module>
@@ -57,6 +57,8 @@
 		<module>nutzboot-demo-simple-dao-with-many</module>
         <module>nutzboot-demo-simple-ftp</module>
         <module>nutzboot-demo-simple-fastdfs</module>
+        <module>nutzboot-demo-simple-sqlxmltpl</module>
+
     </modules>
 
 	<dependencies>

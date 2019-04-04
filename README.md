@@ -133,6 +133,7 @@ public class MainLauncher {
 * [tasdingoo](https://github.com/tasdingoo)(issue@github 122)
 * [csl_slchia](https://gitee.com/csl_slchia)(issue@gitee II92L)
 * [大鲨鱼](https://github.com/Wizzercn)(提交starter-wkcache/elasticsearch/sentinel等,扩展NB功能)
+* [threefish](https://github.com/threefish)(Nutz Intellij idea插件,提交starter-email/sqlXmlTpl)
 * 还有您的名字哦,告知我们吧
 
 ## 采用NutzBoot的公司
@@ -192,6 +193,7 @@ public class MainLauncher {
         - ORM
             - [x] **starter-[nutz-dao](https://github.com/nutzam/nutz) Nutz官方Dao**
             - [x] starter-[beetlsql](http://ibeetl.com/guide/#beetlsql) 基于Beetl的SQL框架
+            - [x] starter-[sqlXmlTpl](http://github.com/threefish) 解决Java拼接SQL(采用xml管理sql)
     - 非关系型数据库
         - [x] **starter-[redis](https://redis.io) 特点就是快,吃内存!**
         - [x] starter-mongodb NoSQL的重要一支
