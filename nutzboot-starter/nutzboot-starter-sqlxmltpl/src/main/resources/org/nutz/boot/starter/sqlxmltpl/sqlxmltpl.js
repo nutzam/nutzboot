@@ -9,8 +9,8 @@ var ioc = {
             create: "init"
         },
         fields: {
-            statementStart: {java: "$conf.get('SqlXmlTpl.statementStart')"},
-            statementEnd: {java: "$conf.get('SqlXmlTpl.statementEnd')"}
+            statementStart: {java: "$conf.get('sqlXmlTpl.statementStart','<exp>')"},
+            statementEnd: {java: "$conf.get('sqlXmlTpl.statementEnd','</exp>')"}
         }
     }
 }

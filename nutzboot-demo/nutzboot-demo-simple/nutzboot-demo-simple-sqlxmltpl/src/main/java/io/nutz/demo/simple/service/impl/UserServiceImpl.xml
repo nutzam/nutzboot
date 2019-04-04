@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Sqls PUBLIC "nutz-sqltpl" "https://threefish.gitee.io/nutz-sqltpl/nutz-sqltpl.dtd">
 <Sqls class="io.nutz.demo.simple.service.impl.UserServiceImpl">
-
+    <!--var是当前文件的共享变量，var中不能有表达式-->
+    <var name="tableName">t_user</var>
+    <!--wrap=true 表示将会清除换行符\n 默认不清除-->
+    <sql id="queryLikeName" wrap="true">
+        SELECT * from ${tableName}
+        <exp>if(isNotEmpty(name)){</exp>
+        where name like @name
+        <exp>}</exp>
+    </sql>
+    <sql id="queryLikeNameByCnd" wrap="true">
+        SELECT * from ${tableName} $condition
+    </sql>
+    <sql id="queryMapslikeName" wrap="true">
+        SELECT * from ${tableName}
+        <exp>if(isNotEmpty(name)){</exp>
+        where name like @name
+        <exp>}</exp>
+    </sql>
 </Sqls>
