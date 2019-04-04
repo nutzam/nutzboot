@@ -11,12 +11,12 @@ import org.nutz.ioc.loader.json.JsonLoader;
  */
 public class SqlXmlTplIocLoaderStarter implements IocLoaderProvider {
 
-    protected static final String PRE = "SqlXmlTpl.";
+    protected static final String PRE = "sqlXmlTpl.";
 
-    @PropDoc(group = "SqlXmlTpl", value = "SqlXmlTpl模版语言语句开始", need = false, defaultValue = "<exp>")
+    @PropDoc(group = "sqlXmlTpl", value = "sqlXmlTpl模版语言语句开始", need = false, defaultValue = "<exp>")
     public static final String statementStart = PRE + "statementStart";
 
-    @PropDoc(group = "SqlXmlTpl", value = "SqlXmlTpl模版语言语句结束", need = false, defaultValue = "</exp>")
+    @PropDoc(group = "sqlXmlTpl", value = "sqlXmlTpl模版语言语句结束", need = false, defaultValue = "</exp>")
     public static final String statementEnd = PRE + "statementEnd";
 
 

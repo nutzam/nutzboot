@@ -11,12 +11,12 @@
 	<modules>
 		
 		<module>nutzboot-demo-simple</module>
-		<module>nutzboot-demo-zbus</module>
-		<module>nutzboot-demo-dubbo</module>
+		<!--<module>nutzboot-demo-zbus</module>-->
+		<!--<module>nutzboot-demo-dubbo</module>-->
 
-		<module>nutzboot-demo-cxf</module>
-		<module>nutzboot-demo-feign</module>
-		<module>nutzboot-demo-cloud</module>
+		<!--<module>nutzboot-demo-cxf</module>-->
+		<!--<module>nutzboot-demo-feign</module>-->
+		<!--<module>nutzboot-demo-cloud</module>-->
 	</modules>
 	<properties>
 		<docker.image.prefix>nutzboot</docker.image.prefix>
