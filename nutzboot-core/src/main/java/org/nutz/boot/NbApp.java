@@ -1,5 +1,6 @@
 package org.nutz.boot;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -27,14 +28,11 @@ import org.nutz.boot.tools.NbAppEventListener.EventType;
 import org.nutz.boot.tools.PropDocReader;
 import org.nutz.ioc.IocLoader;
 import org.nutz.ioc.impl.NutIoc;
+import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.AnnotationIocLoader;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.ioc.loader.combo.ComboIocLoader;
-import org.nutz.lang.Lang;
-import org.nutz.lang.Mirror;
-import org.nutz.lang.Stopwatch;
-import org.nutz.lang.Streams;
-import org.nutz.lang.Strings;
+import org.nutz.lang.*;
 import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.LogAdapter;
@@ -42,6 +40,7 @@ import org.nutz.log.Logs;
 import org.nutz.mvc.Mvcs;
 import org.nutz.mvc.annotation.IocBy;
 import org.nutz.resource.Scans;
+import org.nutz.resource.impl.JarResourceLocation;
 
 /**
  * NutzBoot的主体
@@ -60,6 +59,11 @@ public class NbApp extends Thread {
      * 命令行参数
      */
     protected String[] args;
+
+    /**
+     * 扫描外部jar包路径
+     */
+    protected String scansPaths = "nutz.scans.paths";
 
     /**
      * 是否允许命令行下的 -Dxxx.xxx.xxx=转为配置参数
@@ -263,6 +267,22 @@ public class NbApp extends Thread {
         listeners.forEach((listener)->listener.whenPrepareConfigureLoader(this, EventType.before));
         this.prepareConfigureLoader();
         listeners.forEach((listener)->listener.whenPrepareConfigureLoader(this, EventType.after));
+
+        // 配置信息准备好后,进行外部jar包对象Scan
+        PropertiesProxy propertiesProxy = ctx.getConf();
+        if(propertiesProxy.containsKey(scansPaths)) {
+            log.debugf("has scansPaths...");
+            String scansPathsValue = propertiesProxy.get(scansPaths);
+            // 适配多路径
+            for (String path : scansPathsValue.split(",")) {
+                path = AppContext.getDefault().getBasePath() + File.separator + path;
+                log.debugf("scan path %s", path);
+                for (File jar : Files.ls(path, ".jar$", null)) {
+                    log.infof("addResourceFile:%s", jar.getPath());
+                    Scans.me().addResourceLocation(new JarResourceLocation(jar.getPath()));
+                }
+            }
+        }
 
         // 创建IocLoader体系
         listeners.forEach((listener)->listener.whenPrepareIocLoader(this, EventType.before));
