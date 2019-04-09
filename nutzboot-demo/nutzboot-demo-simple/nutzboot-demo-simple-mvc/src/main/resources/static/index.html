@@ -1,10 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Hello, So NB!</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Hello, So NB!</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-Hello, So NB!
+<body style="background-color: #30bded;">
+<div class="container-fluid">
+	<div class="row" id="app">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<div class="row">
+				<h3>欢迎使用NutzBoot</h3>
+			</div>
+			<div class="row">
+				<p>本文件位于 src/main/resources/static/index.html 可以随意修改
+			</div>
+			<div class="row">
+				<p>当前毫秒数: <a href="#">{{timeNow}}</a>
+			</div>
+			<div class="row">
+				<p>NutzBoot官网 <a href="https://nutz.io">https://nutz.io</a>
+			</div>
+			<div class="row">
+				<p>项目构建器 <a href="https://get.nutz.io">https://get.nutz.io</a>
+			</div>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+</div>
 </body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+<script type="text/javascript">
+var _app = new Vue({
+	el : "#app",
+	data : {
+		timeNow : 0
+	},
+	methods : {
+		dataReload : function() {
+			$.ajax({
+				url : "time/now",
+				success : function(re) {
+					_app.timeNow = re
+				}
+			})
+		}
+	}
+});
+setInterval(_app.dataReload, 1000)
+</script>
 </html>

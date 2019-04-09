@@ -7,22 +7,25 @@ import org.nutz.ioc.loader.annotation.IocBean;
 
 import io.nutz.demo.simple.bean.User;
 
-@IocBean(create="init")
+@IocBean(create = "init")
 public class MainLauncher {
-    
+
     @Inject
     protected Dao dao;
-    
+
     public void init() {
-        dao.create(User.class, true);
-        dao.insert(new User("apple", 40, "北京"));
-        dao.insert(new User("ball", 30, "未知"));
-        dao.insert(new User("cat", 50, "温哥华"));
-        dao.insert(new User("fox", 51, "纽约"));
-        dao.insert(new User("bra", 25, "济南"));
-        dao.insert(new User("lina", 50, "深圳"));
+        dao.create(User.class, false);
+        if (dao.count(User.class) == 0) {
+            User user = new User();
+            user.setName("wendal");
+            user.setAge(18);
+            user.setLocation("广州");
+            dao.insert(user);
+        }
     }
 
+    // 默认配置的数据库是h2database,而且用了内存模式, 每次启动都是新的空白数据库
+    // 配置其他数据库时,请务必加上对应的驱动程序, h2的依赖可删除
     public static void main(String[] args) throws Exception {
         new NbApp().setPrintProcDoc(true).run();
     }

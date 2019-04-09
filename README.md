@@ -108,7 +108,8 @@ public class MainLauncher {
 * [NutzBoot项目生成器](https://gitee.com/nutz/nutzboot-project-maker) https://get.nutz.cn 的源码 by wendal
 * [NutzBoot集成PageOffice](https://gitee.com/nutz/nutzboot-demo-pageoffice) PageOffice是私有云Office解决方案 by wendal
 * [IP地址查询服务](https://gitee.com/nutz/ipd4nutzboot) http://ip.nutz.cn 的源码 by wendal
-* [NutzCN-Nutzboot](https://github.com/wendal/nutz-book-project/tree/v5.x) NutzCN社区的源码,9月下旬改为NutzBoot版
+* [NutzCN-Nutzboot](https://github.com/wendal/nutz-book-project/tree/v5.x) NutzCN社区的源码,5.x分支,NutzBoot版
+* [NutzBoot-Demo-Dao](https://github.com/nutzam/nutzboot/tree/dev/nutzboot-demo/nutzboot-demo-simple/nutzboot-demo-simple-dao) 演示Jetty+Dao的增删改查
 
 ## Contributors
 
