@@ -1,5 +1,21 @@
 # NB进化史
 
+# 2.3.4.v2019410 "蓝色多瑙河"
+
+添加对sqltplxml的内置支持^_^
+
+适配分离打包jar时,扫描不到类的问题
+
+* 时间: 2019-04-10
+* 曲目: [蓝色多瑙河](https://www.youtube.com/watch?v=x3FlK9LPUmc)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+
+* 变更:
+	* add: 添加starter-sqltplxml by [threefish](https://github.com/threefish)
+	* add: 新增启动扫描外部jar包，配置实例：`nutz.scans.paths=lib/` by [文涛](https://github.com/wentao)
+	* update: druid更新到1.1.16
+	* update: 把jetty+mvc+dao的[demo](https://github.com/nutzam/nutzboot/tree/dev/nutzboot-demo/nutzboot-demo-simple/nutzboot-demo-simple-dao)完善起来
+
 # 2.3.3.v20190329 "雪落下的声音"
 
 强势支持fescar分布式事务, 完全实现其AT模式,而且不止限于NutDao操作哦
