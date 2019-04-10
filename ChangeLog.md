@@ -12,7 +12,7 @@
 
 * 变更:
 	* add: 添加starter-sqltplxml by [threefish](https://github.com/threefish)
-	* add: 新增启动扫描外部jar包，配置实例：`nutz.scans.paths=lib/` by [文涛](https://github.com/wentao)
+	* add: 新增启动扫描外部jar包，配置实例：`nutz.scans.paths=lib/` by [文涛](https://gitee.com/wentao0291)
 	* update: druid更新到1.1.16
 	* update: 把jetty+mvc+dao的[demo](https://github.com/nutzam/nutzboot/tree/dev/nutzboot-demo/nutzboot-demo-simple/nutzboot-demo-simple-dao)完善起来
 
