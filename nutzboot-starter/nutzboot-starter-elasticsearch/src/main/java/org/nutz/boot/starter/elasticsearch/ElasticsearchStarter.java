@@ -56,7 +56,7 @@ public class ElasticsearchStarter implements ServerFace {
         
         // 把所有elasticsearch开头的配置都放入Settings里面
         for (String key: conf.keys()) {
-            if (key.startsWith(PRE)) {
+            if (key.startsWith(PRE) && !key.equals(PROP_HOST) && !key.equals(PROP_PORT)) {
                 builder.put(key.substring(PRE.length()), conf.get(key));
             }
         }
