@@ -14,9 +14,11 @@ import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Created by wizzer on 2018/6/15.
+ * Modify by wendal on 2019/04/15
  */
 @IocBean
 public class ElasticsearchStarter implements ServerFace {
@@ -43,29 +45,29 @@ public class ElasticsearchStarter implements ServerFace {
     @PropDoc(value = "Elasticsearch是否嗅探集群状态", defaultValue = "true", type = "boolean", need = true)
     public static final String PROP_CLIENT_TRANSPORT_SNIFF = PRE + "client.transport.sniff";
 
-    @Override
     public void start() throws Exception {
-        if (client == null) {
-            Settings esSettings = Settings.builder()
-                    .put("cluster.name", conf.get(PROP_CLUSTER_NAME))
-                    //设置ES实例的名称
-                    .put("client.transport.sniff", conf.getBoolean(PROP_CLIENT_TRANSPORT_SNIFF))
-                    //自动嗅探整个集群的状态，把集群中其他ES节点的ip添加到本地的客户端列表中
-                    .build();
-            client = new PreBuiltTransportClient(esSettings);
-            client.addTransportAddress(new TransportAddress(InetAddress.getByName(conf.get(PROP_HOST)), conf.getInt(PROP_PORT)));
-        }
+        ioc.get(TransportClient.class, "elasticsearchClient");
     }
 
-    @IocBean(name = "elasticsearchClient")
-    public TransportClient getElasticsearchClient() {
+    @IocBean(name = "elasticsearchClient", depose="close")
+    public TransportClient getElasticsearchClient() throws UnknownHostException {
+        log.debug("loading elasticsearchClient...");
+        Settings.Builder builder =  Settings.builder();
+        
+        // 把所有elasticsearch开头的配置都放入Settings里面
+        for (String key: conf.keys()) {
+            if (key.startsWith(PRE)) {
+                builder.put(key.substring(PRE.length()), conf.get(key));
+            }
+        }
+        
+        //设置ES实例的名称
+        builder.put("cluster.name", conf.get(PROP_CLUSTER_NAME, conf.get("nutz.application.name", "nutzboot")));
+        //自动嗅探整个集群的状态，把集群中其他ES节点的ip添加到本地的客户端列表中
+        builder.put("client.transport.sniff", conf.getBoolean(PROP_CLIENT_TRANSPORT_SNIFF, true));
+        
+        client = new PreBuiltTransportClient(builder.build());
+        client.addTransportAddress(new TransportAddress(InetAddress.getByName(conf.get(PROP_HOST, "127.0.0.1")), conf.getInt(PROP_PORT, 9300)));
         return client;
-    }
-
-    @Override
-    public void stop() throws Exception {
-        if (client != null) {
-            client.close();
-        }
     }
 }
