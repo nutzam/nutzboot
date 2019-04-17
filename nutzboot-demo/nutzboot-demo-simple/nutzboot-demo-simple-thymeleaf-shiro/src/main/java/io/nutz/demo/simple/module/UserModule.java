@@ -27,7 +27,7 @@ public class UserModule {
 
     @GET
     @At("/login")
-    @Ok(">>:/login.html")
+    @Ok("th:/login.html")
     public void loginPage() {}
     
     
@@ -48,7 +48,7 @@ public class UserModule {
         return true;
     }
 
-    @Ok(">>:/index.html")
+    @Ok("th:/index.html")
     @At
     public void logout() {
         Subject subject = SecurityUtils.getSubject();

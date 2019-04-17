@@ -5,7 +5,7 @@
 <title>这是登录页面</title>
 </head>
 <body>
-<form action="user/login" id="user_login_form">
+<form action="/user/login" id="user_login_form">
 	账号<input name="username" value="admin">
 	密码<input name="password" type="password" value="123456">
 	<input type="submit" id="user_login">
@@ -17,12 +17,12 @@
 		$("#user_login").click(function() {
 			$.ajax({
 				type : "POST",
-				url : "user/login",
+				url : "/user/login",
 				data : $("#user_login_form").serialize(),
 				dataType : "json",
 				success : function(re) {
 					if (re) {
-						window.location = "/home.html";
+						window.location = "/home";
 					}
 					else {
 						alert("登录失败,用户名应该是admin或者wendal,密码是123456");
