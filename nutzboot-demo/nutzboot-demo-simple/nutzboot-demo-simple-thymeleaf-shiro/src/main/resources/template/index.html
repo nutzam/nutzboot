@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Shiro测试页</title>
+</head>
+<body>
+	<div>
+		<h2>
+			<a href="home.html?_=1">点我,访问一个未授权路径,会跳转到登录页面</a>
+		</h2>
+	</div>
+	<div>
+		<h2>
+			当前登录状态: <a shiro:authenticated href="#">已登录</a> <a shiro:guest href="#">未登录</a>
+		</h2>
+	</div>
+</body>
+</html>

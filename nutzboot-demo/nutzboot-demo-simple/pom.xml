@@ -58,7 +58,7 @@
         <module>nutzboot-demo-simple-ftp</module>
         <module>nutzboot-demo-simple-fastdfs</module>
         <module>nutzboot-demo-simple-sqlxmltpl</module>
-
+        <module>nutzboot-demo-simple-thymeleaf-shiro</module>
     </modules>
 
 	<dependencies>
