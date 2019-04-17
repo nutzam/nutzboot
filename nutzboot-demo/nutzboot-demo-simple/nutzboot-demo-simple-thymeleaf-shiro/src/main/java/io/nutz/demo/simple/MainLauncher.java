@@ -19,14 +19,14 @@ import org.nutz.mvc.annotation.Ok;
 
 import io.nutz.demo.simple.bean.User;
 
-@IocBean
+@IocBean(create="init")
 public class MainLauncher {
     
     @Inject
     protected Dao dao;
 
-    @At({"/", "/index"})
-    @Ok("th:/index.html")
+    @At({"/", "/home"})
+    @Ok("th:/home.html")
     public NutMap index() {
         return NutMap.NEW().setv("name", "NB").setv("age", 18);
     }
