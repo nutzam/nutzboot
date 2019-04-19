@@ -39,12 +39,9 @@ public class UserModule {
         User user = dao.fetch(User.class, username);
         if (user == null)
             return false;
-        Sha256Hash hash = new Sha256Hash(password, user.getSalt());
-        if (!hash.toHex().equals(user.getPassword())) {
-            return false;
-        }
         Subject subject = SecurityUtils.getSubject();
-        subject.login(new SimpleShiroToken(user.getId()));
+        ThreadContext.bind(subject);
+        subject.login(new UsernamePasswordToken(username,password,false));
         return true;
     }
 
