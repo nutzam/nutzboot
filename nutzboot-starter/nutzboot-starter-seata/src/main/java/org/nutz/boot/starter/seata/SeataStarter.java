@@ -19,15 +19,15 @@ public class SeataStarter implements ServerFace {
 
     private static final Log log = Logs.get();
 
-    protected static final String PRE = "fescar.";
+    protected static final String PRE = "seata.";
 
-    @PropDoc(value = "fescar是否启用", defaultValue = "false", type = "boolean")
+    @PropDoc(value = "seata是否启用", defaultValue = "false", type = "boolean")
     public static String PROP_ENABLED = PRE + "enabled";
 
-    @PropDoc(value = "fescar应用id", need = true)
+    @PropDoc(value = "seata应用id", need = true)
     public static String PROP_APPID = PRE + "applicationId";
 
-    @PropDoc(value = "fescar事务组", need = true)
+    @PropDoc(value = "seata事务组", need = true)
     public static String PROP_TXGROUP = PRE + "txServiceGroup";
 
     @PropDoc(value = "自动创建undo表", defaultValue = "true")
@@ -59,7 +59,7 @@ public class SeataStarter implements ServerFace {
             throw Lang.makeThrow("Ioc.$conf expect property '%s'", PROP_APPID);
         }
         txServiceGroup = conf.check(PROP_TXGROUP);
-        log.infof("fescar applicationId=%s txServiceGroup=%s", applicationId, txServiceGroup);
+        log.infof("seata applicationId=%s txServiceGroup=%s", applicationId, txServiceGroup);
 
         initClient();
     }
