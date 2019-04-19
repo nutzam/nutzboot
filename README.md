@@ -214,7 +214,7 @@ public class MainLauncher {
     - [x] [Shiro+LCache](https://github.com/nutzam/nutzmore/tree/master/nutz-plugins-cache)基于shiro/jedis/插件的分布式可持久化的session缓存
 - 分布式事务
     - [x] [tcc-transaction](https://github.com/changmingxie/tcc-transaction/tree/dev-1.2.x)基于tcc-transaction的nutz容器支持
-    - [x] [fescar](https://github.com/alibaba/fescar) 阿里开源的分布式事务引擎
+    - [x] [seata](https://github.com/seata/seata) 阿里开源的分布式事务引擎,原名fescar
 - 计划任务
     - [x] **starter-[quartz](http://www.quartz-scheduler.org)** 大家都知道
     - [x] starter-xxl-job [国产分布式任务调度平台](https://github.com/xuxueli/xxl-job/pull/253)
