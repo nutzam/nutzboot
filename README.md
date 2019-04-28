@@ -110,7 +110,7 @@ public class MainLauncher {
 * [IP地址查询服务](https://gitee.com/nutz/ipd4nutzboot) http://ip.nutz.cn 的源码 by wendal
 * [NutzCN-Nutzboot](https://github.com/wendal/nutz-book-project/tree/v5.x) NutzCN社区的源码,5.x分支,NutzBoot版
 * [NutzBoot-Demo-Dao](https://github.com/nutzam/nutzboot/tree/dev/nutzboot-demo/nutzboot-demo-simple/nutzboot-demo-simple-dao) 演示Jetty+Dao的增删改查
-
+* [NutzSite](https://github.com/HaimmingYu/NutzSite) Java快速开发框架
 ## Contributors
 
 * [蛋蛋](https://github.com/TopCoderMyDream)(提交了第一个Banner及打印逻辑)及starter-tio和starter-j2cache
