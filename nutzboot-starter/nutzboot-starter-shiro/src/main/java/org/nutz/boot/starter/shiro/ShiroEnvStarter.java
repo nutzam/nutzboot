@@ -17,6 +17,7 @@ import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.SubjectContext;
 import org.apache.shiro.web.env.DefaultWebEnvironment;
 import org.apache.shiro.web.env.EnvironmentLoaderListener;
@@ -37,11 +38,15 @@ import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 import org.nutz.plugins.cache.impl.lcache.LCacheManager;
 import org.nutz.plugins.cache.impl.redis.RedisCacheManager;
 
 @IocBean
 public class ShiroEnvStarter implements WebEventListenerFace {
+
+    private static final Log log = Logs.get();
 
     @Inject("refer:$ioc")
     protected Ioc ioc;
@@ -85,6 +90,9 @@ public class ShiroEnvStarter implements WebEventListenerFace {
     public static final String PROP_SESSION_MANAGER_SVSE = "shiro.session.manager.sessionValidationSchedulerEnabled";
     @PropDoc(value = "定期检查session过期的周期", type = "long", defaultValue = "3600000")
     public static final String PROP_SESSION_MANAGER_SVI = "shiro.session.manager.sessionValidationInterval";
+
+    @PropDoc(value = "SessionDao的ioc名称,设置并声明该IocBean,就能覆盖默认的SessionDao实现", type = "String", defaultValue = "shiroSessionDao")
+    public static final String PROP_SESSION_DAO_IOCNAME = "shiro.session.dao.iocName";
 
     @Inject
     protected AppContext appContext;
@@ -162,8 +170,17 @@ public class ShiroEnvStarter implements WebEventListenerFace {
         DefaultWebSessionManager webSessionManager = conf.make(DefaultWebSessionManager.class, "shiro.session.manager.");
 
         // 带缓存的shiro会话
-        EnterpriseCacheSessionDAO sessionDAO = new EnterpriseCacheSessionDAO();
-        sessionDAO.setSessionIdGenerator(new UU32SessionIdGenerator());
+        SessionDAO sessionDAO = null;
+        String sessionDAOIocName = conf.get(PROP_SESSION_DAO_IOCNAME, "shiroSessionDao");
+        if (ioc.has(sessionDAOIocName)) {
+            log.info("use custom SessionDAO by ioc name = " + sessionDAOIocName);
+            sessionDAO = ioc.get(SessionDAO.class, sessionDAOIocName);
+        }
+        else {
+            log.debug("using default SessionDAO = EnterpriseCacheSessionDAO");
+            sessionDAO = new EnterpriseCacheSessionDAO();
+            ((EnterpriseCacheSessionDAO)sessionDAO).setSessionIdGenerator(new UU32SessionIdGenerator());
+        }
         webSessionManager.setSessionDAO(sessionDAO);
         //设置session会话超时时间
         webSessionManager.setGlobalSessionTimeout(conf.getLong(PROP_SESSION_MANAGER_GLOBALSESSIONTIMEOUT, 1800000));
@@ -186,7 +203,9 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 
     @IocBean(name = "shiroCacheManager")
     public CacheManager getCacheManager() {
-        switch (conf.get(PROP_SESSION_CACHE_TYPE, "memory")) {
+        String type = conf.get(PROP_SESSION_CACHE_TYPE, "memory");
+        log.debug("using session cache = " + type);
+        switch (type) {
             case "ehcache":
                 return ioc.get(CacheManager.class, "shiroEhcacheCacheManager");
             case "redis":
