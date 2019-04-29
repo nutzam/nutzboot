@@ -17,10 +17,12 @@
 package org.nutz.boot.starter.seata.aop.trans;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.nutz.aop.InterceptorChain;
 import org.nutz.aop.MethodInterceptor;
-import org.nutz.lang.Lang;
 
 import io.seata.common.exception.ShouldNeverHappenException;
 import io.seata.common.util.StringUtils;
@@ -29,6 +31,9 @@ import io.seata.tm.api.DefaultFailureHandlerImpl;
 import io.seata.tm.api.FailureHandler;
 import io.seata.tm.api.TransactionalExecutor;
 import io.seata.tm.api.TransactionalTemplate;
+import io.seata.tm.api.transaction.NoRollbackRule;
+import io.seata.tm.api.transaction.RollbackRule;
+import io.seata.tm.api.transaction.TransactionInfo;
 
 /**
  * The type Global transactional interceptor. 全局事务拦截器
@@ -58,7 +63,7 @@ public class SeataTransInterceptor implements MethodInterceptor {
             this.name = name;
         }
         else 
-            this.name = Lang.simpleMethodDesc(method);
+            this.name = formatMethod(method);
     }
     
     @Override
@@ -69,15 +74,30 @@ public class SeataTransInterceptor implements MethodInterceptor {
                 public Object execute() throws Throwable {
                     return chain.doChain();
                 }
-
-                @Override
-                public int timeout() {
-                    return globalTrxAnno.timeoutMills();
+                public String name() {
+                    return name;
                 }
 
                 @Override
-                public String name() {
-                    return name;
+                public TransactionInfo getTransactionInfo() {
+                    TransactionInfo transactionInfo = new TransactionInfo();
+                    transactionInfo.setTimeOut(globalTrxAnno.timeoutMills());
+                    transactionInfo.setName(name());
+                    Set<RollbackRule> rollbackRules = new LinkedHashSet<>();
+                    for (Class<?> rbRule : globalTrxAnno.rollbackFor()) {
+                        rollbackRules.add(new RollbackRule(rbRule));
+                    }
+                    for (String rbRule : globalTrxAnno.rollbackForClassName()) {
+                        rollbackRules.add(new RollbackRule(rbRule));
+                    }
+                    for (Class<?> rbRule : globalTrxAnno.noRollbackFor()) {
+                        rollbackRules.add(new NoRollbackRule(rbRule));
+                    }
+                    for (String rbRule : globalTrxAnno.noRollbackForClassName()) {
+                        rollbackRules.add(new NoRollbackRule(rbRule));
+                    }
+                    transactionInfo.setRollbackRules(rollbackRules);
+                    return transactionInfo;
                 }
             });
         } catch (TransactionalExecutor.ExecutionException e) {
@@ -101,5 +121,12 @@ public class SeataTransInterceptor implements MethodInterceptor {
         }
     }
 
+    public static String formatMethod(Method method) {
+        String paramTypes = Arrays.stream(method.getParameterTypes())
+                .map(Class::getName)
+                .reduce((p1, p2) -> String.format("%s, %s", p1, p2))
+                .orElse("");
+        return method.getName() + "(" + paramTypes + ")";
+    }
     
 }
