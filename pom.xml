@@ -947,6 +947,18 @@
 				<artifactId>nutzboot-starter-caffeine</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-redisson</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutz-integration-redisson</artifactId>
+				<version>${nutz.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<repositories>
