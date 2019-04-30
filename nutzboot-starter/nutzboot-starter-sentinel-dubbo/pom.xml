@@ -78,7 +78,6 @@
         <dependency>
             <groupId>org.nutz</groupId>
             <artifactId>nutzboot-starter-redis</artifactId>
-            <version>${nutzboot.version}</version>
         </dependency>
     </dependencies>
 </project>

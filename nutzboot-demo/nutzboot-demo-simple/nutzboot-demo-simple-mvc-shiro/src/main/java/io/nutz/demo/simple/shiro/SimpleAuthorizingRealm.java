@@ -11,8 +11,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.nutz.dao.Dao;
-import org.nutz.integration.shiro.AbstractSimpleAuthorizingRealm;
-import org.nutz.integration.shiro.SimpleShiroToken;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 

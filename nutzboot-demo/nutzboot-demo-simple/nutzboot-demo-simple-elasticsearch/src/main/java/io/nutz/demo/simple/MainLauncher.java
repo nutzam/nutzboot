@@ -39,7 +39,7 @@ public class MainLauncher {
         user2.setCreateAt(Times.getTS());
         userService.createOrUpdateData(user1);//添加user1
         userService.createOrUpdateData(user2);//添加user2
-        Map map = userService.getUser("0001");
+        Map<String, Object> map = userService.getUser("0001");
         log.debug("user 0001:\r\n" + Json.toJson(map));
         Pagination pagination = userService.listPage(1, 10, "大", true, false, "", "");
         log.debug("pagination:\r\n" + Json.toJson(pagination));

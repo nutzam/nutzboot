@@ -14,7 +14,6 @@ import org.nutz.dao.Dao;
 import org.nutz.dao.util.Daos;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
-import org.nutz.lang.random.R;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 

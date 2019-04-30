@@ -200,6 +200,7 @@ public class MainLauncher {
         - [x] starter-mongodb NoSQL的重要一支
         - [x] starter-ssdb by [道坤](https://github.com/albinhdk)
         - [x] starter-elasticsearch by [大鲨鱼](https://github.com/Wizzercn)
+        - [x] starter-[redisson](https://github.com/redisson/redisson) 基于Redis的Java对象/集合/同步锁的分布式实现
         - [ ] memcached
 - Mvc
     - [x] **starter-nutz-mvc Nutz自带的Mvc框架**

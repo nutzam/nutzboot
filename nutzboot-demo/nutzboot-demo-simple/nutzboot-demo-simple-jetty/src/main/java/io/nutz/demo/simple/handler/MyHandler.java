@@ -1,16 +1,15 @@
 package io.nutz.demo.simple.handler;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
 import org.nutz.lang.util.NutMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 @IocBean
 public class MyHandler extends ErrorPageErrorHandler {

@@ -59,7 +59,7 @@ public class FastdfsService {
         IMAGE_THUMB_SUFFIX = conf.get(PROP_IMAGE_THUMBSUFFIX, "-thumb");
         IMAGE_THUMB_WIDTH = conf.getInt(PROP_IMAGE_THUMBWIDTH, 150);
         IMAGE_THUMB_HEIGHT = conf.getInt(PROP_IMAGE_THUMBHEIGHT, 150);
-        GenericObjectPoolConfig cfg = new GenericObjectPoolConfig();
+        GenericObjectPoolConfig<TrackerServer> cfg = new GenericObjectPoolConfig<TrackerServer>();
         cfg.setMaxIdle(conf.getInt(PROP_POOL_MAXIDLE, 10));
         cfg.setMinIdle(conf.getInt(PROP_POOL_MINIDLE, 1));
         cfg.setMaxTotal(conf.getInt(PROP_POOL_MAXTOTAL, 20));
