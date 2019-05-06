@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta charset="UTF-8">
+<title>用户个人主页</title>
+</head>
+<body>
+<h2>登录成功才能看到我,<a href="/user/logout">现在登出</a></h2>
+<h2>
+    当前登录状态: <a shiro:authenticated href="#">已登录</a> <a shiro:guest href="#">未登录</a>
+</h2>
+<a shiro:hasPermission="user:create" href="createUser.html">Create a new User</a>
+<a shiro:hasPermission="user:list" href="createUser.html">User List</a>
+</body>
+</html>

@@ -1,8 +1,11 @@
 package io.nutz.demo.simple.service;
 
-import io.nutz.demo.simple.bean.User;
-import io.nutz.demo.simple.page.Pagination;
-import io.nutz.demo.simple.utils.ElasticsearchUtil;
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
@@ -13,18 +16,15 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
-import org.elasticsearch.search.sort.SortOrder;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+import io.nutz.demo.simple.bean.User;
+import io.nutz.demo.simple.page.Pagination;
+import io.nutz.demo.simple.utils.ElasticsearchUtil;
 
 /**
  * Created by wizzer on 2018/6/15.

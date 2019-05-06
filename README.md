@@ -110,7 +110,7 @@ public class MainLauncher {
 * [IP地址查询服务](https://gitee.com/nutz/ipd4nutzboot) http://ip.nutz.cn 的源码 by wendal
 * [NutzCN-Nutzboot](https://github.com/wendal/nutz-book-project/tree/v5.x) NutzCN社区的源码,5.x分支,NutzBoot版
 * [NutzBoot-Demo-Dao](https://github.com/nutzam/nutzboot/tree/dev/nutzboot-demo/nutzboot-demo-simple/nutzboot-demo-simple-dao) 演示Jetty+Dao的增删改查
-
+* [NutzSite](https://github.com/HaimmingYu/NutzSite) Java快速开发框架
 ## Contributors
 
 * [蛋蛋](https://github.com/TopCoderMyDream)(提交了第一个Banner及打印逻辑)及starter-tio和starter-j2cache
@@ -200,6 +200,7 @@ public class MainLauncher {
         - [x] starter-mongodb NoSQL的重要一支
         - [x] starter-ssdb by [道坤](https://github.com/albinhdk)
         - [x] starter-elasticsearch by [大鲨鱼](https://github.com/Wizzercn)
+        - [x] starter-[redisson](https://github.com/redisson/redisson) 基于Redis的Java对象/集合/同步锁的分布式实现
         - [ ] memcached
 - Mvc
     - [x] **starter-nutz-mvc Nutz自带的Mvc框架**
@@ -214,7 +215,7 @@ public class MainLauncher {
     - [x] [Shiro+LCache](https://github.com/nutzam/nutzmore/tree/master/nutz-plugins-cache)基于shiro/jedis/插件的分布式可持久化的session缓存
 - 分布式事务
     - [x] [tcc-transaction](https://github.com/changmingxie/tcc-transaction/tree/dev-1.2.x)基于tcc-transaction的nutz容器支持
-    - [x] [fescar](https://github.com/alibaba/fescar) 阿里开源的分布式事务引擎
+    - [x] [seata](https://github.com/seata/seata) 阿里开源的分布式事务引擎,原名fescar
 - 计划任务
     - [x] **starter-[quartz](http://www.quartz-scheduler.org)** 大家都知道
     - [x] starter-xxl-job [国产分布式任务调度平台](https://github.com/xuxueli/xxl-job/pull/253)

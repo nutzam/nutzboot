@@ -73,8 +73,8 @@ public class MainLauncher {
     }
 
     public void init() {
-        System.out.println("请访问： http://127.0.0.1:8080/index");
-        System.out.println("请访问错误后恢复token： http://127.0.0.1:8080/index2");
+        log.info("请访问： http://127.0.0.1:8080/index");
+        log.info("请访问错误后恢复token： http://127.0.0.1:8080/index2");
     }
 
 }
