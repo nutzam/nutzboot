@@ -34,6 +34,8 @@ public class CaffeineInterceptor implements MethodInterceptor {
 
     protected KeyStringifier stringifier;
 
+    protected UpdateStrategy updateStrategy;
+
     @Inject("refer:$ioc")
     protected Ioc ioc;
 
@@ -76,7 +78,7 @@ public class CaffeineInterceptor implements MethodInterceptor {
         Cache<String, Object> cache = getCache(strategy);
         String key = getKey(method, chain.getArgs());
         Object value = cache.getIfPresent(key);
-        if (value == null) {
+        if (value == null || updateStrategy.shouldUpdate(key)) {
             chain.doChain();
             cache.put(key, chain.getReturn());
         } else
@@ -87,18 +89,17 @@ public class CaffeineInterceptor implements MethodInterceptor {
         String fullName = String.format("%s.%s", method.getDeclaringClass().getName(), method.getName());
         if (args == null || args.length == 0)
             return fullName;
-        return fullName + Arrays.stream(args).map(stringifier::stringify).collect(Collectors.joining("$"));
+        return fullName + ":" + Arrays.stream(args).map(stringifier::stringify).collect(Collectors.joining("$"));
     }
 
     public void init() {
-        Map<String, CacheStrategy> map = new HashMap<>();
-        String[] types = ioc.getNamesByType(KeyStringifier.class);
-        if (Lang.isEmptyArray(types)) {
-            this.stringifier = String::valueOf;
-        } else {
-            this.stringifier = ioc.get(KeyStringifier.class, types[0]);
-        }
+        String[] stringifierNames = ioc.getNamesByType(KeyStringifier.class);
+        this.stringifier = Lang.isEmptyArray(stringifierNames) ? String::valueOf : ioc.get(KeyStringifier.class, stringifierNames[0]);
         log.debugf("use %s as KeyStringifier", this.stringifier);
+        String[] updateStrategyNames = ioc.getNamesByType(UpdateStrategy.class);
+        this.updateStrategy = Lang.isEmptyArray(updateStrategyNames) ? k -> false : ioc.get(UpdateStrategy.class, updateStrategyNames[0]);
+        log.debugf("use %s as UpdateStrategy", this.updateStrategy);
+        Map<String, CacheStrategy> map = new HashMap<>();
         conf.entrySet().stream().filter(entry -> entry.getKey().startsWith(CaffeineStarter.PRE)).forEach(entry -> {
             if (entry.getValue() == null)
                 return;
