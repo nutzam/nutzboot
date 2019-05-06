@@ -58,21 +58,27 @@ public class PropDocReader {
             String key = Strings.isBlank(prop.key()) ? (String) field.get(null) : prop.key();
 
             // 如果对于的key不存在,那就新建一个PropDocBean,否则就取老的
-            PropDocBean doc = docs.get(key);
-            if (doc == null) {
-                doc = new PropDocBean();
-                doc.key = key;
-                doc.defaultValue = prop.defaultValue();
-                doc.value = prop.value();
-                doc.group = Strings.isBlank(prop.group()) ? doc.key.substring(0, doc.key.indexOf('.')) : prop.group();
-                doc.need = prop.need();
-                doc.possible = prop.possible();
-                doc.users = new ArrayList<>();
-                docs.put(key, doc);
-            }
-            // 把使用这个key的类统统登记一下
-            doc.users.add(klass.getName());
+            PropDocBean doc = new PropDocBean();
+            doc.key = key;
+            doc.defaultValue = prop.defaultValue();
+            doc.value = prop.value();
+            doc.group = Strings.isBlank(prop.group()) ? doc.key.substring(0, doc.key.indexOf('.')) : prop.group();
+            doc.need = prop.need();
+            doc.possible = prop.possible();
+            doc.users = new ArrayList<>();
+            add(klass.getName(), key, doc);
         }
+    }
+    
+    public void add(String klassName, String key, PropDocBean newdoc) {
+        // 如果对于的key不存在,那就新建一个PropDocBean,否则就取老的
+        PropDocBean doc = docs.get(key);
+        if (doc == null) {
+            doc = newdoc;
+            docs.put(key, doc);
+        }
+        // 把使用这个key的类统统登记一下
+        doc.users.add(klassName);
     }
 
     // 输出markdown格式

@@ -1,6 +1,8 @@
 package org.nutz.boot;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -11,6 +13,7 @@ import org.nutz.boot.starter.ServerFace;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.combo.ComboIocLoader;
+import org.nutz.lang.Encoding;
 import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -22,7 +25,7 @@ import org.nutz.log.Logs;
  *
  */
 public class AppContext implements LifeCycle {
-
+    
     private static final Log log = Logs.get();
 
     protected static AppContext _default = new AppContext();
@@ -65,6 +68,8 @@ public class AppContext implements LifeCycle {
      * 一个Starter列表
      */
     protected List<Object> starters = new ArrayList<>();
+    
+    protected String basePath;
 
     /**
      * 获取Ioc容器
@@ -293,20 +298,24 @@ public class AppContext implements LifeCycle {
         if (ioc != null)
             ioc.depose();
     }
+    
+    protected List<ServerFace> serverFaces = new LinkedList<>();
 
     /**
      * 循环调用ServerFace的start方法,通常是一个starter
      */
     public void startServers() throws Exception {
-        for (ServerFace face : getBeans(ServerFace.class))
+        for (ServerFace face : getBeans(ServerFace.class)) {
+            serverFaces.add(face);
             face.start();
+        }
     }
 
     /**
-     * 循环调用ServerFace的start方法,通常是一个starter
+     * 循环调用ServerFace的stop方法,通常是一个starter
      */
     public void stopServers() throws Exception {
-        for (ServerFace face : getBeans(ServerFace.class))
+        for (ServerFace face : serverFaces)
             face.stop();
     }
 
@@ -326,25 +335,56 @@ public class AppContext implements LifeCycle {
         }
         return list;
     }
-
+    
     public int getServerPort(String legacyKey) {
+        return getServerPort(legacyKey, 8080);
+    }
+
+    public int getServerPort(String legacyKey, int defaultValue) {
         if (legacyKey != null && getConf().has(legacyKey)) {
-            log.infof("%s is deprecated, use %s instead", legacyKey, "server.port");
-            return getConf().getInt(legacyKey);
+            int port = getConf().getInt(legacyKey);
+            if (port < 1) {
+                port = new Random(System.currentTimeMillis()).nextInt(10000) + defaultValue;
+                log.debugf("select random port=%d for %s", port, legacyKey);
+                getConf().put(legacyKey, ""+port);
+            }
+            return port;
         }
-        int port = getConf().getInt("server.port", 8080);
+        int port = getConf().getInt("server.port", defaultValue);
         if (port == 0) {
-            port = new Random(System.currentTimeMillis()).nextInt(1000) + 8000;
+            port = new Random(System.currentTimeMillis()).nextInt(10000) + defaultValue;
             getConf().set("server.port", ""+port);
+            log.debugf("select random port=%d for %s and server.port", port, legacyKey);
         }
         return port;
     }
 
     public String getServerHost(String legacyKey) {
         if (legacyKey != null && getConf().has(legacyKey)) {
-            log.infof("%s is deprecated, use %s instead", legacyKey, "server.host");
             return getConf().get(legacyKey);
         }
         return getConf().get("server.host", "0.0.0.0");
+    }
+    
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
+    }
+
+    // 获取应用程序绝对路径
+    public String getBasePath() {
+        if (basePath == null) {
+            try {
+                basePath = getMainClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+                int lastIndex = basePath.lastIndexOf('/');
+                if (lastIndex < 0) {
+                    lastIndex = basePath.lastIndexOf('\\');
+                }
+                basePath = basePath.substring(0, lastIndex);
+                basePath = URLDecoder.decode(basePath, Encoding.UTF8);
+            } catch (Throwable e) {
+                basePath = ".";
+            }
+        }
+        return basePath;
     }
 }

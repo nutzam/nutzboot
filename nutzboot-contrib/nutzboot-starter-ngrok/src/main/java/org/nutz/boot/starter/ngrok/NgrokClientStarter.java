@@ -18,6 +18,9 @@ public class NgrokClientStarter implements ServerFace {
 	
 	@PropDoc(value="服务器端口", defaultValue="4443", type="int")
 	public static final String PROP_SRV_PORT = PRE + "srv_port";
+
+    @PropDoc(value="期望的域名")
+    public static final String PROP_HOSTNAME = PRE + "hostname";
 	
 	@PropDoc(value="目标端口", defaultValue="8080", type="int")
 	public static final String PROP_TO_PORT = PRE + "to_port";
@@ -40,9 +43,12 @@ public class NgrokClientStarter implements ServerFace {
 	public NgrokClient createNgrokClient() {
 		NgrokClient ngrokClient = new NgrokClient();
 		ngrokClient.auth_token = conf.check(PROP_AUTH_TOKEN);
-		if (conf.has(PROP_SRV_HOST)) {
-			ngrokClient.hostname = conf.get(PROP_SRV_HOST);
-		}
+        if (conf.has(PROP_HOSTNAME)) {
+            ngrokClient.hostname = conf.get(PROP_HOSTNAME);
+        }
+        if (conf.has(PROP_SRV_HOST)) {
+            ngrokClient.srv_host = conf.get(PROP_SRV_HOST);
+        }
 		if (conf.has(PROP_SRV_PORT)) {
 			ngrokClient.srv_port = conf.getInt(PROP_SRV_PORT);
 		}

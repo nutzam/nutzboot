@@ -1,11 +1,6 @@
 package org.nutz.boot.starter.jdbc;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.servlet.Servlet;
-
+import com.alibaba.druid.support.http.StatViewServlet;
 import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.starter.WebServletFace;
 import org.nutz.ioc.impl.PropertiesProxy;
@@ -16,7 +11,10 @@ import org.nutz.lang.random.R;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
-import com.alibaba.druid.support.http.StatViewServlet;
+import javax.servlet.Servlet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @IocBean
 public class DruidWebStatServletStarter implements WebServletFace {
@@ -64,7 +62,7 @@ public class DruidWebStatServletStarter implements WebServletFace {
 	@Override
 	public Map<String, String> getInitParameters() {
 		Map<String, String> params = new HashMap<>();
-		Map<String, Object> _tmp = Lang.filter((Map)conf.toMap(), "druid.webstat.servlet.", null, null, null);
+		Map<String, Object> _tmp = Lang.filter((Map)conf.toMap(), PRE, null, null, null);
 		if (!_tmp.containsKey(StatViewServlet.PARAM_NAME_USERNAME))
 			_tmp.put(StatViewServlet.PARAM_NAME_USERNAME, "druid");
 		if (!_tmp.containsKey(StatViewServlet.PARAM_NAME_PASSWORD)) {

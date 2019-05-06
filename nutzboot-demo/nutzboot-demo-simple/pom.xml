@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.nutz</groupId>
 		<artifactId>nutzboot-demo</artifactId>
-		<version>2.2-SNAPSHOT</version>
+		<version>2.3.5-SNAPSHOT</version>
 	</parent>
 	<artifactId>nutzboot-demo-simple</artifactId>
 	<packaging>pom</packaging>
@@ -12,6 +12,7 @@
 		<module>nutzboot-demo-simple-mvc</module>
 		<module>nutzboot-demo-simple-dao</module>
 		<module>nutzboot-demo-simple-redis</module>
+		<module>nutzboot-demo-simple-ssdb</module>
 		<module>nutzboot-demo-simple-mongodb</module>
 		<module>nutzboot-demo-simple-beetl</module>
 		<module>nutzboot-demo-simple-beetlsql</module>
@@ -29,14 +30,37 @@
 		<module>nutzboot-demo-simple-zkclient</module>
 		<module>nutzboot-demo-simple-velocity</module>
 		<module>nutzboot-demo-simple-jetty</module>
-        
+
         <module>nutzboot-demo-simple-caffeine</module>
         <module>nutzboot-demo-simple-hystrix</module>
         <module>nutzboot-demo-simple-eureka-client</module>
         <module>nutzboot-demo-simple-rabbitmq</module>
         <module>nutzboot-demo-simple-xxl-job-executor</module>
         <module>nutzboot-demo-simple-activiti</module>
-	</modules>
+        <module>nutzboot-demo-simple-tio</module>
+        <module>nutzboot-demo-simple-tio-websocket</module>
+        <module>nutzboot-demo-simple-apollo-client</module>
+        <module>nutzboot-demo-simple-config-client</module>
+        <module>nutzboot-demo-simple-quartz</module>
+		<module>nutzboot-demo-simple-j2cache</module>
+		<module>nutzboot-demo-simple-dao-with-slave</module>
+        <module>nutzboot-demo-simple-freemarker</module>
+        <module>nutzboot-demo-simple-tio-mvc</module>
+        <module>nutzboot-demo-simple-web3j</module>
+        <module>nutzboot-demo-simple-mqtt-client</module>
+		<module>nutzboot-demo-simple-elasticsearch</module>
+		<module>nutzboot-demo-simple-email</module>
+		<module>nutzboot-demo-simple-prevent-duplicate-submit</module>
+		<module>nutzboot-demo-simple-jetty-with-jsp</module>
+		<module>nutzboot-demo-simple-zbus</module>
+		<module>nutzboot-demo-simple-mvc-wkcache</module>
+		<module>nutzboot-demo-simple-dao-with-many</module>
+        <module>nutzboot-demo-simple-ftp</module>
+        <module>nutzboot-demo-simple-fastdfs</module>
+        <module>nutzboot-demo-simple-sqlxmltpl</module>
+        <module>nutzboot-demo-simple-thymeleaf-shiro</module>
+        <module>nutzboot-demo-simple-redisson</module>
+    </modules>
 
 	<dependencies>
 		<dependency>
@@ -44,4 +68,13 @@
 			<artifactId>nutzboot-core</artifactId>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.nutz.boot</groupId>
+				<artifactId>nutzboot-maven-plugin</artifactId>
+				<version>${nutzboot.version}</version>
+			</plugin>
+		</plugins>
+	</build>
 </project>

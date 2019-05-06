@@ -2,18 +2,24 @@ package org.nutz.boot.starter.nutz.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.sql.DataSource;
 
 import org.nutz.boot.annotation.PropDoc;
+import org.nutz.boot.starter.jdbc.DataSourceStarter;
 import org.nutz.dao.SqlManager;
 import org.nutz.dao.impl.FileSqlManager;
 import org.nutz.dao.impl.NutDao;
+import org.nutz.dao.impl.sql.run.NutDaoRunner;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
+import org.nutz.lang.util.Regex;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.plugins.cache.dao.DaoCacheInterceptor;
@@ -28,7 +34,7 @@ import org.nutz.plugins.cache.dao.impl.provider.RedisDaoCacheProvider;
 import net.sf.ehcache.CacheManager;
 import redis.clients.jedis.JedisPool;
 
-@IocBean
+@IocBean(create="init")
 public class NutDaoStarter {
 
     private static final Log log = Logs.get();
@@ -75,6 +81,10 @@ public class NutDaoStarter {
 
     @Inject("refer:$ioc")
     protected Ioc ioc;
+
+    public void init() {
+        injectManyDao();
+    }
 
     @IocBean
     public SqlManager getSqlManager() {
@@ -170,7 +180,48 @@ public class NutDaoStarter {
 
         // 将拦截器赋予dao对象
         dao.setInterceptors(interceptors);
+        // 看看是不是需要注入从数据库
+        if (Lang.loadClassQuite("org.nutz.boot.starter.jdbc.DataSourceStarter") != null) {
+            DataSource slaveDataSource = DataSourceStarter.getSlaveDataSource(ioc, conf, "jdbc.slave.");
+            if (slaveDataSource != null) {
+                NutDaoRunner runner = new NutDaoRunner();
+                runner.setSlaveDataSource(slaveDataSource);
+                dao.setRunner(runner);
+            }
+        }
         return dao;
+    }
+
+    private void injectManyDao() {
+        // 正则匹配多数据库url
+        String regex = "jdbc\\.many\\.(\\w*)\\.url";
+        for (String key : conf.getKeys()) {
+            Pattern pattern = Regex.getPattern(regex);
+            Matcher match = pattern.matcher(key);
+            if(match.find()) {
+                // 获取数据库名称
+                String name = match.group(1);
+                String prefix_name = "jdbc.many." + name + ".";
+                try {
+                    DataSource manyDataSource = DataSourceStarter.createManyDataSource(ioc, conf, prefix_name);
+                    NutDao nutDao = new NutDao();
+                    nutDao.setDataSource(manyDataSource);
+                    // 处理对应的从库
+                    String slave_prefix = prefix_name + "slave.";
+                    DataSource slaveDataSource = DataSourceStarter.getManySlaveDataSource(ioc, conf, slave_prefix);
+                    if(slaveDataSource != null) {
+                        NutDaoRunner runner = new NutDaoRunner();
+                        runner.setSlaveDataSource(slaveDataSource);
+                        nutDao.setRunner(runner);
+                    }
+                    // 加入到ioc对象
+                    ioc.addBean(name + "Dao", nutDao);
+                }
+                catch (Exception e) {
+                    throw new RuntimeException("datasource init error "+prefix_name, e);
+                }
+            }
+        }
     }
 
     /**

@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.nutz</groupId>
+    <artifactId>nutzboot-starter</artifactId>
+    <version>2.3.5-SNAPSHOT</version>
+  </parent>
+  <artifactId>nutzboot-starter-actuator</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.nutz</groupId>
+  		<artifactId>nutzboot-starter-nutz-mvc</artifactId>
+  		<scope>provided</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.eclipse.jetty.websocket</groupId>
+  		<artifactId>websocket-client</artifactId>
+  		<version>${jetty.version}</version>
+  	</dependency>
+  </dependencies>
+</project>

@@ -1,1 +1,2 @@
 org.nutz.boot.starter.beetl.BeetlViewMakerStarter
+org.nutz.boot.starter.beetl.BeetlGroupTemplateStarter

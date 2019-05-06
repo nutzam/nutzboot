@@ -26,8 +26,6 @@ hs_err_pid*
 .project
 WebContent/WEB-INF/classes
 WebContent/META-INF/
-*.zip
-/target/
 dump.rdb
 WebContent/apidocs/
 .idea
@@ -36,7 +34,7 @@ ehcache.disk.store.dir
 build/
 .gradle/
 local.properties
-*/target/**
+**/target/
 
 .gitignore
 dependency-reduced-pom.xml

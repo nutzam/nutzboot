@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NutzBoot Eureka Server</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <script>
+    function activeStatus() {
+      $('li.status').addClass("active");
+      $('li.lastn').removeClass("active");
+      $('#status').show();
+      $('#lastn').hide();
+    }
+
+    function activeLastn() {
+      $('li.status').removeClass("active");
+      $('li.lastn').addClass("active");
+      $('#status').hide();
+      $('#lastn').show();
+    }
+  </script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" :href="home">NutzBoot Eureka</a>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active status">
+          <a href="javascript:void(0);" onclick="activeStatus()">Home</a>
+        </li>
+        <li class="lastn">
+          <a href="javascript:void(0);" onclick="activeLastn()">Last 1000 since startup</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div id="content" class="container-fluid" style="padding: 50px;" v-once>
+  <h1>System Status</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <table class="table" id="instances-left">
+        <template v-if="amazonInfo">
+          <tr>
+            <td><strong>EUREKA SERVER</strong></td>
+            <td>AMI: {{ amiId }}</td>
+          </tr>
+          <tr>
+            <td><strong>Zone</strong></td>
+            <td>{{ availabilityZone }}</td>
+          </tr>
+          <tr>
+            <td><strong>instance-id</strong></td>
+            <td>{{ instanceId }}</td>
+          </tr>
+        </template>
+        <tr>
+          <td><strong>Environment</strong></td>
+          <td>{{ environment }}</td>
+        </tr>
+        <tr>
+          <td><strong>Data center</strong></td>
+          <td>{{ datacenter }}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-md-6">
+      <table class="table" id="instances-right">
+        <tr>
+          <td><strong>Current time</strong></td>
+          <td>{{ currentTime }}</td>
+        </tr>
+        <tr>
+          <td><strong>Uptime</strong></td>
+          <td>{{ upTime }}</td>
+        </tr>
+        <tr>
+          <td><strong>Lease expiration enabled</strong></td>
+          <td>{{ registry.leaseExpirationEnabled }}</td>
+        </tr>
+        <tr>
+          <td><strong>Renews threshold</strong></td>
+          <td>{{ registry.numOfRenewsPerMinThreshold }}</td>
+        </tr>
+        <tr>
+          <td><strong>Renews (last min)</strong></td>
+          <td>{{ registry.numOfRenewsInLastMin }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="warning">
+    <template v-if="isBelowRenewThresold">
+      <h4 id="uptime" class="text-danger" v-if="!registry.selfPreservationModeEnabled">
+        RENEWALS ARE LESSER THAN THE THRESHOLD. THE SELF PRESERVATION MODE IS TURNED OFF.THIS MAY
+        NOT PROTECT INSTANCE EXPIRY IN CASE OF NETWORK/OTHER PROBLEMS.
+      </h4>
+      <h4 id="uptime" class="text-danger" v-else>
+        EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY'RE NOT. RENEWALS
+        ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE
+        SAFE.
+      </h4>
+    </template>
+    <h4 id="uptime" class="text-danger" v-else-if="!registry.selfPreservationModeEnabled">
+      THE SELF PRESERVATION MODE IS TURNED OFF.THIS MAY NOT PROTECT INSTANCE EXPIRY IN CASE OF
+      NETWORK/OTHER PROBLEMS.
+    </h4>
+  </div>
+
+  <h1>DS Replicas</h1>
+  <ul class="list-group" id="replicas">
+    <li class="list-group-item" v-for="replica in replicas">
+      <a :href="replica.value">{{ replica.key }}</a>
+    </li>
+  </ul>
+
+  <div id="status">
+    <h1>Instances currently registered with Eureka</h1>
+    <table id='instances' class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th>Application</th>
+        <th>AMIs</th>
+        <th>Availability Zones</th>
+        <th>Status</th>
+      </tr>
+      </thead>
+      <tbody id="instances-tbody">
+      <tr v-for="app in apps">
+        <td><strong>{{ app.name }}</strong></td>
+        <td>
+          <template v-for="(item, index) in app.amiCounts">
+            <strong>{{ item.key }}</strong> {{ item.value }}
+            <template v-if="index < app.amiCounts.length - 1">,&nbsp;</template>
+          </template>
+        </td>
+        <td>
+          <template v-for="(item, index) in app.zoneCounts">
+            <strong>{{ item.key }}</strong>&nbsp;{{ item.value }}
+            <template v-if="index < app.zoneCounts.length - 1">,&nbsp;</template>
+          </template>
+        </td>
+        <td>
+          <template v-for="instanceInfo in app.instanceInfos">
+            <strong v-if="instanceInfo.isNotUp">
+              <strong>{{ instanceInfo.status }}</strong>&nbsp;{{ instanceInfo.instances.length }}&nbsp;-&nbsp;
+            </strong>
+            <template v-for="(instance, index) in instanceInfo.instances">
+              <a :href="instance.url" target="_blank" v-if="instance.isHref">{{ instance.id }}</a>
+              <template v-else>{{ instance.id }}</template>
+              <template v-if="index < instanceInfo.instances.length - 1">,&nbsp;</template>
+            </template>
+          </template>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <h1>General Info</h1>
+    <table id='generalInfo' class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="(value, key) in statusInfo.generalStats">
+        <td>{{ key }}</td>
+        <td>{{ value }}</td>
+      </tr>
+      <tr v-for="(value, key) in statusInfo.applicationStats">
+        <td>{{ key }}</td>
+        <td>{{ value }}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <h1>Instance Info</h1>
+    <table id='instanceInfo' class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="(value, key) in instanceInfo">
+        <td>{{ key }}</td>
+        <td>{{ value }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="lastn" style="display: none">
+    <hr>
+    <div id="xd-jobs" class="tab-pane active col-md-12">
+      <ul class="nav nav-tabs" role="tablist" id="myTab">
+        <li class="active"><a data-toggle="tab" href="#cancelled">Last 1000 cancelled leases</a>
+        </li>
+        <li><a data-toggle="tab" href="#registered">Last 1000 newly registered leases</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane" id="cancelled">
+          <table id='lastNCanceled' class="table table-striped table-hover">
+            <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Lease</th>
+            </tr>
+            </thead>
+            <tbody>
+            <template v-for="entry in lastNCanceled">
+              <tr>
+                <td>{{ entry.date }}</td>
+                <td>{{ entry.id }}</td>
+              </tr>
+            </template>
+            <template v-if="lastNCanceled.length == 0">
+              <tr>
+                <td colspan="2">No results available</td>
+              </tr>
+            </template>
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane" id="registered">
+          <table id='lastNRegistered' class="table table-striped table-hover">
+            <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Lease</th>
+            </tr>
+            </thead>
+            <tbody>
+            <template v-for="entry in lastNRegistered">
+              <tr>
+                <td>{{ entry.date }}</td>
+                <td>{{ entry.id }}</td>
+              </tr>
+            </template>
+            <template v-if="lastNRegistered.length == 0">
+              <tr>
+                <td colspan="2">No results available</td>
+              </tr>
+            </template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/vue.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+  $(function () {
+    $.getJSON('./action/status.json', function (data) {
+      new Vue({
+        el: 'nav',
+        data: {home: data.basePath + 'status'}
+      });
+      new Vue({
+        el: '#content',
+        data: data
+      });
+    });
+  });
+</script>
+</body>
+</html>

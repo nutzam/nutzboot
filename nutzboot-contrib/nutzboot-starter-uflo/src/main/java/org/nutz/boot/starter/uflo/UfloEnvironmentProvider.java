@@ -3,11 +3,15 @@ package org.nutz.boot.starter.uflo;
 import org.hibernate.SessionFactory;
 import org.nutz.boot.AppContext;
 import org.nutz.ioc.Ioc;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.bstek.uflo.env.EnvironmentProvider;
 
 public class UfloEnvironmentProvider implements EnvironmentProvider {
+    
+    private static final Log log = Logs.get();
 
     protected SessionFactory sessionFactory;
     protected PlatformTransactionManager platformTransactionManager;
@@ -16,14 +20,14 @@ public class UfloEnvironmentProvider implements EnvironmentProvider {
 
     public String getCategoryId() {
         checkOrigin();
-        if (origin != null)
+        if (origin != null && origin != this)
             return origin.getCategoryId();
         return null;
     }
 
     public String getLoginUser() {
         checkOrigin();
-        if (origin != null)
+        if (origin != null && origin != this)
             return origin.getLoginUser();
         return "anonymous";
     }
@@ -34,6 +38,9 @@ public class UfloEnvironmentProvider implements EnvironmentProvider {
             if (ioc.has("uflo.environmentProvider")) {
                 origin = ioc.get(EnvironmentProvider.class, "uflo.environmentProvider");
             }
+        }
+        if (origin == this) {
+            log.warn("you have to define a class implements EnvironmentProvider and mask @IocBean(name='uflo.environmentProvider')");
         }
     }
 

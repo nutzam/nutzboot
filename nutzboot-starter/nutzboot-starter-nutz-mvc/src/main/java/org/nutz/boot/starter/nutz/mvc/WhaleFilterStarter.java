@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 
+import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.starter.WebFilterFace;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
@@ -16,7 +17,17 @@ import org.nutz.mvc.WhaleFilter;
 
 @IocBean
 public class WhaleFilterStarter implements WebFilterFace {
-	
+
+    @PropDoc(value="在其他Filter之前设置input编码", defaultValue="UTF-8")
+    public static final String PROP_ENC_INPUT = "nutz.mvc.whale.enc.input";
+    @PropDoc(value="在其他Filter之前设置output编码", defaultValue="UTF-8")
+    public static final String PROP_ENC_OUTPUT = "nutz.mvc.whale.enc.output";
+    @PropDoc(value="隐形http方法参数转换所对应的参数名")
+    public static final String PROP_HIDDEN_METHOD_PARAM = "nutz.mvc.whale.http.hidden_method_param";
+    @PropDoc(value="是否允许使用X-HTTP-Method-Override", defaultValue="false")
+    public static final String PROP_HTTP_METHOD_OVERRIDE = "nutz.mvc.whale.http.method_override";
+    @PropDoc(value="是否启用隐形Upload支持", defaultValue="false")
+    public static final String PROP_HIDDEN_UPLOAD_ENABLE = "nutz.mvc.whale.upload.enable";
 	
 	@Inject("refer:$ioc")
 	protected Ioc ioc;
@@ -47,16 +58,16 @@ public class WhaleFilterStarter implements WebFilterFace {
 
     public Map<String, String> getInitParameters() {
         Map<String, String> params = new HashMap<>();
-        params.put("enc.input", conf.get("nutz.mvc.whale.enc.input", "UTF-8"));
-        params.put("enc.output", conf.get("nutz.mvc.whale.enc.output", "UTF-8"));
-        if (conf.has("nutz.mvc.whale.http.hidden_method_param")) {
-        	params.put("http.hidden_method_param", conf.get("nutz.mvc.whale.http.hidden_method_param"));
+        params.put("enc.input", conf.get(PROP_ENC_INPUT, "UTF-8"));
+        params.put("enc.output", conf.get(PROP_ENC_OUTPUT, "UTF-8"));
+        if (conf.has(PROP_HIDDEN_METHOD_PARAM)) {
+        	params.put("http.hidden_method_param", conf.get(PROP_HIDDEN_METHOD_PARAM));
         }
-        if (conf.has("nutz.mvc.whale.http.method_override")) {
-        	params.put("http.method_override", conf.get("nutz.mvc.whale.http.method_override"));
+        if (conf.has(PROP_HTTP_METHOD_OVERRIDE)) {
+        	params.put("http.method_override", conf.get(PROP_HTTP_METHOD_OVERRIDE));
         }
-        if (conf.has("nutz.mvc.whale.upload.enable")) {
-        	params.put("upload.enable", conf.get("nutz.mvc.whale.upload.enable"));
+        if (conf.has(PROP_HIDDEN_UPLOAD_ENABLE)) {
+        	params.put("upload.enable", conf.get(PROP_HIDDEN_UPLOAD_ENABLE));
         }
         return params;
     }

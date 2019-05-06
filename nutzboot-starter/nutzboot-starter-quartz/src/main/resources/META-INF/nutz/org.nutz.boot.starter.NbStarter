@@ -1,1 +1,2 @@
+org.nutz.boot.starter.quartz.QuartzIocLoaderStarter
 org.nutz.boot.starter.quartz.QuartzStarter

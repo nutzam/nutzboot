@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>nutzboot-demo-simple</artifactId>
+        <groupId>org.nutz</groupId>
+        <version>2.3.5-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>nutzboot-demo-simple-tio-mvc</artifactId>
+    <packaging>jar</packaging>
+
+    <name>nutzboot-demo-simple-tio-mvc</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.nutz</groupId>
+            <artifactId>nutzboot-starter-tio-mvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>org.nutz</groupId>
+        	<artifactId>nutzboot-starter-nutz-dao</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>org.nutz</groupId>
+        	<artifactId>nutzboot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>com.h2database</groupId>
+        	<artifactId>h2</artifactId>
+        	<version>1.4.193</version>
+        </dependency>
+    </dependencies>
+</project>

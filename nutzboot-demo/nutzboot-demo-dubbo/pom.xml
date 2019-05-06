@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.nutz</groupId>
     <artifactId>nutzboot-demo</artifactId>
-    <version>2.2-SNAPSHOT</version>
+    <version>2.3.5-SNAPSHOT</version>
   </parent>
   <artifactId>nutzboot-demo-dubbo</artifactId>
   <packaging>pom</packaging>
@@ -13,6 +13,7 @@
   	<module>nutzboot-demo-dubbo-rpc-service</module>
   </modules>
   <properties>
+  	<zkclient.version>0.11</zkclient.version>
   </properties>
 
   <dependencies>

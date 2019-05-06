@@ -70,6 +70,5 @@ public class UserModule {
     
     public void setUserService(UserService userService) {
         this.userService = userService;
-        System.out.println("fuck");
     }
 }

@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.nutz.boot.AppContext;
+import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.starter.WebServletFace;
+import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -28,14 +30,17 @@ import io.swagger.util.Json;
 public class SwaggerServletStarter extends HttpServlet implements WebServletFace {
     
 	private static final long serialVersionUID = 988318972932805253L;
+	
+	protected static final String PRE = "swagger.";
+	
+	@PropDoc(value = "是否启用swagger", defaultValue = "true", type = "boolean")
+    public static final String PROP_ENABLE = PRE + "enable";
 
 	@Inject
     protected PropertiesProxy conf;
 
     @Inject
     protected AppContext appContext;
-    
-    protected Swagger swagger;
 
     public String getName() {
         return "swagger";
@@ -46,6 +51,8 @@ public class SwaggerServletStarter extends HttpServlet implements WebServletFace
     }
 
     public Servlet getServlet() {
+        if (!conf.getBoolean(PROP_ENABLE, true))
+            return null;
         return this;
     }
 
@@ -53,18 +60,28 @@ public class SwaggerServletStarter extends HttpServlet implements WebServletFace
         return new HashMap<>();
     }
     
+    @IocBean(name="swagger")
+    public Swagger createSwagger() {
+        return conf.makeDeep(Swagger.class, "swagger.conf.");
+    }
+    
+    @IocBean(name="swaggerInfo")
+    public Info createSwaggerInfo() {
+        return conf.makeDeep(Info.class, "swagger.info.");
+    }
+    
 
     public void init(ServletConfig config) throws ServletException {
-        PropertiesProxy conf = appContext.getConfigureLoader().get();
-        swagger = conf.makeDeep(Swagger.class, "swagger.conf.");
-        Info info = conf.makeDeep(Info.class, "swagger.info.");
-        swagger.setInfo(info);
+        Ioc ioc = appContext.getIoc();
+        Swagger swagger = ioc.get(Swagger.class);
+        swagger.setInfo(ioc.get(Info.class, "swaggerInfo"));
         HashSet<Class<?>> classes = new HashSet<>();
         String pkgName = conf.get("swagger.resource.package", appContext.getPackage());
         for (Class<?> klass : Scans.me().scanPackage(pkgName)) {
             classes.add(klass);
         }
         Reader.read(swagger, classes);
+        config.getServletContext().setAttribute("swagger", swagger);
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -73,7 +90,7 @@ public class SwaggerServletStarter extends HttpServlet implements WebServletFace
         if (pathInfo.endsWith("/swagger.json")) {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().println(Json.mapper().writeValueAsString(swagger));
+            response.getWriter().println(Json.mapper().writeValueAsString(request.getServletContext().getAttribute("swagger")));
         } else {
             response.setStatus(404);
         }
