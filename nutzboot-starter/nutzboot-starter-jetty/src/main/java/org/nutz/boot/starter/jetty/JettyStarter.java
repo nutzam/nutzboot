@@ -70,6 +70,9 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     @PropDoc(value = "表单最大尺寸", defaultValue = "1gb", type = "int")
     public static final String PROP_MAX_FORM_CONTENT_SIZE = PRE + "maxFormContentSize";
 
+    @PropDoc(value = "表单最大key数量", defaultValue = "1000", type = "int")
+    public static final String PROP_MAX_FORM_KEYS = PRE + "maxFormKeys";
+
     @PropDoc(value = "Session空闲时间,单位分钟", defaultValue = "30", type = "int")
     public static final String PROP_SESSION_TIMEOUT = "web.session.timeout";
 
@@ -292,6 +295,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         // 设置一下额外的东西
         server.setAttribute("org.eclipse.jetty.server.Request.maxFormContentSize", getMaxFormContentSize());
         updateMonitorValue("maxFormContentSize", server.getAttribute("org.eclipse.jetty.server.Request.maxFormContentSize"));
+        server.setAttribute("org.eclipse.jetty.server.Request.maxFormKeys", getMaxFormKeys());
         server.setDumpAfterStart(false);
         server.setDumpBeforeStop(false);
         server.setStopAtShutdown(true);
@@ -312,6 +316,10 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
 
     public int getMaxFormContentSize() {
         return conf.getInt(PROP_MAX_FORM_CONTENT_SIZE, 1024 * 1024 * 1024);
+    }
+    
+    public int getMaxFormKeys() {
+        return conf.getInt(PROP_MAX_FORM_KEYS, 1000);
     }
 
     public int getIdleTimeout() {
