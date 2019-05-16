@@ -6,6 +6,8 @@ import org.nutz.lang.util.NutMap;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 
+import ognl.Ognl;
+
 @IocBean
 public class MainLauncher {
 
@@ -16,6 +18,7 @@ public class MainLauncher {
     }
 
     public static void main(String[] args) throws Exception {
+        Ognl.parseExpression("user.image?.base64");
         new NbApp().run();
     }
 
