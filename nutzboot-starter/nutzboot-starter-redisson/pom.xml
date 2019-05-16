@@ -55,9 +55,5 @@
 			<groupId>org.nutz</groupId>
 			<artifactId>nutz-integration-redisson</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
-		</dependency>
 	</dependencies>
 </project>
