@@ -1,5 +1,23 @@
 # NB进化史
 
+# 2.3.5.v2019516 "Rewrite The Stars"
+
+适配seata 0.5.1, 添加redisson支持
+
+* 时间: 2019-05-16
+* 曲目: [Rewrite The Stars](https://y.qq.com/n/yqq/song/205642008_num.html)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+
+* 变更:
+	* add: 重新实现starter-thymeleaf,并添加thymeleaf+shiro的demo
+	* add: 添加demo nutzsite
+	* add: 添加starter-redisson
+	* update: 改进ElasticsearchStarter,支持所有PreBuiltTransportClient配置项
+	* update: 更新tomcat版本到8.5.40
+	* fix: 减少AbstractServletContainerStarter对NbApp内部机制的依赖性
+	* fix: 希望 starter-caffeine 能有方法可以更新缓存
+	* fix: jetty.maxFormKeys 设置无效
+
 # 2.3.4.v2019410 "蓝色多瑙河"
 
 添加对sqltplxml的内置支持^_^
