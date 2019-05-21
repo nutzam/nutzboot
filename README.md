@@ -149,6 +149,7 @@ public class MainLauncher {
 * [转换为NB项目](doc/convert2nb.md)
 * [Maven Plugin](https://github.com/nutzam/nutzboot-maven-plugin)
 * [配置信息总表](doc/configure.md) 不定期更新,可通过nutzboot:propdoc生成
+* [Jetty配置详解](doc/jetty_usage.md)
 
 ## 开发进度
 
