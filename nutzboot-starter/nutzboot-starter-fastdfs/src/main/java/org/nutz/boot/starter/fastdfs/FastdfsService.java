@@ -18,11 +18,10 @@ import org.nutz.lang.util.Disks;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Map;
 import java.util.Properties;
 
@@ -479,4 +478,108 @@ public class FastdfsService {
         return path;
     }
 
+    /**
+     * 上传图片并生成缩略图、水印图
+     *
+     * @param image     原图
+     * @param watermark 水印图
+     * @param ext       后缀名
+     * @param metaInfo  元信息
+     * @param mode      0-常规,1-平铺,2-拉伸
+     * @param margin_x  水印之间的水平间距
+     * @param margin_y  水印之间的垂直间距
+     * @param opacity   水印透明度
+     * @param markAngle 水印旋转角度，应在正负45度之间
+     * @return
+     */
+    public String uploadImage(byte[] image, byte[] watermark, String ext, Map<String, String> metaInfo, int mode, int margin_x, int margin_y, float opacity, int markAngle) {
+        String path = "";
+        TrackerServer trackerServer = null;
+        StorageClient1 storageClient1 = null;
+        ByteArrayOutputStream thumbOs = new ByteArrayOutputStream();
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try {
+            trackerServer = fastDfsClientPool.borrowObject();
+            storageClient1 = new StorageClient1(trackerServer, null);
+            NameValuePair data[] = null;
+            if (Lang.isNotEmpty(metaInfo)) {
+                data = new NameValuePair[metaInfo.size()];
+                int index = 0;
+                for (Map.Entry<String, String> entry : metaInfo.entrySet()) {
+                    data[index] = new NameValuePair(entry.getKey(), entry.getValue());
+                    index++;
+                }
+            }
+            path = storageClient1.uploadFile1(image, ext, data);
+            byte[] bytes = markImage(new ByteArrayInputStream(image), new ByteArrayInputStream(watermark), ext, mode, margin_x, margin_y, opacity, markAngle);
+            BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytes));
+            Images.write(bufferedImage, ext, os);
+            storageClient1.uploadFile1(path, IMAGE_WATERMARK_SUFFIX, os.toByteArray(), ext, data);
+            BufferedImage read = Images.read(image);
+            BufferedImage bufferedImageThumb = Images.zoomScale(read, IMAGE_THUMB_WIDTH, IMAGE_THUMB_HEIGHT);
+            Images.write(bufferedImageThumb, ext, thumbOs);
+            storageClient1.uploadFile1(path, IMAGE_THUMB_SUFFIX, thumbOs.toByteArray(), ext, data);
+
+        } catch (Exception e) {
+            log.error(e);
+            throw Lang.makeThrow("[FastdfsService] upload images error : %s", e.getMessage());
+        } finally {
+            Streams.safeClose(os);
+            Streams.safeClose(thumbOs);
+            try {
+                if (trackerServer != null)
+                    fastDfsClientPool.returnObject(trackerServer);
+                storageClient1 = null;
+            } catch (Exception e) {
+                log.error(e);
+            }
+        }
+        return path;
+    }
+
+    /**
+     * 给图片添加带角度的水印
+     *
+     * @param originImgStream 原始图片的数据流
+     * @param markImgStream   水印的数据流
+     * @param ext             文件后缀名
+     * @param mode            0-常规,1-平铺,2-拉伸
+     * @param margin_x        水印之间的水平间距
+     * @param margin_y        水印之间的垂直间距
+     * @param opacity         水印透明度
+     * @param markAngle       水印旋转角度，应在正负45度之间
+     * @throws IOException
+     */
+    public static byte[] markImage(InputStream originImgStream, InputStream markImgStream, String ext, int mode, int margin_x, int margin_y, float opacity, double markAngle) throws IOException {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        if (markAngle > 45 || markAngle < -45) {
+            throw new RuntimeException("[FastdfsService] Rotation angle must be between positive and negative 45 degrees");
+        }
+        BufferedImage originImg = ImageIO.read(originImgStream);
+        BufferedImage markImage = ImageIO.read(markImgStream);
+        if (null == markImage) {
+            ImageIO.write(originImg, ext, os);
+            return os.toByteArray();
+        }
+
+        Graphics2D graphics = (Graphics2D) originImg.getGraphics();
+        graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, opacity));
+        graphics.rotate(markAngle);
+        //0-常规,1-平铺,2-拉伸
+        if (mode == 1) {
+            int canvasHeight = originImg.getHeight();
+            int canvasWidth = originImg.getWidth();
+            int markHeight = markImage.getHeight();
+            int markWidth = markImage.getHeight();
+            int interval = markWidth + markHeight;
+            for (int i = -canvasHeight; i < canvasWidth + canvasHeight; i = i + interval + margin_x) {
+                for (int j = -canvasWidth; j < canvasHeight + canvasWidth; j = j + interval + margin_y) {
+                    graphics.drawImage(markImage, i, j, markImage.getWidth(), markImage.getHeight(), null);
+                }
+            }
+        }
+        graphics.dispose();
+        ImageIO.write(originImg, ext, os);
+        return os.toByteArray();
+    }
 }
