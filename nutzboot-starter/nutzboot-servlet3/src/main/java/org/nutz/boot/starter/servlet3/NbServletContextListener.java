@@ -7,6 +7,7 @@ import java.util.EventListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -99,6 +100,11 @@ public class NbServletContextListener implements ServletContextListener {
                 dyna.addMapping(pathSpec);
             }
             dyna.setInitParameters(face.getInitParameters());
+            dyna.setAsyncSupported(face.isAsyncSupported());
+            MultipartConfigElement multipartConfig = face.getMultipartConfig();
+            if (multipartConfig != null)
+                dyna.setMultipartConfig(multipartConfig);
+            dyna.setLoadOnStartup(face.getLoadOnStartup());
         });
         // 注册监听器
         appContext.getBeans(WebEventListenerFace.class).forEach((face) -> {
