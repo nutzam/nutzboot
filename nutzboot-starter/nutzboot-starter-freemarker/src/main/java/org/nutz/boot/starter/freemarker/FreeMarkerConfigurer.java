@@ -128,7 +128,7 @@ public class FreeMarkerConfigurer {
             configuration.setSettings(p);
         }
         File f = Files.findFile(prefix);
-        if (f == null)
+        if (f == null || f.getPath().contains("jar!"))
             configuration.setClassForTemplateLoading(getClass(), prefix);
         else
             configuration.setDirectoryForTemplateLoading(f);
