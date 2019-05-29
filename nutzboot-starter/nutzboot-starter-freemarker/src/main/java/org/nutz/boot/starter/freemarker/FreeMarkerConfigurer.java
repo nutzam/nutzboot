@@ -24,6 +24,8 @@ import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.mvc.Mvcs;
 
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.SimpleHash;
@@ -40,6 +42,7 @@ public class FreeMarkerConfigurer {
     private String suffix;
     private FreemarkerDirectiveFactory freemarkerDirectiveFactory;
     private Map<String, Object> tags = new HashMap<>();
+    private TemplateLoader templateLoader;
 
     public FreeMarkerConfigurer() {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
@@ -60,7 +63,16 @@ public class FreeMarkerConfigurer {
         this.configuration = configuration;
         URL url = ClassTools.getClassLoader().getResource(prefix);
         String path = url.getPath();
-        this.prefix = path;
+        if (path != null) {
+            if (path.contains("jar!")) {
+                this.prefix = prefix;
+                log.info("using classload for TemplateLoading : " + prefix);
+                templateLoader = new ClassTemplateLoader(getClass().getClassLoader(), prefix);
+            }
+            else {
+                this.prefix = path;
+            }
+        }
         this.suffix = suffix;
         this.freemarkerDirectiveFactory = freemarkerDirectiveFactory;
         if (this.prefix == null)
@@ -121,20 +133,25 @@ public class FreeMarkerConfigurer {
 
     protected void initFreeMarkerConfigurer() throws IOException, TemplateException {
         String path = freemarkerDirectiveFactory.getFreemarker();
-        File file = Files.findFile(path);
-        if (!Lang.isEmpty(file)) {
-            Properties p = new Properties();
-            p.load(Streams.fileIn(file));
-            configuration.setSettings(p);
-        }
-        File f = Files.findFile(prefix);
-        if (f == null || f.getPath().contains("jar!")) {
-            log.info("using classload for TemplateLoading");
-            configuration.setClassLoaderForTemplateLoading(getClass().getClassLoader(), prefix);
+        if (templateLoader == null) {
+            File file = Files.findFile(path);
+            if (!Lang.isEmpty(file)) {
+                Properties p = new Properties();
+                p.load(Streams.fileIn(file));
+                configuration.setSettings(p);
+            }
+            File f = Files.findFile(prefix);
+            if (f == null || f.getPath().contains("jar!")) {
+                log.info("using classload for TemplateLoading : " + prefix);
+                configuration.setClassLoaderForTemplateLoading(getClass().getClassLoader(), prefix);
+            }
+            else {
+                log.info("using Directory for TemplateLoading : " + prefix);
+                configuration.setDirectoryForTemplateLoading(f);
+            }
         }
         else {
-            log.info("using Directory for TemplateLoading");
-            configuration.setDirectoryForTemplateLoading(f);
+            configuration.setTemplateLoader(templateLoader);
         }
     }
 
