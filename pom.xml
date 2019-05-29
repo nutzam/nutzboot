@@ -48,6 +48,7 @@
 		<commons-pool2.version>2.6.1</commons-pool2.version>
 		<fescar.version>0.4.1</fescar.version>
 		<seata.version>0.5.1</seata.version>
+		<redisson.version>3.10.7</redisson.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
