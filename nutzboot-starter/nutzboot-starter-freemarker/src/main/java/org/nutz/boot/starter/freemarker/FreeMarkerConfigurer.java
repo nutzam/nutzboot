@@ -128,10 +128,14 @@ public class FreeMarkerConfigurer {
             configuration.setSettings(p);
         }
         File f = Files.findFile(prefix);
-        if (f == null || f.getPath().contains("jar!"))
-            configuration.setClassForTemplateLoading(getClass(), prefix);
-        else
+        if (f == null || f.getPath().contains("jar!")) {
+            log.info("using classload for TemplateLoading");
+            configuration.setClassLoaderForTemplateLoading(getClass().getClassLoader(), prefix);
+        }
+        else {
+            log.info("using Directory for TemplateLoading");
             configuration.setDirectoryForTemplateLoading(f);
+        }
     }
 
     public void setTags(Map<String, Object> map) {
