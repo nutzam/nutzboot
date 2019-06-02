@@ -100,11 +100,15 @@ public class NbServletContextListener implements ServletContextListener {
                 dyna.addMapping(pathSpec);
             }
             dyna.setInitParameters(face.getInitParameters());
-            dyna.setAsyncSupported(face.isAsyncSupported());
-            MultipartConfigElement multipartConfig = face.getMultipartConfig();
-            if (multipartConfig != null)
-                dyna.setMultipartConfig(multipartConfig);
-            dyna.setLoadOnStartup(face.getLoadOnStartup());
+            try {
+                dyna.setAsyncSupported(face.isAsyncSupported());
+                MultipartConfigElement multipartConfig = face.getMultipartConfig();
+                if (multipartConfig != null)
+                    dyna.setMultipartConfig(multipartConfig);
+                dyna.setLoadOnStartup(face.getLoadOnStartup());
+            }
+            catch (Throwable e) {
+            }
         });
         // 注册监听器
         appContext.getBeans(WebEventListenerFace.class).forEach((face) -> {
