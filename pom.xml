@@ -16,15 +16,15 @@
 		<logback.version>1.2.3</logback.version>
 		<dubbo.version>2.6.6</dubbo.version>
 		<sentinel.version>1.5.0</sentinel.version>
-		<jetty.version>9.4.15.v20190215</jetty.version>
-		<tomcat.version>8.5.40</tomcat.version>
+		<jetty.version>9.4.18.v20190429</jetty.version>
+		<tomcat.version>8.5.42</tomcat.version>
 		<shiro.version>1.3.2</shiro.version>
 		<jetx.version>2.1.8</jetx.version>
 		<cxf.version>3.1.15</cxf.version>
 		<spring.version>4.3.21.RELEASE</spring.version>
 		<lettuce.version>5.0.5.RELEASE</lettuce.version>
-		<beetl.version>2.9.8</beetl.version>
-		<beetlsql.version>2.10.43</beetlsql.version>
+		<beetl.version>2.9.10</beetl.version>
+		<beetlsql.version>2.11.7</beetlsql.version>
 		<zbus.version>0.11.5</zbus.version>
 		<undertow.version>1.4.26.Final</undertow.version>
 		<velocity.version>1.7</velocity.version>
@@ -36,7 +36,7 @@
 		<tio.version>3.1.8.v20180818-RELEASE</tio.version>
 		<j2cache.version>2.3.22-release</j2cache.version>
 		<asm.version>6.1.1</asm.version>
-		<druid.version>1.1.16</druid.version>
+		<druid.version>1.1.17</druid.version>
 		<HikariCP.version>3.2.0</HikariCP.version>
 		<thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
 		<quartz.version>2.3.0</quartz.version>
