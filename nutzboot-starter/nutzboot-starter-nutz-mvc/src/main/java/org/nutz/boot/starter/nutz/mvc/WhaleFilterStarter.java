@@ -67,7 +67,11 @@ public class WhaleFilterStarter implements WebFilterFace {
         	params.put("http.method_override", conf.get(PROP_HTTP_METHOD_OVERRIDE));
         }
         if (conf.has(PROP_HIDDEN_UPLOAD_ENABLE)) {
-        	params.put("upload.enable", conf.get(PROP_HIDDEN_UPLOAD_ENABLE));
+        	conf.keys().stream()
+        		.filter(key -> key.startsWith("nutz.mvc.whale.upload"))
+        		.forEach(key -> {
+        			params.put(key.substring(15), conf.get(key));
+        		});
         }
         return params;
     }

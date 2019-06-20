@@ -45,12 +45,63 @@ var _app = new Vue({
 			$.ajax({
 				url : "time/now",
 				success : function(re) {
-					_app.timeNow = re
+					_app.timeNow = new Date(parseInt(re));
 				}
 			})
 		}
 	}
 });
-setInterval(_app.dataReload, 1000)
+setInterval(_app.dataReload, 1000);
+// ==========================================================
+//             WebSocket 演示代码
+// ==========================================================
+	
+// 首先,需要创建一个WebSocket连接
+var ws;
+var WS_URL = window.location.host + "/websocket" // TODO 有模板引擎的话, 加上${base}
+ // 如果页面是https,那么必须走wss协议, 否则走ws协议
+if (location.protocol == 'http:') {
+    ws = new WebSocket("ws://"+WS_URL);
+} else {
+    ws = new WebSocket("wss://"+WS_URL);
+}
+// 连接成功后,会触发onopen回调
+ws.onopen = function(event) {
+    console.log("websocket onopen ...");
+    // 加入home房间. 非必要操作
+    ws.send(JSON.stringify({room:'home',"action":"join"}));
+};
+// 收到服务器发来的信息时触发的回调
+ws.onmessage = function(event) {
+    console.log("websocket onmessage", event.data);
+    var re = JSON.parse(event.data);
+    if (re.action == "notify") {
+        // 弹个浏览器通知. 非必要操作
+    } else if (re.action == "msg") {
+        // 插入到聊天记录中. 非必要操作
+    }
+    else if (re.ok) {
+        console.log("server say ok!!")
+    }
+    else if (re.msg) {
+        console.log("server msg!!!" + re.msg)
+    }
+};
+
+// 定时发个空消息,避免服务器断开连接
+function ws_ping() {
+	if (ws) {
+		ws.send("{}"); // TODO 断线重连.
+	}
+}
+setInterval("ws_ping()", 25000); // 25秒一次就可以了, 必要操作!!!
+
+// 对应后台的buy方法,每10秒购买一次, 演示用途
+function ws_buy_order() {
+	if (ws) { // TODO 考虑一下断线重连
+		 ws.send('{action:"buy", order:1}');
+	}
+}
+setInterval("ws_buy_order()", 15000); // 模拟购买
 </script>
 </html>
