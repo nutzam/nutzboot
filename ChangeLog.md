@@ -1,6 +1,26 @@
 # NB进化史
 
-# 2.3.5.v2019516 "Rewrite The Stars"
+# 2.3.6.v20190621 "千と千尋の神隠"
+
+今天夏至啊,今天千与千寻在大陆上映啦,所以要发新版本啊!!!
+
+表说话,买票去!!
+
+* 时间: 2019-06-21
+* 曲目: [千と千尋の神隠し - いつも何度でも](https://www.youtube.com/watch?v=2zda1Tr4big) 与 2.1.2版一样
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+
+* 变更:
+	* fix: UploadingContext相关参数并没有传入的问题 by [happyday517](https://github.com/happyday517)
+	* fix: 解决freemarker打包成jar之后找不大模板文件的bug
+	* add: 添加WebFilterFace的文档
+	* add: 演示把websocket session id记录到HttpSession,并添加说明
+	* add: 给jetty的demo加上websocket演示
+	* add: 添加jetty配置的独立文档
+	* update: starter-fastdfs 新增支持 平铺/拉伸/旋转角度 的水印图生成方法 by 大鲨鱼(Nutzwk)
+	* update: 更新jetty版本
+
+# 2.3.5.v20190516 "Rewrite The Stars"
 
 适配seata 0.5.1, 添加redisson支持
 
@@ -18,7 +38,7 @@
 	* fix: 希望 starter-caffeine 能有方法可以更新缓存
 	* fix: jetty.maxFormKeys 设置无效
 
-# 2.3.4.v2019410 "蓝色多瑙河"
+# 2.3.4.v20190410 "蓝色多瑙河"
 
 添加对sqltplxml的内置支持^_^
 
