@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Hello, So NB!</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background-color: #30bded;">
+<div class="container-fluid">
+	<div class="row" id="app">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<div class="row">
+				<h3>session持久化测试, session数据每2秒刷新一次, 请尝试开启和关闭进程, 观察获取到的session id是否相同</h3>
+			</div>
+			<div class="row">
+				<p>当前SessionId: <a href="#">{{sessionId}}</a>
+			</div>
+			<div class="row">
+				<p>当前Session状态: <a href="#">{{sessionStatus}}</a>
+			</div>
+			<div class="row">
+				<button class="btn-default" @click="doClose()">注销并获取新的Session</button>
+			</div>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+</div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+<script type="text/javascript">
+var _app = new Vue({
+	el : "#app",
+	data : {
+		timeNow : 0,
+		sessionId : "未知",
+		sessionStatus : "未知"
+	},
+	methods : {
+		dataReload : function() {
+			$.ajax({
+				url : "session/id",
+				dataType : "json",
+				success : function(re) {
+					_app.sessionId = re.id;
+					_app.sessionStatus = "已获取"
+					_app.time = re.time;
+				},
+				error : function(re) {
+					_app.sessionId = "未知";
+					_app.sessionStatus = "连接服务器失败"
+				}
+			})
+		},
+		doClose : function() {
+			$.ajax({
+				url : "session/invalidate",
+				success : function(re) {
+					_app.dataReload();
+				}
+			})
+		}
+	}
+});
+setInterval(_app.dataReload, 1000);
+</script>
+</html>

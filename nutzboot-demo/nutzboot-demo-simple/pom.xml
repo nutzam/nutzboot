@@ -60,6 +60,7 @@
         <module>nutzboot-demo-simple-sqlxmltpl</module>
         <module>nutzboot-demo-simple-thymeleaf-shiro</module>
         <module>nutzboot-demo-simple-redisson</module>
+        <module>nutzboot-demo-simple-jetty-sessionstore</module>
     </modules>
 
 	<dependencies>
