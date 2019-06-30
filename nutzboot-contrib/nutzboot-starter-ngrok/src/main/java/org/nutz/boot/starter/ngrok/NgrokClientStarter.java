@@ -6,10 +6,14 @@ import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 import org.nutz.plugins.ngrok.client.NgrokClient;
 
 @IocBean
 public class NgrokClientStarter implements ServerFace {
+    
+    private static final Log log = Logs.get();
 	
 	public static final String PRE = "ngrok.client.";
 
@@ -25,7 +29,7 @@ public class NgrokClientStarter implements ServerFace {
 	@PropDoc(value="目标端口", defaultValue="8080", type="int")
 	public static final String PROP_TO_PORT = PRE + "to_port";
 	
-	@PropDoc(value="秘钥", need=true)
+	@PropDoc(value="秘钥", defaultValue="4kg9lckq5og4ip02j736e3i7ku")
 	public static final String PROP_AUTH_TOKEN = PRE + "auth_token";
 	
 	@PropDoc(value="开关", defaultValue="true", type="boolean")
@@ -42,7 +46,11 @@ public class NgrokClientStarter implements ServerFace {
 	@IocBean(name="ngrokClient")
 	public NgrokClient createNgrokClient() {
 		NgrokClient ngrokClient = new NgrokClient();
-		ngrokClient.auth_token = conf.check(PROP_AUTH_TOKEN);
+		ngrokClient.auth_token = conf.get(PROP_AUTH_TOKEN, "4kg9lckq5og4ip02j736e3i7ku");
+		if ("4kg9lckq5og4ip02j736e3i7ku".equals(ngrokClient.auth_token)) {
+            log.info("using default ngrok auth_token, hostname will be change every startup.");
+            log.info("if you want a fixed hostname, pls login in https://nutz.cn and found your ngrok token in user homepage");
+		}
         if (conf.has(PROP_HOSTNAME)) {
             ngrokClient.hostname = conf.get(PROP_HOSTNAME);
         }

@@ -9,6 +9,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.Deflater;
 
+import javax.sql.DataSource;
 import javax.websocket.server.ServerContainer;
 import javax.websocket.server.ServerEndpoint;
 
@@ -19,6 +20,13 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.server.handler.gzip.GzipHandler;
+import org.eclipse.jetty.server.session.DatabaseAdaptor;
+import org.eclipse.jetty.server.session.DefaultSessionCache;
+import org.eclipse.jetty.server.session.FileSessionDataStoreFactory;
+import org.eclipse.jetty.server.session.JDBCSessionDataStoreFactory;
+import org.eclipse.jetty.server.session.SessionCache;
+import org.eclipse.jetty.server.session.SessionDataStore;
+import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
@@ -131,6 +139,18 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     public static final String PROP_HTTPS_KEYSTORE_PATH = PRE + "https.keystore.path";
     @PropDoc(value = "Https的KeyStore的密码")
     public static final String PROP_HTTPS_KEYSTORE_PASSWORD = PRE + "https.keystore.password";
+    
+    // Session持久化相关
+    @PropDoc(value = "是否启用session持久化", defaultValue="false")
+    public static final String PROP_SESSION_STORE_ENABLE = PRE + "session.store.enable";
+    @PropDoc(value = "session持久化类型", defaultValue="jdbc", possible= {"jdbc", "file", "ioc", "redis"})
+    public static final String PROP_SESSION_STORE_TYPE = PRE + "session.store.type";
+    @PropDoc(value = "session持久化,jdbc所用数据库源的ioc名称", defaultValue="dataSource")
+    public static final String PROP_SESSION_JDBC_DATASOURCE_IOCNAME = PRE + "session.jdbc.datasource.iocname";
+    @PropDoc(value = "session持久化,file所用的目录", defaultValue="./session")
+    public static final String PROP_SESSION_FILE_STOREDIR = PRE + "session.file.storeDir";
+    @PropDoc(value = "session持久化,SessionDataStore对应的ioc名称", defaultValue="jettySessionDataStore")
+    public static final String PROP_SESSION_IOC_DATASTORE = PRE + "session.ioc.datastore";
 
     protected Server server;
     protected WebAppContext wac;
@@ -307,6 +327,45 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
             if (klass.getAnnotation(ServerEndpoint.class) != null) {
                 sc.addEndpoint(klass);
             }
+        }
+        
+        // 试试session持久化
+        if (conf.getBoolean(PROP_SESSION_STORE_ENABLE)) {
+            SessionHandler handler = wac.getSessionHandler();
+            SessionCache sessionCache = new DefaultSessionCache(handler);
+            String type = conf.get(PROP_SESSION_STORE_TYPE, "jdbc");
+            log.info("using session store, type=" + type);
+            switch (type) {
+            case "jdbc": 
+            {
+                JDBCSessionDataStoreFactory factory = new JDBCSessionDataStoreFactory();
+                DatabaseAdaptor adaptor = new DatabaseAdaptor();
+                adaptor.setDatasource(ioc.get(DataSource.class, conf.get(PROP_SESSION_JDBC_DATASOURCE_IOCNAME, "dataSource")));
+                factory.setDatabaseAdaptor(adaptor);
+                sessionCache.setSessionDataStore(factory.getSessionDataStore(handler));
+                break;
+            }
+            case "file":
+            {
+                FileSessionDataStoreFactory factory = new FileSessionDataStoreFactory();
+                factory.setStoreDir(new File(conf.get(PROP_SESSION_FILE_STOREDIR, "./sessions")));
+                sessionCache.setSessionDataStore(factory.getSessionDataStore(handler));
+                break;
+            }
+            case "ioc":
+            {
+                sessionCache.setSessionDataStore(ioc.get(SessionDataStore.class, conf.get(PROP_SESSION_IOC_DATASTORE, "jettySessionDataStore")));
+                break;
+            }
+            case "redis":
+            {
+                // 未完成...
+            }
+            default:
+                log.warn("not support yet, type=" + type);
+                break;
+            }
+            handler.setSessionCache(sessionCache);
         }
     }
 
