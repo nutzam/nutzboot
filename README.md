@@ -16,12 +16,13 @@
 * 关于Nutz: [Nutz](https://github.com/nutzam/nutz)
 * 项目生成器: [NB Maker](https://get.nutz.io)
 * 推荐项目: [NutzWk](https://github.com/Wizzercn/NutzWk)
+* 推荐项目: [NutzSite](https://github.com/HaimmingYu/NutzSite)
 * 版本历史: [NB进化史](ChangeLog.md)
 * 文档: [NB的文档](https://gitee.com/nutz/nutzboot/tree/dev/doc)
 * 文档2: [NB的文档2](http://nutzam.com/core/boot/overview.html)
 * 社区: [NutzCN](https://nutz.cn) 推荐
 * Idea插件 [NutzCodeInsight](https://github.com/threefish/NutzCodeInsight) 开发利器
-* QQ群: 68428921
+* QQ群: 68428921(已满) 24457628(2群) 58444676(老吹水群)
 
 [![Build Status](https://travis-ci.org/nutzam/nutzboot.png?branch=dev)](https://travis-ci.org/nutzam/nutzboot)
 [![CircleCI](https://circleci.com/gh/nutzam/nutzboot/tree/dev.svg?style=svg)](https://circleci.com/gh/nutzam/nutzboot/tree/dev)
@@ -100,6 +101,7 @@ public class MainLauncher {
 
 * [内置demo](https://github.com/nutzam/nutzboot/tree/dev/nutzboot-demo),每个starter均配套一个demo
 * **[NutzWk-NB分支](https://github.com/Wizzercn/NutzWk) 企业级微服务开发平台,非常靠谱 by 大鲨鱼**
+* **[NutzSite](https://github.com/HaimmingYu/NutzSite) Java快速开发框架**
 * [MqttWk](https://github.com/Wizzercn/MqttWk) 每秒处理10w+消息的全开源Mqtt服务端 by 大鲨鱼
 * [WizzerCN](https://github.com/Wizzercn/Demo/tree/master/nutzboot-wizzer-cn) 一个简易且功能完整的网站源码 by 大鲨鱼
 * [Todo-backend](https://github.com/nutzam/todo-backend-nutzboot),一个类就能通过TodoBackend的测试 by wendal
@@ -110,7 +112,6 @@ public class MainLauncher {
 * [IP地址查询服务](https://gitee.com/nutz/ipd4nutzboot) http://ip.nutz.cn 的源码 by wendal
 * [NutzCN-Nutzboot](https://github.com/wendal/nutz-book-project/tree/v5.x) NutzCN社区的源码,5.x分支,NutzBoot版
 * [NutzBoot-Demo-Dao](https://github.com/nutzam/nutzboot/tree/dev/nutzboot-demo/nutzboot-demo-simple/nutzboot-demo-simple-dao) 演示Jetty+Dao的增删改查
-* [NutzSite](https://github.com/HaimmingYu/NutzSite) Java快速开发框架
 ## Contributors
 
 * [蛋蛋](https://github.com/TopCoderMyDream)(提交了第一个Banner及打印逻辑)及starter-tio和starter-j2cache
