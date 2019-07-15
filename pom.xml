@@ -81,7 +81,7 @@
 		<module>nutzboot-starter</module>
 		<module>nutzboot-contrib</module>
 		<!--<module>nutzboot-demo</module>-->
-
+		<module>nutzcloud</module>
 
 	</modules>
 	<profiles>
@@ -959,6 +959,29 @@
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-integration-redisson</artifactId>
 				<version>${nutz.version}</version>
+			</dependency>
+			<!-- NutzCloud -->
+			
+			
+			<dependency>
+				<groupId>org.nutz.cloud</groupId>
+				<artifactId>nutzcloud-literpc</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz.cloud</groupId>
+				<artifactId>nutzcloud-loach-client</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz.cloud</groupId>
+				<artifactId>nutzcloud-loach-server</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz.cloud</groupId>
+				<artifactId>nutzcloud-perca</artifactId>
+				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
