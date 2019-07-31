@@ -25,6 +25,7 @@
 		<module>nutzboot-starter-ngrok</module>
 		<module>nutzboot-starter-hystrix-dashboard</module>
 		<module>nutzboot-starter-activiti</module>
+		<module>nutzboot-starter-mybatis</module>
 	</modules>
 	<dependencies>
 		<dependency>
