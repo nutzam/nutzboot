@@ -966,6 +966,11 @@
 				<artifactId>nutz-integration-redisson</artifactId>
 				<version>${nutz.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-nacos-config-client</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
 			<!-- NutzCloud -->
 			
 			
