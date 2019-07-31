@@ -198,6 +198,7 @@ public class MainLauncher {
             - [x] **starter-[nutz-dao](https://github.com/nutzam/nutz) Nutz官方Dao**
             - [x] starter-[beetlsql](http://ibeetl.com/guide/#beetlsql) 基于Beetl的SQL框架
             - [x] starter-[sqlXmlTpl](http://github.com/threefish) 解决Java拼接SQL(采用xml管理sql)
+            - [x] starter-[mybatis](http://www.mybatis.org/mybatis-3/) MyBatis 是一款优秀的持久层框架，它支持定制化SQL、存储过程以及高级映射
     - 非关系型数据库
         - [x] **starter-[redis](https://redis.io) 特点就是快,吃内存!**
         - [x] starter-mongodb NoSQL的重要一支
