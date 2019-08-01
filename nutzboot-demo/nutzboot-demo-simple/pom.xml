@@ -61,6 +61,7 @@
         <module>nutzboot-demo-simple-thymeleaf-shiro</module>
         <module>nutzboot-demo-simple-redisson</module>
         <module>nutzboot-demo-simple-jetty-sessionstore</module>
+        <module>nutzboot-demo-simple-jetty-nacos-config-client</module>
     </modules>
 
 	<dependencies>
