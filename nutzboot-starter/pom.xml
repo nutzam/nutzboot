@@ -78,6 +78,7 @@
         <module>nutzboot-starter-seata</module>
 		<module>nutzboot-starter-sqlxmltpl</module>
 		<module>nutzboot-starter-redisson</module>
+		<module>nutzboot-starter-thrift-server</module>
 
 	</modules>
 	<dependencies>

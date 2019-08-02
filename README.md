@@ -172,6 +172,8 @@ public class MainLauncher {
 		- [x] starter-[feign](https://github.com/OpenFeign/feign) makes writing java http clients easier, by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
 		- [x] [ribbon](https://github.com/Netflix/ribbon) ,集成在feign中,配合erueka-client实现负载均衡
 		- [x] [servicecomb](http://servicecomb.apache.org) Apache ServiceComb
+		- [x] starter-[thrift](https://thrift.apache.org/)-server Thrift服务器端 
+		- [ ] starter-[thrift](https://thrift.apache.org/)-client Thrift客户端 
     - [x] starter-zkclient zookeeper的封装
     - [x] **starter-[sentinel-dubbo](https://github.com/alibaba/Sentinel)** 阿里出品的分布式系统的流量防卫兵,集成dubbo by [大鲨鱼](https://github.com/Wizzercn)
     - [x] starter-[sentinel-annotation](https://github.com/alibaba/Sentinel) 阿里出品的分布式系统的流量防卫兵,基于原生注解
