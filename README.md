@@ -172,6 +172,8 @@ public class MainLauncher {
 		- [x] starter-[feign](https://github.com/OpenFeign/feign) makes writing java http clients easier, by [haoqoo](https://github.com/haoqoo) and [wendal](https://github.com/wendal)
 		- [x] [ribbon](https://github.com/Netflix/ribbon) ,集成在feign中,配合erueka-client实现负载均衡
 		- [x] [servicecomb](http://servicecomb.apache.org) Apache ServiceComb
+		- [x] starter-[thrift](https://thrift.apache.org/)-server Thrift服务器端 
+		- [ ] starter-[thrift](https://thrift.apache.org/)-client Thrift客户端 
     - [x] starter-zkclient zookeeper的封装
     - [x] **starter-[sentinel-dubbo](https://github.com/alibaba/Sentinel)** 阿里出品的分布式系统的流量防卫兵,集成dubbo by [大鲨鱼](https://github.com/Wizzercn)
     - [x] starter-[sentinel-annotation](https://github.com/alibaba/Sentinel) 阿里出品的分布式系统的流量防卫兵,基于原生注解
@@ -198,6 +200,7 @@ public class MainLauncher {
             - [x] **starter-[nutz-dao](https://github.com/nutzam/nutz) Nutz官方Dao**
             - [x] starter-[beetlsql](http://ibeetl.com/guide/#beetlsql) 基于Beetl的SQL框架
             - [x] starter-[sqlXmlTpl](http://github.com/threefish) 解决Java拼接SQL(采用xml管理sql)
+            - [x] starter-[mybatis](http://www.mybatis.org/mybatis-3/) MyBatis 是一款优秀的持久层框架，它支持定制化SQL、存储过程以及高级映射
     - 非关系型数据库
         - [x] **starter-[redis](https://redis.io) 特点就是快,吃内存!**
         - [x] starter-mongodb NoSQL的重要一支

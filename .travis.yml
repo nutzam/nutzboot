@@ -1,6 +1,7 @@
 sudo: false
 language: java
 script: mvn -Dmaven.test.skip=true -Pdemo clean install --settings mvn_settings.xml --fail-at-end
+dist: trusty
 jdk:
   - oraclejdk8
 # whitelist
