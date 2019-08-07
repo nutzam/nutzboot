@@ -11,8 +11,8 @@
 		<nutz.version>1.r.68-SNAPSHOT</nutz.version>
 		<nutzboot.version>2.3.8-SNAPSHOT</nutzboot.version>
 		<nutzwx.version>1.r.68-SNAPSHOT</nutzwx.version>
-		<slf4j.version>1.7.25</slf4j.version>
-		<slf4j-api.version>1.7.25</slf4j-api.version>
+		<slf4j.version>1.7.26</slf4j.version>
+		<slf4j-api.version>1.7.26</slf4j-api.version>
 		<logback.version>1.2.3</logback.version>
 		<dubbo.version>2.6.6</dubbo.version>
 		<sentinel.version>1.5.0</sentinel.version>
@@ -48,7 +48,7 @@
 		<commons-pool2.version>2.6.1</commons-pool2.version>
 		<fescar.version>0.4.1</fescar.version>
 		<seata.version>0.5.1</seata.version>
-		<redisson.version>3.11.1</redisson.version>
+		<redisson.version>3.11.2</redisson.version>
 		<mybatis.version>3.5.2</mybatis.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
