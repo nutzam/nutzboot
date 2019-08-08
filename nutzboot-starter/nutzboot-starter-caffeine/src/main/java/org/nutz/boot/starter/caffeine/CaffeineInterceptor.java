@@ -119,8 +119,11 @@ public class CaffeineInterceptor implements MethodInterceptor {
         this.stringifier = Lang.isEmptyArray(stringifierNames) ? String::valueOf : ioc.get(KeyStringifier.class, stringifierNames[0]);
         log.debugf("use %s as KeyStringifier", this.stringifier);
         String[] updateStrategyNames = ioc.getNamesByType(UpdateStrategy.class);
-        this.updateStrategy = Lang.isEmptyArray(updateStrategyNames) ? k -> false : ioc.get(UpdateStrategy.class, updateStrategyNames[0]);
-        log.debugf("use %s as UpdateStrategy", this.updateStrategy);
+        //this.updateStrategy = Lang.isEmptyArray(updateStrategyNames) ? k -> false : ioc.get(UpdateStrategy.class, updateStrategyNames[0]);
+        if(Lang.isNotEmpty(updateStrategyNames)){
+            this.updateStrategy = ioc.get(UpdateStrategy.class, updateStrategyNames[0]);
+            log.debugf("use %s as UpdateStrategy", this.updateStrategy);
+        }
         Map<String, CacheStrategy> map = new HashMap<>();
         conf.entrySet().stream().filter(entry -> entry.getKey().startsWith(CaffeineStarter.PRE)).forEach(entry -> {
             if (entry.getValue() == null) {
