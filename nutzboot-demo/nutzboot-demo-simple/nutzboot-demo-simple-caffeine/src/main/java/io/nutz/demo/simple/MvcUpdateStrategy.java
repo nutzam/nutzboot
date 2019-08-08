@@ -14,4 +14,10 @@ public class MvcUpdateStrategy implements UpdateStrategy {
 		return Lang.parseBoolean(Mvcs.getReq().getParameter("update"));
 	}
 
+	@Override
+	public boolean invalidateAll(String key) {
+		// 凡是request中携带invalidateAll=true，都强制更新缓存
+		return Lang.parseBoolean(Mvcs.getReq().getParameter("invalidateAll"));
+	}
+
 }
