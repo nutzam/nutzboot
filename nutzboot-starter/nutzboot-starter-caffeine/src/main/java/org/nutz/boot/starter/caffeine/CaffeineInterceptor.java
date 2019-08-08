@@ -26,8 +26,8 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 public class CaffeineInterceptor implements MethodInterceptor {
 
     private static Log log = Logs.get();
-    private static final ConcurrentMap<CacheStrategy, Cache<String, Object>> cacheMap = new ConcurrentHashMap<>();
-    private static final Map<String, CacheStrategy> cacheStrategyMap = new HashMap<>();
+    private final ConcurrentMap<CacheStrategy, Cache<String, Object>> cacheMap = new ConcurrentHashMap<>();
+    private final Map<String, CacheStrategy> cacheStrategyMap = new HashMap<>();
 
     @Inject
     protected PropertiesProxy conf;
@@ -39,22 +39,19 @@ public class CaffeineInterceptor implements MethodInterceptor {
     @Inject("refer:$ioc")
     protected Ioc ioc;
 
-    private static Cache<String, Object> getCache(CacheStrategy strategy) {
+    private Cache<String, Object> getCache(CacheStrategy strategy) {
         Cache<String, Object> cache = cacheMap.get(strategy);
         if (cache == null) {
             synchronized (strategy) {
                 cache = cacheMap.get(strategy);
                 if (cache == null) {
                     Caffeine<Object, Object> caffeine = Caffeine.newBuilder();
-                    if (strategy.getMaxIdle() > 0) {
+                    if (strategy.getMaxIdle() > 0)
                         caffeine.expireAfterAccess(strategy.getMaxIdle(), TimeUnit.MILLISECONDS);
-                    }
-                    if (strategy.getMaxLive() > 0) {
+                    if (strategy.getMaxLive() > 0)
                         caffeine.expireAfterWrite(strategy.getMaxLive(), TimeUnit.MILLISECONDS);
-                    }
-                    if (strategy.getMaxSize() > 0) {
+                    if (strategy.getMaxSize() > 0)
                         caffeine.maximumSize(strategy.getMaxSize());
-                    }
                     cache = caffeine.build();
                     cacheMap.put(strategy, cache);
                 }
@@ -63,11 +60,11 @@ public class CaffeineInterceptor implements MethodInterceptor {
         return cache;
     }
 
-    /**
-     * 过滤器 实现缓存
-     * @param chain
-     * @throws Throwable
-     */
+    public Cache<String, Object> getCache(String name) {
+        CacheStrategy cs = cacheStrategyMap.get(name);
+        return cs == null ? null : getCache(cs);
+    }
+
     @Override
     public void filter(InterceptorChain chain) throws Throwable {
         Method method = chain.getCallingMethod();
@@ -86,57 +83,41 @@ public class CaffeineInterceptor implements MethodInterceptor {
         Cache<String, Object> cache = getCache(strategy);
         String key = getKey(method, chain.getArgs());
         Object value = cache.getIfPresent(key);
-        if (value == null || updateStrategy.shouldUpdate(key) || updateStrategy.invalidateAll(key)) {
+        if (value == null || updateStrategy.shouldUpdate(key)) {
             chain.doChain();
-            if(updateStrategy.invalidateAll(key)){
-                cache.invalidateAll();
-            }
             cache.put(key, chain.getReturn());
         } else {
+        	log.debugf("hit cache with key %s", key);
             chain.setReturnValue(value);
         }
     }
 
-    /**
-     * 获取执行方法名称
-     * @param method
-     * @param args
-     * @return
-     */
     private String getKey(Method method, Object[] args) {
         String fullName = String.format("%s.%s", method.getDeclaringClass().getName(), method.getName());
-        if (args == null || args.length == 0) {
+        if (args == null || args.length == 0)
             return fullName;
-        }
         return fullName + ":" + Arrays.stream(args).map(stringifier::stringify).collect(Collectors.joining("$"));
     }
 
-    /**
-     * 初始化
-     */
     public void init() {
         String[] stringifierNames = ioc.getNamesByType(KeyStringifier.class);
         this.stringifier = Lang.isEmptyArray(stringifierNames) ? String::valueOf : ioc.get(KeyStringifier.class, stringifierNames[0]);
         log.debugf("use %s as KeyStringifier", this.stringifier);
         String[] updateStrategyNames = ioc.getNamesByType(UpdateStrategy.class);
-        //this.updateStrategy = Lang.isEmptyArray(updateStrategyNames) ? k -> false : ioc.get(UpdateStrategy.class, updateStrategyNames[0]);
-        if(Lang.isNotEmpty(updateStrategyNames)){
-            this.updateStrategy = ioc.get(UpdateStrategy.class, updateStrategyNames[0]);
-            log.debugf("use %s as UpdateStrategy", this.updateStrategy);
-        }
+        this.updateStrategy = Lang.isEmptyArray(updateStrategyNames) ? k -> false : ioc.get(UpdateStrategy.class, updateStrategyNames[0]);
+        log.debugf("use %s as UpdateStrategy", this.updateStrategy);
         Map<String, CacheStrategy> map = new HashMap<>();
         conf.entrySet().stream().filter(entry -> entry.getKey().startsWith(CaffeineStarter.PRE)).forEach(entry -> {
-            if (entry.getValue() == null) {
+            if (entry.getValue() == null)
                 return;
-            }
             String[] split = entry.getKey().substring(CaffeineStarter.PRE.length()).split("\\.");
             if (split.length == 2) {
                 // cache.name=10000,-1,-1 这种
                 try {
                     String[] values = entry.getValue().replace(" ", ",").split(",");
                     long maxSize = Long.parseLong(values[0].trim());
-                    long maxIdle = values.length > 1 ? Long.parseLong(values[1].trim()) : 0L;
-                    long maxLive = values.length > 2 ? Long.parseLong(values[2].trim()) : 0L;
+                    long maxIdle = values.length > 1 ? Long.parseLong(values[1].trim()) : 0l;
+                    long maxLive = values.length > 2 ? Long.parseLong(values[2].trim()) : 0l;
                     CacheStrategy cacheStrategy = new CacheStrategy(split[1].trim(), maxSize, maxIdle, maxLive);
                     cacheStrategyMap.put(cacheStrategy.getName(), cacheStrategy);
                     log.debugf("load CacheStrategy %s", cacheStrategy);
@@ -154,13 +135,12 @@ public class CaffeineInterceptor implements MethodInterceptor {
                         cacheStrategy = new CacheStrategy(name);
                         map.put(name, cacheStrategy);
                     }
-                    if ("maxSize".equalsIgnoreCase(type)) {
+                    if ("maxSize".equalsIgnoreCase(type))
                         cacheStrategy.setMaxSize(value);
-                    } else if ("maxIdle".equalsIgnoreCase(type)) {
+                    else if ("maxIdle".equalsIgnoreCase(type))
                         cacheStrategy.setMaxIdle(value);
-                    } else if ("maxLive".equalsIgnoreCase(type)) {
+                    else if ("maxLive".equalsIgnoreCase(type))
                         cacheStrategy.setMaxLive(value);
-                    }
                 } catch (Exception e) {
                     log.errorf("failed to apply cache rule [%s]", entry.getKey());
                 }

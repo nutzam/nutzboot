@@ -8,11 +8,4 @@ public interface UpdateStrategy {
      * @return should update ?
      */
     boolean shouldUpdate(String key);
-
-    /**
-     * 清除全部缓存
-     * @param key
-     * @return
-     */
-    boolean invalidateAll(String key);
 }
