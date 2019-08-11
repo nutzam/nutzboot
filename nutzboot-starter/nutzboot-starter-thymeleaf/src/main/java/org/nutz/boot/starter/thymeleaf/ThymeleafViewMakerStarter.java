@@ -121,8 +121,11 @@ public class ThymeleafViewMakerStarter implements ViewMaker {
             String path = conf.get(PROP_TEMPLATE_ROOT_LOCAL);
             File f = new File(path);
             if (f.exists()) {
-                log.debugf("add local template path = %s", f.getAbsolutePath());
-                FileTemplateResolver resolver = createFileTemplateResolver(f.getAbsolutePath());
+                String tpath = f.getAbsolutePath();
+                if (!tpath.endsWith(File.separator))
+                    tpath += File.separator;
+                log.debugf("add local template path = %s", tpath);
+                FileTemplateResolver resolver = createFileTemplateResolver(tpath);
                 resolver.setCacheable(false);
                 templateEngine.addTemplateResolver(resolver);
             }

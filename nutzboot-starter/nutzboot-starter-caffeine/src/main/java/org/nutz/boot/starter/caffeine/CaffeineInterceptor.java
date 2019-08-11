@@ -26,8 +26,8 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 public class CaffeineInterceptor implements MethodInterceptor {
 
     private static Log log = Logs.get();
-    private static final ConcurrentMap<CacheStrategy, Cache<String, Object>> cacheMap = new ConcurrentHashMap<>();
-    private static final Map<String, CacheStrategy> cacheStrategyMap = new HashMap<>();
+    private final ConcurrentMap<CacheStrategy, Cache<String, Object>> cacheMap = new ConcurrentHashMap<>();
+    private final Map<String, CacheStrategy> cacheStrategyMap = new HashMap<>();
 
     @Inject
     protected PropertiesProxy conf;
@@ -39,7 +39,7 @@ public class CaffeineInterceptor implements MethodInterceptor {
     @Inject("refer:$ioc")
     protected Ioc ioc;
 
-    private static Cache<String, Object> getCache(CacheStrategy strategy) {
+    private Cache<String, Object> getCache(CacheStrategy strategy) {
         Cache<String, Object> cache = cacheMap.get(strategy);
         if (cache == null) {
             synchronized (strategy) {
@@ -58,6 +58,11 @@ public class CaffeineInterceptor implements MethodInterceptor {
             }
         }
         return cache;
+    }
+
+    public Cache<String, Object> getCache(String name) {
+        CacheStrategy cs = cacheStrategyMap.get(name);
+        return cs == null ? null : getCache(cs);
     }
 
     @Override
@@ -81,8 +86,10 @@ public class CaffeineInterceptor implements MethodInterceptor {
         if (value == null || updateStrategy.shouldUpdate(key)) {
             chain.doChain();
             cache.put(key, chain.getReturn());
-        } else
+        } else {
+        	log.debugf("hit cache with key %s", key);
             chain.setReturnValue(value);
+        }
     }
 
     private String getKey(Method method, Object[] args) {
