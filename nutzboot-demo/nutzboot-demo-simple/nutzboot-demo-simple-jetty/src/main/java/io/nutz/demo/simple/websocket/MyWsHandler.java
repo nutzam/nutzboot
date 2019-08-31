@@ -6,11 +6,15 @@ import javax.servlet.http.HttpSession;
 
 import org.nutz.ioc.Ioc;
 import org.nutz.lang.util.NutMap;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 import org.nutz.plugins.mvc.websocket.handler.SimpleWsHandler;
 
 import io.nutz.demo.simple.service.OrderService;
 
 public class MyWsHandler extends SimpleWsHandler {
+    
+    private static final Log log = Logs.get();
 
     protected Ioc ioc;
     protected OrderService orderService;
@@ -53,5 +57,10 @@ public class MyWsHandler extends SimpleWsHandler {
             boolean re = orderService.buy(n.intValue());
             endpoint.sendJson(session.getId(), new NutMap("ok", re));
         }
+    }
+    
+    @Override
+    public void setHttpSession(HttpSession httpSession) {
+        log.debug("http session = " + session); // 如果为null,刷新一下页面看看
     }
 }

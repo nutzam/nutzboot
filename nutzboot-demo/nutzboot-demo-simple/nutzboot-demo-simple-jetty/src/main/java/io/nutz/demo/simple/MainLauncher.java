@@ -1,5 +1,7 @@
 package io.nutz.demo.simple;
 
+import javax.servlet.http.HttpSession;
+
 import org.nutz.boot.NbApp;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.mvc.annotation.At;
@@ -11,7 +13,7 @@ public class MainLauncher {
 
 	@Ok("raw")
 	@At("/time/now")
-	public long now() {
+	public long now(HttpSession session) {
 		return System.currentTimeMillis();
 	}
 	
