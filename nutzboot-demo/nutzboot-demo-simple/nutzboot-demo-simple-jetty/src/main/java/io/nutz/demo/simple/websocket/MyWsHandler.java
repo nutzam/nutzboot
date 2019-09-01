@@ -61,6 +61,6 @@ public class MyWsHandler extends SimpleWsHandler {
     
     @Override
     public void setHttpSession(HttpSession httpSession) {
-        log.debug("http session = " + session); // 如果为null,刷新一下页面看看
+        log.debug("http session = " + httpSession); // 如果为null,刷新一下页面看看
     }
 }

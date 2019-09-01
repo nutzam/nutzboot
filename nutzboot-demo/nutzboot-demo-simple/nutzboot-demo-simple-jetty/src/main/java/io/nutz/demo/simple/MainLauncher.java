@@ -10,10 +10,14 @@ import org.nutz.mvc.annotation.Ok;
 
 @IocBean
 public class MainLauncher {
+    
+    @At("/")
+    @Ok("->:/index.html") // 确保websocket能拿到HttpSession, 所以主页这里主动拿一下HttpSession
+    public void index(HttpSession session) {}
 
 	@Ok("raw")
 	@At("/time/now")
-	public long now(HttpSession session) {
+	public long now() {
 		return System.currentTimeMillis();
 	}
 	
