@@ -106,15 +106,16 @@ public class MainLauncher {
 * [WizzerCN](https://github.com/Wizzercn/Demo/tree/master/nutzboot-wizzer-cn) 一个简易且功能完整的网站源码 by 大鲨鱼
 * [Todo-backend](https://github.com/nutzam/todo-backend-nutzboot),一个类就能通过TodoBackend的测试 by wendal
 * [urls](https://gitee.com/howe/urls) Java版短地址服务 by howe
-* [LuliChat](https://github.com/TopCoderMyDream/LuliChat/tree/nutzboot) 一个Nutz为后台支撑,T-io为通讯支持,LayIM为前台UI交互的纯国产框架开发的一个即时通讯项目 by 蛋蛋
+* [LuliChat](https://github.com/Eggsblue/LuliChat/tree/nutzboot) 一个Nutz为后台支撑,T-io为通讯支持,LayIM为前台UI交互的纯国产框架开发的一个即时通讯项目 by 蛋蛋
 * [NutzBoot项目生成器](https://gitee.com/nutz/nutzboot-project-maker) https://get.nutz.cn 的源码 by wendal
 * [NutzBoot集成PageOffice](https://gitee.com/nutz/nutzboot-demo-pageoffice) PageOffice是私有云Office解决方案 by wendal
 * [IP地址查询服务](https://gitee.com/nutz/ipd4nutzboot) http://ip.nutz.cn 的源码 by wendal
 * [NutzCN-Nutzboot](https://github.com/wendal/nutz-book-project/tree/v5.x) NutzCN社区的源码,5.x分支,NutzBoot版
 * [NutzBoot-Demo-Dao](https://github.com/nutzam/nutzboot/tree/dev/nutzboot-demo/nutzboot-demo-simple/nutzboot-demo-simple-dao) 演示Jetty+Dao的增删改查
+* [nutzboot-justauth-demo](https://github.com/EggsBlue/nutzboot-justauth-demo) NutzBoot 版本的 JustAuth demo by 蛋蛋
 ## Contributors
 
-* [蛋蛋](https://github.com/TopCoderMyDream)(提交了第一个Banner及打印逻辑)及starter-tio和starter-j2cache
+* [蛋蛋](https://github.com/Eggsblue)(提交了第一个Banner及打印逻辑)及starter-tio和starter-j2cache
 * [胖五](https://github.com/pangwu86)(nutz.io主笔)
 * [qinerg](https://github.com/qinerg)(率先提交undertow)
 * [benjobs](https://github.com/wolfboys)(提交了tomcat)
@@ -213,7 +214,7 @@ public class MainLauncher {
     - [x] starter-[tio-mvc](https://gitee.com/tywo45/t-io) 基于tio的Mvc框架
     - [ ] [jersey](https://jersey.github.io/)
 - 非servlet容器
-	- [x] starter-[tio](https://gitee.com/tywo45/t-io) 国产高性能网络开发包 by [蛋蛋](https://github.com/TopCoderMyDream)
+	- [x] starter-[tio](https://gitee.com/tywo45/t-io) 国产高性能网络开发包 by [蛋蛋](https://github.com/Eggsblue)
 	- [x] starter-[tio-websocket](https://gitee.com/tywo45/t-io) 国产高性能网络开发包 by [科技](https://github.com/Rekoe)
 - 安全鉴权
     - [x] **[Shiro](http://shiro.apache.org) 应用权限的标配**
@@ -232,7 +233,7 @@ public class MainLauncher {
     - [x] starter-jetx [jetbrick-template](https://github.com/subchen/jetbrick-template-2x)
     - [x] starter-velocity by [haoqoo](https://github.com/haoqoo)
     - [x] starter-thymeleaf by [温泉](https://github.com/ywjno)
-    - [x] starter-freemarker by [蛋蛋](https://github.com/TopCoderMyDream)
+    - [x] starter-freemarker by [蛋蛋](https://github.com/Eggsblue)
 - 消息队列
     - [x] starter-disque redis作者的另一作品
     - [x] **starter-rabbitmq 好用的队列服务**
@@ -266,7 +267,7 @@ public class MainLauncher {
 - 缓存相关
     - [x] starter-[wkcache](https://github.com/nutzam/nutzmore/tree/master/nutz-plugins-wkcache) 方法缓存  by [大鲨鱼](https://github.com/Wizzercn)
     - [x] starter-[caffeine](https://github.com/ben-manes/caffeine) 方法缓存  by [幸福的旁边](https://github.com/happyday517)
-    - [x] starter-j2cache 开源中国缓存框架 by [蛋蛋的忧伤](https://github.com/TopCoderMyDream)
+    - [x] starter-j2cache 开源中国缓存框架 by [蛋蛋的忧伤](https://github.com/Eggsblue)
 - API文档生成器
 	- [x] starter-[swagger](https://swagger.io) Most Popular API Framework
 - docker相关
