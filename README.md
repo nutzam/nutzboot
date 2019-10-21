@@ -68,10 +68,11 @@
 
 ## NB资源
 
-[NB组件](doc2/Components.md)
-[NB示例](doc2/Demos.md)
-[NB快速开始](doc2/QuickStart.md)
-[采用公司](https://github.com/nutzam/nutzboot/issues/62)
+* [NB组件](doc2/Components.md)
+* [NB示例](doc2/Demos.md)
+* [NB快速开始](doc2/QuickStart.md)
+* [NB公共服务](doc2/CommonService.md)
+* [采用公司](https://github.com/nutzam/nutzboot/issues/62)
 
 ## NB文档
 
@@ -83,18 +84,6 @@
 * [配置信息总表](doc/configure.md) 不定期更新,可通过nutzboot:propdoc生成
 * [Jetty配置详解](doc/jetty_usage.md)
 * [添加Web过滤器](doc/add_web_filter.md)
-
-## NB公共服务
-
-* Ngrok内网穿透服务: 
-	* 访问 https://nutz.cn 并登录, 查看个人主页,获取使用帮助及登录用的token
-* 外网ip探查服务
-	* 浏览器访问 http://ip.nutz.cn/ 可看网页版帮助
-	* 在服务器执行 `curl ip.nutz.cn` 可返回其外网ip
-* 物联网演示
-	* http://gps.nutz.cn
-	* 微信小程序 `iRTU寻物`
-	* 简介: http://ask.openluat.com/article/944
 
 ## 授权协议
 
