@@ -47,7 +47,7 @@
 		<fastdfs-client-java.version>1.29.4</fastdfs-client-java.version>
 		<commons-pool2.version>2.6.2</commons-pool2.version>
 		<fescar.version>0.4.1</fescar.version>
-		<seata.version>0.5.1</seata.version>
+		<seata.version>0.9.0</seata.version>
 		<redisson.version>3.11.4</redisson.version>
 		<mybatis.version>3.5.2</mybatis.version>
 	</properties>
