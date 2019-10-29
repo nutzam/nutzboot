@@ -173,7 +173,7 @@ public class NutDaoStarter {
             interceptors.add("log");
         }
         // sql耗时拦截器
-        if (conf.getBoolean(PROP_INTERCEPTOR_TIME_ENABLE, true)) {
+        if (conf.getBoolean(PROP_INTERCEPTOR_TIME_ENABLE, false)) {
             interceptors.add("time");
         }
         // TODO 自定义其他拦截器?
