@@ -1,7 +1,11 @@
 package org.nutz.boot.starter.seata.datasource;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Statement;
+
+import javax.sql.DataSource;
 
 import org.nutz.boot.starter.seata.SeataHelper;
 import org.nutz.boot.starter.seata.SeataStarter;
@@ -41,7 +45,7 @@ public class SeataDataSourceHandler implements IocEventListener {
             }
             log.info("proxy DruidDataSource : " + obj.hashCode());
             DruidDataSource ds = (DruidDataSource)obj;
-            DataSourceProxy proxy = new DataSourceProxy(ds, "DEFAULT");
+            DataSourceProxy proxy = new DataSourceProxy2(ds, "DEFAULT");
             DefaultResourceManager.get().registerResource(proxy);
             if (conf.getBoolean(SeataStarter.PROP_CREATE_UNDO, true)) {
                 try (Connection conn = ds.getConnection()) {
@@ -73,4 +77,19 @@ public class SeataDataSourceHandler implements IocEventListener {
         return 0;
     }
 
+    static class DataSourceProxy2 extends DataSourceProxy implements Closeable {
+        
+        public DataSourceProxy2(DataSource targetDataSource) {
+            super(targetDataSource);
+        }
+
+        public DataSourceProxy2(DataSource targetDataSource, String resourceGroupId) {
+            super(targetDataSource, resourceGroupId);
+        }
+        
+        public void close() throws IOException {
+            if (targetDataSource instanceof Closeable)
+                ((Closeable) targetDataSource).close();
+        }
+    }
 }
