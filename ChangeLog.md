@@ -1,13 +1,30 @@
 # NB进化史
 
-# 2.3.8.vX 
+# 2.3.8.v201901031 "那年那兔"
+
+update了很多东西,看变更列表吧
+
+* 时间: 2019-10-31
+* 曲目: [那年那兔那些事-第一季](https://www.bilibili.com/bangumi/media/md1689)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
 
 * 变更:
 	* add: 添加starter-thrift-server
+	* add: 添加loveexception的项目链接
+	* add: 添加NutzBoot版的justauth demo地址
+	* add: 添加物联网项目[irtu-gps](https://gitee.com/wendal/irtu-gps)作为demo
+	* update: 完善nacos-config-client
+	* update: jetty demo, 确保websocket能拿到HttpSession
+	* update: 适配新版seata的配置方式
+	* update: 升级seata版本到0.9.0
+	* update: 更新jetty版本到 9.4.22.v20191022
+	* update: 更新Tomcat、slf4j、Redisson、druid版本 by howe
+	* fix: starter-dubbo排除zookeeper模块下的slf4j-log4j12和log4j依赖 by 蛋蛋
+	* fix: dubbo 2.6.6默认没有引用zk了,神奇
+	* fix: dubbo扫描包路径配置项未添加到conf中,导致npe
+	* fix: nutz.dao.interceptor.time.enable的默认值应该是false
 
 # 2.3.7.v20190731 "无名"
-
-
 
 # 2.3.6.v20190621 "千と千尋の神隠"
 
