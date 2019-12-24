@@ -50,7 +50,7 @@ public class FreeMarkerConfigurer {
         PropertiesProxy conf = ioc.get(PropertiesProxy.class, "conf");
         this.initp(configuration,
                    Mvcs.getServletContext(),
-                   "template",
+                   conf.get(FreemarkerViewMaker.PROP_PREFIX, "template"),
                    conf.get(FreemarkerViewMaker.PROP_SUFFIX, ".html"),
                    new FreemarkerDirectiveFactory());
     }
