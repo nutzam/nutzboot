@@ -316,6 +316,8 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         server.setAttribute("org.eclipse.jetty.server.Request.maxFormContentSize", getMaxFormContentSize());
         updateMonitorValue("maxFormContentSize", server.getAttribute("org.eclipse.jetty.server.Request.maxFormContentSize"));
         server.setAttribute("org.eclipse.jetty.server.Request.maxFormKeys", getMaxFormKeys());
+        wac.setMaxFormContentSize(getMaxFormContentSize());
+        wac.setMaxFormKeys(getMaxFormKeys());
         server.setDumpAfterStart(false);
         server.setDumpBeforeStop(false);
         server.setStopAtShutdown(true);
