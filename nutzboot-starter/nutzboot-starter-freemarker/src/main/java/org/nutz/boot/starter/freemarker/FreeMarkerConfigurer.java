@@ -43,11 +43,11 @@ public class FreeMarkerConfigurer {
     private FreemarkerDirectiveFactory freemarkerDirectiveFactory;
     private Map<String, Object> tags = new HashMap<>();
     private TemplateLoader templateLoader;
-
+    private PropertiesProxy conf;
     public FreeMarkerConfigurer() {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
         Ioc ioc = Mvcs.ctx().getDefaultIoc();
-        PropertiesProxy conf = ioc.get(PropertiesProxy.class, "conf");
+        this.conf = ioc.get(PropertiesProxy.class, "conf");
         this.initp(configuration,
                    Mvcs.getServletContext(),
                    conf.get(FreemarkerViewMaker.PROP_PREFIX, "template"),
@@ -82,7 +82,7 @@ public class FreeMarkerConfigurer {
         }
         this.freemarkerDirectiveFactory = freemarkerDirectiveFactory;
         this.configuration.setTagSyntax(Configuration.AUTO_DETECT_TAG_SYNTAX);
-        this.configuration.setTemplateUpdateDelayMilliseconds(-1000);
+        this.configuration.setTemplateUpdateDelayMilliseconds(conf.getInt(FreemarkerViewMaker.PROP_CACHE_TIME, -1000));
         this.configuration.setDefaultEncoding("UTF-8");
         this.configuration.setURLEscapingCharset("UTF-8");
         this.configuration.setLocale(Locale.CHINA);
