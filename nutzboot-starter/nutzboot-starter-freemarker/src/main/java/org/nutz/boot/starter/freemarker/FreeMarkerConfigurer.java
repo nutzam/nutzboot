@@ -62,22 +62,25 @@ public class FreeMarkerConfigurer {
                          FreemarkerDirectiveFactory freemarkerDirectiveFactory) {
         this.configuration = configuration;
         URL url = ClassTools.getClassLoader().getResource(prefix);
-        String path = url.getPath();
-        if (path != null) {
-            if (path.contains("jar!")) {
-                this.prefix = prefix;
-                log.info("using classload for TemplateLoading : " + prefix);
-                templateLoader = new ClassTemplateLoader(getClass().getClassLoader(), prefix);
+        if(url != null) {
+        	String path = url.getPath();
+            if (path != null) {
+                if (path.contains("jar!")) {
+                    this.prefix = prefix;
+                    log.info("using classload for TemplateLoading : " + prefix);
+                    templateLoader = new ClassTemplateLoader(getClass().getClassLoader(), prefix);
+                }
+                else {
+                    this.prefix = path;
+                }
             }
-            else {
-                this.prefix = path;
+            if (this.prefix == null) {
+                this.prefix = sc.getRealPath("/") + prefix;
             }
+        }else {
+        	this.prefix = prefix;
         }
-        this.suffix = suffix;
         this.freemarkerDirectiveFactory = freemarkerDirectiveFactory;
-        if (this.prefix == null)
-            this.prefix = sc.getRealPath("/") + prefix;
-
         this.configuration.setTagSyntax(Configuration.AUTO_DETECT_TAG_SYNTAX);
         this.configuration.setTemplateUpdateDelayMilliseconds(-1000);
         this.configuration.setDefaultEncoding("UTF-8");
