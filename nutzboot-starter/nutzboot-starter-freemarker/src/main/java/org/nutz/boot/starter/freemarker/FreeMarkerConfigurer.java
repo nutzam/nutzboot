@@ -61,6 +61,7 @@ public class FreeMarkerConfigurer {
                          String suffix,
                          FreemarkerDirectiveFactory freemarkerDirectiveFactory) {
         this.configuration = configuration;
+        this.suffix = suffix;
         URL url = ClassTools.getClassLoader().getResource(prefix);
         if(url != null) {
         	String path = url.getPath();
