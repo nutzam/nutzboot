@@ -43,14 +43,14 @@ public class FreeMarkerConfigurer {
     private FreemarkerDirectiveFactory freemarkerDirectiveFactory;
     private Map<String, Object> tags = new HashMap<>();
     private TemplateLoader templateLoader;
-
+    private PropertiesProxy conf;
     public FreeMarkerConfigurer() {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
         Ioc ioc = Mvcs.ctx().getDefaultIoc();
-        PropertiesProxy conf = ioc.get(PropertiesProxy.class, "conf");
+        this.conf = ioc.get(PropertiesProxy.class, "conf");
         this.initp(configuration,
                    Mvcs.getServletContext(),
-                   "template",
+                   conf.get(FreemarkerViewMaker.PROP_PREFIX, "template"),
                    conf.get(FreemarkerViewMaker.PROP_SUFFIX, ".html"),
                    new FreemarkerDirectiveFactory());
     }
@@ -62,24 +62,27 @@ public class FreeMarkerConfigurer {
                          FreemarkerDirectiveFactory freemarkerDirectiveFactory) {
         this.configuration = configuration;
         URL url = ClassTools.getClassLoader().getResource(prefix);
-        String path = url.getPath();
-        if (path != null) {
-            if (path.contains("jar!")) {
-                this.prefix = prefix;
-                log.info("using classload for TemplateLoading : " + prefix);
-                templateLoader = new ClassTemplateLoader(getClass().getClassLoader(), prefix);
+        if(url != null) {
+        	String path = url.getPath();
+            if (path != null) {
+                if (path.contains("jar!")) {
+                    this.prefix = prefix;
+                    log.info("using classload for TemplateLoading : " + prefix);
+                    templateLoader = new ClassTemplateLoader(getClass().getClassLoader(), prefix);
+                }
+                else {
+                    this.prefix = path;
+                }
             }
-            else {
-                this.prefix = path;
+            if (this.prefix == null) {
+                this.prefix = sc.getRealPath("/") + prefix;
             }
+        }else {
+        	this.prefix = prefix;
         }
-        this.suffix = suffix;
         this.freemarkerDirectiveFactory = freemarkerDirectiveFactory;
-        if (this.prefix == null)
-            this.prefix = sc.getRealPath("/") + prefix;
-
         this.configuration.setTagSyntax(Configuration.AUTO_DETECT_TAG_SYNTAX);
-        this.configuration.setTemplateUpdateDelayMilliseconds(-1000);
+        this.configuration.setTemplateUpdateDelayMilliseconds(conf.getInt(FreemarkerViewMaker.PROP_CACHE_TIME, -1000));
         this.configuration.setDefaultEncoding("UTF-8");
         this.configuration.setURLEscapingCharset("UTF-8");
         this.configuration.setLocale(Locale.CHINA);

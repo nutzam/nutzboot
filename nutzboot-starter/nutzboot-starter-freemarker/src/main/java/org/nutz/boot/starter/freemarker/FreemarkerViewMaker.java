@@ -20,7 +20,11 @@ public class FreemarkerViewMaker implements ViewMaker {
 	@PropDoc(group = "freemarker", value = "文件后缀",defaultValue = ".html")
 	public static final String PROP_SUFFIX = PRE + "suffix";
 
-
+	@PropDoc(group = "freemarker", value = "模版路径",defaultValue = "template")
+	public static final String PROP_PREFIX = PRE + "prefix";
+	
+	@PropDoc(group = "freemarker", value = "模版缓存时间",defaultValue = "-1000",type = "init")
+	public static final String PROP_CACHE_TIME = PRE + "cache_time";
 	@Inject
 	PropertiesProxy conf;
 
