@@ -8,7 +8,7 @@
         <version>2.3.9-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>nutzboot-starter-nacos-config-client</artifactId>
+    <artifactId>nutzboot-starter-nacos-config</artifactId>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -17,7 +17,6 @@
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-client</artifactId>
-            <version>1.1.1</version>
         </dependency>
     </dependencies>
 
