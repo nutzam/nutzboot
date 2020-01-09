@@ -51,6 +51,7 @@
 		<redisson.version>3.11.4</redisson.version>
 		<mybatis.version>3.5.2</mybatis.version>
 		<nacos.version>1.1.4</nacos.version>
+		<swagger-servlet.version>1.6.0</swagger-servlet.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -208,7 +209,7 @@
 			<dependency>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-servlet</artifactId>
-				<version>1.5.18</version>
+				<version>${swagger-servlet.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>log4j</groupId>
