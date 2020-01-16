@@ -8,13 +8,13 @@
 	<name>nutzboot-parent</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<nutz.version>1.r.68.v20191031</nutz.version>
+		<nutz.version>1.r.68-SNAPSHOT</nutz.version>
 		<nutzboot.version>2.3.9-SNAPSHOT</nutzboot.version>
-		<nutzwx.version>1.r.68.v20191031</nutzwx.version>
+		<nutzwx.version>1.r.68-SNAPSHOT</nutzwx.version>
 		<slf4j.version>1.7.28</slf4j.version>
 		<slf4j-api.version>1.7.28</slf4j-api.version>
 		<logback.version>1.2.3</logback.version>
-		<dubbo.version>2.6.6</dubbo.version>
+		<dubbo.version>2.6.7</dubbo.version>
 		<sentinel.version>1.5.0</sentinel.version>
 		<jetty.version>9.4.22.v20191022</jetty.version>
 		<tomcat.version>8.5.46</tomcat.version>
@@ -50,6 +50,8 @@
 		<seata.version>0.9.0</seata.version>
 		<redisson.version>3.11.4</redisson.version>
 		<mybatis.version>3.5.2</mybatis.version>
+		<nacos.version>1.1.4</nacos.version>
+		<swagger-servlet.version>1.6.0</swagger-servlet.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -84,7 +86,7 @@
 		<!--<module>nutzboot-demo</module>-->
 		<module>nutzcloud</module>
 
-	</modules>
+    </modules>
 	<profiles>
 		<profile>
 			<id>demo</id>
@@ -207,7 +209,7 @@
 			<dependency>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-servlet</artifactId>
-				<version>1.5.18</version>
+				<version>${swagger-servlet.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>log4j</groupId>
@@ -968,7 +970,12 @@
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
-				<artifactId>nutzboot-starter-nacos-config-client</artifactId>
+				<artifactId>nutzboot-starter-nacos-config</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-nacos-discovery</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
@@ -998,6 +1005,11 @@
 				<groupId>org.nutz.cloud</groupId>
 				<artifactId>nutzcloud-perca</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.nacos</groupId>
+				<artifactId>nacos-client</artifactId>
+				<version>${nacos.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
