@@ -21,7 +21,7 @@
 		<shiro.version>1.3.2</shiro.version>
 		<jetx.version>2.1.8</jetx.version>
 		<cxf.version>3.1.15</cxf.version>
-		<spring.version>4.3.26.RELEASE</spring.version>
+		<spring.version>4.3.21.RELEASE</spring.version>
 		<lettuce.version>5.0.5.RELEASE</lettuce.version>
 		<beetl.version>2.9.10</beetl.version>
 		<beetlsql.version>2.11.7</beetlsql.version>
