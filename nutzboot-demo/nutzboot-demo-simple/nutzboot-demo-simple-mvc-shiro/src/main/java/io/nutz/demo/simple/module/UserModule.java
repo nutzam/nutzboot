@@ -4,6 +4,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ThreadContext;
 import org.nutz.dao.Dao;
@@ -24,6 +26,7 @@ public class UserModule {
     
     @Inject
     Dao dao;
+    
 
     @GET
     @At("/login")
@@ -52,4 +55,5 @@ public class UserModule {
         if (subject.isAuthenticated())
             subject.logout();
     }
+    
 }
