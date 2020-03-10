@@ -1,10 +1,12 @@
 package org.nutz.boot.starter.nacos;
 
 import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.client.naming.utils.UtilAndComs;
 import org.nutz.boot.AppContext;
 import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.config.impl.AbstractConfigureLoader;
+import org.nutz.boot.starter.ServerFace;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -20,7 +22,7 @@ import static com.alibaba.nacos.api.PropertyKeyConst.*;
  * @date 2020/1/8
  */
 @IocBean
-public class NacosDiscoveryLoader extends AbstractConfigureLoader {
+public class NacosDiscoveryLoader implements ServerFace {
     /**
      * 获取日志对象
      */
@@ -61,19 +63,28 @@ public class NacosDiscoveryLoader extends AbstractConfigureLoader {
 
     @Inject
     protected AppContext appContext;
+    
+    @Inject
+    protected PropertiesProxy conf;
+
+    protected NamingService namingService;
+    
+    protected Properties properties = new Properties();
 
     @Override
-    public PropertiesProxy get() {
-        return conf;
+    public void start() throws Exception {
+    	namingService = NacosFactory.createNamingService(getNacosDiscoveryProperties());
     }
-
+    
     @Override
-    public void init() throws Exception {
-        NacosFactory.createNamingService(getNacosDiscoveryProperties());
+    public void stop() throws Exception {
+    	if (namingService != null) {
+    		// 怎么取消注册呢
+    		//namingService.unsubscribe(serviceName, listener);
+    	}
     }
 
     public Properties getNacosDiscoveryProperties() {
-        Properties properties = new Properties();
         properties.put(SERVER_ADDR, conf.get(NACOS_ADDR, ""));
         properties.put(NAMESPACE, conf.get(NACOS_NAMESPACE, ""));
         properties.put(UtilAndComs.NACOS_NAMING_LOG_NAME, conf.get(NACOS_LOG_FILENAME, ""));
