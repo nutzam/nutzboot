@@ -54,7 +54,7 @@ public class LogbackStarter implements ServerFace {
         if (Strings.isBlank(name)) {
             throw Lang.makeThrow("name is must!!");
         }
-        String cachePrefix = conf.get(PROP_LOGLEVEL_NAME, conf.get(PROP_LOGLEVEL_CACHE_PREFIX, "logback:loglevel:"));
+        String cachePrefix = conf.get(PROP_LOGLEVEL_CACHE_PREFIX, "logback:loglevel:");
         loglevelProperty.REDIS_KEY_PREFIX = cachePrefix;
         loglevelProperty.setName(name);
         loglevelProperty.setEnabled(conf.getBoolean(PROP_LOGLEVEL_ENABLED, false));
