@@ -34,6 +34,9 @@ public class LogbackStarter implements ServerFace {
     @PropDoc(value = "实例名称,不设置则自动获取nutz.application.name", type = "string")
     public static final String PROP_LOGLEVEL_NAME = PRE + "loglevel.name";
 
+    @PropDoc(value = "缓存前缀名", type = "string", defaultValue = "logback:loglevel:")
+    public static final String PROP_LOGLEVEL_CACHE_PREFIX = PRE + "loglevel.cache.prefix";
+
     @PropDoc(value = "心跳间隔", type = "int", defaultValue = "5")
     public static final String PROP_LOGLEVEL_HEARTBEAT = PRE + "loglevel.heartbeat";
 
@@ -51,6 +54,8 @@ public class LogbackStarter implements ServerFace {
         if (Strings.isBlank(name)) {
             throw Lang.makeThrow("name is must!!");
         }
+        String cachePrefix = conf.get(PROP_LOGLEVEL_NAME, conf.get(PROP_LOGLEVEL_CACHE_PREFIX, "logback:loglevel:"));
+        loglevelProperty.REDIS_KEY_PREFIX = cachePrefix;
         loglevelProperty.setName(name);
         loglevelProperty.setEnabled(conf.getBoolean(PROP_LOGLEVEL_ENABLED, false));
         loglevelProperty.setProcessId(Lang.JdkTool.getProcessId("0"));
