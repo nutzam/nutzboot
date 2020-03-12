@@ -23,6 +23,9 @@ public class DruidWebStatServletStarter implements WebServletFace {
 	
 	protected static final String PRE = "druid.web.servlet.";
 
+	@PropDoc(group="druid", type="boolean", defaultValue="true", value="是否启动monitor页面")
+	public static final String PROP_ENABLE = PRE + "enable";
+	
 	@PropDoc(group="druid", type="boolean", defaultValue="true", value="是否允许重置统计结果")
 	public static final String PROP_RESET_ENABLE = PRE + StatViewServlet.PARAM_NAME_RESET_ENABLE;
 
@@ -80,6 +83,10 @@ public class DruidWebStatServletStarter implements WebServletFace {
 	public Servlet getServlet() {
 		if (!DataSourceStarter.isDruid(conf))
 			return null;
+		if (!conf.getBoolean(PROP_ENABLE, true)) {
+			log.debug("druid monitor enable=false, disable it");
+			return null;
+		}
 		return new StatViewServlet();
 	}
 
