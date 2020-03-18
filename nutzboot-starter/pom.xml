@@ -80,6 +80,7 @@
 		<module>nutzboot-starter-sqlxmltpl</module>
 		<module>nutzboot-starter-redisson</module>
 		<module>nutzboot-starter-thrift-server</module>
+		<module>nutzboot-starter-webjars</module>
 
 	</modules>
 	<dependencies>
