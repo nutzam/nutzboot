@@ -6,13 +6,11 @@ import org.nutz.integration.jedis.JedisIocLoader;
 import org.nutz.ioc.IocLoader;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
-import org.nutz.ioc.loader.annotation.IocBean;
-import org.nutz.lang.Strings;
 
-@IocBean
+//@IocBean
 public class JedisStarter implements IocLoaderProvider {
 	
-	@Inject
+	//@Inject
 	protected PropertiesProxy conf;
 
     protected static String PRE = "redis.";
@@ -34,9 +32,9 @@ public class JedisStarter implements IocLoaderProvider {
     public static final String PROP_MAX_REDIR = PRE + "max_redir";
     
     public IocLoader getIocLoader() {
-    	if (Strings.isBlank(conf.get("redis.password"))) {
-    		conf.remove("redis.password");
-    	}
+//    	if (Strings.isBlank(conf.get("redis.password"))) {
+//    		conf.remove("redis.password");
+//    	}
     	return new JedisIocLoader();
     }
 }
