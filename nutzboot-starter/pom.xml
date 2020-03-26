@@ -81,8 +81,9 @@
 		<module>nutzboot-starter-redisson</module>
 		<module>nutzboot-starter-thrift-server</module>
 		<module>nutzboot-starter-webjars</module>
+        <module>nutzboot-starter-swagger3</module>
 
-	</modules>
+    </modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.nutz</groupId>

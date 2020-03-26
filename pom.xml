@@ -52,6 +52,7 @@
 		<mybatis.version>3.5.2</mybatis.version>
 		<nacos.version>1.1.4</nacos.version>
 		<swagger-servlet.version>1.6.0</swagger-servlet.version>
+		<swagger3.version>2.1.1</swagger3.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
