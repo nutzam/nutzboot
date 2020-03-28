@@ -35,6 +35,22 @@ public class BeetlGroupTemplateStarter {
     @PropDoc(value = "语句的定界符的结束符号", defaultValue = "%>")
     public static final String PROP_DELIMITER_STATEMENT_END = PRE + Configuration.DELIMITER_STATEMENT_END;
 
+    @PropDoc(value = "第二组占位符的定界符的起始符号")
+    public static final String PROP_DELIMITER_PLACEHOLDER_START2 = PRE
+                                                                   + Configuration.DELIMITER_PLACEHOLDER_START2;
+
+    @PropDoc(value = "第二组占位符的定界符的结束符号")
+    public static final String PROP_DELIMITER_PLACEHOLDER_END2 = PRE
+                                                                 + Configuration.DELIMITER_PLACEHOLDER_END2;
+
+    @PropDoc(value = "第二组语句的定界符的起始符号")
+    public static final String PROP_DELIMITER_STATEMENT_START2 = PRE
+                                                                 + Configuration.DELIMITER_STATEMENT_START2;
+
+    @PropDoc(value = "第二组语句的定界符的结束符号")
+    public static final String PROP_DELIMITER_STATEMENT_END2 = PRE
+                                                               + Configuration.DELIMITER_STATEMENT_END2;
+
     @PropDoc(value = "是否允许原生调用", defaultValue = "false")
     public static final String PROP_NATIVE_CALL = PRE + Configuration.NATIVE_CALL;
 
@@ -68,7 +84,7 @@ public class BeetlGroupTemplateStarter {
     @PropDoc(value = "是否支持Html标签", defaultValue = "false")
     public static final String PROP_HTML_TAG_SUPPORT = PRE + Configuration.HTML_TAG_SUPPORT;
 
-    @PropDoc(value = "html标签前缀")
+    @PropDoc(value = "html标签前缀", defaultValue = "#")
     public static final String PROP_HTML_TAG_FLAG = PRE + Configuration.HTML_TAG_FLAG;
 
     @PropDoc(value = "需要导入哪些package")
@@ -83,11 +99,8 @@ public class BeetlGroupTemplateStarter {
     @PropDoc(value = "模板加载器", defaultValue = "org.beetl.core.resource.ClasspathResourceLoader")
     public static final String PROP_RESOURCE_LOADER = PRE + Configuration.RESOURCE_LOADER;
 
-    @PropDoc(value = "html标签绑定属性")
+    @PropDoc(value = "html标签绑定属性", defaultValue = "var,export")
     public static final String PROP_HTML_TAG_BINDING_ATTRIBUTE = PRE + Configuration.HTML_TAG_BINDING_ATTRIBUTE;
-
-    @PropDoc(value = "模板函数的语句定界符")
-    public static final String PROP_FUNCTION_TAG_LIMITER = PRE + Configuration.FUNCTION_TAG_LIMITER;
 
     private static final Log log = Logs.get();
 
