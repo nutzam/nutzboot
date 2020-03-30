@@ -1,9 +1,5 @@
 package org.nutz.boot.starter.shiro;
 
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.List;
-
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.authc.pam.AuthenticationStrategy;
 import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
@@ -42,6 +38,10 @@ import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.plugins.cache.impl.lcache.LCacheManager;
 import org.nutz.plugins.cache.impl.redis.RedisCacheManager;
+
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.List;
 
 @IocBean
 public class ShiroEnvStarter implements WebEventListenerFace {
@@ -93,6 +93,8 @@ public class ShiroEnvStarter implements WebEventListenerFace {
 
     @PropDoc(value = "SessionDao的ioc名称,设置并声明该IocBean,就能覆盖默认的SessionDao实现", type = "String", defaultValue = "shiroSessionDao")
     public static final String PROP_SESSION_DAO_IOCNAME = "shiro.session.dao.iocName";
+    @PropDoc(value = "SessionDao的缓存名称", type = "String", defaultValue = "shiro-activeSessionCache")
+    public static final String PROP_SESSION_DAO_ACTIVE_SESSION_CACHE_NAME = "shiro.session.dao.activeSessionsCacheName";
 
     @Inject
     protected AppContext appContext;
@@ -175,11 +177,11 @@ public class ShiroEnvStarter implements WebEventListenerFace {
         if (ioc.has(sessionDAOIocName)) {
             log.info("use custom SessionDAO by ioc name = " + sessionDAOIocName);
             sessionDAO = ioc.get(SessionDAO.class, sessionDAOIocName);
-        }
-        else {
+        } else {
             log.debug("using default SessionDAO = EnterpriseCacheSessionDAO");
             sessionDAO = new EnterpriseCacheSessionDAO();
-            ((EnterpriseCacheSessionDAO)sessionDAO).setSessionIdGenerator(new UU32SessionIdGenerator());
+            ((EnterpriseCacheSessionDAO) sessionDAO).setSessionIdGenerator(new UU32SessionIdGenerator());
+            ((EnterpriseCacheSessionDAO) sessionDAO).setActiveSessionsCacheName(conf.get(PROP_SESSION_DAO_ACTIVE_SESSION_CACHE_NAME, "shiro-activeSessionCache"));
         }
         webSessionManager.setSessionDAO(sessionDAO);
         //设置session会话超时时间

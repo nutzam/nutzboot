@@ -1,5 +1,21 @@
 # NB进化史
 
+# 2.3.9.v20200309 "落大雨"
+
+落大雨，水浸街
+
+* 时间: 2020-03-09
+* 曲目: [落雨大](https://www.youtube.com/watch?v=3_YqjU1pGVg)
+* 兼容性: 全兼容的啦
+
+* 变更:
+	* add: session id反查session的demo
+	* add: freemarker支持设置模板路径
+	* update: 更新jetty/undertow/mqtt/dubbo/swagger版本 by howe
+	* fix: seata提示DataSourceProxy没有close方法的问题
+	* fix: jetty设置form大小无效
+	* fix: freemarker模版后缀没有赋值
+
 # 2.3.8.v20191031 "那年那兔"
 
 update了很多东西,看变更列表吧

@@ -33,7 +33,7 @@ public class LoglevelService implements PubSub {
      * 初始化数据到redis并订阅主题
      */
     public void init() {
-        pubSubService.reg(LoglevelProperty.REDIS_KEY_PREFIX + "pubsub", this);
+        pubSubService.reg(loglevelProperty.REDIS_KEY_PREFIX + "pubsub", this);
         saveToRedis();
         doHeartbeat();
     }
@@ -55,7 +55,7 @@ public class LoglevelService implements PubSub {
         loglevelProperty.setVmUse(vmUse);
         loglevelProperty.setLoglevel(getLevel());
         //log.debug("LoglevelService saveToRedis::"+Json.toJson(loglevelProperty));
-        redisService.setex(LoglevelProperty.REDIS_KEY_PREFIX + "list:" + loglevelProperty.getName() + ":" + loglevelProperty.getProcessId(), loglevelProperty.getKeepalive(), Json.toJson(loglevelProperty, JsonFormat.compact()));
+        redisService.setex(loglevelProperty.REDIS_KEY_PREFIX + "list:" + loglevelProperty.getName() + ":" + loglevelProperty.getProcessId(), loglevelProperty.getKeepalive(), Json.toJson(loglevelProperty, JsonFormat.compact()));
     }
 
     /**
@@ -71,7 +71,7 @@ public class LoglevelService implements PubSub {
      * @param loglevelCommand
      */
     public void changeLoglevel(LoglevelCommand loglevelCommand) {
-        pubSubService.fire(LoglevelProperty.REDIS_KEY_PREFIX + "pubsub", Json.toJson(loglevelCommand, JsonFormat.compact()));
+        pubSubService.fire(loglevelProperty.REDIS_KEY_PREFIX + "pubsub", Json.toJson(loglevelCommand, JsonFormat.compact()));
     }
 
     /**
@@ -150,7 +150,7 @@ public class LoglevelService implements PubSub {
      * @return
      */
     public NutMap getData() {
-        Set<String> set = redisService.keys("logback:loglevel:list:*");
+        Set<String> set = redisService.keys(loglevelProperty.REDIS_KEY_PREFIX + "list:*");
         NutMap map = NutMap.NEW();
         for (String key : set) {
             String[] keys = key.split(":");

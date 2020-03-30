@@ -1,10 +1,13 @@
 package org.nutz.boot.starter.nacos;
 
-import com.alibaba.nacos.api.NacosFactory;
-import com.alibaba.nacos.api.config.ConfigService;
+import static com.alibaba.nacos.api.PropertyKeyConst.*;
+
+import java.io.IOException;
+import java.util.Properties;
+
 import org.nutz.boot.AppContext;
 import org.nutz.boot.annotation.PropDoc;
-import org.nutz.boot.config.impl.AbstractConfigureLoader;
+import org.nutz.boot.config.impl.PropertiesConfigureLoader;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -15,10 +18,8 @@ import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
-import java.io.IOException;
-import java.util.Properties;
-
-import static com.alibaba.nacos.api.PropertyKeyConst.*;
+import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.config.ConfigService;
 
 /**
  * @author wentao
@@ -30,7 +31,7 @@ import static com.alibaba.nacos.api.PropertyKeyConst.*;
  * @date 2019-03-06 21:45
  */
 @IocBean
-public class NacosConfigureLoader extends AbstractConfigureLoader {
+public class NacosConfigureLoader extends PropertiesConfigureLoader {
     /**
      * 获取日志对象
      */
@@ -96,11 +97,6 @@ public class NacosConfigureLoader extends AbstractConfigureLoader {
     @Inject
     protected AppContext appContext;
 
-    @Override
-    public PropertiesProxy get() {
-        return conf;
-    }
-
     private void setConfig(String content, String contentType, PropertiesProxy conf) {
         if ("json".equals(contentType)) {
             NutMap configMap = new NutMap(content);
@@ -125,6 +121,7 @@ public class NacosConfigureLoader extends AbstractConfigureLoader {
 
     @Override
     public void init() throws Exception {
+    	super.init();
         String dataId = conf.get(NACOS_DATA_ID, conf.get("nutz.application.name", "nutzboot"));
         String group = conf.get(NACOS_GROUP, "DEFAULT_GROUP");
         String dataType = conf.get(NACOS_DATA_TYPE, "properties");
@@ -146,8 +143,7 @@ public class NacosConfigureLoader extends AbstractConfigureLoader {
         properties.put(CONTEXT_PATH, conf.get(NACOS_CONTEXT_PATH, ""));
         properties.put(CLUSTER_NAME, conf.get(NACOS_CLUSTER_NAME, ""));
         properties.put(MAX_RETRY, conf.get(NACOS_MAX_RETRY, ""));
-        properties.put(CONFIG_LONG_POLL_TIMEOUT,
-                conf.get(NACOS_CONFIG_LONG_POLL_TIMEOUT, ""));
+        properties.put(CONFIG_LONG_POLL_TIMEOUT, conf.get(NACOS_CONFIG_LONG_POLL_TIMEOUT, ""));
         properties.put(CONFIG_RETRY_TIME, conf.get(NACOS_CONFIG_RETRY_TIME, ""));
         properties.put(ENABLE_REMOTE_SYNC_CONFIG, conf.get(NACOS_ENABLE_REMOTE_SYNC_CONFIG, ""));
         String endpoint = conf.get(NACOS_ENCODE_ENDPOINT, "");

@@ -62,7 +62,7 @@
 * [zjSniper](https://gitee.com/zjSniper) (优化starter-tio的逻辑)
 * [tasdingoo](https://github.com/tasdingoo)(issue@github 122)
 * [csl_slchia](https://gitee.com/csl_slchia)(issue@gitee II92L)
-* [大鲨鱼](https://github.com/Wizzercn)(提交starter-wkcache/elasticsearch/sentinel等,扩展NB功能)
+* [大鲨鱼](https://github.com/Wizzercn)(提交starter-wkcache/elasticsearch/sentinel/swagger3等,扩展NB功能)
 * [threefish](https://github.com/threefish)(Nutz Intellij idea插件,提交starter-email/sqlXmlTpl)
 * 还有您的名字哦,告知我们吧
 

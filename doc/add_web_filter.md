@@ -60,7 +60,7 @@ public class MyAbcFilter implements WebFilterFace {
 
 ```java
 @IocBean // 必须声明成一个Ioc对象
-public class MyAbcFilter extends implements WebFilterFace {
+public class MyAbcFilter extends XXXFilter implements WebFilterFace {
 	// 与上一个示例的区别在于getFilter这一步
 	public Filter getFilter() {
 		return this; // 返回自身
