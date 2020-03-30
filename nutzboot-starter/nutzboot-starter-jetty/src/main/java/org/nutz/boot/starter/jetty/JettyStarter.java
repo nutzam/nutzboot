@@ -48,7 +48,8 @@ import org.nutz.log.Logs;
 import org.nutz.resource.Scans;
 
 @IocBean
-public class JettyStarter extends AbstractServletContainerStarter implements ServerFace, MonitorObject {
+public class JettyStarter extends AbstractServletContainerStarter
+        implements ServerFace, MonitorObject {
 
     private static final Log log = Logs.get();
 
@@ -95,30 +96,39 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     @PropDoc(value = "安全协议的端口,例如8443")
     public static final String PROP_HTTP_CONFIG_SECUREPORT = PRE + "httpConfig.securePort";
     @PropDoc(value = "输出缓冲区大小", defaultValue = "32768")
-    public static final String PROP_HTTP_CONFIG_OUTPUTBUFFERSIZE = PRE + "httpConfig.outputBufferSize";
+    public static final String PROP_HTTP_CONFIG_OUTPUTBUFFERSIZE = PRE
+                                                                   + "httpConfig.outputBufferSize";
     @PropDoc(value = "输出聚合大小", defaultValue = "8192")
-    public static final String PROP_HTTP_CONFIG_OUTPUTAGGREGATIONSIZE = PRE + "httpConfig.outputAggregationSize";
+    public static final String PROP_HTTP_CONFIG_OUTPUTAGGREGATIONSIZE = PRE
+                                                                        + "httpConfig.outputAggregationSize";
     @PropDoc(value = "请求的头部最大值", defaultValue = "8192")
-    public static final String PROP_HTTP_CONFIG_REQUESTHEADERSIZE = PRE + "httpConfig.requestHeaderSize";
+    public static final String PROP_HTTP_CONFIG_REQUESTHEADERSIZE = PRE
+                                                                    + "httpConfig.requestHeaderSize";
     @PropDoc(value = "响应的头部最大值", defaultValue = "8192")
-    public static final String PROP_HTTP_CONFIG_RESPONSEHEADERSIZE = PRE + "httpConfig.responseHeaderSize";
+    public static final String PROP_HTTP_CONFIG_RESPONSEHEADERSIZE = PRE
+                                                                     + "httpConfig.responseHeaderSize";
     @PropDoc(value = "是否发送jetty版本号", defaultValue = "true")
-    public static final String PROP_HTTP_CONFIG_SENDSERVERVERSION = PRE + "httpConfig.sendServerVersion";
+    public static final String PROP_HTTP_CONFIG_SENDSERVERVERSION = PRE
+                                                                    + "httpConfig.sendServerVersion";
     @PropDoc(value = "是否发送日期信息", defaultValue = "true")
     public static final String PROP_HTTP_CONFIG_SENDDATEHEADER = PRE + "httpConfig.sendDateHeader";
     @PropDoc(value = "头部缓冲区大小", defaultValue = "8192")
-    public static final String PROP_HTTP_CONFIG_HEADERCACHESIZE = PRE + "httpConfig.headerCacheSize";
+    public static final String PROP_HTTP_CONFIG_HEADERCACHESIZE = PRE
+                                                                  + "httpConfig.headerCacheSize";
     @PropDoc(value = "最大错误重定向次数", defaultValue = "10")
-    public static final String PROP_HTTP_CONFIG_MAXERRORDISPATCHES = PRE + "httpConfig.maxErrorDispatches";
+    public static final String PROP_HTTP_CONFIG_MAXERRORDISPATCHES = PRE
+                                                                     + "httpConfig.maxErrorDispatches";
     @PropDoc(value = "阻塞超时", defaultValue = "-1")
-    public static final String PROP_HTTP_CONFIG_BLOCKINGTIMEOUT = PRE + "httpConfig.blockingTimeout";
+    public static final String PROP_HTTP_CONFIG_BLOCKINGTIMEOUT = PRE
+                                                                  + "httpConfig.blockingTimeout";
     @PropDoc(value = "是否启用持久化连接", defaultValue = "true")
-    public static final String PROP_HTTP_CONFIG_PERSISTENTCONNECTIONSENABLED = PRE + "httpConfig.persistentConnectionsEnabled";
+    public static final String PROP_HTTP_CONFIG_PERSISTENTCONNECTIONSENABLED = PRE
+                                                                               + "httpConfig.persistentConnectionsEnabled";
     @PropDoc(value = "自定义404页面,同理,其他状态码也是支持的")
     public static final String PROP_PAGE_404 = PRE + "page.404";
     @PropDoc(value = "自定义java.lang.Throwable页面,同理,其他异常也支持")
     public static final String PROP_PAGE_THROWABLE = PRE + "page.java.lang.Throwable";
-    
+
     // Gzip
     @PropDoc(value = "是否启用gzip", defaultValue = "false")
     public static final String PROP_GZIP_ENABLE = PRE + "gzip.enable";
@@ -129,9 +139,9 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     @PropDoc(value = "gzip压缩最小触发大小", defaultValue = "512")
     public static final String PROP_GZIP_MIN_CONTENT_SIZE = PRE + "gzip.minContentSize";
 
-    @PropDoc(value = "WelcomeFile列表", defaultValue="index.html,index.htm,index.do")
+    @PropDoc(value = "WelcomeFile列表", defaultValue = "index.html,index.htm,index.do")
     public static final String PROP_WELCOME_FILES = PRE + "welcome_files";
-    
+
     // HTTPS相关
     @PropDoc(value = "Https端口号")
     public static final String PROP_HTTPS_PORT = PRE + "https.port";
@@ -139,17 +149,21 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     public static final String PROP_HTTPS_KEYSTORE_PATH = PRE + "https.keystore.path";
     @PropDoc(value = "Https的KeyStore的密码")
     public static final String PROP_HTTPS_KEYSTORE_PASSWORD = PRE + "https.keystore.password";
-    
+
     // Session持久化相关
-    @PropDoc(value = "是否启用session持久化", defaultValue="false")
+    @PropDoc(value = "是否启用session持久化", defaultValue = "false")
     public static final String PROP_SESSION_STORE_ENABLE = PRE + "session.store.enable";
-    @PropDoc(value = "session持久化类型", defaultValue="jdbc", possible= {"jdbc", "file", "ioc", "redis"})
+    @PropDoc(value = "session持久化类型", defaultValue = "jdbc", possible = {"jdbc",
+                                                                        "file",
+                                                                        "ioc",
+                                                                        "redis"})
     public static final String PROP_SESSION_STORE_TYPE = PRE + "session.store.type";
-    @PropDoc(value = "session持久化,jdbc所用数据库源的ioc名称", defaultValue="dataSource")
-    public static final String PROP_SESSION_JDBC_DATASOURCE_IOCNAME = PRE + "session.jdbc.datasource.iocname";
-    @PropDoc(value = "session持久化,file所用的目录", defaultValue="./session")
+    @PropDoc(value = "session持久化,jdbc所用数据库源的ioc名称", defaultValue = "dataSource")
+    public static final String PROP_SESSION_JDBC_DATASOURCE_IOCNAME = PRE
+                                                                      + "session.jdbc.datasource.iocname";
+    @PropDoc(value = "session持久化,file所用的目录", defaultValue = "./session")
     public static final String PROP_SESSION_FILE_STOREDIR = PRE + "session.file.storeDir";
-    @PropDoc(value = "session持久化,SessionDataStore对应的ioc名称", defaultValue="jettySessionDataStore")
+    @PropDoc(value = "session持久化,SessionDataStore对应的ioc名称", defaultValue = "jettySessionDataStore")
     public static final String PROP_SESSION_IOC_DATASTORE = PRE + "session.ioc.datastore";
 
     protected Server server;
@@ -159,7 +173,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     public void start() throws Exception {
         server.start();
         if (log.isDebugEnabled())
-            log.debug("Jetty monitor props:\r\n"+getMonitorForPrint());
+            log.debug("Jetty monitor props:\r\n" + getMonitorForPrint());
     }
 
     public void stop() throws Exception {
@@ -200,7 +214,9 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         int httpsPort = conf.getInt(PROP_HTTPS_PORT);
         if (httpsPort > 0) {
             log.info("found https port " + httpsPort);
-            HttpConfiguration https_config = conf.make(HttpConfiguration.class, "jetty.httpsConfig.");;
+            HttpConfiguration https_config = conf.make(HttpConfiguration.class,
+                                                       "jetty.httpsConfig.");
+            ;
             https_config.setSecureScheme("https");
 
             SslContextFactory sslContextFactory = new SslContextFactory();
@@ -211,31 +227,30 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
             sslContextFactory.setKeyManagerPassword(conf.get("jetty.https.keymanager.password"));
 
             ServerConnector httpsConnector = new ServerConnector(server,
-                    new SslConnectionFactory(sslContextFactory,"http/1.1"),
-                    new HttpConnectionFactory(https_config));
-                    // 设置访问端口
+                                                                 new SslConnectionFactory(sslContextFactory,
+                                                                                          "http/1.1"),
+                                                                 new HttpConnectionFactory(https_config));
+            // 设置访问端口
             httpsConnector.setPort(httpsPort);
             httpsConnector.setHost(getHost());
             httpsConnector.setIdleTimeout(getIdleTimeout());
             server.addConnector(httpsConnector);
-            
+
             updateMonitorValue("https.enable", true);
             updateMonitorValue("https.port", httpsConnector.getPort());
             updateMonitorValue("https.host", httpsConnector.getHost());
             updateMonitorValue("https.idleTimeout", httpsConnector.getIdleTimeout());
-        }
-        else {
+        } else {
             updateMonitorValue("https.enable", false);
         }
-        
-        
 
         // 设置应用上下文
         wac = new WebAppContext();
         wac.setContextPath(getContextPath());
-        
-        //wac.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern", ".*/[^/]*servlet-api-[^/]*\\.jar$|.*/javax.servlet.jsp.jstl-.*\\.jar$|.*/[^/]*taglibs.*\\.jar$");
-        //wac.setAttribute("WebAppContext", value);
+
+        // wac.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",
+        // ".*/[^/]*servlet-api-[^/]*\\.jar$|.*/javax.servlet.jsp.jstl-.*\\.jar$|.*/[^/]*taglibs.*\\.jar$");
+        // wac.setAttribute("WebAppContext", value);
         // wac.setExtractWAR(false);
         // wac.setCopyWebInf(true);
         // wac.setProtectedTargets(new String[]{"/java", "/javax", "/org",
@@ -289,8 +304,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
             gzip.setMinGzipSize(conf.getInt(PROP_GZIP_MIN_CONTENT_SIZE, 512));
             gzip.setCompressionLevel(conf.getInt(PROP_GZIP_LEVEL, Deflater.DEFAULT_COMPRESSION));
             server.setHandler(gzip);
-        }
-        else {
+        } else {
             server.setHandler(wac);
         }
         List<String> list = Configuration.ClassList.serverDefault(server);
@@ -301,7 +315,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         wac.getSessionHandler().setMaxInactiveInterval(getSessionTimeout());
 
         ErrorHandler ep = Lang.first(appContext.getBeans(ErrorHandler.class));
-        if(ep == null){
+        if (ep == null) {
             ErrorPageErrorHandler handler = new ErrorPageErrorHandler();
             handler.setErrorPages(getErrorPages());
             ep = handler;
@@ -313,8 +327,10 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         updateMonitorValue("welcome_files", Strings.join(",", wac.getWelcomeFiles()));
 
         // 设置一下额外的东西
-        server.setAttribute("org.eclipse.jetty.server.Request.maxFormContentSize", getMaxFormContentSize());
-        updateMonitorValue("maxFormContentSize", server.getAttribute("org.eclipse.jetty.server.Request.maxFormContentSize"));
+        server.setAttribute("org.eclipse.jetty.server.Request.maxFormContentSize",
+                            getMaxFormContentSize());
+        updateMonitorValue("maxFormContentSize",
+                           server.getAttribute("org.eclipse.jetty.server.Request.maxFormContentSize"));
         server.setAttribute("org.eclipse.jetty.server.Request.maxFormKeys", getMaxFormKeys());
         wac.setMaxFormContentSize(getMaxFormContentSize());
         wac.setMaxFormKeys(getMaxFormKeys());
@@ -324,13 +340,15 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
 
         addNutzSupport();
 
-        ServerContainer sc = WebSocketServerContainerInitializer.configureContext(wac);
+        // ServerContainer sc =
+        // WebSocketServerContainerInitializer.configureContext(wac);
+        ServerContainer sc = WebSocketServerContainerInitializer.initialize(wac);
         for (Class<?> klass : Scans.me().scanPackage(appContext.getPackage())) {
             if (klass.getAnnotation(ServerEndpoint.class) != null) {
                 sc.addEndpoint(klass);
             }
         }
-        
+
         // 试试session持久化
         if (conf.getBoolean(PROP_SESSION_STORE_ENABLE)) {
             SessionHandler handler = wac.getSessionHandler();
@@ -338,29 +356,29 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
             String type = conf.get(PROP_SESSION_STORE_TYPE, "jdbc");
             log.info("using session store, type=" + type);
             switch (type) {
-            case "jdbc": 
-            {
+            case "jdbc": {
                 JDBCSessionDataStoreFactory factory = new JDBCSessionDataStoreFactory();
                 DatabaseAdaptor adaptor = new DatabaseAdaptor();
-                adaptor.setDatasource(ioc.get(DataSource.class, conf.get(PROP_SESSION_JDBC_DATASOURCE_IOCNAME, "dataSource")));
+                adaptor.setDatasource(ioc.get(DataSource.class,
+                                              conf.get(PROP_SESSION_JDBC_DATASOURCE_IOCNAME,
+                                                       "dataSource")));
                 factory.setDatabaseAdaptor(adaptor);
                 sessionCache.setSessionDataStore(factory.getSessionDataStore(handler));
                 break;
             }
-            case "file":
-            {
+            case "file": {
                 FileSessionDataStoreFactory factory = new FileSessionDataStoreFactory();
                 factory.setStoreDir(new File(conf.get(PROP_SESSION_FILE_STOREDIR, "./sessions")));
                 sessionCache.setSessionDataStore(factory.getSessionDataStore(handler));
                 break;
             }
-            case "ioc":
-            {
-                sessionCache.setSessionDataStore(ioc.get(SessionDataStore.class, conf.get(PROP_SESSION_IOC_DATASTORE, "jettySessionDataStore")));
+            case "ioc": {
+                sessionCache.setSessionDataStore(ioc.get(SessionDataStore.class,
+                                                         conf.get(PROP_SESSION_IOC_DATASTORE,
+                                                                  "jettySessionDataStore")));
                 break;
             }
-            case "redis":
-            {
+            case "redis": {
                 // 未完成...
             }
             default:
@@ -378,7 +396,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     public int getMaxFormContentSize() {
         return conf.getInt(PROP_MAX_FORM_CONTENT_SIZE, 1024 * 1024 * 1024);
     }
-    
+
     public int getMaxFormKeys() {
         return conf.getInt(PROP_MAX_FORM_KEYS, 1000);
     }
