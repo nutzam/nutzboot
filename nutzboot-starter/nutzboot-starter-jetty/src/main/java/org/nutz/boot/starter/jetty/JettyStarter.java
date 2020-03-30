@@ -48,8 +48,7 @@ import org.nutz.log.Logs;
 import org.nutz.resource.Scans;
 
 @IocBean
-public class JettyStarter extends AbstractServletContainerStarter
-        implements ServerFace, MonitorObject {
+public class JettyStarter extends AbstractServletContainerStarter implements ServerFace, MonitorObject {
 
     private static final Log log = Logs.get();
 
@@ -96,34 +95,25 @@ public class JettyStarter extends AbstractServletContainerStarter
     @PropDoc(value = "安全协议的端口,例如8443")
     public static final String PROP_HTTP_CONFIG_SECUREPORT = PRE + "httpConfig.securePort";
     @PropDoc(value = "输出缓冲区大小", defaultValue = "32768")
-    public static final String PROP_HTTP_CONFIG_OUTPUTBUFFERSIZE = PRE
-                                                                   + "httpConfig.outputBufferSize";
+    public static final String PROP_HTTP_CONFIG_OUTPUTBUFFERSIZE = PRE + "httpConfig.outputBufferSize";
     @PropDoc(value = "输出聚合大小", defaultValue = "8192")
-    public static final String PROP_HTTP_CONFIG_OUTPUTAGGREGATIONSIZE = PRE
-                                                                        + "httpConfig.outputAggregationSize";
+    public static final String PROP_HTTP_CONFIG_OUTPUTAGGREGATIONSIZE = PRE + "httpConfig.outputAggregationSize";
     @PropDoc(value = "请求的头部最大值", defaultValue = "8192")
-    public static final String PROP_HTTP_CONFIG_REQUESTHEADERSIZE = PRE
-                                                                    + "httpConfig.requestHeaderSize";
+    public static final String PROP_HTTP_CONFIG_REQUESTHEADERSIZE = PRE + "httpConfig.requestHeaderSize";
     @PropDoc(value = "响应的头部最大值", defaultValue = "8192")
-    public static final String PROP_HTTP_CONFIG_RESPONSEHEADERSIZE = PRE
-                                                                     + "httpConfig.responseHeaderSize";
+    public static final String PROP_HTTP_CONFIG_RESPONSEHEADERSIZE = PRE + "httpConfig.responseHeaderSize";
     @PropDoc(value = "是否发送jetty版本号", defaultValue = "true")
-    public static final String PROP_HTTP_CONFIG_SENDSERVERVERSION = PRE
-                                                                    + "httpConfig.sendServerVersion";
+    public static final String PROP_HTTP_CONFIG_SENDSERVERVERSION = PRE + "httpConfig.sendServerVersion";
     @PropDoc(value = "是否发送日期信息", defaultValue = "true")
     public static final String PROP_HTTP_CONFIG_SENDDATEHEADER = PRE + "httpConfig.sendDateHeader";
     @PropDoc(value = "头部缓冲区大小", defaultValue = "8192")
-    public static final String PROP_HTTP_CONFIG_HEADERCACHESIZE = PRE
-                                                                  + "httpConfig.headerCacheSize";
+    public static final String PROP_HTTP_CONFIG_HEADERCACHESIZE = PRE + "httpConfig.headerCacheSize";
     @PropDoc(value = "最大错误重定向次数", defaultValue = "10")
-    public static final String PROP_HTTP_CONFIG_MAXERRORDISPATCHES = PRE
-                                                                     + "httpConfig.maxErrorDispatches";
+    public static final String PROP_HTTP_CONFIG_MAXERRORDISPATCHES = PRE + "httpConfig.maxErrorDispatches";
     @PropDoc(value = "阻塞超时", defaultValue = "-1")
-    public static final String PROP_HTTP_CONFIG_BLOCKINGTIMEOUT = PRE
-                                                                  + "httpConfig.blockingTimeout";
+    public static final String PROP_HTTP_CONFIG_BLOCKINGTIMEOUT = PRE + "httpConfig.blockingTimeout";
     @PropDoc(value = "是否启用持久化连接", defaultValue = "true")
-    public static final String PROP_HTTP_CONFIG_PERSISTENTCONNECTIONSENABLED = PRE
-                                                                               + "httpConfig.persistentConnectionsEnabled";
+    public static final String PROP_HTTP_CONFIG_PERSISTENTCONNECTIONSENABLED = PRE + "httpConfig.persistentConnectionsEnabled";
     @PropDoc(value = "自定义404页面,同理,其他状态码也是支持的")
     public static final String PROP_PAGE_404 = PRE + "page.404";
     @PropDoc(value = "自定义java.lang.Throwable页面,同理,其他异常也支持")
@@ -153,14 +143,10 @@ public class JettyStarter extends AbstractServletContainerStarter
     // Session持久化相关
     @PropDoc(value = "是否启用session持久化", defaultValue = "false")
     public static final String PROP_SESSION_STORE_ENABLE = PRE + "session.store.enable";
-    @PropDoc(value = "session持久化类型", defaultValue = "jdbc", possible = {"jdbc",
-                                                                        "file",
-                                                                        "ioc",
-                                                                        "redis"})
+    @PropDoc(value = "session持久化类型", defaultValue = "jdbc", possible = {"jdbc", "file", "ioc", "redis"})
     public static final String PROP_SESSION_STORE_TYPE = PRE + "session.store.type";
     @PropDoc(value = "session持久化,jdbc所用数据库源的ioc名称", defaultValue = "dataSource")
-    public static final String PROP_SESSION_JDBC_DATASOURCE_IOCNAME = PRE
-                                                                      + "session.jdbc.datasource.iocname";
+    public static final String PROP_SESSION_JDBC_DATASOURCE_IOCNAME = PRE + "session.jdbc.datasource.iocname";
     @PropDoc(value = "session持久化,file所用的目录", defaultValue = "./session")
     public static final String PROP_SESSION_FILE_STOREDIR = PRE + "session.file.storeDir";
     @PropDoc(value = "session持久化,SessionDataStore对应的ioc名称", defaultValue = "jettySessionDataStore")
@@ -214,8 +200,7 @@ public class JettyStarter extends AbstractServletContainerStarter
         int httpsPort = conf.getInt(PROP_HTTPS_PORT);
         if (httpsPort > 0) {
             log.info("found https port " + httpsPort);
-            HttpConfiguration https_config = conf.make(HttpConfiguration.class,
-                                                       "jetty.httpsConfig.");
+            HttpConfiguration https_config = conf.make(HttpConfiguration.class, "jetty.httpsConfig.");
             ;
             https_config.setSecureScheme("https");
 
@@ -226,10 +211,7 @@ public class JettyStarter extends AbstractServletContainerStarter
             // 公钥
             sslContextFactory.setKeyManagerPassword(conf.get("jetty.https.keymanager.password"));
 
-            ServerConnector httpsConnector = new ServerConnector(server,
-                                                                 new SslConnectionFactory(sslContextFactory,
-                                                                                          "http/1.1"),
-                                                                 new HttpConnectionFactory(https_config));
+            ServerConnector httpsConnector = new ServerConnector(server, new SslConnectionFactory(sslContextFactory, "http/1.1"), new HttpConnectionFactory(https_config));
             // 设置访问端口
             httpsConnector.setPort(httpsPort);
             httpsConnector.setHost(getHost());
@@ -327,10 +309,8 @@ public class JettyStarter extends AbstractServletContainerStarter
         updateMonitorValue("welcome_files", Strings.join(",", wac.getWelcomeFiles()));
 
         // 设置一下额外的东西
-        server.setAttribute("org.eclipse.jetty.server.Request.maxFormContentSize",
-                            getMaxFormContentSize());
-        updateMonitorValue("maxFormContentSize",
-                           server.getAttribute("org.eclipse.jetty.server.Request.maxFormContentSize"));
+        server.setAttribute("org.eclipse.jetty.server.Request.maxFormContentSize", getMaxFormContentSize());
+        updateMonitorValue("maxFormContentSize", server.getAttribute("org.eclipse.jetty.server.Request.maxFormContentSize"));
         server.setAttribute("org.eclipse.jetty.server.Request.maxFormKeys", getMaxFormKeys());
         wac.setMaxFormContentSize(getMaxFormContentSize());
         wac.setMaxFormKeys(getMaxFormKeys());
@@ -340,8 +320,6 @@ public class JettyStarter extends AbstractServletContainerStarter
 
         addNutzSupport();
 
-        // ServerContainer sc =
-        // WebSocketServerContainerInitializer.configureContext(wac);
         ServerContainer sc = WebSocketServerContainerInitializer.initialize(wac);
         for (Class<?> klass : Scans.me().scanPackage(appContext.getPackage())) {
             if (klass.getAnnotation(ServerEndpoint.class) != null) {
@@ -359,9 +337,7 @@ public class JettyStarter extends AbstractServletContainerStarter
             case "jdbc": {
                 JDBCSessionDataStoreFactory factory = new JDBCSessionDataStoreFactory();
                 DatabaseAdaptor adaptor = new DatabaseAdaptor();
-                adaptor.setDatasource(ioc.get(DataSource.class,
-                                              conf.get(PROP_SESSION_JDBC_DATASOURCE_IOCNAME,
-                                                       "dataSource")));
+                adaptor.setDatasource(ioc.get(DataSource.class, conf.get(PROP_SESSION_JDBC_DATASOURCE_IOCNAME, "dataSource")));
                 factory.setDatabaseAdaptor(adaptor);
                 sessionCache.setSessionDataStore(factory.getSessionDataStore(handler));
                 break;
@@ -373,9 +349,7 @@ public class JettyStarter extends AbstractServletContainerStarter
                 break;
             }
             case "ioc": {
-                sessionCache.setSessionDataStore(ioc.get(SessionDataStore.class,
-                                                         conf.get(PROP_SESSION_IOC_DATASTORE,
-                                                                  "jettySessionDataStore")));
+                sessionCache.setSessionDataStore(ioc.get(SessionDataStore.class, conf.get(PROP_SESSION_IOC_DATASTORE, "jettySessionDataStore")));
                 break;
             }
             case "redis": {
