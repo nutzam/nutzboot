@@ -1,11 +1,11 @@
 package org.nutz.boot.starter.nacos;
 
-import com.alibaba.nacos.api.NacosFactory;
-import com.alibaba.nacos.api.naming.NamingService;
-import com.alibaba.nacos.client.naming.utils.UtilAndComs;
+import static com.alibaba.nacos.api.PropertyKeyConst.*;
+
+import java.util.Properties;
+
 import org.nutz.boot.AppContext;
 import org.nutz.boot.annotation.PropDoc;
-import org.nutz.boot.config.impl.AbstractConfigureLoader;
 import org.nutz.boot.starter.ServerFace;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
@@ -13,15 +13,15 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
-import java.util.Properties;
-
-import static com.alibaba.nacos.api.PropertyKeyConst.*;
+import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.naming.NamingService;
+import com.alibaba.nacos.client.naming.utils.UtilAndComs;
 
 /**
  * @author wizzer(wizzer.cn)
  * @date 2020/1/8
  */
-@IocBean
+@IocBean(create = "init")
 public class NacosDiscoveryLoader implements ServerFace {
     /**
      * 获取日志对象
@@ -31,6 +31,9 @@ public class NacosDiscoveryLoader implements ServerFace {
      * Nacos配置项前缀
      */
     protected static final String NACOS_PRE = "nacos.discovery.";
+    
+    @PropDoc(value = "是否启用Nacos discovery", defaultValue = "true")
+    public static final String NACOS_ENABLE = NACOS_PRE + "enable";
     /**
      * Nacos远程地址配置项
      */
@@ -71,9 +74,17 @@ public class NacosDiscoveryLoader implements ServerFace {
     
     protected Properties properties = new Properties();
 
+    public void init() throws Exception {
+    	if (conf.getBoolean(NACOS_ENABLE, true))
+    		namingService = NacosFactory.createNamingService(getNacosDiscoveryProperties());
+    	else
+    		log.info("Nacos discovery is disabled");
+    }
+    
     @Override
     public void start() throws Exception {
-    	namingService = NacosFactory.createNamingService(getNacosDiscoveryProperties());
+    	// TODO Auto-generated method stub
+    	
     }
     
     @Override
@@ -102,5 +113,10 @@ public class NacosDiscoveryLoader implements ServerFace {
         properties.put(CLUSTER_NAME, conf.get(NACOS_CLUSTER_NAME, ""));
         properties.put(NAMING_LOAD_CACHE_AT_START, conf.get(NACOS_NAMING_LOAD_CACHE_AT_START, "false"));
         return properties;
+    }
+    
+    @IocBean(name="nacosNamingService")
+    public NamingService getNamingService() {
+    	return namingService;
     }
 }

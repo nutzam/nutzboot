@@ -96,6 +96,8 @@ public class NacosConfigureLoader extends PropertiesConfigureLoader {
 
     @Inject
     protected AppContext appContext;
+    
+    protected ConfigService configService;
 
     private void setConfig(String content, String contentType, PropertiesProxy conf) {
         if ("json".equals(contentType)) {
@@ -125,7 +127,7 @@ public class NacosConfigureLoader extends PropertiesConfigureLoader {
         String dataId = conf.get(NACOS_DATA_ID, conf.get("nutz.application.name", "nutzboot"));
         String group = conf.get(NACOS_GROUP, "DEFAULT_GROUP");
         String dataType = conf.get(NACOS_DATA_TYPE, "properties");
-        ConfigService configService = NacosFactory.createConfigService(getNacosConfigProperties());
+        configService = NacosFactory.createConfigService(getNacosConfigProperties());
         String configInfo = configService.getConfig(dataId, group, 5000);
         log.debugf("get nacos config：%s", configInfo);
         if (Strings.isNotBlank(configInfo)) {
@@ -155,5 +157,10 @@ public class NacosConfigureLoader extends PropertiesConfigureLoader {
             properties.put(ENDPOINT, endpoint);
         }
         return properties;
+    }
+    
+    @IocBean(name="nacosConfigService")
+    public ConfigService getConfigService() {
+    	return configService;
     }
 }

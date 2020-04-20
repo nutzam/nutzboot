@@ -5,7 +5,6 @@ import org.nutz.boot.ioc.IocLoaderProvider;
 import org.nutz.integration.jedis.JedisIocLoader;
 import org.nutz.ioc.IocLoader;
 import org.nutz.ioc.impl.PropertiesProxy;
-import org.nutz.ioc.loader.annotation.Inject;
 
 //@IocBean
 public class JedisStarter implements IocLoaderProvider {

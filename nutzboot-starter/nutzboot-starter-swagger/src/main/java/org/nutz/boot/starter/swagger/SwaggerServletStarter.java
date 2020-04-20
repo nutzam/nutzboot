@@ -69,7 +69,6 @@ public class SwaggerServletStarter extends HttpServlet implements WebServletFace
     public Info createSwaggerInfo() {
         return conf.makeDeep(Info.class, "swagger.info.");
     }
-    
 
     public void init(ServletConfig config) throws ServletException {
         Ioc ioc = appContext.getIoc();
