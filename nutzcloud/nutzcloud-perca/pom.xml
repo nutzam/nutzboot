@@ -17,7 +17,6 @@
 		<dependency>
 			<groupId>org.nutz.cloud</groupId>
 			<artifactId>nutzcloud-loach-client</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -27,6 +26,11 @@
 			<groupId>org.nutz</groupId>
 			<artifactId>nutzboot-starter-jetty</artifactId>
 		</dependency>
+		
+        <dependency>
+        	<groupId>org.nutz</groupId>
+        	<artifactId>nutzboot-starter-nacos-discovery</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>

@@ -13,7 +13,9 @@ public interface RouteFilter {
     
     default void postRoute(RouteContext ctx) throws IOException {}
     
-    default void setPropertiesProxy(Ioc ioc, PropertiesProxy conf, String prefix) {}
+    default void setPropertiesProxy(Ioc ioc, PropertiesProxy conf, String prefix) throws Exception {}
     
     String getName();
+    
+    String getType();
 }
