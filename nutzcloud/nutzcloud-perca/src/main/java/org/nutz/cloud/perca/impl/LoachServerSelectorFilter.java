@@ -16,7 +16,7 @@ import org.nutz.log.Logs;
  * 从Loach服务器获取目标服务的服务器列表,并转发
  *
  */
-public class LoachRouteFilter extends AbstractServerSelectorFilter implements LoachClient.UpdateListener {
+public class LoachServerSelectorFilter extends AbstractServerSelectorFilter implements LoachClient.UpdateListener {
 
     protected static final Log log = Logs.get();
     

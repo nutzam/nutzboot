@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.nutz.boot.AppContext;
-import org.nutz.cloud.perca.impl.LoachRouteFilter;
-import org.nutz.cloud.perca.impl.NacosRouteFilter;
+import org.nutz.cloud.perca.impl.LoachServerSelectorFilter;
+import org.nutz.cloud.perca.impl.NacosServerSelectorFilter;
 import org.nutz.cloud.perca.impl.SimpleRouteFilter;
 import org.nutz.cloud.perca.impl.TargetServerInfo;
 import org.nutz.ioc.Ioc;
@@ -110,10 +110,10 @@ public class RouterMaster implements Comparable<RouterMaster> {
     			filter = new SimpleRouteFilter();
     			break;
     		case "loach":
-    			filter = new LoachRouteFilter();
+    			filter = new LoachServerSelectorFilter();
     			break;
     		case "nacos":
-    			filter = new NacosRouteFilter();
+    			filter = new NacosServerSelectorFilter();
     			break;
     		default:
     			// 可能是类名

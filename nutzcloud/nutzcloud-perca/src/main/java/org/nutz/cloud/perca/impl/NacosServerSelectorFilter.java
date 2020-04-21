@@ -19,7 +19,7 @@ import com.alibaba.nacos.api.naming.pojo.Instance;
  * 从nacos服务器获取目标服务的服务器列表,并转发
  *
  */
-public class NacosRouteFilter extends AbstractServerSelectorFilter {
+public class NacosServerSelectorFilter extends AbstractServerSelectorFilter {
 
 	protected static final Log log = Logs.get();
 
