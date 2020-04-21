@@ -5,15 +5,20 @@ import static com.alibaba.nacos.api.PropertyKeyConst.*;
 import java.util.Properties;
 
 import org.nutz.boot.AppContext;
+import org.nutz.boot.NbApp;
 import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.starter.ServerFace;
+import org.nutz.boot.tools.NbAppEventListener;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Strings;
+import org.nutz.lang.hardware.Networks;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
 import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.client.naming.utils.UtilAndComs;
 
@@ -22,7 +27,7 @@ import com.alibaba.nacos.client.naming.utils.UtilAndComs;
  * @date 2020/1/8
  */
 @IocBean(create = "init")
-public class NacosDiscoveryLoader implements ServerFace {
+public class NacosDiscoveryLoader implements ServerFace, NbAppEventListener {
     /**
      * 获取日志对象
      */
@@ -58,11 +63,26 @@ public class NacosDiscoveryLoader implements ServerFace {
     @PropDoc(value = "Nacos SecretKey", defaultValue = "")
     public static final String NACOS_SECRET_KEY = NACOS_PRE + "secret-key";
 
-    @PropDoc(value = "Nacos 集群名称", defaultValue = "")
+    @PropDoc(value = "Nacos 集群名称", defaultValue = "", need = true)
     public static final String NACOS_CLUSTER_NAME = NACOS_PRE + "cluster-name";
 
     @PropDoc(value = "Nacos 启动时加载缓存", defaultValue = "false")
     public static final String NACOS_NAMING_LOAD_CACHE_AT_START = NACOS_PRE + "naming-load-cache-at-start";
+
+    @PropDoc(value = "Nacos 服务名", defaultValue = "")
+    public static final String NACOS_NAMING_SERVISE_NAME = NACOS_PRE + "naming.service-name";
+
+    @PropDoc(value = "Nacos 服务组", defaultValue = "")
+    public static final String NACOS_NAMING_GROUP_NAME = NACOS_PRE + "naming.group-name";
+    
+    @PropDoc(value = "Nacos 服务名", defaultValue = "")
+    public static final String NACOS_NAMING_CLUSTER_NAME = NACOS_PRE + "naming.cluster-name";
+
+    @PropDoc(value = "Nacos 服务名", defaultValue = "")
+    public static final String NACOS_NAMING_IP = NACOS_PRE + "naming.ip";
+    
+    @PropDoc(value = "Nacos 服务名", defaultValue = "")
+    public static final String NACOS_NAMING_PORT = NACOS_PRE + "naming.port";
 
     @Inject
     protected AppContext appContext;
@@ -73,31 +93,57 @@ public class NacosDiscoveryLoader implements ServerFace {
     protected NamingService namingService;
     
     protected Properties properties = new Properties();
+    
+
+	String serviceName;
+	String groupName;
+	String clusterName;
 
     public void init() throws Exception {
-    	if (conf.getBoolean(NACOS_ENABLE, true))
+    	if (conf.getBoolean(NACOS_ENABLE, true)) {
     		namingService = NacosFactory.createNamingService(getNacosDiscoveryProperties());
+    		serviceName = conf.get(NACOS_NAMING_SERVISE_NAME);
+    		groupName = conf.get(NACOS_NAMING_GROUP_NAME, "DEFAULT_GROUP");
+    		clusterName = conf.get(NACOS_NAMING_CLUSTER_NAME, "public");
+    		if (Strings.isBlank(serviceName)) {
+    			log.info("require service name for nacos discovery!!! key=" + NACOS_NAMING_SERVISE_NAME);
+    			throw new RuntimeException("require service name for nacos discovery! key=" + NACOS_NAMING_SERVISE_NAME);
+    		}
+    	}
     	else
     		log.info("Nacos discovery is disabled");
     }
     
+    protected String ip;
+    protected int port;
+    
+    public void afterAppStated(NbApp app) {
+		if (namingService == null)
+			return;
+    	try {
+			// 首先, 整体注册
+			ip = conf.get(NACOS_NAMING_IP, Networks.ipv4());
+			port = conf.getInt(NACOS_NAMING_PORT, conf.getInt("server.port"));
+			namingService.registerInstance(serviceName, groupName, ip, port, clusterName);
+		} catch (NacosException e) {
+			throw new RuntimeException(e);
+		}
+    };
+    
     @Override
     public void start() throws Exception {
-    	// TODO Auto-generated method stub
-    	
     }
     
     @Override
     public void stop() throws Exception {
     	if (namingService != null) {
-    		// 怎么取消注册呢
-    		//namingService.unsubscribe(serviceName, listener);
+    		namingService.deregisterInstance(serviceName, ip, port, clusterName);
     	}
     }
 
     public Properties getNacosDiscoveryProperties() {
-        properties.put(SERVER_ADDR, conf.get(NACOS_ADDR, ""));
-        properties.put(NAMESPACE, conf.get(NACOS_NAMESPACE, ""));
+        properties.put(SERVER_ADDR, conf.get(NACOS_ADDR, "127.0.0.1:8848"));
+        properties.put(NAMESPACE, conf.get(NACOS_NAMESPACE, "public"));
         properties.put(UtilAndComs.NACOS_NAMING_LOG_NAME, conf.get(NACOS_LOG_FILENAME, ""));
         properties.put(UtilAndComs.NACOS_NAMING_LOG_LEVEL, conf.get(NACOS_LOG_LEVEL, ""));
         String endpoint = conf.get(NACOS_ENCODE_ENDPOINT, "");
