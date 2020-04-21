@@ -13,6 +13,9 @@
 		<Logger name="org.eclipse.jetty" level="info"  additivity="false">
 			<AppenderRef ref="Console" />
 		</Logger>
+		<Logger name="org.nutz.cloud.perca.PercaServlet.gateway" level="info"  additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
 		<Logger name="org.nutz.cloud.perca" level="debug" additivity="false">
 			<AppenderRef ref="Console" />
 		</Logger>
