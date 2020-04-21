@@ -78,4 +78,9 @@ public class PercaServlet extends AsyncMiddleManServlet implements WebServletFac
     public Servlet getServlet() {
         return this;
     }
+    
+    @Override
+    public boolean isAsyncSupported() {
+    	return true;
+    }
 }

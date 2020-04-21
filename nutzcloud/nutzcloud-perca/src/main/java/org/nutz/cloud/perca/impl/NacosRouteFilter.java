@@ -3,11 +3,9 @@ package org.nutz.cloud.perca.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nutz.cloud.perca.RouteContext;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.lang.Strings;
-import org.nutz.lang.random.R;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
@@ -46,6 +44,7 @@ public class NacosRouteFilter extends AbstractUrlRewriteRouterFilter {
 			}
 		});
 		instances = nacosNamingService.selectInstances(serviceName, true);
+		updateTargetServers(instances);
 	}
 
 	protected void updateTargetServers(List<Instance> instances) {
@@ -57,18 +56,6 @@ public class NacosRouteFilter extends AbstractUrlRewriteRouterFilter {
 			infos.add(info);
 		}
 		super.targetServers = infos;
-	}
-
-	@Override
-	protected boolean selectTargetServer(RouteContext ctx) {
-		List<Instance> instances = this.instances; // 转为局部变量, 防范多线程下的竞争
-		if (instances.isEmpty()) {
-			return false;
-		}
-		Instance in = instances.get(R.random(0, instances.size())); // 支持自定义选择算法
-		ctx.targetHost = in.toInetAddr();
-		ctx.targetPort = in.getPort();
-		return false;
 	}
 
 	public String getType() {

@@ -30,6 +30,7 @@
 		<module>nutzboot-demo-simple-zkclient</module>
 		<module>nutzboot-demo-simple-velocity</module>
 		<module>nutzboot-demo-simple-jetty</module>
+		<module>nutzboot-demo-simple-jetty-nacos-naming</module>
 
         <module>nutzboot-demo-simple-caffeine</module>
         <module>nutzboot-demo-simple-hystrix</module>

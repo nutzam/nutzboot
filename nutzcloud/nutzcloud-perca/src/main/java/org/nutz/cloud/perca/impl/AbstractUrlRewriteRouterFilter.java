@@ -112,6 +112,9 @@ public abstract class AbstractUrlRewriteRouterFilter implements RouteFilter {
 		if (infos == null || infos.isEmpty())
 			return false;
 		int index = R.random(0, infos.size() - 1); // 支持各种算法
+		if (index == infos.size()) {
+			index = infos.size() - 1;
+		}
 		TargetServerInfo info = infos.get(index);
 		ctx.targetHost = info.host;
 		if (info.port > 0)
