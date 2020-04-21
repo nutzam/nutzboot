@@ -119,6 +119,8 @@ public abstract class AbstractUrlRewriteRouterFilter implements RouteFilter {
 		ctx.targetHost = info.host;
 		if (info.port > 0)
 			ctx.targetPort = info.port;
+		if (log.isDebugEnabled())
+			log.debugf("forward reqest %s to %s:%s", ctx.uri, ctx.targetHost, ctx.targetPort);
 		return true;
 	}
 
