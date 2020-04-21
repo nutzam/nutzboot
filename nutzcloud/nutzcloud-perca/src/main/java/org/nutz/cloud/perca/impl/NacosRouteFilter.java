@@ -40,6 +40,7 @@ public class NacosRouteFilter extends AbstractUrlRewriteRouterFilter {
 			public void onEvent(Event event) {
 				if (event instanceof NamingEvent) {
 					instances = ((NamingEvent) event).getInstances();
+					updateTargetServers(instances);
 				}
 			}
 		});
