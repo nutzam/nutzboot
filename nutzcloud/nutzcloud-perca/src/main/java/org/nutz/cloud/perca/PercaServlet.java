@@ -1,7 +1,6 @@
 package org.nutz.cloud.perca;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -27,17 +26,22 @@ public class PercaServlet extends AsyncMiddleManServlet implements WebServletFac
         RouteContext ctx = new RouteContext();
         ctx.setup(clientRequest, proxyResponse);
         clientRequest.setAttribute(NAME_ROUTE_CONCEXT, ctx);
-        Iterator<RouteFilter> it = routeConfig.getRouteFilters();
-        while (it.hasNext()) {
-            if (!it.next().preRoute(ctx)) {
-                return;
-            }
+        RouterMaster master = null;
+        for (RouterMaster tmp : routeConfig.getRouteMasters()) {
+			if (tmp.match(ctx)) {
+				master = tmp;
+				break;
+			}
+		}
+        if (master != null) {
+        	master.preRoute(ctx);
+        	super.service(clientRequest, proxyResponse);
+        	return;
         }
-        if (ctx.targetHost == null && ctx.rewritedTarget == null) {
-            proxyResponse.sendError(404);
+        else {
+        	proxyResponse.sendError(404);
             return;
         }
-        super.service(clientRequest, proxyResponse);
     }
     
     @Override
