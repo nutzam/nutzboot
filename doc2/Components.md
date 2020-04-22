@@ -40,6 +40,7 @@
     - 关系型数据库
         - 数据源
             - [x] **starter-jdbc, 普通连接池,默认使用druid,带监控功能**
+            - [x] starter-[shardingsphere](https://shardingsphere.apache.org/) 分库分表,前身是sharding-jdbc
             - [x] starter-[sharding-jdbc](https://github.com/shardingjdbc/sharding-jdbc) 分库分表
         - ORM
             - [x] **starter-[nutz-dao](https://github.com/nutzam/nutz) Nutz官方Dao**

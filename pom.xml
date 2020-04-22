@@ -53,6 +53,7 @@
 		<nacos.version>1.1.4</nacos.version>
 		<swagger-servlet.version>1.6.0</swagger-servlet.version>
 		<swagger3.version>2.1.1</swagger3.version>
+		<shardingsphere.version>4.0.1</shardingsphere.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -636,6 +637,12 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-sharding-jdbc</artifactId>
+				<version>2.3.9.v20200309</version>
+				<!-- 已废弃了,新版的package改了,换成nutzboot-starter-shardingsphere -->
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-shardingsphere</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
