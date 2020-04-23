@@ -18,10 +18,13 @@ public class RouteContext {
     public String targetHost;
     public String targetUri;
     public int targetPort;
+    public String matchedPrefix;
     
     public String rewritedTarget;
     
     public int connectTimeOut, sendTimeOut, readTimeOut;
+    
+    public Object obj;
     
     public HttpServletResponse resp;
     public HttpServletRequest req;

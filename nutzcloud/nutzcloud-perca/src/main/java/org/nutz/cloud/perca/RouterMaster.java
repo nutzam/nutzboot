@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.nutz.boot.AppContext;
 import org.nutz.cloud.perca.impl.LoachServerSelectorFilter;
+import org.nutz.cloud.perca.impl.NacosServerPrefixSelectorFilter;
 import org.nutz.cloud.perca.impl.NacosServerSelectorFilter;
 import org.nutz.cloud.perca.impl.SimpleRouteFilter;
 import org.nutz.cloud.perca.impl.TargetServerInfo;
@@ -51,6 +52,11 @@ public class RouterMaster implements Comparable<RouterMaster> {
 	}
 
 	public boolean match(RouteContext ctx) {
+		List<RouteFilter> filters = this.filters;
+		for (RouteFilter filter : filters) {
+			if (!filter.match(ctx))
+				return false;
+		}
 		// 校验Host
 		if (!checkHost(ctx))
 			return false;
@@ -115,6 +121,9 @@ public class RouterMaster implements Comparable<RouterMaster> {
     		case "nacos":
     			filter = new NacosServerSelectorFilter();
     			break;
+    		case "nacos-prefix":
+    			filter = new NacosServerPrefixSelectorFilter();
+    			break;
     		default:
     			// 可能是类名
     			if (type.indexOf('.') > 0) 
@@ -159,6 +168,7 @@ public class RouterMaster implements Comparable<RouterMaster> {
 			for (String prefix : uriPrefixs) {
 				if (ctx.uri.startsWith(prefix)) {
 					pass = true;
+					ctx.matchedPrefix = prefix;
 					if (removePrefix) {
 						if (ctx.uri.length() == prefix.length()) {
 							ctx.targetUri = "/";

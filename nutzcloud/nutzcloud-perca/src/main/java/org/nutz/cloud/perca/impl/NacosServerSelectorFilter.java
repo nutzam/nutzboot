@@ -9,6 +9,7 @@ import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
+import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.listener.Event;
 import com.alibaba.nacos.api.naming.listener.EventListener;
@@ -19,7 +20,7 @@ import com.alibaba.nacos.api.naming.pojo.Instance;
  * 从nacos服务器获取目标服务的服务器列表,并转发
  *
  */
-public class NacosServerSelectorFilter extends AbstractServerSelectorFilter {
+public class NacosServerSelectorFilter extends AbstractServerSelectorFilter implements EventListener {
 
 	protected static final Log log = Logs.get();
 
@@ -35,17 +36,16 @@ public class NacosServerSelectorFilter extends AbstractServerSelectorFilter {
 		}
 		nacosNamingService = ioc.get(NamingService.class, "nacosNamingService");
 		// 支持Group
-		nacosNamingService.subscribe(serviceName, new EventListener() {
-
-			public void onEvent(Event event) {
-				if (event instanceof NamingEvent) {
-					instances = ((NamingEvent) event).getInstances();
-					updateTargetServers(instances);
-				}
-			}
-		});
+		nacosNamingService.subscribe(serviceName, this);
 		instances = nacosNamingService.selectInstances(serviceName, true);
 		updateTargetServers(instances);
+	}
+	
+	public void onEvent(Event event) {
+		if (event instanceof NamingEvent) {
+			instances = ((NamingEvent) event).getInstances();
+			updateTargetServers(instances);
+		}
 	}
 
 	protected void updateTargetServers(List<Instance> instances) {
@@ -63,4 +63,15 @@ public class NacosServerSelectorFilter extends AbstractServerSelectorFilter {
 		return "nacos";
 	}
 
+	@Override
+	public void close() {
+		if (nacosNamingService != null) {
+			try {
+				nacosNamingService.unsubscribe(serviceName, this);
+			} catch (NacosException e) {
+				log.warn("unsubscribe " + serviceName + "fail", e);
+			}
+		}
+		super.close();
+	}
 }

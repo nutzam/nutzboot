@@ -7,6 +7,10 @@ import org.nutz.ioc.impl.PropertiesProxy;
 
 public interface RouteFilter {
 
+	default boolean match(RouteContext ctx) {
+		return true;
+	};
+	
     default boolean preRoute(RouteContext ctx) throws IOException {
         return true;
     }

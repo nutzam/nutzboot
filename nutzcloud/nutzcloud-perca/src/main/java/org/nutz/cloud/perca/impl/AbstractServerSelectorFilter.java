@@ -11,7 +11,7 @@ import org.nutz.lang.random.R;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
-public abstract class AbstractServerSelectorFilter implements RouteFilter {
+public abstract class AbstractServerSelectorFilter implements RouteFilter, AutoCloseable {
 
 	private static final Log log = Logs.get();
 
@@ -28,7 +28,7 @@ public abstract class AbstractServerSelectorFilter implements RouteFilter {
 
 	@Override
 	public boolean preRoute(RouteContext ctx) throws IOException {
-		if (!selectTargetServer(ctx)) {
+		if (!selectTargetServer(ctx, this.targetServers)) {
 			log.debugf("emtry server list for [%s]", serviceName);
 			ctx.resp.sendError(500);
 			return false; // 终止匹配
@@ -37,8 +37,7 @@ public abstract class AbstractServerSelectorFilter implements RouteFilter {
 		return true;
 	}
 
-	protected boolean selectTargetServer(RouteContext ctx) {
-		List<TargetServerInfo> infos = this.targetServers;
+	protected boolean selectTargetServer(RouteContext ctx, List<TargetServerInfo> infos) {
 		if (infos == null || infos.isEmpty())
 			return false;
 		int index = R.random(0, infos.size() - 1); // 支持各种算法
@@ -56,5 +55,9 @@ public abstract class AbstractServerSelectorFilter implements RouteFilter {
 
 	public String getName() {
 		return name;
+	}
+	
+	public void close() {
+		
 	}
 }
