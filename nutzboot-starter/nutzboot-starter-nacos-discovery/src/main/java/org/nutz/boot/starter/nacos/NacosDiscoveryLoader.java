@@ -2,6 +2,7 @@ package org.nutz.boot.starter.nacos;
 
 import static com.alibaba.nacos.api.PropertyKeyConst.*;
 
+import java.util.Map;
 import java.util.Properties;
 
 import org.nutz.boot.AppContext;
@@ -13,6 +14,7 @@ import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
+import org.nutz.lang.hardware.NetworkItem;
 import org.nutz.lang.hardware.Networks;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -78,10 +80,10 @@ public class NacosDiscoveryLoader implements ServerFace, NbAppEventListener {
     @PropDoc(value = "Nacos 服务名", defaultValue = "")
     public static final String NACOS_NAMING_CLUSTER_NAME = NACOS_PRE + "naming.cluster-name";
 
-    @PropDoc(value = "Nacos 服务名", defaultValue = "")
+    @PropDoc(value = "Nacos 服务地址", defaultValue = "")
     public static final String NACOS_NAMING_IP = NACOS_PRE + "naming.ip";
     
-    @PropDoc(value = "Nacos 服务名", defaultValue = "")
+    @PropDoc(value = "Nacos 服务端口", defaultValue = "")
     public static final String NACOS_NAMING_PORT = NACOS_PRE + "naming.port";
 
     @Inject
@@ -123,12 +125,40 @@ public class NacosDiscoveryLoader implements ServerFace, NbAppEventListener {
     	try {
 			// 首先, 整体注册
 			ip = conf.get(NACOS_NAMING_IP, Networks.ipv4());
+			// 如果ip以*号结尾，则走前缀匹配逻辑
+			if(ip.endsWith("*")) {
+			    ip = getIpv4(ip.replace("*", ""));
+            }
 			port = conf.getInt(NACOS_NAMING_PORT, conf.getInt("server.port"));
 			namingService.registerInstance(serviceName, groupName, ip, port, clusterName);
 		} catch (NacosException e) {
 			throw new RuntimeException(e);
 		}
     };
+
+    /**
+     * 按前缀匹配获取本机ipv4地址
+     * @param prefix
+     * @return
+     */
+    private String getIpv4(String prefix) {
+        Map<String, NetworkItem> items = Networks.networkItems();
+        // 先遍历一次eth开头的
+        for (int i = 0; i < 10; i++) {
+            NetworkItem item = items.get("eth"+i);
+            if (item != null) {
+                String ip = item.getIpv4();
+                if (Networks.ipOk(ip) && ip.startsWith(prefix))
+                    return ip;
+            }
+        }
+        for (NetworkItem item : items.values()) {
+            String ip = item.getIpv4();
+            if (Networks.ipOk(ip) && ip.startsWith(prefix))
+                return ip;
+        }
+        return null;
+    }
     
     @Override
     public void start() throws Exception {
