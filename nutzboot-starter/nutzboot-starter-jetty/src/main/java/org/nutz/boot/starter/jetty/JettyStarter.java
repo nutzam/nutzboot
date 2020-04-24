@@ -318,7 +318,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         // cookie相关
         SessionCookieConfig cc = sessionHandler.getSessionCookieConfig();
         cc.setHttpOnly(conf.getBoolean(PROP_SESSION_COOKIE_HTTPONLY, false));
-        cc.setSecure(conf.getBoolean(PROP_SESSION_COOKIE_SECURE, true));
+        cc.setSecure(conf.getBoolean(PROP_SESSION_COOKIE_SECURE, false));
         if (!Strings.isBlank(conf.get(PROP_SESSION_COOKIE_NAME)))
         	cc.setName(conf.get(PROP_SESSION_COOKIE_NAME).trim());
         if (!Strings.isBlank(conf.get(PROP_SESSION_COOKIE_DOMAIN)))
