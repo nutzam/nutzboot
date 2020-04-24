@@ -9,6 +9,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.Deflater;
 
+import javax.servlet.SessionCookieConfig;
 import javax.sql.DataSource;
 import javax.websocket.server.ServerContainer;
 import javax.websocket.server.ServerEndpoint;
@@ -158,9 +159,15 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
 
     @PropDoc(value = "cookie是否设置Secure" ,defaultValue = "false")
     public static final String PROP_SESSION_COOKIE_SECURE = PRE + "session.cookie.secure";
-    
-    @PropDoc(value = "设置cookie的name" ,defaultValue = "false")
+
+    @PropDoc(value = "设置cookie的name")
     public static final String PROP_SESSION_COOKIE_NAME = PRE + "session.cookie.name";
+    
+    @PropDoc(value = "设置cookie的domain")
+    public static final String PROP_SESSION_COOKIE_DOMAIN = PRE + "session.cookie.domain";
+    
+    @PropDoc(value = "设置cookie的path")
+    public static final String PROP_SESSION_COOKIE_PATH = PRE + "session.cookie.path";
 
     protected Server server;
     protected WebAppContext wac;
@@ -309,10 +316,15 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         sessionHandler.setMaxInactiveInterval(getSessionTimeout());
         
         // cookie相关
-        sessionHandler.setHttpOnly(conf.getBoolean(PROP_SESSION_COOKIE_HTTPONLY, false));
-        sessionHandler.setSecureRequestOnly(conf.getBoolean(PROP_SESSION_COOKIE_SECURE, false));
+        SessionCookieConfig cc = sessionHandler.getSessionCookieConfig();
+        cc.setHttpOnly(conf.getBoolean(PROP_SESSION_COOKIE_HTTPONLY, false));
+        cc.setSecure(conf.getBoolean(PROP_SESSION_COOKIE_SECURE, true));
         if (!Strings.isBlank(conf.get(PROP_SESSION_COOKIE_NAME)))
-        	sessionHandler.setSessionCookie(conf.get(PROP_SESSION_COOKIE_NAME).trim());
+        	cc.setName(conf.get(PROP_SESSION_COOKIE_NAME).trim());
+        if (!Strings.isBlank(conf.get(PROP_SESSION_COOKIE_DOMAIN)))
+        	cc.setDomain(conf.get(PROP_SESSION_COOKIE_DOMAIN).trim());
+        if (!Strings.isBlank(conf.get(PROP_SESSION_COOKIE_PATH)))
+        	cc.setPath(conf.get(PROP_SESSION_COOKIE_PATH).trim());
 
         ErrorHandler ep = Lang.first(appContext.getBeans(ErrorHandler.class));
         if (ep == null) {
