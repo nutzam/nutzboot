@@ -151,6 +151,16 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     public static final String PROP_SESSION_FILE_STOREDIR = PRE + "session.file.storeDir";
     @PropDoc(value = "session持久化,SessionDataStore对应的ioc名称", defaultValue = "jettySessionDataStore")
     public static final String PROP_SESSION_IOC_DATASTORE = PRE + "session.ioc.datastore";
+    
+    // Cookie相关
+    @PropDoc(value = "cookie是否设置HttpOnly", defaultValue = "false")
+    public static final String PROP_SESSION_COOKIE_HTTPONLY = PRE + "session.cookie.httponly";
+
+    @PropDoc(value = "cookie是否设置Secure" ,defaultValue = "false")
+    public static final String PROP_SESSION_COOKIE_SECURE = PRE + "session.cookie.secure";
+    
+    @PropDoc(value = "设置cookie的name" ,defaultValue = "false")
+    public static final String PROP_SESSION_COOKIE_NAME = PRE + "session.cookie.name";
 
     protected Server server;
     protected WebAppContext wac;
@@ -201,10 +211,9 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         if (httpsPort > 0) {
             log.info("found https port " + httpsPort);
             HttpConfiguration https_config = conf.make(HttpConfiguration.class, "jetty.httpsConfig.");
-            ;
             https_config.setSecureScheme("https");
 
-            SslContextFactory sslContextFactory = new SslContextFactory();
+            SslContextFactory sslContextFactory = new SslContextFactory.Server();
             sslContextFactory.setKeyStorePath(conf.get(PROP_HTTPS_KEYSTORE_PATH));
             // 私钥
             sslContextFactory.setKeyStorePassword(conf.get(PROP_HTTPS_KEYSTORE_PASSWORD));
@@ -294,7 +303,16 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         list.add("org.eclipse.jetty.webapp.MetaInfConfiguration");
         wac.setConfigurationClasses(list);
         wac.getServletContext().setExtendedListenerTypes(true);
-        wac.getSessionHandler().setMaxInactiveInterval(getSessionTimeout());
+        
+        SessionHandler sessionHandler = wac.getSessionHandler();
+        
+        sessionHandler.setMaxInactiveInterval(getSessionTimeout());
+        
+        // cookie相关
+        sessionHandler.setHttpOnly(conf.getBoolean(PROP_SESSION_COOKIE_HTTPONLY, false));
+        sessionHandler.setSecureRequestOnly(conf.getBoolean(PROP_SESSION_COOKIE_SECURE, false));
+        if (!Strings.isBlank(conf.get(PROP_SESSION_COOKIE_NAME)))
+        	sessionHandler.setSessionCookie(conf.get(PROP_SESSION_COOKIE_NAME).trim());
 
         ErrorHandler ep = Lang.first(appContext.getBeans(ErrorHandler.class));
         if (ep == null) {
