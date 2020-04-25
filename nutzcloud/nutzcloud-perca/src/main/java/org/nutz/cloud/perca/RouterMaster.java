@@ -196,5 +196,11 @@ public class RouterMaster implements Comparable<RouterMaster> {
 		
 		return Integer.compare(priority, o.priority);
 	}
+	
+	public void depose() {
+		for (RouteFilter filter : filters) {
+			filter.close();
+		}
+	}
 
 }

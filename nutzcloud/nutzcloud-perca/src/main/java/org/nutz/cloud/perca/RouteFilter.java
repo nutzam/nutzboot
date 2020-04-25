@@ -22,4 +22,6 @@ public interface RouteFilter {
     String getName();
     
     String getType();
+    
+    void close();
 }

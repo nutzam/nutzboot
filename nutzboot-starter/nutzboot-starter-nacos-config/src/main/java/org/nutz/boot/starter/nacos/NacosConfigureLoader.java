@@ -1,9 +1,22 @@
 package org.nutz.boot.starter.nacos;
 
-import static com.alibaba.nacos.api.PropertyKeyConst.*;
+import static com.alibaba.nacos.api.PropertyKeyConst.ACCESS_KEY;
+import static com.alibaba.nacos.api.PropertyKeyConst.CLUSTER_NAME;
+import static com.alibaba.nacos.api.PropertyKeyConst.CONFIG_LONG_POLL_TIMEOUT;
+import static com.alibaba.nacos.api.PropertyKeyConst.CONFIG_RETRY_TIME;
+import static com.alibaba.nacos.api.PropertyKeyConst.CONTEXT_PATH;
+import static com.alibaba.nacos.api.PropertyKeyConst.ENABLE_REMOTE_SYNC_CONFIG;
+import static com.alibaba.nacos.api.PropertyKeyConst.ENCODE;
+import static com.alibaba.nacos.api.PropertyKeyConst.ENDPOINT;
+import static com.alibaba.nacos.api.PropertyKeyConst.ENDPOINT_PORT;
+import static com.alibaba.nacos.api.PropertyKeyConst.MAX_RETRY;
+import static com.alibaba.nacos.api.PropertyKeyConst.NAMESPACE;
+import static com.alibaba.nacos.api.PropertyKeyConst.SECRET_KEY;
+import static com.alibaba.nacos.api.PropertyKeyConst.SERVER_ADDR;
 
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.Executor;
 
 import org.nutz.boot.AppContext;
 import org.nutz.boot.annotation.PropDoc;
@@ -120,16 +133,33 @@ public class NacosConfigureLoader extends PropertiesConfigureLoader {
             throw Lang.makeThrow("nacos.config.data_type is not found or not recognize，only json,xml and properties are support!");
         }
     }
+    
+    protected String dataId;
+    protected String group;
 
     @Override
     public void init() throws Exception {
     	super.init();
-        String dataId = conf.get(NACOS_DATA_ID, conf.get("nutz.application.name", "nutzboot"));
-        String group = conf.get(NACOS_GROUP, "DEFAULT_GROUP");
-        String dataType = conf.get(NACOS_DATA_TYPE, "properties");
+        dataId = conf.get(NACOS_DATA_ID, conf.get("nutz.application.name", "nutzboot"));
+        group = conf.get(NACOS_GROUP, "DEFAULT_GROUP");
         configService = NacosFactory.createConfigService(getNacosConfigProperties());
-        String configInfo = configService.getConfig(dataId, group, 5000);
-        log.debugf("get nacos config：%s", configInfo);
+        String configInfo = configService.getConfigAndSignListener(dataId, group, 5000, new com.alibaba.nacos.api.config.listener.Listener() {
+
+			public Executor getExecutor() {
+				return null;
+			}
+
+			@Override
+			public void receiveConfigInfo(String configInfo) {
+				updateConfigString(configInfo);
+			}
+        });
+        updateConfigString(configInfo);
+    }
+    
+    protected void updateConfigString(String configInfo) {
+    	log.debugf("get nacos config：%s", configInfo);
+        String dataType = conf.get(NACOS_DATA_TYPE, "properties");
         if (Strings.isNotBlank(configInfo)) {
             setConfig(configInfo, dataType, conf);
         }
@@ -163,4 +193,12 @@ public class NacosConfigureLoader extends PropertiesConfigureLoader {
     public ConfigService getConfigService() {
     	return configService;
     }
+    
+    public String getDataId() {
+		return dataId;
+	}
+    
+    public String getGroup() {
+		return group;
+	}
 }
