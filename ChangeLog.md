@@ -1,10 +1,10 @@
 # NB进化史
 
-# 2.4.0.v20200427 ""
-nutzclold-perce API网关,重新回来了
+# 2.4.0.v20200427 "单车"
+nutzclold-perce API网关,重装归来
 
 * 时间: 2020-04-27
-* 曲目: [落雨大](https://www.youtube.com/watch?v=3_YqjU1pGVg)
+* 曲目: [单车](https://www.youtube.com/watch?v=AfPUiV-jamA)
 
 * 变更:
 	* update: nutzclold-perce 强化nacos支持, 服务信息固定配置, 动态发现新服务, 都有了
