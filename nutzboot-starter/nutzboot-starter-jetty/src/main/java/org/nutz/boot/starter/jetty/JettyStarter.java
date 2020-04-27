@@ -29,6 +29,7 @@ import org.eclipse.jetty.server.session.SessionCache;
 import org.eclipse.jetty.server.session.SessionDataStore;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
+import org.eclipse.jetty.util.resource.PathResource;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
@@ -221,7 +222,20 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
             https_config.setSecureScheme("https");
 
             SslContextFactory sslContextFactory = new SslContextFactory.Server();
-            sslContextFactory.setKeyStorePath(conf.get(PROP_HTTPS_KEYSTORE_PATH));
+            String ksPath = conf.check(PROP_HTTPS_KEYSTORE_PATH);
+            try {
+				sslContextFactory.setKeyStorePath(ksPath);
+				Resource ks = sslContextFactory.getKeyStoreResource();
+				if (ks instanceof PathResource && !((PathResource)ks).exists()) {
+					throw new IllegalArgumentException("keystore not exist: " + ksPath);
+				}
+			} catch (IllegalArgumentException e) {
+				URL url = appContext.getClassLoader().getResource(ksPath);
+				if (url != null)
+					sslContextFactory.setKeyStoreResource(Resource.newResource(url));
+				else
+					throw e;
+			}
             // 私钥
             sslContextFactory.setKeyStorePassword(conf.get(PROP_HTTPS_KEYSTORE_PASSWORD));
             // 公钥
