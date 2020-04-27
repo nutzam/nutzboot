@@ -1,5 +1,16 @@
 # NB进化史
 
+# 2.4.0.v20200427 ""
+nutzclold-perce API网关,重新回来了
+
+* 时间: 2020-04-27
+* 曲目: [落雨大](https://www.youtube.com/watch?v=3_YqjU1pGVg)
+
+* 变更:
+	* update: nutzclold-perce 强化nacos支持, 服务信息固定配置, 动态发现新服务, 都有了
+	* update: 更新jetty版本, 顺便更新一堆demo
+	* update: jetty支持更详细的cookie控制
+
 # 2.3.9.v20200309 "落大雨"
 
 落大雨，水浸街
