@@ -70,7 +70,12 @@ public abstract class AbstractConfigureLoader implements ConfigureLoader, LifeCy
      */
     protected void parseCommandLineArgs(PropertiesProxy conf, String[] args) {
     	for (int i=0;i< args.length;i++) {
-    		String arg = args[i];
+            String arg = args[i];
+            if (arg.startsWith("-D")) {
+                String[] tmp = arg.split("=");
+                addCommandLineArg(conf, tmp[0].substring(2), tmp.length == 1 ? "true" : tmp[1]);
+                continue;
+            }
     		if (!arg.startsWith("--")) {
     			continue;
     		}

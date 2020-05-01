@@ -55,9 +55,8 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
         		conf.put("nutz.profiles.active", tmp.remove("nutz.profiles.active"));
         	}
         }
-        if (allowCommandLineProperties) {
-        	conf.putAll(System.getProperties());
-        }
+        // 默认加载SystemProperties,这样可以兼容以前的默认配置情况 要不要加个配置项?
+        conf.putAll(System.getProperties());
         // 加载指定profile,如果有的话
         if (conf.has("nutz.profiles.active")) {
         	String profile = conf.get("nutz.profiles.active");
@@ -82,7 +81,7 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
             });
         }
         // 把命令行参数放进去
-        if (tmp.size() > 0) {
+        if (allowCommandLineProperties && tmp.size() > 0) {
         	conf.putAll(tmp.toMap());
         }
         if (Strings.isBlank(conf.get("app.build.version"))) {
