@@ -49,7 +49,7 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
         }
         // 也许命令行里面指定了profile,需要提前load进来
         PropertiesProxy tmp = new PropertiesProxy();
-        if (args != null) {
+        if (allowCommandLineProperties && args != null) {
         	parseCommandLineArgs(tmp, args);
         	if (tmp.has("nutz.profiles.active")) {
         		conf.put("nutz.profiles.active", tmp.remove("nutz.profiles.active"));
