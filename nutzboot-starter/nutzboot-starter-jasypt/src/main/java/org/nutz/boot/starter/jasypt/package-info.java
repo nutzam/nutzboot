@@ -3,4 +3,4 @@
  *
  * @author howechiang
  */
-package org.nutz.boot.starter.j2cache;
+package org.nutz.boot.starter.jasypt;
