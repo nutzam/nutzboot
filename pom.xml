@@ -26,7 +26,7 @@
 		<beetl.version>3.0.21.RELEASE</beetl.version>
 		<beetlsql.version>2.11.7</beetlsql.version>
 		<zbus.version>0.11.5</zbus.version>
-		<undertow.version>1.4.26.Final</undertow.version>
+		<undertow.version>1.4.28.Final</undertow.version>
 		<velocity.version>1.7</velocity.version>
 		<caffeine.version>2.6.2</caffeine.version>
 		<feign.version>9.5.1</feign.version>
@@ -36,7 +36,7 @@
 		<tio.version>3.1.8.v20180818-RELEASE</tio.version>
 		<j2cache.version>2.3.22-release</j2cache.version>
 		<asm.version>8.0.1</asm.version>
-		<druid.version>1.1.21</druid.version>
+		<druid.version>1.1.22</druid.version>
 		<HikariCP.version>3.2.0</HikariCP.version>
 		<thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
 		<quartz.version>2.3.0</quartz.version>
@@ -48,12 +48,12 @@
 		<commons-pool2.version>2.6.2</commons-pool2.version>
 		<fescar.version>0.4.1</fescar.version>
 		<seata.version>1.2.0</seata.version>
-		<redisson.version>3.12.1</redisson.version>
+		<redisson.version>3.12.3</redisson.version>
 		<mybatis.version>3.5.2</mybatis.version>
 		<nacos.version>1.1.4</nacos.version>
 		<swagger-servlet.version>1.6.0</swagger-servlet.version>
 		<swagger3.version>2.1.1</swagger3.version>
-		<shardingsphere.version>4.0.1</shardingsphere.version>
+		<shardingsphere.version>4.1.0</shardingsphere.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
