@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 import org.nutz.cloud.perca.RouteContext;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
-import org.nutz.json.Json;
 import org.nutz.lang.Lang;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -92,7 +91,7 @@ public class NacosServerPrefixSelectorFilter extends AbstractServerSelectorFilte
 							}
 						}
 						Set<String> lastNames = new HashSet<String>(serviceMap.keySet());
-						log.debug("找到的服务名列表为: " + Json.toJson(serviceNames));
+						//log.debug("找到的服务名列表为: " + Json.toJson(serviceNames));
 						boolean hasDiff = false;
 						for (String name : serviceNames) {
 							if (!lastNames.remove(name)) {
@@ -155,6 +154,25 @@ public class NacosServerPrefixSelectorFilter extends AbstractServerSelectorFilte
 		if (event instanceof NamingEvent) {
 			updateTargetServers(((NamingEvent) event).getInstances(), ts);
 		}
+	}
+	
+	@Override
+	protected boolean selectTargetServer(RouteContext ctx, List<TargetServerInfo> infos) {
+		TService ts = (TService) ctx.obj;
+		if (ts == null) {
+			return false; // 不可能吧
+		}
+		try {
+			Instance ins = nacosNamingService.selectOneHealthyInstance(ts.name, group);
+			if (ins != null) {
+				ctx.targetHost = ins.getIp();
+				ctx.targetPort = ins.getPort();
+				return true;
+			}
+		} catch (NacosException e) {
+			log.debug("selectOneHealthyInstance fail", e);
+		}
+		return false;
 	}
 
 	protected void updateTargetServers(List<Instance> instances, TService ts) {

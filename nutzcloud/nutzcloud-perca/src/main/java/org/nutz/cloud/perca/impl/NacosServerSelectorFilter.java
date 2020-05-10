@@ -3,6 +3,7 @@ package org.nutz.cloud.perca.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.nutz.cloud.perca.RouteContext;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.lang.Strings;
@@ -57,6 +58,21 @@ public class NacosServerSelectorFilter extends AbstractServerSelectorFilter impl
 			infos.add(info);
 		}
 		super.targetServers = infos;
+	}
+	
+	@Override
+	protected boolean selectTargetServer(RouteContext ctx, List<TargetServerInfo> infos) {
+		try {
+			Instance ins = nacosNamingService.selectOneHealthyInstance(serviceName);
+			if (ins != null) {
+				ctx.targetHost = ins.getIp();
+				ctx.targetPort = ins.getPort();
+				return true;
+			}
+		} catch (NacosException e) {
+			log.debug("selectOneHealthyInstance fail", e);
+		}
+		return false;
 	}
 
 	public String getType() {
