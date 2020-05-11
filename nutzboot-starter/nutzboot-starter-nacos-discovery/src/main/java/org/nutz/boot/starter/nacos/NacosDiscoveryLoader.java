@@ -104,7 +104,7 @@ public class NacosDiscoveryLoader implements ServerFace, NbAppEventListener {
     public void init() throws Exception {
     	if (conf.getBoolean(NACOS_ENABLE, true)) {
     		namingService = NacosFactory.createNamingService(getNacosDiscoveryProperties());
-    		serviceName = conf.get(NACOS_NAMING_SERVISE_NAME);
+    		serviceName = conf.get(NACOS_NAMING_SERVISE_NAME, conf.get("nutz.application.name", conf.get("dubbo.application.name", "")));
     		groupName = conf.get(NACOS_NAMING_GROUP_NAME, "DEFAULT_GROUP");
     		clusterName = conf.get(NACOS_NAMING_CLUSTER_NAME, "public");
     		if (Strings.isBlank(serviceName)) {

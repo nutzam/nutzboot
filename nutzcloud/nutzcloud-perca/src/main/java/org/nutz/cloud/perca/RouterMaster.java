@@ -9,6 +9,7 @@ import org.nutz.boot.AppContext;
 import org.nutz.cloud.perca.impl.LoachServerSelectorFilter;
 import org.nutz.cloud.perca.impl.NacosServerPrefixSelectorFilter;
 import org.nutz.cloud.perca.impl.NacosServerSelectorFilter;
+import org.nutz.cloud.perca.impl.SentinelFilter;
 import org.nutz.cloud.perca.impl.SimpleRouteFilter;
 import org.nutz.cloud.perca.impl.TargetServerInfo;
 import org.nutz.ioc.Ioc;
@@ -75,8 +76,16 @@ public class RouterMaster implements Comparable<RouterMaster> {
 	}
 	
 	public void preRoute(RouteContext ctx) throws IOException {
+		ctx.rmaster = this;
 		for (RouteFilter filter : filters) {
 			filter.preRoute(ctx);
+		}
+	}
+	
+	public void postRoute(RouteContext ctx) throws IOException {
+		ctx.rmaster = this;
+		for (RouteFilter filter : filters) {
+			filter.postRoute(ctx);
 		}
 	}
 
@@ -123,6 +132,9 @@ public class RouterMaster implements Comparable<RouterMaster> {
     			break;
     		case "nacos-prefix":
     			filter = new NacosServerPrefixSelectorFilter();
+    			break;
+    		case "sentinel":
+    			filter = new SentinelFilter();
     			break;
     		default:
     			// 可能是类名

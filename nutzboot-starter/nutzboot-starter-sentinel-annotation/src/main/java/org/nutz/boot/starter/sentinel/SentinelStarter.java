@@ -42,7 +42,7 @@ public class SentinelStarter implements ServerFace {
 
     @Override
     public void start() throws Exception {
-        if (conf.getBoolean(PROP_SERVER_PORT, false)) {
+        if (conf.getBoolean(PROP_ENABLED, false)) {
             System.setProperty("java.net.preferIPv4Stack", "true");
             System.setProperty("project.name", conf.get(PROP_PROJECR_NAME, conf.get("nutz.application.name", conf.get("dubbo.application.name", ""))));
             System.setProperty(SERVER_PORT, conf.get(PROP_SERVER_PORT, "8721"));

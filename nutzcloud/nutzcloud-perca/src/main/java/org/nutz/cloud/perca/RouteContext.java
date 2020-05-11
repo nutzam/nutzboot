@@ -19,6 +19,7 @@ public class RouteContext {
     public String targetUri;
     public int targetPort;
     public String matchedPrefix;
+    public String serviceName;
     
     public String rewritedTarget;
     
@@ -28,6 +29,10 @@ public class RouteContext {
     
     public HttpServletResponse resp;
     public HttpServletRequest req;
+    
+    public RouterMaster rmaster;
+    public boolean respFail;
+    public boolean respDone;
     
     public void setup(HttpServletRequest req, HttpServletResponse resp) {
         method = req.getMethod().toUpperCase();

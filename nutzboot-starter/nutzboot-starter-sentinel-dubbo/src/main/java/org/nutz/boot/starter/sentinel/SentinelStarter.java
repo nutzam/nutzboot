@@ -1,9 +1,11 @@
 package org.nutz.boot.starter.sentinel;
 
+import com.alibaba.csp.sentinel.cluster.ClusterStateManager;
 import com.alibaba.csp.sentinel.cluster.flow.rule.ClusterFlowRuleManager;
 import com.alibaba.csp.sentinel.cluster.flow.rule.ClusterParamFlowRuleManager;
 import com.alibaba.csp.sentinel.cluster.server.config.ClusterServerConfigManager;
 import com.alibaba.csp.sentinel.cluster.server.config.ServerTransportConfig;
+import com.alibaba.csp.sentinel.command.CommandCenterProvider;
 import com.alibaba.csp.sentinel.datasource.WritableDataSource;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRuleManager;
@@ -98,6 +100,7 @@ public class SentinelStarter implements ServerFace {
             registerAuthorityRuleSupplier();
             registerDegradeRuleSupplier();
             registerClusterRuleSupplier();
+            ClusterStateManager.setToClient();
             log.infof("sentinel started in %s:%s", TransportConfig.getHeartbeatClientIp(), TransportConfig.getPort());
         }
     }
