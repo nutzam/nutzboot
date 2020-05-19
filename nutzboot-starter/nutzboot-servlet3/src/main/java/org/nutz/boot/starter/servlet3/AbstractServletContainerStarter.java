@@ -88,7 +88,7 @@ public abstract class AbstractServletContainerStarter implements ClassLoaderAwar
     public void depose() throws Exception {}
 
     public int getSessionTimeout() {
-        return conf.getInt(getConfigurePrefix() + "session", conf.getInt("web.session.timeout", 30)) * 60;
+        return conf.getInt(getConfigurePrefix() + "session.timeout", conf.getInt("web.session.timeout", 30)) * 60;
     }
 
     public Map<String, String> getErrorPages() {
