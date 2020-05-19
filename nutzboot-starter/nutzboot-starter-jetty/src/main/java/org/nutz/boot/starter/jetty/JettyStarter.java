@@ -18,12 +18,15 @@ import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.SessionIdManager;
 import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.server.handler.gzip.GzipHandler;
 import org.eclipse.jetty.server.session.DatabaseAdaptor;
 import org.eclipse.jetty.server.session.DefaultSessionCache;
+import org.eclipse.jetty.server.session.DefaultSessionIdManager;
 import org.eclipse.jetty.server.session.FileSessionDataStoreFactory;
+import org.eclipse.jetty.server.session.HouseKeeper;
 import org.eclipse.jetty.server.session.JDBCSessionDataStoreFactory;
 import org.eclipse.jetty.server.session.SessionCache;
 import org.eclipse.jetty.server.session.SessionDataStore;
@@ -153,6 +156,9 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     public static final String PROP_SESSION_FILE_STOREDIR = PRE + "session.file.storeDir";
     @PropDoc(value = "session持久化,SessionDataStore对应的ioc名称", defaultValue = "jettySessionDataStore")
     public static final String PROP_SESSION_IOC_DATASTORE = PRE + "session.ioc.datastore";
+    
+    @PropDoc(value = "扫描session过期的间隔", defaultValue = "600")
+    public static final String PROP_SESSION_SCAVENGE_TNTERVAL = "jetty.sessionScavengeInterval.seconds";
     
     // Cookie相关
     @PropDoc(value = "cookie是否设置HttpOnly", defaultValue = "false")
@@ -404,6 +410,21 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
                 break;
             }
             handler.setSessionCache(sessionCache);
+        }
+        if (conf.getInt("jetty.sessionScavengeInterval.seconds") > 0) {
+
+            SessionIdManager sessionIdManager = sessionHandler.getSessionIdManager();
+            if (sessionIdManager == null) {
+            	sessionIdManager = new DefaultSessionIdManager(server);
+            	sessionHandler.setSessionIdManager(sessionIdManager);
+            }
+            HouseKeeper keeper = sessionIdManager.getSessionHouseKeeper();
+            if (keeper == null) {
+            	keeper = new HouseKeeper();
+            	sessionIdManager.setSessionHouseKeeper(keeper);
+            }
+            keeper.setIntervalSec(conf.getInt("jetty.sessionScavengeInterval.seconds"));
+            server.addBean(keeper, true);
         }
     }
 
