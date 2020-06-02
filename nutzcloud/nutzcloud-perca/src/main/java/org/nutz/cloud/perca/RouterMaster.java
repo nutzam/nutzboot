@@ -6,12 +6,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.nutz.boot.AppContext;
-import org.nutz.cloud.perca.impl.LoachServerSelectorFilter;
-import org.nutz.cloud.perca.impl.NacosServerPrefixSelectorFilter;
-import org.nutz.cloud.perca.impl.NacosServerSelectorFilter;
-import org.nutz.cloud.perca.impl.SentinelFilter;
-import org.nutz.cloud.perca.impl.SimpleRouteFilter;
-import org.nutz.cloud.perca.impl.TargetServerInfo;
+import org.nutz.cloud.perca.impl.*;
 import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.lang.Strings;
@@ -136,6 +131,9 @@ public class RouterMaster implements Comparable<RouterMaster> {
     		case "sentinel":
     			filter = new SentinelFilter();
     			break;
+    		case "hide-real-url":
+				filter = new HideRealUrlFilter();
+				break;
     		default:
     			// 可能是类名
     			if (type.indexOf('.') > 0) 
