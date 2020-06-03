@@ -54,6 +54,7 @@
 		<swagger-servlet.version>1.6.0</swagger-servlet.version>
 		<swagger3.version>2.1.1</swagger3.version>
 		<shardingsphere.version>4.1.0</shardingsphere.version>
+		<jasypt.verison>1.9.3</jasypt.verison>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
