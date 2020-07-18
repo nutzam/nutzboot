@@ -54,6 +54,9 @@
 		<swagger-servlet.version>1.6.0</swagger-servlet.version>
 		<swagger3.version>2.1.1</swagger3.version>
 		<shardingsphere.version>4.1.0</shardingsphere.version>
+		<junit-jupiter.version>5.6.2</junit-jupiter.version>
+		<hamcrest.version>[2.2,)</hamcrest.version>
+		<mockito.version>[1.10.19,)</mockito.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
@@ -1023,6 +1026,48 @@
 				<groupId>com.alibaba.nacos</groupId>
 				<artifactId>nacos-client</artifactId>
 				<version>${nacos.version}</version>
+			</dependency>
+			<dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-migrationsupport</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.vintage</groupId>
+                <artifactId>junit-vintage-engine</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+			<dependency>
+			    <groupId>org.hamcrest</groupId>
+			    <artifactId>hamcrest-core</artifactId>
+			    <version>${hamcrest.version}</version>
+			    <scope>test</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
