@@ -175,6 +175,9 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     
     @PropDoc(value = "设置cookie的path")
     public static final String PROP_SESSION_COOKIE_PATH = PRE + "session.cookie.path";
+    
+    @PropDoc(value = "设置jetty的临时目录", defaultValue = "./temp")
+    public static final String PROP_TEMP_DIR = PRE + "tempdir";
 
     protected Server server;
     protected WebAppContext wac;
@@ -273,7 +276,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         // wac.setCopyWebInf(true);
         // wac.setProtectedTargets(new String[]{"/java", "/javax", "/org",
         // "/net", "/WEB-INF", "/META-INF"});
-        wac.setTempDirectory(new File("temp"));
+        wac.setTempDirectory(new File(conf.get(PROP_TEMP_DIR, "temp")));
         wac.setClassLoader(classLoader);
         wac.setConfigurationDiscovered(true);
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
