@@ -211,17 +211,24 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         threadPool.setMaxThreads(getMaxThreads());
         server = new Server(threadPool);
         // HTTP端口设置
-        HttpConfiguration httpConfig = conf.make(HttpConfiguration.class, "jetty.httpConfig.");
-        HttpConnectionFactory httpFactory = new HttpConnectionFactory(httpConfig);
-        connector = new ServerConnector(server, httpFactory);
-        connector.setHost(getHost());
-        connector.setPort(getPort());
-        connector.setIdleTimeout(getIdleTimeout());
-        server.addConnector(connector);
+        if (conf.getBoolean("jetty.http.enable", true)) {
+            HttpConfiguration httpConfig = conf.make(HttpConfiguration.class, "jetty.httpConfig.");
+            HttpConnectionFactory httpFactory = new HttpConnectionFactory(httpConfig);
+            connector = new ServerConnector(server, httpFactory);
+            connector.setHost(getHost());
+            connector.setPort(getPort());
+            connector.setIdleTimeout(getIdleTimeout());
+            server.addConnector(connector);
 
-        updateMonitorValue("http.port", connector.getPort());
-        updateMonitorValue("http.host", connector.getHost());
-        updateMonitorValue("http.idleTimeout", connector.getIdleTimeout());
+            updateMonitorValue("http.enable", true);
+            updateMonitorValue("http.port", connector.getPort());
+            updateMonitorValue("http.host", connector.getHost());
+            updateMonitorValue("http.idleTimeout", connector.getIdleTimeout());
+        }
+        else {
+        	log.info("jetty http is disable");
+        	updateMonitorValue("http.enable", false);
+        }
 
         // 看看Https设置
         int httpsPort = conf.getInt(PROP_HTTPS_PORT);
