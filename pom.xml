@@ -10,7 +10,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<nutz.version>1.r.68-SNAPSHOT</nutz.version>
 		<nutzboot.version>2.4.1-SNAPSHOT</nutzboot.version>
-		<nutzwx.version>1.r.68.v20200309</nutzwx.version>
+		<nutzwx.version>1.r.68-SNAPSHOT</nutzwx.version>
 		<slf4j.version>1.7.30</slf4j.version>
 		<slf4j-api.version>1.7.30</slf4j-api.version>
 		<logback.version>1.2.3</logback.version>
