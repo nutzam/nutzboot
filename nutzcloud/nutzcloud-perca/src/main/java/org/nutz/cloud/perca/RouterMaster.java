@@ -134,6 +134,9 @@ public class RouterMaster implements Comparable<RouterMaster> {
     		case "hide-real-url":
 				filter = new HideRealUrlFilter();
 				break;
+				case "rewrite-url":
+					filter = new RewriteUrlFilter();
+					break;
     		default:
     			// 可能是类名
     			if (type.indexOf('.') > 0) 
