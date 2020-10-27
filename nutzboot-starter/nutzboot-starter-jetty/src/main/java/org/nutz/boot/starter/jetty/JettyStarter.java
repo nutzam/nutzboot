@@ -175,6 +175,9 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     
     @PropDoc(value = "设置cookie的path")
     public static final String PROP_SESSION_COOKIE_PATH = PRE + "session.cookie.path";
+    
+    @PropDoc(value = "设置jetty的临时目录", defaultValue = "./temp")
+    public static final String PROP_TEMP_DIR = PRE + "tempdir";
 
     protected Server server;
     protected WebAppContext wac;
@@ -208,17 +211,24 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         threadPool.setMaxThreads(getMaxThreads());
         server = new Server(threadPool);
         // HTTP端口设置
-        HttpConfiguration httpConfig = conf.make(HttpConfiguration.class, "jetty.httpConfig.");
-        HttpConnectionFactory httpFactory = new HttpConnectionFactory(httpConfig);
-        connector = new ServerConnector(server, httpFactory);
-        connector.setHost(getHost());
-        connector.setPort(getPort());
-        connector.setIdleTimeout(getIdleTimeout());
-        server.addConnector(connector);
+        if (conf.getBoolean("jetty.http.enable", true)) {
+            HttpConfiguration httpConfig = conf.make(HttpConfiguration.class, "jetty.httpConfig.");
+            HttpConnectionFactory httpFactory = new HttpConnectionFactory(httpConfig);
+            connector = new ServerConnector(server, httpFactory);
+            connector.setHost(getHost());
+            connector.setPort(getPort());
+            connector.setIdleTimeout(getIdleTimeout());
+            server.addConnector(connector);
 
-        updateMonitorValue("http.port", connector.getPort());
-        updateMonitorValue("http.host", connector.getHost());
-        updateMonitorValue("http.idleTimeout", connector.getIdleTimeout());
+            updateMonitorValue("http.enable", true);
+            updateMonitorValue("http.port", connector.getPort());
+            updateMonitorValue("http.host", connector.getHost());
+            updateMonitorValue("http.idleTimeout", connector.getIdleTimeout());
+        }
+        else {
+        	log.info("jetty http is disable");
+        	updateMonitorValue("http.enable", false);
+        }
 
         // 看看Https设置
         int httpsPort = conf.getInt(PROP_HTTPS_PORT);
@@ -273,7 +283,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
         // wac.setCopyWebInf(true);
         // wac.setProtectedTargets(new String[]{"/java", "/javax", "/org",
         // "/net", "/WEB-INF", "/META-INF"});
-        wac.setTempDirectory(new File("temp"));
+        wac.setTempDirectory(new File(conf.get(PROP_TEMP_DIR, "temp")));
         wac.setClassLoader(classLoader);
         wac.setConfigurationDiscovered(true);
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {

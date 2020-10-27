@@ -4,7 +4,7 @@ import org.nutz.ioc.loader.annotation.IocBean;
 
 @IocBean
 public class LoglevelProperty {
-    public static String REDIS_KEY_PREFIX = "logback:loglevel:";
+    private String REDIS_KEY_PREFIX = "logback:loglevel:";
     /**
      * 是否启用
      */
@@ -59,6 +59,14 @@ public class LoglevelProperty {
      * 加载的配置文件版本号
      */
     private String confVersion;
+
+    public String getREDIS_KEY_PREFIX() {
+        return REDIS_KEY_PREFIX;
+    }
+
+    public void setREDIS_KEY_PREFIX(String REDIS_KEY_PREFIX) {
+        this.REDIS_KEY_PREFIX = REDIS_KEY_PREFIX;
+    }
 
     public boolean isEnabled() {
         return enabled;
