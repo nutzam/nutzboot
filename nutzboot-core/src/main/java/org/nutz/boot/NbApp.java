@@ -438,7 +438,13 @@ public class NbApp extends Thread {
                             continue;
                         Class<?> klass = ctx.getClassLoader().loadClass(className);
                         if (!klass.getPackage().getName().startsWith(NbApp.class.getPackage().getName()) && klass.getAnnotation(IocBean.class) != null) {
-                            starterIocLoader.addClass(klass);
+                        	if (IocLoader.class.isAssignableFrom(klass))
+                        		starterIocLoader.addClass(klass);
+                        	else {
+                            	for (Class<?> classZ : Scans.me().scanPackage(klass.getPackage().getName())) {
+                                    starterIocLoader.addClass(classZ);
+                                }
+                        	}
                         }
                         starterClasses.add(klass);
                     }
