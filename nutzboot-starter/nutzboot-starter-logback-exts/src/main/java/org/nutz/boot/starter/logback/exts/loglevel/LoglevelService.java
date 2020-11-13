@@ -9,6 +9,7 @@ import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.json.Json;
 import org.nutz.json.JsonFormat;
+import org.nutz.lang.Streams;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
@@ -54,7 +55,13 @@ public class LoglevelService implements PubSub {
         loglevelProperty.setVmUse(vmUse);
         loglevelProperty.setLoglevel(getLevel());
         //log.debug("LoglevelService saveToRedis::"+Json.toJson(loglevelProperty));
-        jedisAgent.jedis().setex(loglevelProperty.getREDIS_KEY_PREFIX() + "list:" + loglevelProperty.getName() + ":" + loglevelProperty.getProcessId(), loglevelProperty.getKeepalive(), Json.toJson(loglevelProperty, JsonFormat.compact()));
+        Jedis jedis = null;
+        try {
+            jedis = jedisAgent.jedis();
+            jedis.setex(loglevelProperty.getREDIS_KEY_PREFIX() + "list:" + loglevelProperty.getName() + ":" + loglevelProperty.getProcessId(), loglevelProperty.getKeepalive(), Json.toJson(loglevelProperty, JsonFormat.compact()));
+        } finally {
+            Streams.safeClose(jedis);
+        }
     }
 
     /**
@@ -161,25 +168,31 @@ public class LoglevelService implements PubSub {
                         for (String key : scan.getResult()) {
                             String[] keys = key.split(":");
                             String name = keys[3];
-                            LoglevelProperty loglevelProperty = Json.fromJson(LoglevelProperty.class, jedisAgent.jedis().get(key));
+                            LoglevelProperty loglevelProperty = Json.fromJson(LoglevelProperty.class, jedis.get(key));
                             map.addv2(name, loglevelProperty);
                         }
                     } while (!scan.isCompleteIteration());
                 }
             }
         } else {
-            ScanParams match = new ScanParams().match(loglevelProperty.getREDIS_KEY_PREFIX() + "list:*");
-            ScanResult<String> scan = null;
-            do {
-                scan = jedisAgent.jedis().scan(scan == null ? ScanParams.SCAN_POINTER_START : scan.getStringCursor(), match);
-                for (String key : scan.getResult()) {
-                    String[] keys = key.split(":");
-                    String name = keys[3];
-                    LoglevelProperty loglevelProperty = Json.fromJson(LoglevelProperty.class, jedisAgent.jedis().get(key));
-                    map.addv2(name, loglevelProperty);
-                }
-                // 已经迭代结束了
-            } while (!scan.isCompleteIteration());
+            Jedis jedis = null;
+            try {
+                jedis = jedisAgent.jedis();
+                ScanParams match = new ScanParams().match(loglevelProperty.getREDIS_KEY_PREFIX() + "list:*");
+                ScanResult<String> scan = null;
+                do {
+                    scan = jedis.scan(scan == null ? ScanParams.SCAN_POINTER_START : scan.getStringCursor(), match);
+                    for (String key : scan.getResult()) {
+                        String[] keys = key.split(":");
+                        String name = keys[3];
+                        LoglevelProperty loglevelProperty = Json.fromJson(LoglevelProperty.class, jedis.get(key));
+                        map.addv2(name, loglevelProperty);
+                    }
+                    // 已经迭代结束了
+                } while (!scan.isCompleteIteration());
+            } finally {
+                Streams.safeClose(jedis);
+            }
         }
         return map;
     }
