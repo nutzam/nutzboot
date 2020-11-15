@@ -17,6 +17,9 @@ import org.nutz.log.Logs;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @IocBean(create = "init")
 public class LoglevelService implements PubSub {
     private static final Log log = Logs.get();
@@ -159,20 +162,28 @@ public class LoglevelService implements PubSub {
         NutMap map = NutMap.NEW();
         if (jedisAgent.isClusterMode()) {
             JedisCluster jedisCluster = jedisAgent.getJedisClusterWrapper().getJedisCluster();
+            List<String> keys = new ArrayList<>();
             for (JedisPool pool : jedisCluster.getClusterNodes().values()) {
                 try (Jedis jedis = pool.getResource()) {
                     ScanParams match = new ScanParams().match(loglevelProperty.getREDIS_KEY_PREFIX() + "list:*");
                     ScanResult<String> scan = null;
                     do {
                         scan = jedis.scan(scan == null ? ScanParams.SCAN_POINTER_START : scan.getStringCursor(), match);
-                        for (String key : scan.getResult()) {
-                            String[] keys = key.split(":");
-                            String name = keys[3];
-                            LoglevelProperty loglevelProperty = Json.fromJson(LoglevelProperty.class, jedis.get(key));
-                            map.addv2(name, loglevelProperty);
-                        }
+                        keys.addAll(scan.getResult());
                     } while (!scan.isCompleteIteration());
                 }
+            }
+            Jedis jedis = null;
+            try {
+                jedis = jedisAgent.jedis();
+                for (String key : keys) {
+                    String[] tmp = key.split(":");
+                    String name = tmp[3];
+                    LoglevelProperty loglevelProperty = Json.fromJson(LoglevelProperty.class, jedis.get(key));
+                    map.addv2(name, loglevelProperty);
+                }
+            } finally {
+                Streams.safeClose(jedis);
             }
         } else {
             Jedis jedis = null;
