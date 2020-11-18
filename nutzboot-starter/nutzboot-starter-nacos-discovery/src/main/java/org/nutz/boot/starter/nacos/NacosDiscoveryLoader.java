@@ -150,9 +150,9 @@ public class NacosDiscoveryLoader implements ServerFace, NbAppEventListener {
                 NutMap metaDataMap = NutMap.WRAP(conf.get(NACOS_NAMING_META_DATA, "{}"));
                 for (String key : metaDataMap.keySet()) {
                     instance.addMetadata(key, metaDataMap.getString(key));
-                    if(conf.getBoolean(NACOS_NAMING_META_DATA_START_TIME, true)) {
-                        instance.addMetadata("startTime", Times.getNowSDT());
-                    }
+                }
+                if(conf.getBoolean(NACOS_NAMING_META_DATA_START_TIME, true)) {
+                    instance.addMetadata("startTime", Times.getNowSDT());
                 }
                 namingService.registerInstance(serviceName, groupName, instance);
             } else {
