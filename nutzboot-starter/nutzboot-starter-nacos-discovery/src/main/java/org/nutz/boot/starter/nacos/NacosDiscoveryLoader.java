@@ -14,6 +14,7 @@ import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Strings;
+import org.nutz.lang.Times;
 import org.nutz.lang.hardware.NetworkItem;
 import org.nutz.lang.hardware.Networks;
 import org.nutz.lang.util.NutMap;
@@ -90,6 +91,9 @@ public class NacosDiscoveryLoader implements ServerFace, NbAppEventListener {
     @PropDoc(value = "Nacos 元数据 仅支持json格式", defaultValue = "")
     public static final String NACOS_NAMING_META_DATA = NACOS_PRE + "naming.meta-data";
 
+    @PropDoc(value = "Nacos元数据自动注册应用启动时间 前提必须有nacos.discovery.naming.meta-data配置项", defaultValue = "true")
+    public static final String NACOS_NAMING_META_DATA_START_TIME = NACOS_PRE + "naming.meta-data-register-start-time";
+
     @Inject
     protected AppContext appContext;
 
@@ -146,6 +150,9 @@ public class NacosDiscoveryLoader implements ServerFace, NbAppEventListener {
                 NutMap metaDataMap = NutMap.WRAP(conf.get(NACOS_NAMING_META_DATA, "{}"));
                 for (String key : metaDataMap.keySet()) {
                     instance.addMetadata(key, metaDataMap.getString(key));
+                    if(conf.getBoolean(NACOS_NAMING_META_DATA_START_TIME, true)) {
+                        instance.addMetadata("startTime", Times.getNowSDT());
+                    }
                 }
                 namingService.registerInstance(serviceName, groupName, instance);
             } else {
