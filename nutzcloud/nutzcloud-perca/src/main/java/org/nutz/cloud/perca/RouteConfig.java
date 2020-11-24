@@ -1,5 +1,6 @@
 package org.nutz.cloud.perca;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -48,6 +49,7 @@ public class RouteConfig {
             }
         }
         log.debugf("master count=%d", masters.size());
+        Collections.sort(masters);
         List<RouterMaster> oldMasters = this.masters;
         this.masters = masters;
         if (oldMasters != null && oldMasters.size() > 0) {
