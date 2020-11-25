@@ -15,6 +15,8 @@ import static com.alibaba.nacos.api.PropertyKeyConst.SECRET_KEY;
 import static com.alibaba.nacos.api.PropertyKeyConst.SERVER_ADDR;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
@@ -112,6 +114,15 @@ public class NacosConfigureLoader extends PropertiesConfigureLoader {
     
     protected ConfigService configService;
 
+    private List<ConfigListener> configListenerList;
+
+    public void addConfigListener(ConfigListener configListener) {
+        if(null == configListenerList) {
+            configListenerList = new ArrayList<>();
+        }
+        configListenerList.add(configListener);
+    }
+
     private void setConfig(String content, String contentType, PropertiesProxy conf) {
         if ("json".equals(contentType)) {
             NutMap configMap = new NutMap(content);
@@ -152,6 +163,11 @@ public class NacosConfigureLoader extends PropertiesConfigureLoader {
 			@Override
 			public void receiveConfigInfo(String configInfo) {
 				updateConfigString(configInfo);
+				if(null != configListenerList) {
+                    for (ConfigListener configListener : configListenerList) {
+                        configListener.reloadConfig();
+                    }
+                }
 			}
         });
         updateConfigString(configInfo);
