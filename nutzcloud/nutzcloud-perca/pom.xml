@@ -66,6 +66,10 @@
 			<version>2.4.2-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.nutz</groupId>
+			<artifactId>nutzboot-starter-nacos-config</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
