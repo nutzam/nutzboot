@@ -14,12 +14,7 @@ import javax.sql.DataSource;
 import javax.websocket.server.ServerContainer;
 import javax.websocket.server.ServerEndpoint;
 
-import org.eclipse.jetty.server.HttpConfiguration;
-import org.eclipse.jetty.server.HttpConnectionFactory;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.SessionIdManager;
-import org.eclipse.jetty.server.SslConnectionFactory;
+import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.server.handler.gzip.GzipHandler;
 import org.eclipse.jetty.server.session.DatabaseAdaptor;
@@ -45,8 +40,10 @@ import org.nutz.boot.starter.MonitorObject;
 import org.nutz.boot.starter.ServerFace;
 import org.nutz.boot.starter.servlet3.AbstractServletContainerStarter;
 import org.nutz.boot.starter.servlet3.NbServletContextListener;
+import org.nutz.castor.Castors;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
+import org.nutz.lang.Nums;
 import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -179,6 +176,9 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     @PropDoc(value = "设置jetty的临时目录", defaultValue = "./temp")
     public static final String PROP_TEMP_DIR = PRE + "tempdir";
 
+    @PropDoc(value = "配置多个端口监听", defaultValue = "")
+    public static final String PROP_EXT_PORTS = PRE + "extports";
+
     protected Server server;
     protected WebAppContext wac;
     protected ServerConnector connector;
@@ -219,7 +219,18 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
             connector.setPort(getPort());
             connector.setIdleTimeout(getIdleTimeout());
             server.addConnector(connector);
-
+            // 配置多端口监听
+            if(conf.has(PROP_EXT_PORTS)) {
+                int[] ports = Nums.splitInt(conf.get(PROP_EXT_PORTS));
+                for (int port : ports) {
+                    log.debugf("jetty http add port: %s", port);
+                    ServerConnector extConnector = new ServerConnector(server, httpFactory);
+                    extConnector.setHost(getHost());
+                    extConnector.setPort(port);
+                    extConnector.setIdleTimeout(getIdleTimeout());
+                    server.addConnector(extConnector);
+                }
+            }
             updateMonitorValue("http.enable", true);
             updateMonitorValue("http.port", connector.getPort());
             updateMonitorValue("http.host", connector.getHost());
