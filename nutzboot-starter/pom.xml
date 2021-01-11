@@ -82,6 +82,7 @@
 		<module>nutzboot-starter-thrift-server</module>
 		<module>nutzboot-starter-webjars</module>
         <module>nutzboot-starter-swagger3</module>
+		<module>nutzboot-starter-jasypt</module>
 		<module>nutzboot-starter-test</module>
     </modules>
 	<dependencies>
