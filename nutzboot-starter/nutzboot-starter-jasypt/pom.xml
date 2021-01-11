@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.nutz</groupId>
+		<artifactId>nutzboot-starter</artifactId>
+		<version>2.4.3-SNAPSHOT</version>
+	</parent>
+	<artifactId>nutzboot-starter-jasypt</artifactId>
+	<packaging>jar</packaging>
+	<name>nutzboot-starter-jasypt</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jasypt.version>1.9.3</jasypt.version>
+	</properties>
+	<description>NutzBoot, micoservice base on Nutz</description>
+
+	<url>http://nutzam.com</url>
+	<issueManagement>
+		<system>Github Issue</system>
+		<url>http://github.com/nutzam/nutzboot/issues</url>
+	</issueManagement>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<id>wendal</id>
+			<name>Wendal Chen</name>
+			<email>wendal1985@gmail.com</email>
+			<url>http://wendal.net/</url>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:git:git://github.com/nutzam/nutzboot.git</connection>
+		<developerConnection>scm:git:git://github.com/nutzam/nutzboot.git</developerConnection>
+		<url>git://github.com/nutzam/nutzboot.git</url>
+	</scm>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>nutzcn-snapshots</id>
+			<name>NutzCN snapshot repository</name>
+			<url>https://jfrog.nutz.cn/artifactory/snapshots</url>
+		</snapshotRepository>
+
+		<repository>
+			<id>sonatype-release-staging</id>
+			<name>Sonatype Nexus release repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+	</distributionManagement>
+	<dependencies>
+		<dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+			<version>${jasypt.version}</version>
+        </dependency>
+	</dependencies>
+</project>
