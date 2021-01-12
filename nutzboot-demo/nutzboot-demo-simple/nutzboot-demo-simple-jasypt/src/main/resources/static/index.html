@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Hello, So NB!</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background-color: #30bded;">
+<div class="container-fluid">
+	<div class="row" id="app">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<div class="row">
+				<h3>欢迎使用NutzBoot</h3>
+			</div>
+			<div class="row">
+				<p>本文件位于 src/main/resources/static/index.html 可以随意修改
+			</div>
+			<div class="row">
+				<p>当前毫秒数: <a href="#">{{timeNow}}</a>
+			</div>
+			<div class="row">
+				<p>NutzBoot官网 <a href="https://nutz.io" target="_blank">https://nutz.io</a>
+			</div>
+			<div class="row">
+				<p>项目构建器 <a href="https://get.nutz.io" target="_blank">https://get.nutz.io</a>
+			</div>
+			<div class="row">
+				<p>后台API(swagger自动生成) <a href="swagger/" target="_blank">swagger/</a>
+			</div>
+			<div class="row">
+				<p>数据库连接池监控(druid),用户druid,密码在日志里面搜druid password <a href="druid" target="_blank">druid/</a>
+			</div>
+			<div class="row">
+				<div>
+					<button class="btn btn-info" @click="user_add">新增</button>
+					<button class="btn btn-info" @click="pager.pageNumber-=1;dataReload();" v-if="pager.pageNumber > 1">上一页</button>
+					<button class="btn btn-info" @click="pager.pageNumber+=1;dataReload();" v-if="pager.pageNumber < pager.pageCount">下一页</button>
+				</div>
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr>
+							<th>id</th>
+							<th>名称</th>
+							<th>年龄</th>
+							<th>地区</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="user in users">
+							<td>{{user.id}}</td>
+							<td>{{user.name}}</td>
+							<td>{{user.age}}</td>
+							<td>{{user.location}}</td>
+							<td>
+								<button class="btn btn-info" @click="user_delete(user.id)">删除</button>
+								<button class="btn btn-info" @click="user_update(user, '输入新年龄', user.age, 'age')">更新年龄</button>
+								<button class="btn btn-info" @click="user_update(user, '输入新地区', user.location, 'location')">更新地区</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+</div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+<script type="text/javascript">
+var _app = new Vue({
+	el : "#app",
+	data : {
+		timeNow : 0,
+		users : [],
+		pager : {
+			pageNumber : 1,
+			pageSize : 3,
+			pageCount : 1
+		}
+	},
+	methods : {
+		dataReload : function() {
+			$.ajax({
+				url : "user/query",
+				data : "pageSize=" + _app.pager.pageSize + "&pageNumber=" + _app.pager.pageNumber,
+				success : function(re) {
+					_app.users = re.data.list;
+					_app.pager = re.data.pager;
+				}
+			})
+		},
+		user_delete : function(user_id) {
+			$.ajax({
+				url : "user/delete",
+				type : "POST",
+				data : "id="+user_id,
+				success : function(re) {
+					_app.dataReload();
+				}
+			})
+		},
+		user_add : function(user_id) {
+			var name = prompt("输入新用户的名称", "");
+			if (!name)
+				return;
+			$.ajax({
+				url : "user/add",
+				type : "POST",
+				data : "name="+name,
+				success : function(re) {
+					_app.pager.pageNumber = 1
+					_app.dataReload();
+				}
+			})
+		},
+		user_update : function(user,msg, oldVal, key) {
+			var val = prompt(msg, (oldVal || "")+"");
+			if (!val)
+				return;
+			user[key] = val
+			$.ajax({
+				url : "user/update",
+				type : "POST",
+				data : JSON.stringify(user),
+				success : function(re) {
+					_app.dataReload();
+				}
+			})
+		}
+	}
+});
+_app.dataReload()
+//setInterval(_app.dataReload, 1000)
+</script>
+</html>

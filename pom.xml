@@ -91,7 +91,7 @@
 		<!--<module>nutzboot-demo</module>-->
 		<module>nutzcloud</module>
 
-    </modules>
+	</modules>
 	<profiles>
 		<profile>
 			<id>demo</id>

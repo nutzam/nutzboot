@@ -64,6 +64,8 @@
         <module>nutzboot-demo-simple-jetty-sessionstore</module>
         <module>nutzboot-demo-simple-jetty-nacos-config-client</module>
         <module>nutzboot-demo-simple-webjars</module>
+		<module>nutzboot-demo-simple-jasypt</module>
+
     </modules>
 
 	<dependencies>
