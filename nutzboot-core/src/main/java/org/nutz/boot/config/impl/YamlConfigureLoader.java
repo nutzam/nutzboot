@@ -1,6 +1,7 @@
 package org.nutz.boot.config.impl;
 
 import org.nutz.ioc.impl.PropertiesProxy;
+import org.nutz.json.Json;
 import org.nutz.lang.Streams;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.Disks;
@@ -43,11 +44,8 @@ public class YamlConfigureLoader extends AbstractConfigureLoader {
         }
         if (flag) {
             // 加载application.yaml
-            readYaml(path);
+            readYamlPath(path);
         }
-    }
-
-    protected void readYaml(String path) throws Exception {
         // 也许命令行里面指定了profile,需要提前load进来
         PropertiesProxy tmp = new PropertiesProxy();
         if (args != null) {
@@ -129,7 +127,7 @@ public class YamlConfigureLoader extends AbstractConfigureLoader {
 
     private void buildFlattenedMap(Map<String, Object> result, Map<String, Object> source, String path) {
         for (Map.Entry<String, Object> entry : source.entrySet()) {
-            String key = entry.getKey();
+            String key = Strings.sNull(entry.getKey());
             if (Strings.isNotBlank(path)) {
                 if (key.startsWith("[")) {
                     key = path + key;
@@ -138,9 +136,7 @@ public class YamlConfigureLoader extends AbstractConfigureLoader {
                 }
             }
             Object value = entry.getValue();
-            if (value instanceof String) {
-                result.put(key, value);
-            } else if (value instanceof Map) {
+            if (value instanceof Map) {
                 @SuppressWarnings("unchecked")
                 Map<String, Object> map = (Map<String, Object>) value;
                 buildFlattenedMap(result, map, key);
@@ -153,7 +149,7 @@ public class YamlConfigureLoader extends AbstractConfigureLoader {
                 }
                 result.put(key, val.toString());
             } else {
-                result.put(key, value != null ? value : "");
+                result.put(key, Strings.sNull(value));
             }
         }
     }
