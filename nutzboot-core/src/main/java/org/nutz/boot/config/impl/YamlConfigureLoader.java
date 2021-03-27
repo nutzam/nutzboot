@@ -2,6 +2,7 @@ package org.nutz.boot.config.impl;
 
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.json.Json;
+import org.nutz.json.JsonFormat;
 import org.nutz.lang.Streams;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.Disks;
@@ -145,7 +146,12 @@ public class YamlConfigureLoader extends AbstractConfigureLoader {
                 Collection<Object> collection = (Collection<Object>) value;
                 StringBuilder val = new StringBuilder();
                 for (Object object : collection) {
-                    val.append(Strings.sNull(object)).append("\n");
+                    String str = Strings.sNull(object);
+                    if (str.startsWith("{") && str.endsWith("}")) {
+                        val.append(Json.toJson(object, JsonFormat.compact())).append("\n");
+                    } else {
+                        val.append(str).append("\n");
+                    }
                 }
                 result.put(key, val.toString());
             } else {
