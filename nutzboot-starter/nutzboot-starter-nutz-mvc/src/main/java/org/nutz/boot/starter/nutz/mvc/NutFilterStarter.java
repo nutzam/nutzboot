@@ -30,7 +30,8 @@ public class NutFilterStarter implements WebFilterFace {
     public static final String PROP_EXCLUSIONS = "nutz.mvc.exclusions";
     @PropDoc(value="指定NutFilter执行顺序", defaultValue="")
     public static final String PROP_WEB_FILTER_ORDER_NUTZ = "web.filter.order.nutz";
-
+    @PropDoc(value="指定Chain文件路径", defaultValue="")
+    public static final String PROP_WEB_FILTER_CHAIN = "web.filter.chain.path";
 
 	@Inject
 	protected PropertiesProxy conf;
@@ -73,6 +74,7 @@ public class NutFilterStarter implements WebFilterFace {
             }
         }
         params.put("exclusions", conf.get(PROP_EXCLUSIONS, "") + sb);
+        params.put("chain", conf.get(PROP_WEB_FILTER_CHAIN, ""));
         return params;
     }
 
