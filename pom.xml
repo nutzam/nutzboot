@@ -29,7 +29,7 @@
 		<undertow.version>2.2.3.Final</undertow.version>
 		<velocity.version>1.7</velocity.version>
 		<caffeine.version>2.6.2</caffeine.version>
-		<feign.version>9.5.1</feign.version>
+		<feign.version>11.1</feign.version>
 		<hystrix.vesion>1.5.12</hystrix.vesion>
 		<web3j.vesion>3.2.0</web3j.vesion>
 		<mqtt.version>1.2.1</mqtt.version>
