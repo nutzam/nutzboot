@@ -58,7 +58,7 @@ public class YamlConfigureLoader extends AbstractConfigureLoader {
         // 加载指定profile,如果有的话
         if (conf.has("nutz.profiles.active")) {
             String profile = conf.get("nutz.profiles.active");
-            String _path = path.substring(0, path.lastIndexOf('.')) + "-" + profile + ".yml";
+            String _path = path.substring(0, path.lastIndexOf('.')) + "-" + profile + ".yaml";
             readYamlPath(_path);
         }
         // 如果conf内含有nutz.boot.configure.yaml.dir配置，则读取该目录下的所有配置文件
