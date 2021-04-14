@@ -4,7 +4,6 @@ import com.alibaba.nacos.api.NacosFactory;
 import com.alibaba.nacos.api.config.ConfigService;
 import org.nutz.boot.AppContext;
 import org.nutz.boot.annotation.PropDoc;
-import org.nutz.boot.config.impl.PropertiesConfigureLoader;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -33,8 +32,8 @@ import static com.alibaba.nacos.api.PropertyKeyConst.*;
  * @email wizzer.cn@gmail.com
  * @date 2019-03-06 21:45
  */
-@IocBean
-public class NacosConfigureLoader extends PropertiesConfigureLoader {
+@IocBean(create = "init")
+public class NacosConfigureLoader {
     /**
      * 获取日志对象
      */
@@ -99,6 +98,9 @@ public class NacosConfigureLoader extends PropertiesConfigureLoader {
 
     @Inject
     protected AppContext appContext;
+
+    @Inject
+    private PropertiesProxy conf;
 
     protected ConfigService configService;
 
@@ -174,9 +176,7 @@ public class NacosConfigureLoader extends PropertiesConfigureLoader {
     protected String dataId;
     protected String group;
 
-    @Override
     public void init() throws Exception {
-        super.init();
         dataId = conf.get(NACOS_DATA_ID, conf.get("nutz.application.name", "nutzboot"));
         group = conf.get(NACOS_GROUP, "DEFAULT_GROUP");
         configService = NacosFactory.createConfigService(getNacosConfigProperties());
