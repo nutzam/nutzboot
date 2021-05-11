@@ -1,28 +1,27 @@
 package org.nutz.boot.starter.nutz.mvc;
 
-import java.util.Set;
-
 import org.nutz.boot.AppContext;
 import org.nutz.boot.starter.nutz.mvc.api.ActionLoaderFace;
 import org.nutz.ioc.Ioc;
 import org.nutz.lang.Stopwatch;
+import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
-import org.nutz.mvc.EntryDeterminer;
-import org.nutz.mvc.LoadingException;
-import org.nutz.mvc.Mvcs;
-import org.nutz.mvc.NutConfig;
-import org.nutz.mvc.Setup;
-import org.nutz.mvc.UrlMapping;
+import org.nutz.mvc.*;
+import org.nutz.mvc.annotation.ChainBy;
 import org.nutz.mvc.annotation.Localization;
+import org.nutz.mvc.impl.Loadings;
+import org.nutz.mvc.impl.NutActionChainMaker;
 import org.nutz.mvc.impl.NutLoading;
+
+import java.util.Set;
 
 public class NbMvcLoading extends NutLoading {
 
     private static final Log log = Logs.get();
 
     protected AppContext appContext = AppContext.getDefault();
-    
+
     public UrlMapping load(NutConfig config) {
         config.setMainModule(appContext.getMainClass());
         return super.load(config);
@@ -49,6 +48,21 @@ public class NbMvcLoading extends NutLoading {
         return modules;
     }
 
+    protected ActionChainMaker createChainMaker(NutConfig config, Class<?> mainModule) {
+        ActionChainMaker maker;
+        String chain = config.getInitParameter("chain");
+        if (Strings.isNotBlank(chain)) {
+            maker = new NutActionChainMaker(chain);
+        } else {
+            ChainBy ann = mainModule.getAnnotation(ChainBy.class);
+            maker = null == ann ? new NutActionChainMaker(new String[]{})
+                    : Loadings.evalObj(config, ann.type(), ann.args());
+        }
+        if (log.isDebugEnabled())
+            log.debugf("@ChainBy(%s)", maker.getClass().getName());
+        return maker;
+    }
+
     public void depose(NutConfig config) {
         if (log.isInfoEnabled())
             log.infof("Nutz.Mvc[%s] is deposing ...", config.getAppName());
@@ -59,8 +73,7 @@ public class NbMvcLoading extends NutLoading {
             Setup setup = config.getAttributeAs(Setup.class, Setup.class.getName());
             if (null != setup)
                 setup.destroy(config);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new LoadingException(e);
         }
 

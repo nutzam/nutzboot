@@ -10,10 +10,7 @@ import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +58,7 @@ public class YamlConfigureLoader extends AbstractConfigureLoader {
         // 加载指定profile,如果有的话
         if (conf.has("nutz.profiles.active")) {
             String profile = conf.get("nutz.profiles.active");
-            String _path = path.substring(0, path.lastIndexOf('.')) + "-" + profile + ".yml";
+            String _path = path.substring(0, path.lastIndexOf('.')) + "-" + profile + ".yaml";
             readYamlPath(_path);
         }
         // 如果conf内含有nutz.boot.configure.yaml.dir配置，则读取该目录下的所有配置文件
@@ -87,7 +84,7 @@ public class YamlConfigureLoader extends AbstractConfigureLoader {
         if (Strings.isBlank(conf.get("app.build.version"))) {
             InputStream ins = resourceLoader.get("build.version");
             if (ins != null) {
-                yamlToProperties(new Yaml().loadAs(Streams.utf8r(ins), Map.class));
+                conf.load(new InputStreamReader(ins), false);
             }
         }
     }
