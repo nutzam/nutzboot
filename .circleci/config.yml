@@ -7,7 +7,7 @@ jobs:
   build-job:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:11.0.3-jdk-stretch
 
     working_directory: ~/repo
 
@@ -37,7 +37,7 @@ jobs:
   deploy-job:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:11.0.3-jdk-stretch
 
     working_directory: ~/repo
 

@@ -1,40 +1,27 @@
 package org.nutz.boot.starter.nacos;
 
-import static com.alibaba.nacos.api.PropertyKeyConst.ACCESS_KEY;
-import static com.alibaba.nacos.api.PropertyKeyConst.CLUSTER_NAME;
-import static com.alibaba.nacos.api.PropertyKeyConst.CONFIG_LONG_POLL_TIMEOUT;
-import static com.alibaba.nacos.api.PropertyKeyConst.CONFIG_RETRY_TIME;
-import static com.alibaba.nacos.api.PropertyKeyConst.CONTEXT_PATH;
-import static com.alibaba.nacos.api.PropertyKeyConst.ENABLE_REMOTE_SYNC_CONFIG;
-import static com.alibaba.nacos.api.PropertyKeyConst.ENCODE;
-import static com.alibaba.nacos.api.PropertyKeyConst.ENDPOINT;
-import static com.alibaba.nacos.api.PropertyKeyConst.ENDPOINT_PORT;
-import static com.alibaba.nacos.api.PropertyKeyConst.MAX_RETRY;
-import static com.alibaba.nacos.api.PropertyKeyConst.NAMESPACE;
-import static com.alibaba.nacos.api.PropertyKeyConst.SECRET_KEY;
-import static com.alibaba.nacos.api.PropertyKeyConst.SERVER_ADDR;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.concurrent.Executor;
-
+import com.alibaba.nacos.api.NacosFactory;
+import com.alibaba.nacos.api.config.ConfigService;
 import org.nutz.boot.AppContext;
 import org.nutz.boot.annotation.PropDoc;
-import org.nutz.boot.config.impl.PropertiesConfigureLoader;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.json.Json;
+import org.nutz.json.JsonFormat;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
 import org.nutz.lang.stream.StringInputStream;
 import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
+import org.yaml.snakeyaml.Yaml;
 
-import com.alibaba.nacos.api.NacosFactory;
-import com.alibaba.nacos.api.config.ConfigService;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.Executor;
+
+import static com.alibaba.nacos.api.PropertyKeyConst.*;
 
 /**
  * @author wentao
@@ -45,8 +32,8 @@ import com.alibaba.nacos.api.config.ConfigService;
  * @email wizzer.cn@gmail.com
  * @date 2019-03-06 21:45
  */
-@IocBean
-public class NacosConfigureLoader extends PropertiesConfigureLoader {
+@IocBean(create = "init")
+public class NacosConfigureLoader {
     /**
      * 获取日志对象
      */
@@ -111,13 +98,16 @@ public class NacosConfigureLoader extends PropertiesConfigureLoader {
 
     @Inject
     protected AppContext appContext;
-    
+
+    @Inject
+    private PropertiesProxy conf;
+
     protected ConfigService configService;
 
     private List<ConfigListener> configListenerList;
 
     public void addConfigListener(ConfigListener configListener) {
-        if(null == configListenerList) {
+        if (null == configListenerList) {
             configListenerList = new ArrayList<>();
         }
         configListenerList.add(configListener);
@@ -127,6 +117,10 @@ public class NacosConfigureLoader extends PropertiesConfigureLoader {
         if ("json".equals(contentType)) {
             NutMap configMap = new NutMap(content);
             conf.putAll(configMap);
+        } else if ("yaml".equals(contentType)) {
+            Map<String, Object> result = new HashMap<>();
+            buildFlattenedMap(result, new Yaml().loadAs(content, Map.class), "");
+            conf.putAll(result);
         } else if ("xml".equals(contentType)) {
             Properties properties = new Properties();
             try {
@@ -144,37 +138,69 @@ public class NacosConfigureLoader extends PropertiesConfigureLoader {
             throw Lang.makeThrow("nacos.config.data_type is not found or not recognize，only json,xml and properties are support!");
         }
     }
-    
+
+    private void buildFlattenedMap(Map<String, Object> result, Map<String, Object> source, String path) {
+        for (Map.Entry<String, Object> entry : source.entrySet()) {
+            String key = Strings.sNull(entry.getKey());
+            if (Strings.isNotBlank(path)) {
+                if (key.startsWith("[")) {
+                    key = path + key;
+                } else {
+                    key = path + "." + key;
+                }
+            }
+            Object value = entry.getValue();
+            if (value instanceof Map) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> map = (Map<String, Object>) value;
+                buildFlattenedMap(result, map, key);
+            } else if (value instanceof Collection) {
+                @SuppressWarnings("unchecked")
+                Collection<Object> collection = (Collection<Object>) value;
+                StringBuilder val = new StringBuilder();
+                for (Object object : collection) {
+                    String str = Strings.sNull(object);
+                    if (str.startsWith("{") && str.endsWith("}")) {
+                        val.append(Json.toJson(object, JsonFormat.compact())).append("\n");
+                    } else {
+                        val.append(str).append("\n");
+                    }
+                }
+                result.put(key, val.toString());
+            } else {
+                result.put(key, Strings.sNull(value));
+            }
+        }
+    }
+
     protected String dataId;
     protected String group;
 
-    @Override
     public void init() throws Exception {
-    	super.init();
         dataId = conf.get(NACOS_DATA_ID, conf.get("nutz.application.name", "nutzboot"));
         group = conf.get(NACOS_GROUP, "DEFAULT_GROUP");
         configService = NacosFactory.createConfigService(getNacosConfigProperties());
         String configInfo = configService.getConfigAndSignListener(dataId, group, 5000, new com.alibaba.nacos.api.config.listener.Listener() {
 
-			public Executor getExecutor() {
-				return null;
-			}
+            public Executor getExecutor() {
+                return null;
+            }
 
-			@Override
-			public void receiveConfigInfo(String configInfo) {
-				updateConfigString(configInfo);
-				if(null != configListenerList) {
+            @Override
+            public void receiveConfigInfo(String configInfo) {
+                updateConfigString(configInfo);
+                if (null != configListenerList) {
                     for (ConfigListener configListener : configListenerList) {
                         configListener.reloadConfig();
                     }
                 }
-			}
+            }
         });
         updateConfigString(configInfo);
     }
-    
+
     protected void updateConfigString(String configInfo) {
-    	log.debugf("get nacos config：%s", configInfo);
+        log.debugf("get nacos config：%s", configInfo);
         String dataType = conf.get(NACOS_DATA_TYPE, "properties");
         if (Strings.isNotBlank(configInfo)) {
             setConfig(configInfo, dataType, conf);
@@ -204,17 +230,17 @@ public class NacosConfigureLoader extends PropertiesConfigureLoader {
         }
         return properties;
     }
-    
-    @IocBean(name="nacosConfigService")
+
+    @IocBean(name = "nacosConfigService")
     public ConfigService getConfigService() {
-    	return configService;
+        return configService;
     }
-    
+
     public String getDataId() {
-		return dataId;
-	}
-    
+        return dataId;
+    }
+
     public String getGroup() {
-		return group;
-	}
+        return group;
+    }
 }
