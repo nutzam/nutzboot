@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.client.api.Response;
 import org.eclipse.jetty.proxy.AsyncMiddleManServlet;
 import org.nutz.boot.starter.WebServletFace;
@@ -25,6 +26,9 @@ public class PercaServlet extends AsyncMiddleManServlet implements WebServletFac
     
     @Inject
     protected RouteConfig routeConfig;
+
+    @Inject
+    protected RequestContentTransformer requestContentTransformer;
 
     @Override
     protected void service(HttpServletRequest clientRequest, HttpServletResponse proxyResponse) throws ServletException, IOException {
@@ -122,5 +126,11 @@ public class PercaServlet extends AsyncMiddleManServlet implements WebServletFac
 			log.error("bad postRoute", e);
 		}
     	super.onProxyResponseSuccess(clientRequest, proxyResponse, serverResponse);
+    }
+
+    @Override
+    protected ContentTransformer newClientRequestContentTransformer(HttpServletRequest clientRequest, Request proxyRequest) {
+        requestContentTransformer.setProxyRequest(proxyRequest);
+        return requestContentTransformer;
     }
 }
