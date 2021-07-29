@@ -14,6 +14,7 @@
 		<module>nutzboot-demo-simple-redis</module>
 		<module>nutzboot-demo-simple-ssdb</module>
 		<module>nutzboot-demo-simple-mongodb</module>
+		<module>nutzboot-demo-simple-mongodb-plus</module>
 		<module>nutzboot-demo-simple-beetl</module>
 		<module>nutzboot-demo-simple-beetlsql</module>
 		<module>nutzboot-demo-simple-jetx</module>

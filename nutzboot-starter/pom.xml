@@ -25,6 +25,7 @@
 		<module>nutzboot-starter-nutz-dao</module>
 		<module>nutzboot-starter-swagger</module>
 		<module>nutzboot-starter-mongodb</module>
+		<module>nutzboot-starter-mongodb-plus</module>
 		<module>nutzboot-starter-jdbc</module>
 		<module>nutzboot-starter-weixin</module>
 		<module>nutzboot-starter-quartz</module>
