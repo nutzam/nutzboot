@@ -50,7 +50,7 @@
 		<seata.version>1.2.0</seata.version>
 		<redisson.version>3.12.3</redisson.version>
 		<mybatis.version>3.5.6</mybatis.version>
-		<nacos.version>2.0.2</nacos.version>
+		<nacos.version>2.0.3</nacos.version>
 		<swagger-servlet.version>1.6.0</swagger-servlet.version>
 		<swagger3.version>2.1.1</swagger3.version>
 		<shardingsphere.version>4.1.0</shardingsphere.version>
