@@ -85,6 +85,7 @@
         <module>nutzboot-starter-swagger3</module>
 		<module>nutzboot-starter-jasypt</module>
 		<module>nutzboot-starter-test</module>
+        <module>nutzboot-starter-elasticsearch-rest</module>
     </modules>
 	<dependencies>
 		<dependency>

@@ -9,11 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>nutzboot-demo-simple-elasticsearch</artifactId>
+    <artifactId>nutzboot-demo-simple-elasticsearch-rest</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>org.nutz</groupId>
-            <artifactId>nutzboot-starter-elasticsearch</artifactId>
+            <artifactId>nutzboot-starter-elasticsearch-rest</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -30,6 +31,13 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>2.11.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.nutz</groupId>
+            <artifactId>nutzboot-starter-test-junit4</artifactId>
+            <version>${nutzboot.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

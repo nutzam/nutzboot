@@ -132,7 +132,7 @@ public class UserService {
             log.debug("srb:::\r\n" + srb.toString());
             SearchResponse response = srb.execute().actionGet();
             SearchHits hits = response.getHits();
-            page.setTotalCount((int) hits.getTotalHits());
+            page.setTotalCount(hits.getHits().length);
             List<Map<String, Object>> list = new ArrayList<>();
             hits.forEach(searchHit -> {
                 Map<String, Object> source = searchHit.getSourceAsMap();
@@ -166,7 +166,7 @@ public class UserService {
         log.debug("srb:::\r\n" + srb.toString());
         SearchResponse response = srb.execute().actionGet();
         SearchHits hits = response.getHits();
-        if (hits.getTotalHits() > 0)
+        if (hits.getHits().length > 0)
             return hits.getAt(0).getSourceAsMap();
         return null;
     }
