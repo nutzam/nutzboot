@@ -2,16 +2,15 @@ package io.nutz.demo.simple.utils;
 
 import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.admin.indices.exists.types.TypesExistsRequest;
 import org.elasticsearch.action.admin.indices.exists.types.TypesExistsResponse;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
-import org.elasticsearch.action.admin.indices.mapping.put.PutMappingResponse;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.client.Requests;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -69,8 +68,7 @@ public class ElasticsearchUtil {
      * @return true/false
      */
     public boolean deleteIndex(String indexName) {
-        DeleteIndexResponse response =
-                getClient().admin().indices().prepareDelete(indexName).execute().actionGet();
+        final AcknowledgedResponse response = getClient().admin().indices().prepareDelete(indexName).execute().actionGet();
         return response.isAcknowledged();
     }
 
@@ -93,7 +91,7 @@ public class ElasticsearchUtil {
      */
     public boolean putMapping(String indexName, String type, XContentBuilder mapping) {
         PutMappingRequest mappingRequest = Requests.putMappingRequest(indexName).type(type).source(mapping);
-        PutMappingResponse response = getClient().admin().indices().putMapping(mappingRequest).actionGet();
+        AcknowledgedResponse response = getClient().admin().indices().putMapping(mappingRequest).actionGet();
         return response.isAcknowledged();
     }
 
