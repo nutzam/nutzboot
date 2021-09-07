@@ -4,12 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+import java.io.InputStreamReader;
 
 import org.nutz.ioc.impl.PropertiesProxy;
-import org.nutz.lang.Encoding;
 import org.nutz.lang.Streams;
+import org.nutz.lang.Strings;
 import org.nutz.lang.util.Disks;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
@@ -86,37 +85,39 @@ public class PropertiesConfigureLoader extends AbstractConfigureLoader {
         if (tmp.size() > 0) {
         	conf.putAll(tmp.toMap());
         }
-    }
-
-    // 获取应用程序绝对路径
-    protected String getBasePath() {
-        String basePath = "";
-        basePath = appContext.getMainClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-        int lastIndex = basePath.lastIndexOf('/');
-        if (lastIndex < 0) {
-            lastIndex = basePath.lastIndexOf('\\');
+        if (Strings.isBlank(conf.get("app.build.version"))) {
+            InputStream ins = resourceLoader.get("build.version");
+            if (ins != null) {
+                conf.load(new InputStreamReader(ins), false);
+            }
         }
-        basePath = basePath.substring(0, lastIndex);
-        try {
-            basePath = URLDecoder.decode(basePath, Encoding.UTF8);
-        } catch (UnsupportedEncodingException e) {
-        }
-        return basePath;
     }
 
     // 根据目录和文件名拼接绝对路径
-    protected String getPath(String... name) {
-        String path = getBasePath();
-        for(int i=0; i< name.length; i++) {
-            path = path + File.separator + name[i];
+    protected String getPath(String... names) {
+        String tmp = Strings.join(File.separator, names);
+        if (tmp.endsWith("/"))
+            tmp = tmp.substring(0, tmp.length() - 1);
+        File f = new File(tmp);
+        if (f.exists()) {
+            String path = Disks.getCanonicalPath(tmp);
+            String path2 = Disks.getCanonicalPath(f.getAbsolutePath());
+            if (path.equals(path2))
+                return tmp;
         }
-        return path;
+        return appContext.getBasePath() + File.separator + tmp;
     }
     
     protected void readPropertiesPath(String path) throws IOException {
         try (InputStream ins = resourceLoader.get(path)) {
             if (ins != null) {
+                if (log.isDebugEnabled())
+                    log.debug("Loading Properties  - " + path);
                 conf.load(Streams.utf8r(ins), false);
+            }
+            else {
+                if (log.isInfoEnabled())
+                    log.info("Properties NotFound - " + path);
             }
         }
     }

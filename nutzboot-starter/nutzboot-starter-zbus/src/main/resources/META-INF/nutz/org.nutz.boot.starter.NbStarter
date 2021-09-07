@@ -1,1 +1,2 @@
+org.nutz.boot.starter.zbus.ZbusIocLoaderStarter
 org.nutz.boot.starter.zbus.ZbusStarter

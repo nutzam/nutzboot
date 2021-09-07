@@ -3,34 +3,66 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nutz</groupId>
 	<artifactId>nutzboot-parent</artifactId>
-	<version>2.2-SNAPSHOT</version>
+	<version>2.5.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>nutzboot-parent</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<nutz.version>1.r.65-SNAPSHOT</nutz.version>
-		<nutzboot.version>2.2-SNAPSHOT</nutzboot.version>
-		<nutzwx.version>1.r.63.r4</nutzwx.version>
-		<slf4j.version>1.7.25</slf4j.version>
-		<dubbo.version>2.5.8</dubbo.version>
-		<jetty.version>9.4.8.v20171121</jetty.version>
-		<tomcat.version>8.5.24</tomcat.version>
+		<nutz.version>1.r.69-SNAPSHOT</nutz.version>
+		<nutzboot.version>2.5.0-SNAPSHOT</nutzboot.version>
+		<nutzwx.version>1.r.69-SNAPSHOT</nutzwx.version>
+		<slf4j.version>1.7.30</slf4j.version>
+		<slf4j-api.version>1.7.30</slf4j-api.version>
+		<logback.version>1.2.3</logback.version>
+		<dubbo.version>2.6.10</dubbo.version>
+		<sentinel.version>1.8.1</sentinel.version>
+		<jetty.version>9.4.41.v20210516</jetty.version>
+		<tomcat.version>8.5.66</tomcat.version>
 		<shiro.version>1.3.2</shiro.version>
-		<jetx.version>2.1.5</jetx.version>
-		<cxf.version>3.1.12</cxf.version>
-		<spring.version>4.3.13.RELEASE</spring.version>
-		<beetl.version>2.7.26</beetl.version>
-		<beetlsql.version>2.10.3</beetlsql.version>
-		<zbus.version>0.11.4</zbus.version>
-		<undertow.version>1.4.21.Final</undertow.version>
+		<jetx.version>2.1.8</jetx.version>
+		<cxf.version>3.1.15</cxf.version>
+		<spring.version>4.3.21.RELEASE</spring.version>
+		<lettuce.version>5.0.5.RELEASE</lettuce.version>
+		<beetl.version>3.0.21.RELEASE</beetl.version>
+		<beetlsql.version>2.11.7</beetlsql.version>
+		<zbus.version>0.11.5</zbus.version>
+		<undertow.version>2.2.3.Final</undertow.version>
 		<velocity.version>1.7</velocity.version>
-		<caffeine.version>2.6.1</caffeine.version>
-		<feign.version>9.5.1</feign.version>
+		<caffeine.version>2.6.2</caffeine.version>
+		<feign.version>11.1</feign.version>
 		<hystrix.vesion>1.5.12</hystrix.vesion>
+		<web3j.vesion>3.2.0</web3j.vesion>
+		<mqtt.version>1.2.1</mqtt.version>
+		<tio.version>3.1.8.v20180818-RELEASE</tio.version>
+		<j2cache.version>2.3.22-release</j2cache.version>
+		<asm.version>8.0.1</asm.version>
+		<druid.version>1.1.22</druid.version>
+		<HikariCP.version>3.2.0</HikariCP.version>
+		<thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
+		<quartz.version>2.3.2</quartz.version>
+		<elasticsearch.version>7.14.0</elasticsearch.version>
+		<commons.email.version>1.4</commons.email.version>
+		<commons.net.version>3.6</commons.net.version>
+		<javassist.version>3.24.0-GA</javassist.version>
+		<fastdfs-client-java.version>1.29.4</fastdfs-client-java.version>
+		<commons-pool2.version>2.6.2</commons-pool2.version>
+		<fescar.version>0.4.1</fescar.version>
+		<seata.version>1.2.0</seata.version>
+		<redisson.version>3.12.3</redisson.version>
+		<mybatis.version>3.5.6</mybatis.version>
+		<nacos.version>2.0.3</nacos.version>
+		<swagger-servlet.version>1.6.0</swagger-servlet.version>
+		<swagger3.version>2.1.1</swagger3.version>
+		<shardingsphere.version>4.1.0</shardingsphere.version>
+		<junit-jupiter.version>5.6.2</junit-jupiter.version>
+		<hamcrest.version>[2.2,)</hamcrest.version>
+		<mockito.version>[1.10.19,)</mockito.version>
+		<snakeyaml.version>1.28</snakeyaml.version>
+		<mongodb-driver-sync.version>4.3.0</mongodb-driver-sync.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
 
-	<url>http://nutzam.com</url>
+	<url>https://nutz.io</url>
 	<issueManagement>
 		<system>Github Issue</system>
 		<url>http://github.com/nutzam/nutzboot/issues</url>
@@ -58,6 +90,9 @@
 		<module>nutzboot-core</module>
 		<module>nutzboot-starter</module>
 		<module>nutzboot-contrib</module>
+		<!--<module>nutzboot-demo</module>-->
+		<module>nutzcloud</module>
+
 	</modules>
 	<profiles>
 		<profile>
@@ -77,7 +112,7 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzwx</artifactId>
-				<version>${nutzwx.version}</version>
+				<version>${nutz.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
@@ -100,6 +135,11 @@
 				<version>${nutz.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.yaml</groupId>
+				<artifactId>snakeyaml</artifactId>
+				<version>${snakeyaml.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
 				<version>3.1.0</version>
@@ -112,7 +152,7 @@
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.12</version>
+				<version>4.13.1</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ibeetl</groupId>
@@ -149,12 +189,12 @@
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid</artifactId>
-				<version>1.1.5</version>
+				<version>${druid.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.zaxxer</groupId>
 				<artifactId>HikariCP</artifactId>
-				<version>2.7.5</version>
+				<version>${HikariCP.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
@@ -181,13 +221,18 @@
 			<dependency>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-servlet</artifactId>
-				<version>1.5.17</version>
+				<version>${swagger-servlet.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
 				<version>1.2.17</version>
 			</dependency>
+  			<dependency>
+  				<groupId>org.mybatis</groupId>
+  				<artifactId>mybatis</artifactId>
+  				<version>${mybatis.version}</version>
+  			</dependency>
 
 			<dependency>
 				<groupId>org.nutz</groupId>
@@ -229,7 +274,7 @@
 			<dependency>
 				<groupId>org.thymeleaf</groupId>
 				<artifactId>thymeleaf</artifactId>
-				<version>3.0.9.RELEASE</version>
+				<version>${thymeleaf.version}</version>
 			</dependency>
 
 			<dependency>
@@ -257,6 +302,16 @@
 						<artifactId>jetty-jndi</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>apache-jsp</artifactId>
+				<version>${jetty.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>apache-jstl</artifactId>
+				<version>${jetty.version}</version>
 			</dependency>
 
 			<!--tomcat start -->
@@ -287,13 +342,13 @@
 			<dependency>
 				<groupId>org.apache.tomcat.embed</groupId>
 				<artifactId>tomcat-embed-logging-juli</artifactId>
-				<version>8.0.28</version>
+				<version>8.0.50</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.apache.tomcat.embed</groupId>
 				<artifactId>tomcat-embed-logging-log4j</artifactId>
-				<version>8.0.28</version>
+				<version>8.0.50</version>
 			</dependency>
 
 			<dependency>
@@ -331,9 +386,19 @@
 				<version>${nutz.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutz-integration-lettuce</artifactId>
+				<version>${nutz.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>redis.clients</groupId>
 				<artifactId>jedis</artifactId>
-				<version>2.9.0</version>
+				<version>2.10.2</version>
+			</dependency>
+			<dependency>
+				<groupId>io.lettuce</groupId>
+				<artifactId>lettuce-core</artifactId>
+				<version>${lettuce.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
@@ -348,7 +413,7 @@
 			<dependency>
 				<groupId>org.quartz-scheduler</groupId>
 				<artifactId>quartz</artifactId>
-				<version>2.3.0</version>
+				<version>${quartz.version}</version>
 			</dependency>
 
 			<dependency>
@@ -476,12 +541,32 @@
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-ftp</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-nutz-mvc</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-mqtt-client</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-tio</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-tio-mvc</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-tio-websocket</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
@@ -501,6 +586,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-redis-lettuce</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-quartz</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
@@ -511,12 +601,27 @@
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-web3j</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-cxf</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-tomcat</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-ssdb</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-email</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
@@ -547,6 +652,12 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-sharding-jdbc</artifactId>
+				<version>2.3.9.v20200309</version>
+				<!-- 已废弃了,新版的package改了,换成nutzboot-starter-shardingsphere -->
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-shardingsphere</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
@@ -557,6 +668,11 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-mongodb</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-mongodb-plus</artifactId>
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
@@ -655,9 +771,9 @@
 				<version>${nutzboot.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>javassist</groupId>
+				<groupId>org.javassist</groupId>
 				<artifactId>javassist</artifactId>
-				<version>3.12.1.GA</version>
+				<version>${javassist.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.ben-manes.caffeine</groupId>
@@ -718,7 +834,22 @@
 			<dependency>
 				<groupId>org.ow2.asm</groupId>
 				<artifactId>asm</artifactId>
-				<version>6.0</version>
+				<version>${asm.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ow2.asm</groupId>
+				<artifactId>asm-analysis</artifactId>
+				<version>${asm.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ow2.asm</groupId>
+				<artifactId>asm-tree</artifactId>
+				<version>${asm.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.ow2.asm</groupId>
+				<artifactId>asm-commons</artifactId>
+				<version>${asm.version}</version>
 			</dependency>
 
 			<dependency>
@@ -744,12 +875,12 @@
 			<dependency>
 				<groupId>io.reactivex</groupId>
 				<artifactId>rxjava</artifactId>
-				<version>1.1.1</version>
+				<version>1.1.10</version>
 			</dependency>
 			<dependency>
 				<groupId>com.netflix.eureka</groupId>
 				<artifactId>eureka-core</artifactId>
-				<version>1.8.6</version>
+				<version>1.8.7</version>
 				<exclusions>
 					<exclusion>
 						<groupId>javax.servlet</groupId>
@@ -760,7 +891,7 @@
 			<dependency>
 				<groupId>com.netflix.eureka</groupId>
 				<artifactId>eureka-client</artifactId>
-				<version>1.8.6</version>
+				<version>1.8.7</version>
 				<exclusions>
 					<exclusion>
 						<groupId>javax.servlet</groupId>
@@ -776,22 +907,189 @@
 			<dependency>
 				<groupId>com.rabbitmq</groupId>
 				<artifactId>amqp-client</artifactId>
-				<version>5.0.0</version>
+				<version>5.4.3</version>
 			</dependency>
 			<dependency>
 				<groupId>org.t-io</groupId>
 				<artifactId>tio-core</artifactId>
-				<version>2.0.5.v20180115-RELEASE</version>
+				<version>${tio.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.t-io</groupId>
+				<artifactId>tio-http-server</artifactId>
+				<version>${tio.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.oschina.j2cache</groupId>
 				<artifactId>j2cache-core</artifactId>
-				<version>2.3.4-release</version>
+				<version>${j2cache.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzboot-starter-j2cache</artifactId>
 				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>2.3.28</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-freemarker</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.paho</groupId>
+				<artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+				<version>${mqtt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-servlet3</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-spring4</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-prevent-duplicate-submit</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-actuator</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-servicecomb</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-seata</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-fescar</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-caffeine</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-redisson</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutz-integration-redisson</artifactId>
+				<version>${nutz.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-nacos-config</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-nacos-discovery</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-thrift-server</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-webjars</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz</groupId>
+				<artifactId>nutzboot-starter-jasypt</artifactId>
+				<version>${nutzboot.version}</version>
+			</dependency>
+			<!-- NutzCloud -->
+			
+			
+			<dependency>
+				<groupId>org.nutz.cloud</groupId>
+				<artifactId>nutzcloud-literpc</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz.cloud</groupId>
+				<artifactId>nutzcloud-loach-client</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz.cloud</groupId>
+				<artifactId>nutzcloud-loach-server</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.nutz.cloud</groupId>
+				<artifactId>nutzcloud-perca</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.nacos</groupId>
+				<artifactId>nacos-client</artifactId>
+				<version>${nacos.version}</version>
+			</dependency>
+			<dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-migrationsupport</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.vintage</groupId>
+                <artifactId>junit-vintage-engine</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>provided</scope>
+            </dependency>
+			<dependency>
+			    <groupId>org.hamcrest</groupId>
+			    <artifactId>hamcrest-core</artifactId>
+			    <version>${hamcrest.version}</version>
+			    <scope>provided</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -819,10 +1117,10 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
+				<version>3.8.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>11</source>
+					<target>11</target>
 					<compilerArgs>
 						<arg>-parameters</arg>
 					</compilerArgs>
@@ -832,7 +1130,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
+				<version>2.10.4</version>
 				<configuration>
 					<additionalparam>-Xdoclint:none</additionalparam>
 				</configuration>
@@ -865,4 +1163,18 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
 	</distributionManagement>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>nutz-snapshots</id>
+			<url>https://jfrog.nutz.cn/artifactory/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
 </project>

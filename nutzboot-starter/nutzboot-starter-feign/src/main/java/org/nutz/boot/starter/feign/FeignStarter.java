@@ -113,7 +113,9 @@ public class FeignStarter implements IocEventListener {
                 FeignInject fc = field.getAnnotation(FeignInject.class);
                 if (fc == null)
                     continue;
-                String url = Strings.sBlank(conf.get(PROP_URL), "http://127.0.0.1:8080");
+                String url = fc.apiBaseUrl();
+                if (Strings.isBlank(url))
+                    url = Strings.sBlank(conf.get(PROP_URL), "http://127.0.0.1:8080");
                 Encoder encoder = getEncoder(fc, field);
                 Decoder decoder = getDecoder(fc, field);
                 Client client = getClient(fc, field, url);

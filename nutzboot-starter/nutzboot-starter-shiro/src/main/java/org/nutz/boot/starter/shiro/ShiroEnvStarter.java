@@ -1,18 +1,19 @@
 package org.nutz.boot.starter.shiro;
 
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.List;
-
 import org.apache.shiro.ShiroException;
+import org.apache.shiro.authc.pam.AuthenticationStrategy;
+import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.RememberMeManager;
+import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.SubjectContext;
 import org.apache.shiro.web.env.DefaultWebEnvironment;
 import org.apache.shiro.web.env.EnvironmentLoaderListener;
@@ -33,181 +34,227 @@ import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 import org.nutz.plugins.cache.impl.lcache.LCacheManager;
 import org.nutz.plugins.cache.impl.redis.RedisCacheManager;
+
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.List;
 
 @IocBean
 public class ShiroEnvStarter implements WebEventListenerFace {
 
-	@Inject("refer:$ioc")
-	protected Ioc ioc;
+    private static final Log log = Logs.get();
 
-	@Inject
-	protected PropertiesProxy conf;
+    @Inject("refer:$ioc")
+    protected Ioc ioc;
 
-	@PropDoc(value = "是否启用Shiro的Session管理", defaultValue = "true")
-	public static final String PROP_SESSION_ENABLE = "shiro.session.enable";
-	@PropDoc(value = "Cookie的name", defaultValue = "sid")
-	public static final String PROP_SESSION_COOKIE_NAME = "shiro.session.cookie.name";
-	@PropDoc(value = "Cookie的过期时间,单位:毫秒", defaultValue = "946080000")
-	public static final String PROP_SESSION_COOKIE_MAXAGE = "shiro.session.cookie.maxAge";
-	@PropDoc(value = "Cookie是否只读", defaultValue = "true")
-	public static final String PROP_SESSION_COOKIE_HTTPONLY = "shiro.session.cookie.httpOnly";
-	@PropDoc(value = "设置使用的缓存类型", defaultValue = "memory")
-	public static final String PROP_SESSION_CACHE_TYPE = "shiro.session.cache.type";
-	@PropDoc(value = "设置redis缓存的模式", defaultValue = "kv")
-	public static final String PROP_SESSION_CACHE_REDIS_MODE= "shiro.session.cache.redis.mode";
-	@PropDoc(value = "session持久化时redis的debug模式", defaultValue = "false")
-	public static final String PROP_SESSION_CACHE_REDIS_DEBUG= "shiro.session.cache.redis.debug";
+    @Inject
+    protected PropertiesProxy conf;
+
+    @PropDoc(value = "是否启用Shiro的Session管理", defaultValue = "true")
+    public static final String PROP_SESSION_ENABLE = "shiro.session.enable";
+    @PropDoc(value = "Cookie的name", defaultValue = "sid")
+    public static final String PROP_SESSION_COOKIE_NAME = "shiro.session.cookie.name";
+    @PropDoc(value = "Cookie的过期时间,单位:毫秒", defaultValue = "946080000")
+    public static final String PROP_SESSION_COOKIE_MAXAGE = "shiro.session.cookie.maxAge";
+    @PropDoc(value = "Cookie是否只读", defaultValue = "true")
+    public static final String PROP_SESSION_COOKIE_HTTPONLY = "shiro.session.cookie.httpOnly";
+    @PropDoc(value = "设置使用的缓存类型", defaultValue = "memory")
+    public static final String PROP_SESSION_CACHE_TYPE = "shiro.session.cache.type";
+    @PropDoc(value = "设置redis缓存的模式", defaultValue = "kv")
+    public static final String PROP_SESSION_CACHE_REDIS_MODE = "shiro.session.cache.redis.mode";
+    @PropDoc(value = "session持久化时redis的debug模式", defaultValue = "false")
+    public static final String PROP_SESSION_CACHE_REDIS_DEBUG = "shiro.session.cache.redis.debug";
     @PropDoc(value = "redis缓存的过期时间", defaultValue = "-1")
-    public static final String PROP_SESSION_CACHE_REDIS_TTL= "shiro.session.cache.redis.ttl";
+    public static final String PROP_SESSION_CACHE_REDIS_TTL = "shiro.session.cache.redis.ttl";
     @PropDoc(value = "urls过滤清单")
-    public static final String PROP_INIT_URLS= "shiro.ini.urls";
+    public static final String PROP_INIT_URLS = "shiro.ini.urls";
     @PropDoc(value = "shiro.ini的路径,如果shiro.ini存在,就会使用它,否则走NB的内部逻辑")
-    public static final String PROP_INIT_PATH= "shiro.ini.path";
-    
-    @PropDoc(value = "默认登录路径", defaultValue="/user/login")
-    public static final String PROP_URL_LOGIN= "shiro.url.login";
-    @PropDoc(value = "退出登录后的重定向路径", defaultValue="/")
-    public static final String PROP_URL_LOGOUT_REDIRECT= "shiro.url.logout_redirect";
-    @PropDoc(value = "访问未授权页面后的重定向路径", defaultValue="/user/login")
-    public static final String PROP_URL_UNAUTH= "shiro.url.unauth";
+    public static final String PROP_INIT_PATH = "shiro.ini.path";
 
-	@Inject
-	protected AppContext appContext;
+    @PropDoc(value = "默认登录路径", defaultValue = "/user/login")
+    public static final String PROP_URL_LOGIN = "shiro.url.login";
+    @PropDoc(value = "退出登录后的重定向路径", defaultValue = "/")
+    public static final String PROP_URL_LOGOUT_REDIRECT = "shiro.url.logout_redirect";
+    @PropDoc(value = "访问未授权页面后的重定向路径", defaultValue = "/user/login")
+    public static final String PROP_URL_UNAUTH = "shiro.url.unauth";
+    @PropDoc(value = "realm是否缓存")
+    public static final String PROP_REALM_CACHE_ENABLE = "shiro.realm.cache.enable";
 
-	@IocBean(name = "shiroEnvironmentLoaderListener")
-	public EnvironmentLoaderListener createShiroEnvironmentLoaderListener() {
-		NbShiroEnvironmentLoaderListener env = new NbShiroEnvironmentLoaderListener();
-		env.appContext = appContext;
-		env.conf = conf;
-		return env;
-	}
+    @PropDoc(value = "全局session过期时间", type = "long", defaultValue = "1800000")
+    public static final String PROP_SESSION_MANAGER_GLOBALSESSIONTIMEOUT = "shiro.session.manager.globalSessionTimeout";
+    @PropDoc(value = "是否定期检查session过期", type = "boolean", defaultValue = "true")
+    public static final String PROP_SESSION_MANAGER_SVSE = "shiro.session.manager.sessionValidationSchedulerEnabled";
+    @PropDoc(value = "定期检查session过期的周期", type = "long", defaultValue = "3600000")
+    public static final String PROP_SESSION_MANAGER_SVI = "shiro.session.manager.sessionValidationInterval";
 
-	@IocBean(name = "shiroWebEnvironment")
-	public WebEnvironment createWebEnvironment() {
-		return new DefaultWebEnvironment();
-	}
-	
-	@IocBean(name = "shiroRememberMeManager")
-	public RememberMeManager createRememberMeManager() {
-	    CookieRememberMeManager rememberMeManager = new CookieRememberMeManager();
-	    rememberMeManager.setSerializer(new SimplePrincipalSerializer());
-	    SimpleCookie cookie = new SimpleCookie();
-	    cookie.setName("rememberMe");
-	    cookie.setHttpOnly(true);
-	    rememberMeManager.setCookie(cookie);
-	    return rememberMeManager;
-	}
+    @PropDoc(value = "SessionDao的ioc名称,设置并声明该IocBean,就能覆盖默认的SessionDao实现", type = "String", defaultValue = "shiroSessionDao")
+    public static final String PROP_SESSION_DAO_IOCNAME = "shiro.session.dao.iocName";
+    @PropDoc(value = "SessionDao的缓存名称", type = "String", defaultValue = "shiro-activeSessionCache")
+    public static final String PROP_SESSION_DAO_ACTIVE_SESSION_CACHE_NAME = "shiro.session.dao.activeSessionsCacheName";
 
-	@IocBean(name = "shiroWebSecurityManager")
-	public WebSecurityManager getWebSecurityManager() {
-		DefaultWebSecurityManager webSecurityManager = new DefaultWebSecurityManager() {
-		    protected SubjectContext resolveSession(SubjectContext context) {
-		        if (context.resolveSession() != null) {
-		            return context;
-		        }
-		        try {
-		            Session session = resolveContextSession(context);
-		            if (session != null) {
-		                context.setSession(session);
-		            }
-		        } catch (InvalidSessionException e) {
-		        }
-		        return context;
-		    }
-		};
+    @Inject
+    protected AppContext appContext;
 
-		// Shiro Session相关
-		if (conf.getBoolean(PROP_SESSION_ENABLE, true)) {
-			webSecurityManager.setSessionManager(ioc.get(WebSessionManager.class, "shiroWebSessionManager"));
-		}
-		List<Realm> realms = new ArrayList<>();
-		for (String realmName : ioc.getNamesByType(Realm.class)) {
-		    realms.add(ioc.get(Realm.class, realmName));
-		}
-		if (realms.size() > 0)
-		    webSecurityManager.setRealms(realms);
-		webSecurityManager.setRememberMeManager(ioc.get(RememberMeManager.class, "shiroRememberMeManager"));
-		return webSecurityManager;
-	}
+    @IocBean(name = "shiroEnvironmentLoaderListener")
+    public EnvironmentLoaderListener createShiroEnvironmentLoaderListener() {
+        NbShiroEnvironmentLoaderListener env = new NbShiroEnvironmentLoaderListener();
+        env.appContext = appContext;
+        env.conf = conf;
+        return env;
+    }
+
+    @IocBean(name = "shiroWebEnvironment")
+    public WebEnvironment createWebEnvironment() {
+        return new DefaultWebEnvironment();
+    }
+
+    @IocBean(name = "shiroRememberMeManager")
+    public RememberMeManager createRememberMeManager() {
+        CookieRememberMeManager rememberMeManager = new CookieRememberMeManager();
+        rememberMeManager.setSerializer(new SimplePrincipalSerializer());
+        SimpleCookie cookie = new SimpleCookie();
+        cookie.setName("rememberMe");
+        cookie.setHttpOnly(true);
+        rememberMeManager.setCookie(cookie);
+        return rememberMeManager;
+    }
+
+    @IocBean(name = "shiroWebSecurityManager")
+    public WebSecurityManager getWebSecurityManager() {
+        DefaultWebSecurityManager webSecurityManager = new DefaultWebSecurityManager() {
+            protected SubjectContext resolveSession(SubjectContext context) {
+                if (context.resolveSession() != null) {
+                    return context;
+                }
+                try {
+                    Session session = resolveContextSession(context);
+                    if (session != null) {
+                        context.setSession(session);
+                    }
+                } catch (InvalidSessionException e) {
+                }
+                return context;
+            }
+        };
+
+        // Shiro Session相关
+        if (conf.getBoolean(PROP_SESSION_ENABLE, true)) {
+            webSecurityManager.setSessionManager(ioc.get(WebSessionManager.class, "shiroWebSessionManager"));
+        }
+        List<Realm> realms = new ArrayList<>();
+        for (String realmName : ioc.getNamesByType(Realm.class)) {
+            AuthorizingRealm realm = ioc.get(AuthorizingRealm.class, realmName);
+            if (conf.getBoolean(PROP_REALM_CACHE_ENABLE, false)) {
+                realm.setCacheManager(ioc.get(CacheManager.class, "shiroCacheManager"));
+            }
+            realms.add(realm);
+        }
+        if (ioc.has("authenticationStrategy")) {
+            ModularRealmAuthenticator modularRealmAuthenticator = new ModularRealmAuthenticator();
+            modularRealmAuthenticator.setAuthenticationStrategy(ioc.get(AuthenticationStrategy.class, "authenticationStrategy"));
+            if (realms.size() > 0)
+                modularRealmAuthenticator.setRealms(realms);
+            webSecurityManager.setAuthenticator(modularRealmAuthenticator);
+        }
+        if (realms.size() > 0)
+            webSecurityManager.setRealms(realms);
+        webSecurityManager.setRememberMeManager(ioc.get(RememberMeManager.class, "shiroRememberMeManager"));
+        return webSecurityManager;
+    }
 
 
-	@IocBean(name = "shiroWebSessionManager")
-	public WebSessionManager getWebSessionManager() {
-		DefaultWebSessionManager webSessionManager = conf.make(DefaultWebSessionManager.class, "shiro.session.manager.");
+    @IocBean(name = "shiroWebSessionManager")
+    public WebSessionManager getWebSessionManager() {
+        DefaultWebSessionManager webSessionManager = conf.make(DefaultWebSessionManager.class, "shiro.session.manager.");
 
-		// 带缓存的shiro会话
-		EnterpriseCacheSessionDAO sessionDAO = new EnterpriseCacheSessionDAO();
-		sessionDAO.setSessionIdGenerator(new UU32SessionIdGenerator());
-		webSessionManager.setSessionDAO(sessionDAO);
+        // 带缓存的shiro会话
+        SessionDAO sessionDAO = null;
+        String sessionDAOIocName = conf.get(PROP_SESSION_DAO_IOCNAME, "shiroSessionDao");
+        if (ioc.has(sessionDAOIocName)) {
+            log.info("use custom SessionDAO by ioc name = " + sessionDAOIocName);
+            sessionDAO = ioc.get(SessionDAO.class, sessionDAOIocName);
+        } else {
+            log.debug("using default SessionDAO = EnterpriseCacheSessionDAO");
+            sessionDAO = new EnterpriseCacheSessionDAO();
+            ((EnterpriseCacheSessionDAO) sessionDAO).setSessionIdGenerator(new UU32SessionIdGenerator());
+            ((EnterpriseCacheSessionDAO) sessionDAO).setActiveSessionsCacheName(conf.get(PROP_SESSION_DAO_ACTIVE_SESSION_CACHE_NAME, "shiro-activeSessionCache"));
+        }
+        webSessionManager.setSessionDAO(sessionDAO);
+        //设置session会话超时时间
+        webSessionManager.setGlobalSessionTimeout(conf.getLong(PROP_SESSION_MANAGER_GLOBALSESSIONTIMEOUT, 1800000));
+        webSessionManager.setSessionValidationSchedulerEnabled(conf.getBoolean(PROP_SESSION_MANAGER_SVSE, true));
+        webSessionManager.setSessionValidationInterval(conf.getLong(PROP_SESSION_MANAGER_SVI, 3600000));
+        // cookie
+        conf.putIfAbsent(PROP_SESSION_COOKIE_NAME, "sid");
+        conf.putIfAbsent(PROP_SESSION_COOKIE_MAXAGE, "946080000");
+        conf.putIfAbsent(PROP_SESSION_COOKIE_HTTPONLY, "true");
 
-		// cookie
-		conf.putIfAbsent(PROP_SESSION_COOKIE_NAME,"sid");
-		conf.putIfAbsent(PROP_SESSION_COOKIE_MAXAGE,"946080000");
-		conf.putIfAbsent(PROP_SESSION_COOKIE_HTTPONLY,"true");
+        SimpleCookie cookie = conf.make(SimpleCookie.class, "shiro.session.cookie.");
+        webSessionManager.setSessionIdCookie(cookie);
+        webSessionManager.setSessionIdCookieEnabled(true);
 
-		SimpleCookie cookie = conf.make(SimpleCookie.class, "shiro.session.cookie.");
-		webSessionManager.setSessionIdCookie(cookie);
-		webSessionManager.setSessionIdCookieEnabled(true);
-		
-		webSessionManager.setCacheManager(ioc.get(CacheManager.class, "shiroCacheManager"));
-
-		return webSessionManager;
-	}
+        webSessionManager.setCacheManager(ioc.get(CacheManager.class, "shiroCacheManager"));
+        webSessionManager.setSessionListeners(appContext.getBeans(SessionListener.class));
+        return webSessionManager;
+    }
 
 
-	@IocBean(name="shiroCacheManager")
-	public CacheManager getCacheManager() {
-		switch (conf.get(PROP_SESSION_CACHE_TYPE, "memory")) {
-		case "ehcache":
-			return ioc.get(CacheManager.class, "shiroEhcacheCacheManager");
-		case "redis":
-			//return ioc.get(CacheManager.class, "shiroRedisCacheManager");
-		case "lcache":
-			return ioc.get(CacheManager.class, "shiroLcacheCacheManager");
-		case "memory":
-			return new MemoryConstrainedCacheManager();
-		default:
-			throw new ShiroException("unkown shiro.session.cache.type=" + conf.get("shiro.session.cache.type"));
-		}
-		
-	}
-	
-	@IocBean(name="shiroLcacheCacheManager")
-	public CacheManager getShiroLcacheCacheManager(@Inject("refer:shiroEhcacheCacheManager")CacheManager shiroEhcacheCacheManager,
-			@Inject("refer:shiroRedisCacheManager")CacheManager shiroRedisCacheManager) {
-		LCacheManager cacheManager = new LCacheManager();
-		cacheManager.setLevel1(shiroEhcacheCacheManager);
-		cacheManager.setLevel2(shiroRedisCacheManager);
-		cacheManager.setJedisAgent(ioc.get(JedisAgent.class));
-		return cacheManager;
-	}
+    @IocBean(name = "shiroCacheManager")
+    public CacheManager getCacheManager() {
+        String type = conf.get(PROP_SESSION_CACHE_TYPE, "memory");
+        log.debug("using session cache = " + type);
+        switch (type) {
+            case "ehcache":
+                return ioc.get(CacheManager.class, "shiroEhcacheCacheManager");
+            case "redis":
+                //return ioc.get(CacheManager.class, "shiroRedisCacheManager");
+            case "lcache":
+                return ioc.get(CacheManager.class, "shiroLcacheCacheManager");
+            case "memory":
+                return new MemoryConstrainedCacheManager();
+            default:
+                throw new ShiroException("unkown shiro.session.cache.type=" + conf.get("shiro.session.cache.type"));
+        }
 
-	@IocBean(name="shiroEhcacheCacheManager")
-	public CacheManager getShiroLcacheCacheManager() {
-		EhCacheManager cacheManager = new EhCacheManager();
-		if (ioc.has("ehcacheCacheManager")) {
-			cacheManager.setCacheManager(ioc.get(net.sf.ehcache.CacheManager.class, "ehcacheCacheManager"));
-		}
-		else {
-			cacheManager.setCacheManager((net.sf.ehcache.CacheManager) _getCacheManager());
-		}
-		return cacheManager;
-	}
+    }
 
-	@IocBean(name="shiroRedisCacheManager")
-	public CacheManager getRedisLcacheCacheManager() {
-		conf.putIfAbsent(PROP_SESSION_CACHE_REDIS_MODE,"kv");
-		conf.putIfAbsent(PROP_SESSION_CACHE_REDIS_DEBUG,"false");
-		conf.putIfAbsent(PROP_SESSION_CACHE_REDIS_TTL,"-1");
-		RedisCacheManager cacheManager = conf.make(RedisCacheManager.class, "shiro.session.cache.redis.");
-		return cacheManager;
-	}
+    @IocBean(name = "shiroLcacheCacheManager")
+    public CacheManager getShiroLcacheCacheManager(@Inject("refer:shiroEhcacheCacheManager") CacheManager shiroEhcacheCacheManager,
+                                                   @Inject("refer:shiroRedisCacheManager") CacheManager shiroRedisCacheManager) {
+        LCacheManager cacheManager = new LCacheManager();
+        cacheManager.setLevel1(shiroEhcacheCacheManager);
+        cacheManager.setLevel2(shiroRedisCacheManager);
+        cacheManager.setJedisAgent(ioc.get(JedisAgent.class));
+        return cacheManager;
+    }
 
-	public EventListener getEventListener() {
-		return ioc.get(EnvironmentLoaderListener.class, "shiroEnvironmentLoaderListener");
-	}
+    @IocBean(name = "shiroEhcacheCacheManager")
+    public CacheManager getShiroEhcacheCacheManager() {
+        EhCacheManager cacheManager = new EhCacheManager();
+        if (ioc.has("ehcacheCacheManager")) {
+            cacheManager.setCacheManager(ioc.get(net.sf.ehcache.CacheManager.class, "ehcacheCacheManager"));
+        } else {
+            cacheManager.setCacheManager((net.sf.ehcache.CacheManager) _getCacheManager());
+        }
+        return cacheManager;
+    }
+
+    @IocBean(name = "shiroRedisCacheManager")
+    public CacheManager getRedisLcacheCacheManager() {
+        conf.putIfAbsent(PROP_SESSION_CACHE_REDIS_MODE, "kv");
+        conf.putIfAbsent(PROP_SESSION_CACHE_REDIS_DEBUG, "false");
+        conf.putIfAbsent(PROP_SESSION_CACHE_REDIS_TTL, "-1");
+        RedisCacheManager cacheManager = conf.make(RedisCacheManager.class, "shiro.session.cache.redis.");
+        return cacheManager;
+    }
+
+    public EventListener getEventListener() {
+        return ioc.get(EnvironmentLoaderListener.class, "shiroEnvironmentLoaderListener");
+    }
 
     /**
      * 返回值不能是CacheManager,因为要考虑没有加ehcache的情况

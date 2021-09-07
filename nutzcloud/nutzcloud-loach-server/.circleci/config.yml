@@ -1,0 +1,61 @@
+# Java Maven CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2
+jobs:
+  build-job:
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
+
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      MAVEN_OPTS: -Xmx3200m
+    
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "pom.xml" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: mvn dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+        
+      # run tests!
+      - run: mvn -Dmaven.test.skip=true compile
+  deploy-job:
+    docker:
+      # specify the version you desire here
+      - image: circleci/openjdk:8-jdk
+
+    working_directory: ~/repo
+
+    environment:
+      # Customize the JVM maximum heap limit
+      MAVEN_OPTS: -Xmx1024m
+    
+    steps:
+      # trigger deploy
+      - run: curl "http://180.76.108.103:8601/deploy/trigger?name=$CIRCLE_PROJECT_REPONAME&token=$DEPLOY_TOKEN"
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build-job
+      #- deploy-job:
+      #    requires:
+      #      - build-job
+      #    filters:
+      #      branches:
+      #        only: dev

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
+import javax.servlet.ServletContext;
 
 /**
  * 提供一个Filter
@@ -54,13 +55,17 @@ public interface WebFilterFace {
      */
     int getOrder();
 
+    default void setServletContext(ServletContext sc) {
+
+    }
+
     /**
      * 内置的默认顺序
      * 
      * @author wendal(wendal1985@gmail.com)
      *
      */
-    public static interface FilterOrder {
+    interface FilterOrder {
         // hystrix,whale,druid,shiro,nutz
         int HystrixRequestFilter = 5;
         int WhaleFilter = 10;

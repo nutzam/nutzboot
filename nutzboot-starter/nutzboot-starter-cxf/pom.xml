@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.nutz</groupId>
 		<artifactId>nutzboot-starter</artifactId>
-		<version>2.2-SNAPSHOT</version>
+		<version>2.5.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>nutzboot-starter-cxf</artifactId>
 	<packaging>jar</packaging>
@@ -64,6 +64,11 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.jws</groupId>
+			<artifactId>javax.jws-api</artifactId>
+			<version>1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>

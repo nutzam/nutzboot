@@ -1,6 +1,523 @@
 # NB进化史
 
-## dev 迭代中
+# 2.4.0.v20200427 "单车"
+nutzclold-perce API网关,重装归来
+
+* 时间: 2020-04-27
+* 曲目: [单车](https://www.youtube.com/watch?v=AfPUiV-jamA)
+
+* 变更:
+	* update: nutzclold-perce 强化nacos支持, 服务信息固定配置, 动态发现新服务, 都有了
+	* update: 更新jetty版本, 顺便更新一堆demo
+	* update: jetty支持更详细的cookie控制
+
+# 2.3.9.v20200309 "落大雨"
+
+落大雨，水浸街
+
+* 时间: 2020-03-09
+* 曲目: [落雨大](https://www.youtube.com/watch?v=3_YqjU1pGVg)
+* 兼容性: 全兼容的啦
+
+* 变更:
+	* add: session id反查session的demo
+	* add: freemarker支持设置模板路径
+	* update: 更新jetty/undertow/mqtt/dubbo/swagger版本 by howe
+	* fix: seata提示DataSourceProxy没有close方法的问题
+	* fix: jetty设置form大小无效
+	* fix: freemarker模版后缀没有赋值
+
+# 2.3.8.v20191031 "那年那兔"
+
+update了很多东西,看变更列表吧
+
+* 时间: 2019-10-31
+* 曲目: [那年那兔那些事-第一季](https://www.bilibili.com/bangumi/media/md1689)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+
+* 变更:
+	* add: 添加starter-thrift-server
+	* add: 添加loveexception的项目链接
+	* add: 添加NutzBoot版的justauth demo地址
+	* add: 添加物联网项目[irtu-gps](https://gitee.com/wendal/irtu-gps)作为demo
+	* update: 完善nacos-config-client
+	* update: jetty demo, 确保websocket能拿到HttpSession
+	* update: 适配新版seata的配置方式
+	* update: 升级seata版本到0.9.0
+	* update: 更新jetty版本到 9.4.22.v20191022
+	* update: 更新Tomcat、slf4j、Redisson、druid版本 by howe
+	* fix: starter-dubbo排除zookeeper模块下的slf4j-log4j12和log4j依赖 by 蛋蛋
+	* fix: dubbo 2.6.6默认没有引用zk了,神奇
+	* fix: dubbo扫描包路径配置项未添加到conf中,导致npe
+	* fix: nutz.dao.interceptor.time.enable的默认值应该是false
+
+# 2.3.7.v20190731 "无名"
+
+# 2.3.6.v20190621 "千と千尋の神隠"
+
+今天夏至啊,今天千与千寻在大陆上映啦,所以要发新版本啊!!!
+
+表说话,买票去!!
+
+* 时间: 2019-06-21
+* 曲目: [千と千尋の神隠し - いつも何度でも](https://www.youtube.com/watch?v=2zda1Tr4big) 与 2.1.2版一样
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+
+* 变更:
+	* fix: UploadingContext相关参数并没有传入的问题 by [happyday517](https://github.com/happyday517)
+	* fix: 解决freemarker打包成jar之后找不大模板文件的bug
+	* add: 添加WebFilterFace的文档
+	* add: 演示把websocket session id记录到HttpSession,并添加说明
+	* add: 给jetty的demo加上websocket演示
+	* add: 添加jetty配置的独立文档
+	* update: starter-fastdfs 新增支持 平铺/拉伸/旋转角度 的水印图生成方法 by 大鲨鱼(Nutzwk)
+	* update: 更新jetty版本
+
+# 2.3.5.v20190516 "Rewrite The Stars"
+
+适配seata 0.5.1, 添加redisson支持
+
+* 时间: 2019-05-16
+* 曲目: [Rewrite The Stars](https://y.qq.com/n/yqq/song/205642008_num.html)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+
+* 变更:
+	* add: 重新实现starter-thymeleaf,并添加thymeleaf+shiro的demo
+	* add: 添加demo nutzsite
+	* add: 添加starter-redisson
+	* update: 改进ElasticsearchStarter,支持所有PreBuiltTransportClient配置项
+	* update: 更新tomcat版本到8.5.40
+	* fix: 减少AbstractServletContainerStarter对NbApp内部机制的依赖性
+	* fix: 希望 starter-caffeine 能有方法可以更新缓存
+	* fix: jetty.maxFormKeys 设置无效
+
+# 2.3.4.v20190410 "蓝色多瑙河"
+
+添加对sqltplxml的内置支持^_^
+
+适配分离打包jar时,扫描不到类的问题
+
+* 时间: 2019-04-10
+* 曲目: [蓝色多瑙河](https://www.youtube.com/watch?v=x3FlK9LPUmc)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+
+* 变更:
+	* add: 添加starter-sqltplxml by [threefish](https://github.com/threefish)
+	* add: 新增启动扫描外部jar包，配置实例：`nutz.scans.paths=lib/` by [文涛](https://gitee.com/wentao0291)
+	* update: druid更新到1.1.16
+	* update: 把jetty+mvc+dao的[demo](https://github.com/nutzam/nutzboot/tree/dev/nutzboot-demo/nutzboot-demo-simple/nutzboot-demo-simple-dao)完善起来
+
+# 2.3.3.v20190329 "雪落下的声音"
+
+强势支持fescar分布式事务, 完全实现其AT模式,而且不止限于NutDao操作哦
+
+至此, 阿里系nacos(配置与注册)/sentinel(流控)/fescar(分布式事务)均完成适配
+
+* 时间: 2019-03-29
+* 曲目: [雪落下的声音](https://www.youtube.com/watch?v=dp2NzW3NQpk)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+
+* 变更:
+	* add: 支持fescar分布式事务,对应fescar 0.4.1版
+	* update: starter-fastdfs 支持通过文件路径上传
+
+
+# 2.3.2.v20190323 "--"
+
+紧急发版本,修正jetty升级后,没有static目录时报错的问题
+
+* 时间: 2019-03-23
+* 已知问题: 由于操作失误, 该版本引用的nutz版本是快照版,-_-
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+
+* 变更:
+	* fix: 如果不存在任何静态文件目录,jetty启动报错 by howe
+	* add: NbApp添加addStarterClass方法,方便扩展
+
+# 2.3.1.v20190318 "帕卡贝尔的卡农变奏曲"
+
+支持nacos作为配置服务,添加ftp客户端支持
+
+* 时间: 2019-03-18
+* 曲目: [帕卡贝尔的卡农变奏曲](https://www.youtube.com/watch?v=X0SxCZF1ebc)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+* 变更:
+	* add: 新增Nacos配置中心支持 by [文涛](https://github.com/wentao)
+	* add: 新增多数据源的使用Demo by [文涛](https://github.com/wentao)
+	* add: nutzboot-starter-ftp FTP客户端
+	* add: idea插件的链接
+	* update: starter-logback-exts 增加主机名等信息的记录 by 大鲨鱼
+	* update: 改进多数据源的生成和管理 by wendal
+	* update: 为web容器添加monitor日志
+	* update: starter-sentinel-dubbo 去掉容易误解的提示
+	* update: sentinel版本升级为1.4.2
+	* update: 提高nutz.boot.configure.properties.dir的路径兼容性
+	* fix: readme里面的eureka状态地址错误
+上游更新:
+	* update: nutz更新至1.r.68.v20190318
+	* update: nutzwx更新至1.r.68.v20190318
+	* update: nutzmore集合更新至1.r.68.v20190318
+下游更新:
+	* update: nutzboot-maven-plugin 更新 2.3.1.v20190318
+	* update: NutzWk 5.2.0
+
+# 2.3.0.v20190220 "不可说"
+
+地球在流浪,我们继续发新版^_^
+
+* 添加start-sentinel-annotation 流量防卫原生注释版
+
+* 时间: 2019-02-20
+* 曲目: [不可说](https://www.youtube.com/watch?v=gRd4iQhx9S8)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x/2.3.x
+* 变更:
+	* add: starter-logback-exts logback日志扩展 by 大鲨鱼
+	* update: 使用nutz 1.r.68.v20190220 例行更新
+	* update: 使用nutzwx 1.r.68.v20190220 卡包API
+	* update: 使用nutz插件集 1.r.68.v20190220 zbus/dubbo相关增强
+	* update: 使用jetty最新版
+
+# 2.2.9 "魔女の宅急便"
+
+* 添加start-sentinel-dubbo 流量防卫 by 大鲨鱼
+* 使用nutz正式版1.r.67,不引用快照版
+
+* 时间: 2019-01-09
+* 曲目: [魔女の宅急便](https://www.youtube.com/watch?v=jJJHH_v9JMg)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+* 变更:
+	* add: start-sentinel-dubbo 流量防卫 by 大鲨鱼,已应用在nutzwk
+	* update: 更新jetty/spring/jetx/beetl/undertow/druid版本 by howe
+	* 使用nutz正式版1.r.67
+
+# 2.2.8 "菊次郎的夏天"
+
+本版本添加servicecomb支持,修正了几个bug
+
+北半球的冬季, 南半球的夏天, ^_^
+
+* 时间: 2018-12-14
+* 曲目: [菊次郎的夏天](https://www.youtube.com/watch?v=4vQc8WC7clI)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+* 变更:
+	* add: 添加servicecomb支持
+	* update: 更新jetty/spring/jetx/beetl/undertow/druid版本 by howe
+	* update: 更新javassist版本,解决jdk11兼容性问题 by [大鲨鱼](https://github.com/Wizzercn)
+	* fix: fix:druid监控配置手册与实际过滤前缀不一致 by [realoldroot](https://github.com/realoldroot)
+	* fix: ngrok client不能设置服务器地址 by wendal
+
+# 2.2.7 "beautiful in white" 例行更新
+
+本版本添加jetty的https支持
+
+* 时间: 2018-11-08
+* 曲目: [beautiful in white](https://www.youtube.com/watch?v=XRuDQ6aYeD0)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+
+* 变更:
+	* add: jetty支持监听https端口
+	* add: starter-lettuce by howe
+	* fix: jetty禁用目录展示 
+
+
+# 2.2.6 "nothing gonna change my love for you"
+
+本版本强化多数据源支持,增加tcc支持
+
+由于核心已稳定,所以更新速度稍有下降,引起部分基友的[疑惑](https://nutz.cn/yvr/t/7ef8uiffluh68qgqa1r9aceju9) ^_^,在此表示感谢
+
+* 时间: 2018-09-19
+* 曲目: [nothing gonna change my love for you](https://www.youtube.com/watch?v=dMIGKOxLZH8)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+
+* 变更:
+	* update: tio升级到3.1.8.v20180818-RELEASE,减少依赖项
+	* update: 更新jetty/tomcat/beetl by howe
+	* add: tcc-transaction nutz 插件支持
+	* update: 配置中心客户端逻辑更新 by wendal
+	* update: 强化多数据源支持 by wentao
+	* add: 添加actuator基础代码
+	* add: 配置中心服务器端 https://gitee.com/nutz/nutzcloud-config-server
+
+# 2.2.5 "心要野"
+
+本版本主要是新增两个功能, 邮件客户端和防重复提交,均由[threefish](https://github.com/threefish) 提供^_^
+
+* 时间: 2018-08-20
+* 曲目: [心要野](https://music.163.com/#/song?id=406072138)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+
+* 变更:
+	* add: starter-email 邮件客户端 by threefish
+	* add: starter-prevent-duplicate-submit 防重复提交 by threefish
+	* add: 在war打包模式下,支持warMain入口,解决自定义NbApp实例的需求
+
+# 2.2.4 "BD7OEC"
+
+CQ CQ CQ, this is BD7OEC, BRAVO DELTA 7 OSCAR ECHO CHARLIE, BD7OEC, calling CQ and standby.
+
+* 时间: 2018-08-06
+* 事件: "拿证了"
+* 曲目: [业余无线电](https://www.bilibili.com/video/av21992170)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+
+* 变更:
+	* add: [starter-nutz-dao支持多个不同的数据源](https://gitee.com/nutz/nutzboot/pulls/9) by [文涛](https://gitee.com/wentao0291)
+
+# 2.2.3 "This Is Me"
+
+修复shiro session默认过期时间,增强@PropDoc的可配置性
+
+* 时间: 2018-07-25
+* 曲目: [This Is Me](https://www.youtube.com/watch?v=CjxugyZCfuw)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+* 变更:
+	* add: 添加配置项nutz.propdoc.packages可自定义扫描@PropDoc的路径
+	* fix: shiro的默认session超时设置错误
+	* update: 更新tio版本号
+	* add: NbApp添加setMainPackage方法
+
+# 2.2.2 "If You"
+
+添加elasticsearch支持
+
+* 时间: 2018-07-03
+* 事件: "亚洲球队全部出局了"
+* 曲目: [If You](https://www.youtube.com/watch?v=vUIHVpikGpI)
+* 兼容性: 兼容2.0.x/2.1.x/2.2.x
+* 变更:
+	* add: starter-elasticsearch by 大鲨鱼
+	* add: jst模板引擎,自带nutzboot支持 by wendal
+
+# 2.2.1 "Live It Up"
+
+使用nutz 1.r.66正式版
+
+* 时间: 2018-06-15
+* 事件: 世界杯第二天
+* 曲目: [Live It Up](https://www.youtube.com/watch?v=V15BYnSr0P8)
+* 兼容性: 与2.0.x/2.1.x完全兼容
+
+* 变更:
+	* update: 使用nutz 1.r.66正式版本
+	* add: 添加配置项,支持禁用swagger
+
+# 2.2.0 "荷塘月色"
+
+完善serlvet容器(jetty/undertow/tomcat)对web.xml的替代性配置
+
+* 时间: 2018-06-11
+* 曲目: [荷塘月色](https://www.youtube.com/watch?v=nbWJv5KAIGY)
+* 兼容性: 与2.0.x/2.1.x完全兼容
+
+* 变更:
+	* add: tomcat也需要支持404和500页面等页面 https://gitee.com/nutz/nutzboot/issues/IKC3B by [mm](https://gitee.com/aaabbbsdfasdfasdfasdfasf)
+	* add: undertow也需要支持404和500页面等页面
+	* add: 为jetty/undertow/tomcat添加welcome file配置
+	* add: 支持获取undertow底层实例
+	* add: WebServletFace添加getPathSpecs方法,可映射多个路径
+	* add: WebServletFace和WebFilterFace添加setServletContext方法
+	* add: [集成pageoffice的demo](https://gitee.com/nutz/nutzboot-demo-pageoffice)
+	* change: 将spring支持单独为nutzboot-spring
+	* update: dubbo更新到2.6.2 by 大鲨鱼
+	* update: jetty更新到9.4.11.v20180605 by howe
+
+# 2.1.9 "隐形的翅膀"
+
+原生支持gzip压缩
+
+* 时间: 2018-06-01
+* 事件: 六月儿童节
+* 曲目: [隐形的翅膀](https://www.youtube.com/watch?v=U9wOPpX0ZLo)
+* 兼容性: 与2.0.x和2.1.x完全兼容
+
+* 变更:
+	* fix: 打包成war之后,[freemaker启动失败](https://nutz.cn/yvr/t/qcnfndh6tajknqqkgt5c5e186t)
+	* add: undertow支持启用gzip, issue #138@github
+	* add: jetty支持启用gzip
+	* add: starter-tio支持ssl配置
+	* update: asm升级到6.1.1,解决jdk10上可能报错的问题
+	* update: 更新druid等依赖的版本 by howe
+
+# 2.1.8 "这视频比歌好听"
+
+统一web容器的核心逻辑,并支持war打包(终于填了这个坑)
+
+* 时间: 2018-05-15
+* 事件: 某未命名航母开始海试了
+* 曲目: [这视频比歌好听](https://www.youtube.com/watch?v=ilmdOGbUuFk)
+* 兼容性: 与2.0.x和2.1.x完全兼容
+
+* 变更:
+	* add: issue 36, Web服务类应共享一个超类
+	* add: issue 60, Tomcat也要支持多层资源加载
+	* add: 新增war打包方式,通过nutzboot-maven-plugin
+	* add: 支持repo-upload和repo-download
+	* add: jetty.port等端口统统支持随机设置,设置为0即可
+	* add: tomcat线程池设置
+	* add: 配置手册总表
+	* add: 支持从ioc容器获取FilterChainResolver实例
+	* fix: jetty缺了staticPath设置
+	* fix: 补充WhaleFilterStarter的@PropDoc 
+	* fix: 补充WeixinStarter的@PropDoc 
+	* fix: 补充JedisStarter的@PropDoc
+	* fix: tomcat端口被占用或者其他报错的时候,没有退出
+	* fix: nutzwx版本号没跟上
+	* update: 更新jetty/tomcat/beetl/beetlsql/tio的版本
+	* change: nutzboot-demo-maker独立成[nutzboot-project-maker库](https://gitee.com/nutz/nutzboot-project-maker)
+	
+图片镇楼
+
+![海试](http://5b0988e595225.cdn.sohucs.com/images/20180513/255815a8da954e6fa346adb388ed7dba.jpeg)
+
+# 2.1.7 "Penguin's Game"
+
+新增maven插件和mqtt支持
+
+* 时间: 2018-05-04
+* 事件: 青年节
+* 曲目: [Penguin's Game](https://www.youtube.com/watch?v=WTJBB8r6lIE)
+* 兼容性: 与2.0.x和2.1.x完全兼容
+
+* 变更:
+	* fix: 修改jetty热加载无效问题 by 蛋蛋
+	* add: jetty支持任意状态码和任意异常类型的错误页面设置 by 蛋蛋 and wendal
+	* add: 添加starter-mqtt-client by wendal
+	* update: 更新所依赖的 jetx、cxf、spring、undertow 的版本 by 温泉
+
+# 2.1.6 "A Million Dreams"
+
+增强对新版dubbo的集成,以协助nutzwk的nutzboot-dubbo分支的线上部署.
+
+* 时间: 2018-04-19/20,取决于你的经度
+* 事件: 贸易战不好玩,看热闹的都不怕事大
+* 曲目: [A Million Dreams](https://www.youtube.com/watch?v=g9r5PFZihC4) 歌曲从3:00开始
+* 兼容性: 与2.0.x和2.1.x完全兼容
+
+* 变更:
+	
+	* add: 支持无dubbo.xml配置
+	* add: 支持以随机端口启动dubbo
+	* add: 从ioc容器自动添加NbAppEventListener，并支持多个监听器
+	* add: 支持druid的DruidPasswordCallback
+	* add: 添加CounterService
+	* update: 更新部分依赖的版本号
+	* update: 测试与Oracle JDK 8/9/10的兼容性，无异常
+	* update: 测试与OpenJDK 8/9/10的兼容性,无异常
+	* fix: AppContext.stopServers的时候只应stop已经加载的ServerFace实例
+
+* 后面的内容纯粹蹭热点,wendal闲来无事在发牢骚,请无视:
+
+	- 曾经,自主创新/自主可控/自主知识产权变成贬义词,现在的画风似乎变了
+	- 因为,"中兴"给了大家N多的茶余饭后的谈资
+	- 做过微信公众平台的同学应该知道"Illegal key size or default parameters"错误
+	- JDK8需要自行解除限制,不过JDK10已经默认无限制
+	- 只是补充了一句: You are advised to consult your export/import control counsel or attorney to determine the exact requirements of your location, and what policy settings should be used.
+	- 哪天"特没谱"说要限制的时候,微信服务器统统不合法-_-
+
+# 2.1.5 "Je m'appelle Hélène"
+
+原本是上周发新版的,但忙于[NutzCloud](https://gitee.com/nutz/nutzcloud)的开发,延期到本周发新版了.
+
+本次更新带来单元测试支持及"道坤"提供的ssdb支持,修复了几个不算严重的issue,建议更新
+
+* 时间: 2018-04-02
+* 事件: 某飞行器以"无控坠落"的方式再入大气层
+* 曲目: [Je m'appelle Hélène](https://www.youtube.com/watch?v=OrBjkXziXnw)
+* 兼容性: 与2.0.x和2.1.x完全兼容
+
+* 变更:
+
+    * fix: dubbo的service如果引用QuarteManager会抛异常
+    * fix: 修复wkcache在某些场景下失效的bug
+    * update: 完善shiro集成, by 大鲨鱼
+    * add: starter-ssdb by 道坤
+    * add: 添加NbAppEventListener,可以拦截NbApp的各种事件
+    * add: 添加单元测试的支持
+    * add: shiro主动搜索ioc容器内的SessionListener并添加到SessionManager
+    * add: jetty添加staticPathLocal属性,解决idea用户开发期js/css文件不更新的问题
+    * add: jetty添加httpConfig配置项,可以更进行更精细的配置
+    * change: 扩大server.port的随机范围
+    
+最后放个图片
+
+![Tiangong-1](http://www.aerospace.org/CORDSuploads/TiangongStoryboard.png)
+
+# 2.1.4 "平凡之路"
+
+修正一些bug,提升与spring项目的互操作性,2.1.x可平稳更新
+
+* 时间: 2018-03-13
+* 事件: 就想发个版本
+* 曲目: [平凡之路](https://www.youtube.com/watch?v=NjTT5_RSkw4)
+
+* 变更:
+	* update: javassist更新为3.22.0-GA,解决"invalid constant type: 15"
+	* update: 让beetl使用antlr4-runtime 4.5,解决与urule的jar冲突 [csl_slchia](https://gitee.com/csl_slchia)
+	* add: 添加将普通web项目转换为NutzBoot项目的指南
+	* add: 添加@AsSpringBean注解,在集成spring相关库(例如urule/ureport/uflo)的时候,可以主动把对象放入spring ioc
+	* fix: jetty+shiro+websocket时,在onOpen阶段拿不到session对象
+	* fix: urule集成后找不到自定义的@ActionBean对象 by [csl_slchia](https://gitee.com/csl_slchia)
+
+# 2.1.3 "Never Enough"
+
+炒币有风险,上车请谨慎. 区块链 != 炒币
+
+人嘛, "Never Enough".
+
+* 时间: 2018-02-26
+* 事件: 新春来一发
+* 曲目: [Never Enough](https://y.qq.com/n/yqq/mv/v/n0025krp84f.html)
+
+* 变更:
+	* add: starter-web3j 区块链-"以太坊"客户端API 
+	* update: HikariCP更新到2.7.7
+	* update: sharding-jdbc更新到2.0.3
+	* update: dubbo更新到2.5.9
+	* update: cxf更新到3.1.14
+	* update: beetlsql更新到2.10.10
+	* update: undertow更新到1.4.22.Final
+	* update: tomcat更新到8.5.28
+	* update: zbus更新到0.11.5
+	* fix: undertow的staticPath就没生效 report by [道坤](https://github.com/albinhdk)和[tasdingoo](https://github.com/tasdingoo)
+
+## 2.1.2 "いつも何度でも "
+
+感谢tio社区为nutz特意发布的[2.0.8.v20180205-RELEASE](http://www.oschina.net/news/93135/t-io-2-08) ^_^
+
+这次更新,带来
+* [蛋蛋](https://github.com/TopCoderMyDream)完成的starter-freeamarker及
+* 到处挖坑的[wendal](https://gitee.com/wendal)带来的starter-tio-mvc, 将ioc机制融入tio-mvc
+
+这个版本完全兼容2.1.0/2.1.1,所以没有跳到2.2.0,请放心升级.
+
+* 时间: 2018-02-06
+* 事件: tio特别版
+* 曲目: [いつも何度でも _千与千寻主题曲](https://www.youtube.com/watch?v=2zda1Tr4big)
+
+-----------------------------------------------------------------------------
+
+* 变更:
+	* add: starter-tio-mvc 基于tio的高性能MVC框架
+	* add: starter-freemarker by [蛋蛋](https://github.com/TopCoderMyDream)
+	* update: 优化starter-tio的逻辑 by [zjSniper](https://gitee.com/zjSniper)
+	* update: j2cache配置文件融入nutzboot的主配置信息 by [蛋蛋](https://github.com/TopCoderMyDream)
+	* update: starter-beetl将GroupTemplate放入ioc容器,方便用户自定义和获取
+	* update: 更新tio版本到2.0.8.v20180205-RELEASE, 感谢tio社区的大力支持
+	* fix: 一主多从的逻辑有问题,修正之
+	* fix: tomcat与shiro一起使用时报错, report by [蛋蛋](https://github.com/TopCoderMyDream)
+
+## 2.1.1 "La Vie en Rose"
+
+新增由[蛋蛋](https://github.com/TopCoderMyDream)提供的starter-tio和starter-j2cache, 温泉同学完成了eureka-server新版的status页面, 及2个配置中心的客户端 ^_^
+
+这个版本完全兼容2.1.0,所以没有跳到2.2.0,请放心升级.
+
+* 时间: 2018-01-26
+* 事件: 春节前发个版本吧
+* 曲目: [La Vie en Rose_玫瑰人生法语原声](https://www.youtube.com/watch?v=0feNVUwQA8U)
+
+-----------------------------------------------------------------------------
 
 * 变更:
 	* add: starter-tio by [蛋蛋](https://github.com/TopCoderMyDream)
@@ -10,8 +527,14 @@
 	* add: feign支持从ioc容器获取client/encoder/decoder,且自定义JsonFormat
 	* add: feign支持全局connect和read的timeout设置
 	* add: starter-eureka-server新版的status页面 by [温泉](https://github.com/ywjno)
+	* add: starter-jdbc添加slave数据源的支持,使得starter-nutz-dao和starter-beetlsql支持slave数据源
+	* add: 从jar所在目录读取配置文件 by [文涛](https://github.com/swtseaman)
 	* update: 更新HikariCP到2.7.5
 	* update: 更新sharding-jdbc到2.0.2,终于支持建表语句了,所以dao.create也能工作了!
+	* fix: tomcat的默认maxPostSize太小了,容易挂
+	* fix: tio端口设置没有生效
+	* fix: quartz没有对应的demo
+	* fix: 兼容sfl4j-simple
 
 ## 2.1.0 "Start Of Something New"
 

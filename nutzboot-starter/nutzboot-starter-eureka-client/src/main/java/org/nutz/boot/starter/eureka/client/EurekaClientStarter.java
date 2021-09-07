@@ -119,5 +119,11 @@ public class EurekaClientStarter implements ServerFace, Provider<EurekaClient> {
             return instanceId;
         }
         
+        @Override
+        public String getHostName(boolean refresh) {
+            if (conf.has("server.hostname"))
+                return conf.get("server.hostname");
+            return super.getHostName(refresh);
+        }
     }
 }

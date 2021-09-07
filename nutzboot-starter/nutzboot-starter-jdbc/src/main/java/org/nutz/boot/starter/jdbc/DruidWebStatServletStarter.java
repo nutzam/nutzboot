@@ -1,11 +1,6 @@
 package org.nutz.boot.starter.jdbc;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.servlet.Servlet;
-
+import com.alibaba.druid.support.http.StatViewServlet;
 import org.nutz.boot.annotation.PropDoc;
 import org.nutz.boot.starter.WebServletFace;
 import org.nutz.ioc.impl.PropertiesProxy;
@@ -16,7 +11,10 @@ import org.nutz.lang.random.R;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
-import com.alibaba.druid.support.http.StatViewServlet;
+import javax.servlet.Servlet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @IocBean
 public class DruidWebStatServletStarter implements WebServletFace {
@@ -25,6 +23,9 @@ public class DruidWebStatServletStarter implements WebServletFace {
 	
 	protected static final String PRE = "druid.web.servlet.";
 
+	@PropDoc(group="druid", type="boolean", defaultValue="true", value="是否启动monitor页面")
+	public static final String PROP_ENABLE = PRE + "enable";
+	
 	@PropDoc(group="druid", type="boolean", defaultValue="true", value="是否允许重置统计结果")
 	public static final String PROP_RESET_ENABLE = PRE + StatViewServlet.PARAM_NAME_RESET_ENABLE;
 
@@ -64,7 +65,7 @@ public class DruidWebStatServletStarter implements WebServletFace {
 	@Override
 	public Map<String, String> getInitParameters() {
 		Map<String, String> params = new HashMap<>();
-		Map<String, Object> _tmp = Lang.filter((Map)conf.toMap(), "druid.webstat.servlet.", null, null, null);
+		Map<String, Object> _tmp = Lang.filter((Map)conf.toMap(), PRE, null, null, null);
 		if (!_tmp.containsKey(StatViewServlet.PARAM_NAME_USERNAME))
 			_tmp.put(StatViewServlet.PARAM_NAME_USERNAME, "druid");
 		if (!_tmp.containsKey(StatViewServlet.PARAM_NAME_PASSWORD)) {
@@ -82,6 +83,10 @@ public class DruidWebStatServletStarter implements WebServletFace {
 	public Servlet getServlet() {
 		if (!DataSourceStarter.isDruid(conf))
 			return null;
+		if (!conf.getBoolean(PROP_ENABLE, true)) {
+			log.debug("druid monitor enable=false, disable it");
+			return null;
+		}
 		return new StatViewServlet();
 	}
 

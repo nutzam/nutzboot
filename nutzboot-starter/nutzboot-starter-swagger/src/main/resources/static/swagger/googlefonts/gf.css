@@ -1,0 +1,88 @@
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url(Open+Sans_400_normal.eot); /* {{embedded-opentype-gf-url}} */
+    src: local('☺'),
+        url(Open+Sans_400_normal.eot?#iefix) format('embedded-opentype'), /* {{embedded-opentype-gf-url}} */
+        url(Open+Sans_400_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-UFVZ0d.woff */
+        url(Open+Sans_400_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-UFVZ0ef8pkAg.ttf */
+        url(Open+Sans_400_normal.svg#Open+Sans_400_normal) format('svg'); /* http://fonts.gstatic.com/l/font?kit=mem8YaGs126MiZpBA-UFVZ0c&skey=62c1cbfccc78b4b2&v=v15#OpenSans */
+}
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: url(Open+Sans_700_normal.eot); /* {{embedded-opentype-gf-url}} */
+    src: local('☺'),
+        url(Open+Sans_700_normal.eot?#iefix) format('embedded-opentype'), /* {{embedded-opentype-gf-url}} */
+        url(Open+Sans_700_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/opensans/v15/mem5YaGs126MiZpBA-UN7rgOUuhv.woff */
+        url(Open+Sans_700_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/opensans/v15/mem5YaGs126MiZpBA-UN7rgOUuhsKKSTjw.ttf */
+        url(Open+Sans_700_normal.svg#Open+Sans_700_normal) format('svg'); /* {{svg-gf-url}} */
+}
+@font-face {
+    font-family: 'Source Code Pro';
+    font-style: normal;
+    font-weight: 300;
+    src: url(Source+Code+Pro_300_normal.eot); /* {{embedded-opentype-gf-url}} */
+    src: local('☺'),
+        url(Source+Code+Pro_300_normal.eot?#iefix) format('embedded-opentype'), /* {{embedded-opentype-gf-url}} */
+        url(Source+Code+Pro_300_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/sourcecodepro/v7/HI_XiYsKILxRpg3hIP6sJ7fM7PqtlsnDs-cs.woff */
+        url(Source+Code+Pro_300_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/sourcecodepro/v7/HI_XiYsKILxRpg3hIP6sJ7fM7PqtlsnDs-cv7Gq0DA.ttf */
+        url(Source+Code+Pro_300_normal.svg#Source+Code+Pro_300_normal) format('svg'); /* {{svg-gf-url}} */
+}
+@font-face {
+    font-family: 'Source Code Pro';
+    font-style: normal;
+    font-weight: 600;
+    src: url(Source+Code+Pro_600_normal.eot); /* {{embedded-opentype-gf-url}} */
+    src: local('☺'),
+        url(Source+Code+Pro_600_normal.eot?#iefix) format('embedded-opentype'), /* {{embedded-opentype-gf-url}} */
+        url(Source+Code+Pro_600_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/sourcecodepro/v7/HI_XiYsKILxRpg3hIP6sJ7fM7Pqt4s_Ds-cs.woff */
+        url(Source+Code+Pro_600_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/sourcecodepro/v7/HI_XiYsKILxRpg3hIP6sJ7fM7Pqt4s_Ds-cv7Gq0DA.ttf */
+        url(Source+Code+Pro_600_normal.svg#Source+Code+Pro_600_normal) format('svg'); /* {{svg-gf-url}} */
+}
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 400;
+    src: url(Titillium+Web_400_normal.eot); /* {{embedded-opentype-gf-url}} */
+    src: local('☺'),
+        url(Titillium+Web_400_normal.eot?#iefix) format('embedded-opentype'), /* {{embedded-opentype-gf-url}} */
+        url(Titillium+Web_400_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/titilliumweb/v6/NaPecZTIAOhVxoMyOr9n_E7fdMPmCw.woff */
+        url(Titillium+Web_400_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/titilliumweb/v6/NaPecZTIAOhVxoMyOr9n_E7fdMPmCKZRbrw.ttf */
+        url(Titillium+Web_400_normal.svg#Titillium+Web_400_normal) format('svg'); /* http://fonts.gstatic.com/l/font?kit=NaPecZTIAOhVxoMyOr9n_E7fdMPmCg&skey=19ee7c202c5bec48&v=v6#TitilliumWeb */
+}
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 600;
+    src: url(Titillium+Web_600_normal.eot); /* {{embedded-opentype-gf-url}} */
+    src: local('☺'),
+        url(Titillium+Web_600_normal.eot?#iefix) format('embedded-opentype'), /* {{embedded-opentype-gf-url}} */
+        url(Titillium+Web_600_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/titilliumweb/v6/NaPDcZTIAOhVxoMyOr9n_E7ffBzCGItzZQ.woff */
+        url(Titillium+Web_600_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/titilliumweb/v6/NaPDcZTIAOhVxoMyOr9n_E7ffBzCGItzZpabuWI.ttf */
+        url(Titillium+Web_600_normal.svg#Titillium+Web_600_normal) format('svg'); /* {{svg-gf-url}} */
+}
+@font-face {
+    font-family: 'Titillium Web';
+    font-style: normal;
+    font-weight: 700;
+    src: url(Titillium+Web_700_normal.eot); /* {{embedded-opentype-gf-url}} */
+    src: local('☺'),
+        url(Titillium+Web_700_normal.eot?#iefix) format('embedded-opentype'), /* {{embedded-opentype-gf-url}} */
+        url(Titillium+Web_700_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/titilliumweb/v6/NaPDcZTIAOhVxoMyOr9n_E7ffHjDGItzZQ.woff */
+        url(Titillium+Web_700_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/titilliumweb/v6/NaPDcZTIAOhVxoMyOr9n_E7ffHjDGItzZpabuWI.ttf */
+        url(Titillium+Web_700_normal.svg#Titillium+Web_700_normal) format('svg'); /* {{svg-gf-url}} */
+}
+@font-face {
+    font-family: 'Source Code Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: url(Source+Code+Pro_400_normal.eot); /* {{embedded-opentype-gf-url}} */
+    src: local('☺'),
+        url(Source+Code+Pro_400_normal.eot?#iefix) format('embedded-opentype'), /* {{embedded-opentype-gf-url}} */
+        url(Source+Code+Pro_400_normal.woff) format('woff'), /* {{woff-gf-url}} */
+        url(Source+Code+Pro_400_normal.ttf) format('truetype'), /* {{truetype-gf-url}} */
+        url(Source+Code+Pro_400_normal.svg#Source+Code+Pro_400_normal) format('svg'); /* http://fonts.gstatic.com/l/font?kit=HI_SiYsKILxRpg3hIP6sJ7fM7PqlPevR&skey=d94d317bc78fd84e&v=v7#SourceCodePro */
+}

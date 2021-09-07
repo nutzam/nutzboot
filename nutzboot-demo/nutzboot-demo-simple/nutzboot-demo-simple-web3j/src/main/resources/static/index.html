@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>以太坊Demo</title>
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet"
+	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+<link rel="stylesheet"
+	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
+<script type="text/javascript"
+	src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script
+	src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+</head>
+<body>
+
+	<div class="container" id="app">
+
+		<div>
+			<h1>本地账号列表</h1>
+			<p class="lead">相关配置在application.properties内</p>
+		</div>
+		<div>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>账号别名</th>
+						<th>address</th>
+						<th>余额(单位eth)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(acc,key) in local_accounts">
+						<td>{{acc.name}}</td>
+						<td>{{acc.address}}</td>
+						<td>{{acc.banlance/1000000000000000000}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		
+		<div>
+			<h1>远程账号列表</h1>
+			<p class="lead">返回所有账号</p>
+		</div>
+		<div>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>账号别名</th>
+						<th>address</th>
+						<th>余额(单位eth)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(acc,key) in remote_accounts">
+						<td>{{acc.name}}</td>
+						<td>{{acc.address}}</td>
+						<td>{{acc.banlance/1000000000000000000}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div>
+			<h1>常用操作</h1>
+		</div>
+		<div>
+			<button class="button" @click="doReload()">刷新数据</button>
+		</div>
+		<div>
+			<form action="#">
+				付款方 <select v-model="fromAcc">
+					<option v-for="(acc,key) in local_accounts" v-bind:value="acc.name">
+    						{{ acc.name }}
+  					</option>
+				</select>
+				收款方 <select v-model="toAcc">
+					<option v-for="(acc,key) in remote_accounts" v-bind:value="acc.address">
+    						{{ acc.name }}
+  					</option>
+				</select>
+				金额(单位eth) <input v-model="tranValue" type="number" max="100" min="1" value="3">
+			</form>
+			<button @click="doTran()">转账</button>
+		</div>
+	</div>
+	<!-- /.container -->
+
+</body>
+<script type="text/javascript">
+	var _app = new Vue({
+		  el: '#app',
+		  data: {
+			  local_accounts: [{name:"acc0", address:"0x0", banlance:0}],
+			  remote_accounts: [],
+			  fromAcc : "acc1",
+			  toAcc : "0xc376076eb64c17a94d76fa827d04e002109af8ba",
+			  tranValue : 3
+		  },
+		  methods :{
+			  doReload : function() {
+					$.ajax({
+						url : "web3j/local/accounts",
+						dataType : "json",
+						success: function(re) {
+							if (re && re.data) {
+								console.log(re.data);
+								_app.local_accounts = re.data;
+							}
+						}
+					});
+					$.ajax({
+						url : "web3j/remote/accounts",
+						dataType : "json",
+						success: function(re) {
+							if (re && re.data) {
+								console.log(re.data);
+								_app.remote_accounts = re.data;
+							}
+						}
+					});
+			  },
+			  doTran : function() {
+				  var _from = this.fromAcc;
+				  var _to = this.toAcc;
+				  var _wei = this.tranValue;
+				  $.ajax({
+					  url : "web3j/eth/sendTransaction/" + _from + "/" + _to +"/",
+					  data : {
+						  "wei" : _wei
+					  },
+					  type : "POST",
+					  dataType : "json",
+					  success : function(re) {
+						  if (re && re.ok) {
+							  alert("转账请求已提交,最长需要60秒生效 hash=" + re.hash);
+						  }
+						  else if (re.msg) {
+							  alert(re.msg);
+						  }
+					  }
+				  });
+			  }
+		  }
+		});
+	_app.doReload();
+</script>
+</html>

@@ -21,6 +21,9 @@ public class MainLauncher {
 
 	@Inject
 	protected Dao dao;
+	
+	@Inject
+	protected Dao dao2;
 
 	@At("/user/query/?")
 	public List<UserOrder> queryByUserId(int userId) {

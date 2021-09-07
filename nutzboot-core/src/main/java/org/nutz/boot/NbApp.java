@@ -1,11 +1,13 @@
 package org.nutz.boot;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.nutz.boot.aware.AppContextAware;
@@ -18,26 +20,27 @@ import org.nutz.boot.config.ConfigureLoader;
 import org.nutz.boot.config.impl.PropertiesConfigureLoader;
 import org.nutz.boot.env.SystemPropertiesEnvHolder;
 import org.nutz.boot.ioc.IocLoaderProvider;
+import org.nutz.boot.metrics.impl.MemoryCounterService;
 import org.nutz.boot.resource.ResourceLoader;
 import org.nutz.boot.resource.impl.SimpleResourceLoader;
+import org.nutz.boot.tools.NbAppEventListener;
+import org.nutz.boot.tools.NbAppEventListener.EventType;
 import org.nutz.boot.tools.PropDocReader;
-import org.nutz.ioc.Ioc2;
 import org.nutz.ioc.IocLoader;
-import org.nutz.ioc.ObjectProxy;
 import org.nutz.ioc.impl.NutIoc;
+import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.AnnotationIocLoader;
 import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.ioc.loader.combo.ComboIocLoader;
-import org.nutz.lang.Lang;
-import org.nutz.lang.Mirror;
-import org.nutz.lang.Stopwatch;
-import org.nutz.lang.Streams;
-import org.nutz.lang.Strings;
+import org.nutz.lang.*;
 import org.nutz.lang.util.LifeCycle;
 import org.nutz.log.Log;
 import org.nutz.log.LogAdapter;
 import org.nutz.log.Logs;
+import org.nutz.mvc.Mvcs;
 import org.nutz.mvc.annotation.IocBy;
+import org.nutz.resource.Scans;
+import org.nutz.resource.impl.JarResourceLocation;
 
 /**
  * NutzBoot的主体
@@ -56,6 +59,11 @@ public class NbApp extends Thread {
      * 命令行参数
      */
     protected String[] args;
+
+    /**
+     * 扫描外部jar包路径
+     */
+    protected String scansPaths = "nutz.scans.paths";
 
     /**
      * 是否允许命令行下的 -Dxxx.xxx.xxx=转为配置参数
@@ -80,11 +88,15 @@ public class NbApp extends Thread {
     /**
      * Starter类列表
      */
-    protected List<Class<?>> starterClasses;
+    protected List<Class<?>> starterClasses = new LinkedList<>();
 
     protected boolean prepared;
 
-    protected Object lock = new Object();
+    protected Object lock;
+    
+    protected List<NbAppEventListener> listeners = new LinkedList<>();
+    
+    protected boolean started;
 
     /**
      * 创建一个NbApp,把调用本构造方法的类作为mainClass
@@ -167,49 +179,72 @@ public class NbApp extends Thread {
 
     public void run() {
         try {
-            _run();
+            if (execute()) {
+                lock = new Object();
+                synchronized (lock) {
+                    lock.wait();
+                }
+            }
+            // 收尾
+            _shutdown();
         }
         catch (Throwable e) {
             Logs.get().error("something happen", e);
         }
     }
-
-    /**
-     * 启动整个NbApp
-     */
-    public void _run() throws Exception {
+    
+    public boolean execute() {
         Stopwatch sw = Stopwatch.begin();
-
-        // 各种预备操作
-        this.prepare();
-
-        // 依次启动
         try {
-            ctx.init();
+            // 各种预备操作
+        	listeners.forEach((listener)->listener.whenPrepare(this, EventType.before));
+            this.prepare();
+            listeners.forEach((listener)->listener.whenPrepare(this, EventType.after));
 
+            // 依次启动
+            listeners.forEach((listener)->listener.whenInitAppContext(this, EventType.before));
+            ctx.init();
+            listeners.forEach((listener)->listener.whenInitAppContext(this, EventType.after));
+
+            listeners.forEach((listener)->listener.whenStartServers(this, EventType.before));
             ctx.startServers();
+            listeners.forEach((listener)->listener.whenStartServers(this, EventType.after));
 
             if (ctx.getMainClass().getAnnotation(IocBean.class) != null)
                 ctx.getIoc().get(ctx.getMainClass());
 
+            listeners.forEach((listener)->listener.afterAppStated(this));
+
             sw.stop();
-            log.infof("NB started : %sms", sw.du());
-            synchronized (lock) {
-                lock.wait();
-            }
+            log.infof("%s started : %sms", ctx.getConf().get("nutz.application.name", "NB"),  sw.du());
+            started = true;
+            return true;
         }
         catch (Throwable e) {
             log.error("something happen!!", e);
+            return false;
         }
-        // 收尾
-        ctx.stopServers();
-        ctx.depose();
+    }
+    
+    public void _shutdown() {
+        try {
+            ctx.stopServers();
+            ctx.depose();
+        }
+        catch (Exception e) {
+            throw Lang.wrapThrow(e);
+        }
     }
 
     public void shutdown() {
         log.info("ok, shutting down ...");
-        synchronized (lock) {
-            lock.notify();
+        if (lock == null) {
+            _shutdown();
+        }
+        else {
+            synchronized (lock) {
+                lock.notify();
+            }
         }
     }
 
@@ -220,33 +255,74 @@ public class NbApp extends Thread {
         if (prepared)
             return;
         // 初始化上下文
+        listeners.forEach((listener)->listener.whenPrepareBasic(this, EventType.before));
         this.prepareBasic();
+        listeners.forEach((listener)->listener.whenPrepareBasic(this, EventType.after));
 
         // 打印Banner,暂时不可配置具体的类
         new SimpleBannerPrinter().printBanner(ctx);
 
         // 配置信息要准备好
+
+        listeners.forEach((listener)->listener.whenPrepareConfigureLoader(this, EventType.before));
         this.prepareConfigureLoader();
+        listeners.forEach((listener)->listener.whenPrepareConfigureLoader(this, EventType.after));
+
+        // 配置信息准备好后,进行外部jar包对象Scan
+        PropertiesProxy propertiesProxy = ctx.getConf();
+        if(propertiesProxy.containsKey(scansPaths)) {
+            log.debugf("has scansPaths...");
+            String scansPathsValue = propertiesProxy.get(scansPaths);
+            // 适配多路径
+            for (String path : scansPathsValue.split(",")) {
+                path = AppContext.getDefault().getBasePath() + File.separator + path;
+                log.debugf("scan path %s", path);
+                for (File jar : Files.ls(path, ".jar$", null)) {
+                    log.infof("addResourceFile:%s", jar.getPath());
+                    Scans.me().addResourceLocation(new JarResourceLocation(jar.getPath()));
+                }
+            }
+        }
 
         // 创建IocLoader体系
+        listeners.forEach((listener)->listener.whenPrepareIocLoader(this, EventType.before));
         prepareIocLoader();
+        listeners.forEach((listener)->listener.whenPrepareIocLoader(this, EventType.after));
 
         // 加载各种starter
+        listeners.forEach((listener)->listener.whenPrepareStarterClassList(this, EventType.before));
         prepareStarterClassList();
+        listeners.forEach((listener)->listener.whenPrepareStarterClassList(this, EventType.after));
 
         // 打印配置文档
         if (printProcDoc) {
             PropDocReader docReader = new PropDocReader();
             docReader.load(starterClasses);
+            if (getAppContext().getConf().get("nutz.propdoc.packages") != null) {
+                for (String pkg : Strings.splitIgnoreBlank(getAppContext().getConf().get("nutz.propdoc.packages"))) {
+                    for (Class<?> klass : Scans.me().scanPackage(pkg)) {
+                        if (klass.isInterface())
+                            continue;
+                        docReader.addClass(klass);
+                    }
+                }
+            }
             Logs.get().info("Configure Manual:\r\n" + docReader.toMarkdown());
         }
 
         // 创建Ioc容器
+        listeners.forEach((listener)->listener.whenPrepareIoc(this, EventType.before));
         prepareIoc();
+        listeners.forEach((listener)->listener.whenPrepareIoc(this, EventType.after));
 
         // 生成Starter实例
+        listeners.forEach((listener)->listener.whenPrepareStarterInstance(this, EventType.before));
         prepareStarterInstance();
+        listeners.forEach((listener)->listener.whenPrepareStarterInstance(this, EventType.after));
 
+        // 从Ioc容器检索Listener
+        listeners.addAll(ctx.getBeans(NbAppEventListener.class));
+        
         prepared = true;
     }
 
@@ -347,7 +423,6 @@ public class NbApp extends Thread {
     }
 
     public void prepareStarterClassList() throws Exception {
-        starterClasses = new ArrayList<>();
         HashSet<String> classNames = new HashSet<>();
         Enumeration<URL> _en = ctx.getClassLoader().getResources("META-INF/nutz/org.nutz.boot.starter.NbStarter");
         while (_en.hasMoreElements()) {
@@ -363,7 +438,13 @@ public class NbApp extends Thread {
                             continue;
                         Class<?> klass = ctx.getClassLoader().loadClass(className);
                         if (!klass.getPackage().getName().startsWith(NbApp.class.getPackage().getName()) && klass.getAnnotation(IocBean.class) != null) {
-                            starterIocLoader.addClass(klass);
+                        	if (IocLoader.class.isAssignableFrom(klass))
+                        		starterIocLoader.addClass(klass);
+                        	else {
+                            	for (Class<?> classZ : Scans.me().scanPackage(klass.getPackage().getName())) {
+                                    starterIocLoader.addClass(classZ);
+                                }
+                        	}
                         }
                         starterClasses.add(klass);
                     }
@@ -378,11 +459,13 @@ public class NbApp extends Thread {
         }
         // 把核心对象放进ioc容器
         if (!ctx.ioc.has("appContext")) {
-            Ioc2 ioc2 = (Ioc2) ctx.getIoc();
-            ioc2.getIocContext().save("app", "appContext", new ObjectProxy(ctx));
-            ioc2.getIocContext().save("app", "conf", new ObjectProxy(ctx.getConf()));
-            ioc2.getIocContext().save("app", "nbApp", new ObjectProxy(this));
+        	ctx.ioc.addBean("appContext", ctx);
+        	ctx.ioc.addBean("conf", ctx.getConf());
+        	ctx.ioc.addBean("nbApp", this);
+            // 添加更多扩展bean
+        	ctx.ioc.addBean("counterService", new MemoryCounterService());
         }
+        Mvcs.ctx().iocs.put("nutz", ctx.getIoc());
     }
 
     public void prepareStarterInstance() {
@@ -390,6 +473,20 @@ public class NbApp extends Thread {
             Object obj;
             if (klass.getAnnotation(IocBean.class) == null) {
                 obj = Mirror.me(klass).born();
+            } else {
+                continue;
+            }
+            aware(obj);
+            if (obj instanceof IocLoaderProvider) {
+                IocLoader loader = ((IocLoaderProvider) obj).getIocLoader();
+                ctx.getComboIocLoader().addLoader(loader);
+            }
+            ctx.addStarter(obj);
+        }
+        for (Class<?> klass : starterClasses) {
+            Object obj;
+            if (klass.getAnnotation(IocBean.class) == null) {
+                continue;
             } else {
                 obj = ctx.getIoc().get(klass);
             }
@@ -425,4 +522,31 @@ public class NbApp extends Thread {
         }
     }
 
+    public void setListener(NbAppEventListener listener) {
+        this.listeners.clear();
+        addListener(listener);
+    }
+    
+    public void addListener(NbAppEventListener listener) {
+    	this.listeners.add(listener);
+    }
+    
+    public boolean isStarted() {
+        return started;
+    }
+    
+    public NbApp setMainPackage(String mainPackage) {
+        getAppContext().setMainPackage(mainPackage);
+        return this;
+    }
+    
+    public List<Class<?>> getStarterClasses() {
+        return starterClasses;
+    }
+    
+    public NbApp addStarterClass(Class<?> klass) {
+        if (klass != null)
+            starterClasses.add(klass);
+        return this;
+    }
 }

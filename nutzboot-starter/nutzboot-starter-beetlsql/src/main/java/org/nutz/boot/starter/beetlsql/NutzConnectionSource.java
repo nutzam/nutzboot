@@ -93,4 +93,8 @@ public class NutzConnectionSource implements ConnectionSource {
 	public void setSlaves(DataSource[] slaves) {
 		this.slaves = slaves;
 	}
+
+    public Connection getMetaData() {
+        return getMaster();
+    }
 }

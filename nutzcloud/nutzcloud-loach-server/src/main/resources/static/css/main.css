@@ -1,0 +1,21 @@
+body {
+    font-family: 'Open Sans', 'Helvetica Neue', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
+    font-size: 14px;
+    line-height: 1.64345;
+    overflow-x: hidden;
+    color: #686868;
+    background-color: #fff;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    width: 100%;
+}
+
+.info{
+    margin-top: 80px;
+}
