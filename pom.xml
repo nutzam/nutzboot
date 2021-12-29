@@ -40,7 +40,7 @@
 		<HikariCP.version>3.2.0</HikariCP.version>
 		<thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
 		<quartz.version>2.3.2</quartz.version>
-		<elasticsearch.version>7.14.0</elasticsearch.version>
+		<elasticsearch.version>7.16.2</elasticsearch.version>
 		<commons.email.version>1.4</commons.email.version>
 		<commons.net.version>3.6</commons.net.version>
 		<javassist.version>3.24.0-GA</javassist.version>
