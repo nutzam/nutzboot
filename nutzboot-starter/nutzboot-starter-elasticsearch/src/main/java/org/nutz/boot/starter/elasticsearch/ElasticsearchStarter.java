@@ -10,6 +10,7 @@ import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
@@ -49,25 +50,29 @@ public class ElasticsearchStarter implements ServerFace {
         ioc.get(TransportClient.class, "elasticsearchClient");
     }
 
-    @IocBean(name = "elasticsearchClient", depose="close")
+    @IocBean(name = "elasticsearchClient", depose = "close")
     public TransportClient getElasticsearchClient() throws UnknownHostException {
         log.debug("loading elasticsearchClient...");
-        Settings.Builder builder =  Settings.builder();
-        
+        Settings.Builder builder = Settings.builder();
+
         // 把所有elasticsearch开头的配置都放入Settings里面
-        for (String key: conf.keys()) {
+        for (String key : conf.keys()) {
             if (key.startsWith(PRE) && !key.equals(PROP_HOST) && !key.equals(PROP_PORT)) {
                 builder.put(key.substring(PRE.length()), conf.get(key));
             }
         }
-        
+
         //设置ES实例的名称
         builder.put("cluster.name", conf.get(PROP_CLUSTER_NAME, conf.get("nutz.application.name", "nutzboot")));
         //自动嗅探整个集群的状态，把集群中其他ES节点的ip添加到本地的客户端列表中
         builder.put("client.transport.sniff", conf.getBoolean(PROP_CLIENT_TRANSPORT_SNIFF, true));
-        
+
         client = new PreBuiltTransportClient(builder.build());
-        client.addTransportAddress(new TransportAddress(InetAddress.getByName(conf.get(PROP_HOST, "127.0.0.1")), conf.getInt(PROP_PORT, 9300)));
+        String[] hosts = Strings.splitIgnoreBlank(conf.get(PROP_HOST, "127.0.0.1"), ",");
+        int port = conf.getInt(PROP_PORT, 9300);
+        for (String host : hosts) {
+            client.addTransportAddress(new TransportAddress(InetAddress.getByName(host), port));
+        }
         return client;
     }
 }
