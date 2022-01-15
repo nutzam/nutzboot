@@ -1,7 +1,7 @@
 package org.nutz.cloud.loach.server.module;
 
 import org.nutz.cloud.loach.server.util.SystemStatusUtil;
-import org.nutz.ioc.aop.Aop;
+import org.nutz.ioc.Ioc;
 import org.nutz.ioc.impl.PropertiesProxy;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
@@ -11,33 +11,43 @@ import org.nutz.lang.Strings;
 import org.nutz.lang.random.R;
 import org.nutz.lang.util.NutMap;
 import org.nutz.lang.util.Regex;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 import org.nutz.mvc.adaptor.JsonAdaptor;
 import org.nutz.mvc.annotation.*;
 
 import java.util.*;
 
-import static org.nutz.integration.jedis.RedisInterceptor.jedis;
-
-@IocBean
+@IocBean(create = "init")
 @At("/loach/v1")
 @Ok("json304")
 public class LoachV1Module {
+    private static final Log log = Logs.get();
 
     protected JsonFormat jsonFormat = JsonFormat.compact();
 
     @Inject
     protected PropertiesProxy conf;
 
+    @Inject("refer:$ioc")
+    protected Ioc ioc;
+
+    protected Store store;
+
+    public void init() {
+        String mode = conf.get("loach.server.store", "mapStore");
+        store = ioc.get(Store.class, mode);
+        log.info(String.format("loach server runs in %s mode. Modify loach.server.store to mapStore or redisStore!", mode));
+    }
+
     /**
      * 供客户端心跳入口
      */
     @At({"/ping", "/ping/?/?"})
-    @Aop("redis")
     @GET
     public String ping(String serviceName, String id) {
         if (id != null && id.length() < 30) {
-            long re = jedis().expire("loach:service:" + serviceName + ":" + id, getPingTimeout() / 1000);
-            if (re == 0) {
+            if (!store.has("loach:service:" + serviceName + ":" + id)) {
                 return "{ok:false}";
             }
         }
@@ -50,7 +60,6 @@ public class LoachV1Module {
     @AdaptBy(type = JsonAdaptor.class)
     @POST
     @At
-    @Aop("redis")
     public NutMap reg(NutMap params) {
         NutMap map = new NutMap();
         // 检查基本的信息
@@ -75,7 +84,7 @@ public class LoachV1Module {
         String id = params.getString("id");
         if (id == null)
             id = R.UU32();
-        jedis().setex("loach:service:" + serviceName + ":" + id, getPingTimeout() / 1000, regJson);
+        store.put("loach:service:" + serviceName + ":" + id, regJson);
         map.setv("ok", true).setv("id", id);
         return map;
     }
@@ -85,20 +94,19 @@ public class LoachV1Module {
     @Ok("void")
     public void unreg(String serviceName, String id) {
         if (isAllowUnreg())
-            jedis().del("loach:service:" + serviceName + ":" + id);
+            store.del("loach:service:" + serviceName + ":" + id);
     }
 
     @At("/list/?")
-    @Aop("redis")
     public NutMap list(String serviceName) {
-        List<String> keys = new ArrayList<>(jedis().keys("loach:service:" + serviceName + ":*"));
+        List<String> keys = new ArrayList<>(store.keys("loach:service:" + serviceName + ":*"));
         Collections.sort(keys);
 
         NutMap re = new NutMap();
         re.put("ok", true);
         List<NutMap> services = new LinkedList<>();
         for (String key : keys) {
-            String cnt = jedis().get(key);
+            String cnt = store.get(key);
             if (cnt == null)
                 continue;
             NutMap serviceInfo = Json.fromJson(NutMap.class, cnt);
@@ -143,16 +151,15 @@ public class LoachV1Module {
         return sb.toString();
     }
 
-    @Aop("redis")
     protected Map<String, List<NutMap>> getAllServices() {
-        List<String> keys = new ArrayList<>(jedis().keys("loach:service:*"));
+        List<String> keys = new ArrayList<>(store.keys("loach:service:*"));
         Collections.sort(keys);
         Map<String, List<NutMap>> services = new HashMap<>();
         for (String key : keys) {
             String[] tmp = key.split("\\:");
             if (tmp.length != 4)
                 continue;
-            String cnt = jedis().get(key);
+            String cnt = store.get(key);
             if (cnt == null)
                 continue;
             NutMap serviceInfo = Json.fromJson(NutMap.class, cnt);
@@ -201,15 +208,14 @@ public class LoachV1Module {
     }
 
     @At("/info/?/?")
-    @Aop("redis")
     public NutMap info(String serviceName, String id) {
-        List<String> keys = new ArrayList<>(jedis().keys("loach:service:" + serviceName + ":" + id));
+        List<String> keys = new ArrayList<>(store.keys("loach:service:" + serviceName + ":" + id));
         Collections.sort(keys);
         NutMap re = new NutMap();
         re.put("ok", true);
         List<NutMap> services = new LinkedList<>();
         for (String key : keys) {
-            String cnt = jedis().get(key);
+            String cnt = store.get(key);
             if (cnt == null)
                 continue;
             NutMap serviceInfo = Json.fromJson(NutMap.class, cnt);
