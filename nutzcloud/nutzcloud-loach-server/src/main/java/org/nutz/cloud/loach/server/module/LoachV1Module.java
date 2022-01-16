@@ -35,7 +35,7 @@ public class LoachV1Module {
     protected Store store;
 
     public void init() {
-        String mode = conf.get("loach.server.store", "mapStore");
+        String mode = conf.get("loach.server.store", "redisStore");
         store = ioc.get(Store.class, mode);
         log.info(String.format("loach server runs in %s mode. Modify loach.server.store to mapStore or redisStore!", mode));
     }
