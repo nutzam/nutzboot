@@ -6,7 +6,7 @@ import org.nutz.boot.NbApp;
 class PercaLauncherTest {
 
 	@Test
-	void testMain() {
+	public void testMain() {
 		//
 	}
 	
