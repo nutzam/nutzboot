@@ -116,8 +116,8 @@ public class CaffeineInterceptor implements MethodInterceptor {
                 try {
                     String[] values = entry.getValue().replace(" ", ",").split(",");
                     long maxSize = Long.parseLong(values[0].trim());
-                    long maxIdle = values.length > 1 ? Long.parseLong(values[1].trim()) : 0l;
-                    long maxLive = values.length > 2 ? Long.parseLong(values[2].trim()) : 0l;
+                    long maxIdle = values.length > 1 ? Long.parseLong(values[1].trim()) : 0L;
+                    long maxLive = values.length > 2 ? Long.parseLong(values[2].trim()) : 0L;
                     CacheStrategy cacheStrategy = new CacheStrategy(split[1].trim(), maxSize, maxIdle, maxLive);
                     cacheStrategyMap.put(cacheStrategy.getName(), cacheStrategy);
                     log.debugf("load CacheStrategy %s", cacheStrategy);
