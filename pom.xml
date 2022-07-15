@@ -26,7 +26,7 @@
 		<beetl.version>3.0.21.RELEASE</beetl.version>
 		<beetlsql.version>2.11.7</beetlsql.version>
 		<zbus.version>0.11.5</zbus.version>
-		<undertow.version>2.2.3.Final</undertow.version>
+		<undertow.version>2.2.15.Final</undertow.version>
 		<velocity.version>1.7</velocity.version>
 		<caffeine.version>2.6.2</caffeine.version>
 		<feign.version>11.1</feign.version>
