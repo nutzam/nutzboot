@@ -74,6 +74,9 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
     @PropDoc(value = "空闲时间,单位毫秒", defaultValue = "300000", type = "int")
     public static final String PROP_IDLE_TIMEOUT = PRE + "http.idleTimeout";
 
+    @PropDoc(value = "在OS发起拒绝连接之前,请求连接排队的数量", defaultValue = "0", type = "int")
+    public static final String PROP_ACCEPT_QUEUE_SIZE = PRE + "http.acceptQueueSize";
+
     @PropDoc(value = "上下文路径", defaultValue = "/")
     public static final String PROP_CONTEXT_PATH = PRE + "contextPath";
 
@@ -218,6 +221,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
             connector.setHost(getHost());
             connector.setPort(getPort());
             connector.setIdleTimeout(getIdleTimeout());
+            connector.setAcceptQueueSize(getAcceptQueueSize());
             server.addConnector(connector);
             // 配置多端口监听
             if(conf.has(PROP_EXT_PORTS)) {
@@ -235,6 +239,7 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
             updateMonitorValue("http.port", connector.getPort());
             updateMonitorValue("http.host", connector.getHost());
             updateMonitorValue("http.idleTimeout", connector.getIdleTimeout());
+            updateMonitorValue("http.acceptQueueSize", connector.getAcceptQueueSize());
         }
         else {
         	log.info("jetty http is disable");
@@ -273,12 +278,14 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
             httpsConnector.setPort(httpsPort);
             httpsConnector.setHost(getHost());
             httpsConnector.setIdleTimeout(getIdleTimeout());
+            httpsConnector.setAcceptQueueSize(getAcceptQueueSize());
             server.addConnector(httpsConnector);
 
             updateMonitorValue("https.enable", true);
             updateMonitorValue("https.port", httpsConnector.getPort());
             updateMonitorValue("https.host", httpsConnector.getHost());
             updateMonitorValue("https.idleTimeout", httpsConnector.getIdleTimeout());
+            updateMonitorValue("https.acceptQueueSize", httpsConnector.getAcceptQueueSize());
         } else {
             updateMonitorValue("https.enable", false);
         }
@@ -463,6 +470,10 @@ public class JettyStarter extends AbstractServletContainerStarter implements Ser
 
     public int getIdleTimeout() {
         return conf.getInt(PROP_IDLE_TIMEOUT, 300 * 1000);
+    }
+
+    public int getAcceptQueueSize() {
+        return conf.getInt(PROP_ACCEPT_QUEUE_SIZE, 0);
     }
 
     public int getMinThreads() {
