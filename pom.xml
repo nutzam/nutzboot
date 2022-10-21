@@ -57,7 +57,7 @@
 		<junit-jupiter.version>5.6.2</junit-jupiter.version>
 		<hamcrest.version>[2.2,)</hamcrest.version>
 		<mockito.version>[1.10.19,)</mockito.version>
-		<snakeyaml.version>1.28</snakeyaml.version>
+		<snakeyaml.version>1.32</snakeyaml.version>
 		<mongodb-driver-sync.version>4.3.0</mongodb-driver-sync.version>
 	</properties>
 	<description>NutzBoot, micoservice base on Nutz</description>
