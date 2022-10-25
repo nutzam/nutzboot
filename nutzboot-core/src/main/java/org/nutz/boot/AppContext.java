@@ -1,5 +1,7 @@
 package org.nutz.boot;
 
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -340,11 +342,28 @@ public class AppContext implements LifeCycle {
         return getServerPort(legacyKey, 8080);
     }
 
+    public int getRandomPort(int defaultValue){
+        int port = new Random(System.currentTimeMillis()).nextInt(10000) + defaultValue;
+        if(isPortInUsed(port)){
+            return getRandomPort(defaultValue);
+        }
+        return port;
+    }
+
+    public boolean isPortInUsed(int port) {
+        try (ServerSocket ignored = new ServerSocket(port)) {
+            return false;
+        } catch (IOException e) {
+            // continue
+        }
+        return true;
+    }
+    
     public int getServerPort(String legacyKey, int defaultValue) {
         if (legacyKey != null && getConf().has(legacyKey)) {
             int port = getConf().getInt(legacyKey);
             if (port < 1) {
-                port = new Random(System.currentTimeMillis()).nextInt(10000) + defaultValue;
+                port = getRandomPort(defaultValue);
                 log.debugf("select random port=%d for %s", port, legacyKey);
                 getConf().put(legacyKey, ""+port);
             }
@@ -352,7 +371,7 @@ public class AppContext implements LifeCycle {
         }
         int port = getConf().getInt("server.port", defaultValue);
         if (port == 0) {
-            port = new Random(System.currentTimeMillis()).nextInt(10000) + defaultValue;
+            port = getRandomPort(defaultValue);
             getConf().set("server.port", ""+port);
             log.debugf("select random port=%d for %s and server.port", port, legacyKey);
         }
