@@ -20,7 +20,7 @@
 		<tomcat.version>8.5.66</tomcat.version>
 		<shiro.version>1.3.2</shiro.version>
 		<jetx.version>2.1.8</jetx.version>
-		<cxf.version>3.1.15</cxf.version>
+		<cxf.version>3.4.10</cxf.version>
 		<spring.version>4.3.21.RELEASE</spring.version>
 		<lettuce.version>5.0.5.RELEASE</lettuce.version>
 		<beetl.version>3.0.21.RELEASE</beetl.version>
