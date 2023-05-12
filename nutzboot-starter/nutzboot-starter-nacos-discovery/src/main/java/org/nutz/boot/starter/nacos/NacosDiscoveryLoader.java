@@ -67,6 +67,9 @@ public class NacosDiscoveryLoader implements ServerFace, NbAppEventListener {
     @PropDoc(value = "Nacos SecretKey", defaultValue = "")
     public static final String NACOS_SECRET_KEY = NACOS_PRE + "secret-key";
 
+    @PropDoc(value = "Nacos ContextPath", defaultValue = "")
+    public static final String NACOS_CONTEXT_PATH = NACOS_PRE + "context-path";
+
     @PropDoc(value = "Nacos 集群名称", defaultValue = "", need = true)
     public static final String NACOS_CLUSTER_NAME = NACOS_PRE + "cluster-name";
 
@@ -99,6 +102,9 @@ public class NacosDiscoveryLoader implements ServerFace, NbAppEventListener {
 
     @PropDoc(value = "Nacos 密码", defaultValue = "")
     public static final String NACOS_PASSWORD = NACOS_PRE + "password";
+
+    @PropDoc(value = "Nacos contextPath", defaultValue = "")
+    public static final String NACOS_CONTEXTPATH = NACOS_PRE + "contextPath";
 
     @Inject
     protected AppContext appContext;
@@ -157,7 +163,7 @@ public class NacosDiscoveryLoader implements ServerFace, NbAppEventListener {
                 for (String key : metaDataMap.keySet()) {
                     instance.addMetadata(key, metaDataMap.getString(key));
                 }
-                if(conf.getBoolean(NACOS_NAMING_META_DATA_START_TIME, true)) {
+                if (conf.getBoolean(NACOS_NAMING_META_DATA_START_TIME, true)) {
                     instance.addMetadata("startTime", Times.getNowSDT());
                 }
                 namingService.registerInstance(serviceName, groupName, instance);
@@ -224,6 +230,7 @@ public class NacosDiscoveryLoader implements ServerFace, NbAppEventListener {
         properties.put(NAMING_LOAD_CACHE_AT_START, conf.get(NACOS_NAMING_LOAD_CACHE_AT_START, "false"));
         properties.put(USERNAME, conf.get(NACOS_USERNAME, ""));
         properties.put(PASSWORD, conf.get(NACOS_PASSWORD, ""));
+        properties.put(CONTEXT_PATH, conf.get(NACOS_CONTEXT_PATH, conf.get(NACOS_CONTEXTPATH, "/nacos")));
 
         return properties;
     }

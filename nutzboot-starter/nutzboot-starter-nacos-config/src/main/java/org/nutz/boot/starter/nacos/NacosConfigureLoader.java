@@ -102,6 +102,9 @@ public class NacosConfigureLoader {
     @PropDoc(value = "Nacos 密码", defaultValue = "")
     public static final String NACOS_PASSWORD = NACOS_PRE + "password";
 
+    @PropDoc(value = "Nacos contextPath", defaultValue = "")
+    public static final String NACOS_CONTEXTPATH = NACOS_PRE + "contextPath";
+
     @Inject
     protected AppContext appContext;
 
@@ -220,7 +223,7 @@ public class NacosConfigureLoader {
         properties.put(NAMESPACE, conf.get(NACOS_NAMESPACE, ""));
         properties.put(ACCESS_KEY, conf.get(NACOS_ACCESS_KEY, ""));
         properties.put(SECRET_KEY, conf.get(NACOS_SECRET_KEY, ""));
-        properties.put(CONTEXT_PATH, conf.get(NACOS_CONTEXT_PATH, ""));
+        properties.put(CONTEXT_PATH, conf.get(NACOS_CONTEXT_PATH, conf.get(NACOS_CONTEXTPATH, "/nacos")));
         properties.put(CLUSTER_NAME, conf.get(NACOS_CLUSTER_NAME, ""));
         properties.put(MAX_RETRY, conf.get(NACOS_MAX_RETRY, ""));
         properties.put(CONFIG_LONG_POLL_TIMEOUT, conf.get(NACOS_CONFIG_LONG_POLL_TIMEOUT, ""));
