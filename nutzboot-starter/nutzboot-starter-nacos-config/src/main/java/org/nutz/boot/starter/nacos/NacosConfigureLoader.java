@@ -96,6 +96,12 @@ public class NacosConfigureLoader {
     @PropDoc(value = "Nacos Endpoint", defaultValue = "properties")
     public static final String NACOS_ENCODE_ENDPOINT = NACOS_PRE + "endpoint";
 
+    @PropDoc(value = "Nacos 用户名", defaultValue = "")
+    public static final String NACOS_USERNAME = NACOS_PRE + "username";
+
+    @PropDoc(value = "Nacos 密码", defaultValue = "")
+    public static final String NACOS_PASSWORD = NACOS_PRE + "password";
+
     @Inject
     protected AppContext appContext;
 
@@ -220,6 +226,8 @@ public class NacosConfigureLoader {
         properties.put(CONFIG_LONG_POLL_TIMEOUT, conf.get(NACOS_CONFIG_LONG_POLL_TIMEOUT, ""));
         properties.put(CONFIG_RETRY_TIME, conf.get(NACOS_CONFIG_RETRY_TIME, ""));
         properties.put(ENABLE_REMOTE_SYNC_CONFIG, conf.get(NACOS_ENABLE_REMOTE_SYNC_CONFIG, ""));
+        properties.put(USERNAME, conf.get(NACOS_USERNAME, ""));
+        properties.put(PASSWORD, conf.get(NACOS_PASSWORD, ""));
         String endpoint = conf.get(NACOS_ENCODE_ENDPOINT, "");
         if (endpoint.contains(":")) {
             int index = endpoint.indexOf(":");

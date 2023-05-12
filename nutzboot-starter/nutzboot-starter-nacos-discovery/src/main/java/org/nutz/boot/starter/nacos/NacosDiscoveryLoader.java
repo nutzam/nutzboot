@@ -94,6 +94,12 @@ public class NacosDiscoveryLoader implements ServerFace, NbAppEventListener {
     @PropDoc(value = "Nacos元数据自动注册应用启动时间 前提必须有nacos.discovery.naming.meta-data配置项", defaultValue = "true")
     public static final String NACOS_NAMING_META_DATA_START_TIME = NACOS_PRE + "naming.meta-data-register-start-time";
 
+    @PropDoc(value = "Nacos 用户名", defaultValue = "")
+    public static final String NACOS_USERNAME = NACOS_PRE + "username";
+
+    @PropDoc(value = "Nacos 密码", defaultValue = "")
+    public static final String NACOS_PASSWORD = NACOS_PRE + "password";
+
     @Inject
     protected AppContext appContext;
 
@@ -216,7 +222,8 @@ public class NacosDiscoveryLoader implements ServerFace, NbAppEventListener {
         properties.put(SECRET_KEY, conf.get(NACOS_SECRET_KEY, ""));
         properties.put(CLUSTER_NAME, conf.get(NACOS_CLUSTER_NAME, ""));
         properties.put(NAMING_LOAD_CACHE_AT_START, conf.get(NACOS_NAMING_LOAD_CACHE_AT_START, "false"));
-
+        properties.put(USERNAME, conf.get(NACOS_USERNAME, ""));
+        properties.put(PASSWORD, conf.get(NACOS_PASSWORD, ""));
 
         return properties;
     }
