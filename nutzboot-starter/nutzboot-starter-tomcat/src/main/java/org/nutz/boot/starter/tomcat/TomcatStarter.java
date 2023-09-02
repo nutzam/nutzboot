@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.security.cert.Certificate;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -302,9 +303,7 @@ public class TomcatStarter extends AbstractServletContainerStarter implements Se
 
     private File createTempDir(String prefix) {
         try {
-            File tempDir = File.createTempFile(prefix + ".", "." + getPort());
-            tempDir.delete();
-            tempDir.mkdir();
+            File tempDir = Files.createTempDirectory(prefix + "." + "." + getPort()).toFile();
             tempDir.deleteOnExit();
             log.debug("tempDir = " + tempDir);
             return tempDir;
