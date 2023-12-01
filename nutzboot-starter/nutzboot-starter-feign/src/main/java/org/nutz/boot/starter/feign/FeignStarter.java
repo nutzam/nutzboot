@@ -125,7 +125,7 @@ public class FeignStarter implements IocEventListener {
                 Logger logger = new Slf4jLogger(apiType);
 
                 boolean useHystrix = "true".equals(Strings.sBlank(fc.useHystrix(), conf.get(PROP_HYSTRIX_ENABLE)));
-                Feign.Builder builder = useHystrix ? HystrixFeign.builder() : Feign.builder();、
+                Feign.Builder builder = useHystrix ? HystrixFeign.builder() : Feign.builder();
                 //注：仅支持查找第一个，按自然顺序排列
                 RequestInterceptor interceptor = ioc.getByType(RequestInterceptor.class);
                 if(interceptor!=null)
