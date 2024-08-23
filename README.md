@@ -12,7 +12,6 @@
 :: Nutz Boot ::
 ```
 
-* 主页: [NB的官网](https://nutz.io)
 * 关于Nutz: [Nutz](https://github.com/nutzam/nutz)
 * 项目生成器: [NB Maker](http://get.nutz.cn)
 * 推荐项目: [BudWk](https://github.com/budwk/budwk)
