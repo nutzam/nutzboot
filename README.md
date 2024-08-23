@@ -14,8 +14,9 @@
 
 * 主页: [NB的官网](https://nutz.io)
 * 关于Nutz: [Nutz](https://github.com/nutzam/nutz)
-* 项目生成器: [NB Maker](https://get.nutz.io)
-* 推荐项目: [NutzWk](https://github.com/Wizzercn/NutzWk)
+* 项目生成器: [NB Maker](http://get.nutz.cn)
+* 推荐项目: [BudWk](https://github.com/budwk/budwk)
+* 推荐项目: [BudIot](https://github.com/budwk/budiot)
 * 推荐项目: [NutzSite](https://github.com/HaimmingYu/NutzSite)
 * 版本历史: [NB进化史](ChangeLog.md)
 * 文档: [NB的文档](https://gitee.com/nutz/nutzboot/tree/dev/doc)
@@ -32,7 +33,7 @@
 
 ## NB功能介绍
 
-* 快速创建Nutz应用,[初始化工具Maker](https://get.nutz.io)
+* 快速创建Nutz应用,[初始化工具Maker](http://get.nutz.cn)
 * 嵌入式web服务(jetty/tomcat/undertow),可打包成单一jar文件
 * 基于starter的自动配置体系,只需要添加maven依赖,即可自动发现并加载
 * 能满足90%以上常见需求的默认配置,无需过多的自定义
