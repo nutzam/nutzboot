@@ -8,8 +8,9 @@
 	<name>nutzboot-parent</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<nutz.version>1.r.70-SNAPSHOT</nutz.version>
-		<nutzboot.version>2.6.0-SNAPSHOT</nutzboot.version>
+		<nutz.version>1.r.74-SNAPSHOT</nutz.version>
+        <nutzmore.version>1.r.70-SNAPSHOT</nutzmore.version>
+        <nutzboot.version>2.6.0-SNAPSHOT</nutzboot.version>
 		<nutzwx.version>1.r.70-SNAPSHOT</nutzwx.version>
 		<slf4j.version>1.7.30</slf4j.version>
 		<slf4j-api.version>1.7.30</slf4j-api.version>
@@ -36,7 +37,7 @@
 		<tio.version>3.1.8.v20180818-RELEASE</tio.version>
 		<j2cache.version>2.3.22-release</j2cache.version>
 		<asm.version>8.0.1</asm.version>
-		<druid.version>1.2.23</druid.version>
+		<druid.version>1.2.25</druid.version>
 		<HikariCP.version>3.2.0</HikariCP.version>
 		<thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
 		<quartz.version>2.3.2</quartz.version>
@@ -112,7 +113,7 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutzwx</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzwx.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
@@ -127,12 +128,12 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-plugins-mongodb</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-plugins-daocache</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.yaml</groupId>
@@ -168,7 +169,7 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-integration-zbus</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.zbus</groupId>
@@ -178,7 +179,7 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-integration-dubbo</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
@@ -199,18 +200,18 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-plugins-wkcache</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-integration-jedisque</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-integration-rabbitmq</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.xetorthio</groupId>
@@ -237,12 +238,12 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-integration-shiro</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-integration-zookeeper</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.shiro</groupId>
@@ -268,7 +269,7 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-plugins-cache</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 
 			<dependency>
@@ -377,18 +378,18 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-plugins-websocket</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-integration-jedis</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-integration-lettuce</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>redis.clients</groupId>
@@ -403,12 +404,12 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-plugins-ngrok</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-integration-quartz</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.quartz-scheduler</groupId>
@@ -429,7 +430,7 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-integration-cxf</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.cxf</groupId>
@@ -994,7 +995,7 @@
 			<dependency>
 				<groupId>org.nutz</groupId>
 				<artifactId>nutz-integration-redisson</artifactId>
-				<version>${nutz.version}</version>
+				<version>${nutzmore.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.nutz</groupId>

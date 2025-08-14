@@ -21,7 +21,7 @@
   	<dependency>
   		<groupId>org.nutz</groupId>
   		<artifactId>nutz-integration-spring</artifactId>
-  		<version>${nutz.version}</version>
+  		<version>${nutzmore.version}</version>
   		<exclusions>
   			<exclusion>
   				<groupId>org.springframework</groupId>

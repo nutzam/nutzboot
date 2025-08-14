@@ -150,7 +150,10 @@ public class DataSourceStarter {
         DruidDataSource dataSource = (DruidDataSource) DruidDataSourceFactory.createDataSource(map);
         if (!conf.has(prefix + "filters"))
             dataSource.setFilters("stat");
-        
+        if(conf.has(prefix + "dbType")) {
+            // 设置数据库类型
+            dataSource.setDbType(conf.get(prefix + "dbType"));
+        }
         return dataSource;
     }
 
